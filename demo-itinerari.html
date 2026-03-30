@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Itinerari Letterari — Luoghi — Not My Cup of Read</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Newsreader:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<style>
+/* ═══════════════════════════════════════════
+   ITINERARI LETTERARI
+   ═══════════════════════════════════════════ */
+
+.it-page { max-width: 80rem; margin: 0 auto; padding: 0 2rem; }
+
+/* ── Hero ── */
+.it-hero {
+	position: relative;
+	min-height: 380px;
+	display: flex;
+	align-items: flex-end;
+	overflow: hidden;
+	border-radius: var(--radius-lg);
+	margin-bottom: 3rem;
+}
+
+.it-hero__bg {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(135deg, #1d2d44 0%, #3e5c76 30%, #748cab 60%, #5a9a7a 100%);
+}
+
+.it-hero__bg::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(to top, rgba(13,19,33,0.9) 0%, rgba(13,19,33,0.35) 50%, transparent 100%);
+}
+
+.it-hero__content {
+	position: relative;
+	z-index: 1;
+	padding: 3rem;
+	width: 100%;
+}
+
+.it-hero__breadcrumb {
+	font-size: 0.75rem;
+	color: rgba(240,235,216,0.6);
+	margin-bottom: 0.75rem;
+}
+
+.it-hero__breadcrumb a {
+	color: var(--c-accent);
+	text-decoration: none;
+}
+
+.it-hero__breadcrumb a:hover { text-decoration: underline; }
+
+.it-hero__title {
+	font-family: var(--font-headline);
+	font-size: clamp(2.5rem, 5vw, 4rem);
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-surface);
+	margin: 0 0 0.5rem;
+	line-height: 1.1;
+}
+
+.it-hero__subtitle {
+	font-size: 1.0625rem;
+	color: rgba(240,235,216,0.7);
+	margin: 0 0 1.5rem;
+	max-width: 40rem;
+	line-height: 1.6;
+}
+
+.it-hero__stats {
+	display: flex;
+	gap: 2rem;
+	flex-wrap: wrap;
+}
+
+.it-hero__stat-value {
+	font-family: var(--font-headline);
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: var(--c-accent);
+	display: block;
+	line-height: 1.2;
+}
+
+.it-hero__stat-label {
+	font-size: 0.6875rem;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: rgba(240,235,216,0.5);
+}
+
+/* ── Filters ── */
+.it-filters {
+	display: flex;
+	justify-content: center;
+	gap: 0.5rem;
+	flex-wrap: wrap;
+	padding: 0 0 2.5rem;
+}
+
+.it-filter {
+	padding: 0.5rem 1.25rem;
+	font-size: 0.8125rem;
+	font-weight: 600;
+	border-radius: var(--radius-full);
+	border: 1px solid var(--c-surface-container-high);
+	background: transparent;
+	color: var(--c-on-surface-variant);
+	cursor: pointer;
+	transition: all 0.2s;
+}
+
+.it-filter:hover { border-color: var(--c-accent); color: var(--c-accent); }
+.it-filter.active { background: var(--c-accent); border-color: var(--c-accent); color: #fff; }
+
+/* ── Section header ── */
+.it-section-header { margin-bottom: 2rem; }
+
+.it-section-overline {
+	font-size: 0.6875rem;
+	font-weight: 700;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: var(--c-accent);
+	margin-bottom: 0.35rem;
+}
+
+.it-section-title {
+	font-family: var(--font-headline);
+	font-size: 1.75rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	margin: 0;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.it-section-title .material-symbols-outlined { color: var(--c-accent); }
+
+.it-section-subtitle {
+	font-size: 0.9375rem;
+	color: var(--c-on-surface-variant);
+	margin: 0.35rem 0 0;
+	line-height: 1.5;
+}
+
+/* ── Itinerary card ── */
+.it-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+	gap: 1.5rem;
+}
+
+.it-card {
+	display: flex;
+	flex-direction: column;
+	text-decoration: none;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.it-card:hover {
+	border-color: var(--c-accent);
+	box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+	transform: translateY(-3px);
+}
+
+.it-card__img {
+	aspect-ratio: 16/9;
+	overflow: hidden;
+	position: relative;
+}
+
+.it-card__img-placeholder {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.6875rem;
+	color: rgba(255,255,255,0.15);
+}
+
+.it-card__category {
+	position: absolute;
+	top: 0.75rem;
+	left: 0.75rem;
+	font-size: 0.5625rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	padding: 0.2rem 0.6rem;
+	border-radius: var(--radius-full);
+	color: #fff;
+}
+
+.it-badge--citta { background: var(--c-accent); }
+.it-badge--regione { background: #5a9a7a; }
+.it-badge--europa { background: #9467bd; }
+
+.it-card__steps {
+	position: absolute;
+	bottom: 0.75rem;
+	right: 0.75rem;
+	display: flex;
+	gap: 3px;
+}
+
+.it-card__step-dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: var(--c-accent);
+	opacity: 0.7;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.it-card__body {
+	padding: 1.25rem;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+.it-card__location {
+	font-size: 0.625rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--c-accent);
+	margin-bottom: 0.25rem;
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+}
+
+.it-card__location .material-symbols-outlined { font-size: 0.8rem; }
+
+.it-card__title {
+	font-family: var(--font-headline);
+	font-size: 1.125rem;
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-on-surface);
+	margin: 0 0 0.5rem;
+	line-height: 1.3;
+}
+
+.it-card__desc {
+	font-size: 0.8125rem;
+	color: var(--c-on-surface-variant);
+	margin: 0 0 auto;
+	line-height: 1.55;
+	padding-bottom: 0.75rem;
+}
+
+.it-card__meta {
+	display: flex;
+	gap: 1rem;
+	padding-top: 0.75rem;
+	border-top: 1px solid var(--c-surface-container-high);
+	font-size: 0.6875rem;
+	color: var(--c-on-surface-variant);
+	flex-wrap: wrap;
+}
+
+.it-card__meta-item {
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+}
+
+.it-card__meta-item .material-symbols-outlined { font-size: 0.875rem; color: var(--c-accent); }
+
+.it-card__cta {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.25rem;
+	margin-left: auto;
+	font-weight: 600;
+	color: var(--c-accent);
+}
+
+.it-card__cta .material-symbols-outlined { font-size: 0.875rem; transition: transform 0.2s; }
+.it-card:hover .it-card__cta .material-symbols-outlined { transform: translateX(3px); }
+
+/* ── Featured itinerary ── */
+.it-featured {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	text-decoration: none;
+	transition: border-color 0.2s, box-shadow 0.2s;
+	margin-bottom: 2.5rem;
+}
+
+.it-featured:hover {
+	border-color: var(--c-accent);
+	box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+}
+
+.it-featured__visual {
+	min-height: 320px;
+	position: relative;
+	overflow: hidden;
+}
+
+.it-featured__visual-placeholder {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.6875rem;
+	color: rgba(255,255,255,0.12);
+}
+
+.it-featured__route {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+}
+
+.it-featured__route-dot {
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	background: var(--c-accent);
+	color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.6875rem;
+	font-weight: 700;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.it-featured__route-line {
+	width: 24px;
+	height: 2px;
+	background: rgba(255,255,255,0.3);
+}
+
+.it-featured__body {
+	padding: 2.5rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.it-featured__overline {
+	font-size: 0.625rem;
+	font-weight: 700;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: var(--c-accent);
+	margin-bottom: 0.5rem;
+}
+
+.it-featured__title {
+	font-family: var(--font-headline);
+	font-size: 1.75rem;
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-on-surface);
+	margin: 0 0 0.75rem;
+	line-height: 1.2;
+}
+
+.it-featured__desc {
+	font-size: 0.9375rem;
+	color: var(--c-on-surface-variant);
+	margin: 0 0 1.25rem;
+	line-height: 1.65;
+}
+
+.it-featured__meta {
+	display: flex;
+	gap: 1.25rem;
+	font-size: 0.75rem;
+	color: var(--c-on-surface-variant);
+	margin-bottom: 1rem;
+}
+
+.it-featured__meta span {
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+}
+
+.it-featured__meta .material-symbols-outlined { font-size: 0.9rem; color: var(--c-accent); }
+
+.it-featured__cta {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	font-size: 0.875rem;
+	font-weight: 600;
+	color: var(--c-accent);
+}
+
+.it-featured__cta .material-symbols-outlined { font-size: 1rem; transition: transform 0.2s; }
+.it-featured:hover .it-featured__cta .material-symbols-outlined { transform: translateX(3px); }
+
+/* ── CTA banner ── */
+.it-cta-banner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 2rem;
+	padding: 2.5rem 3rem;
+	background: linear-gradient(135deg, var(--c-primary-container) 0%, #3e5c76 100%);
+	border-radius: var(--radius-lg);
+}
+
+.it-cta-banner__text h3 {
+	font-family: var(--font-headline);
+	font-size: 1.375rem;
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-surface);
+	margin: 0 0 0.35rem;
+}
+
+.it-cta-banner__text p {
+	font-size: 0.875rem;
+	color: rgba(240,235,216,0.7);
+	margin: 0;
+}
+
+.it-cta-banner .btn { white-space: nowrap; }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+	.it-featured { grid-template-columns: 1fr; }
+	.it-featured__visual { min-height: 220px; }
+}
+
+@media (max-width: 600px) {
+	.it-grid { grid-template-columns: 1fr; }
+	.it-hero__stats { gap: 1.5rem; }
+	.it-cta-banner { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header" id="siteHeader">
+	<div class="header-outer">
+		<div class="header-inner">
+			<div class="site-branding">
+				<div class="site-branding__icon">
+					<img src="assets/img/logo-nmcor.png" alt="NMCOR">
+				</div>
+				<h1 class="site-title"><a href="demo.html">Not My Cup of Read</a></h1>
+			</div>
+			<nav class="primary-nav" id="primaryNav">
+				<ul>
+					<li><a href="#">Articoli</a><ul class="sub-menu"><li><a href="demo-recensioni.html">Recensioni</a></li><li><a href="demo-approfondimenti.html">Approfondimenti</a></li><li><a href="demo-classifiche.html">Classifiche</a></li></ul></li>
+					<li><a href="#">Podcast</a><ul class="sub-menu"><li><a href="demo-podcast.html">Episodi</a></li><li><a href="demo-format.html">Format</a></li><li><a href="demo-dietro-le-quinte.html">Dietro le quinte</a></li></ul></li>
+					<li><a href="#">Biblioteca</a><ul class="sub-menu"><li><a href="demo-libri.html">Libri</a></li><li><a href="demo-autori.html">Autori</a></li></ul></li>
+					<li><a href="#">Luoghi</a><ul class="sub-menu"><li><a href="demo-librerie.html">La mappa del Lettore</a></li><li><a href="demo-luoghi-milano.html">Milano</a></li><li><a href="demo-itinerari.html">Itinerari letterari</a></li><li><a href="demo-luoghi-librerie.html">Librerie</a></li><li><a href="demo-luoghi-biblioteche.html">Biblioteche</a></li><li><a href="demo-luoghi-caffe.html">Caffè letterari</a></li><li><a href="demo-luoghi-spazi.html">Spazi culturali</a></li></ul></li>
+					<li><a href="#">Eventi</a><ul class="sub-menu"><li><a href="demo-eventi.html">Timeline</a></li><li><a href="demo-calendario.html">Calendario</a></li><li><a href="demo-fiere-festival.html">Fiere e Festival</a></li><li><a href="demo-premi-letterari.html">Premi letterari</a></li></ul></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Chi siamo</a><ul class="sub-menu"><li><a href="demo-chi-siamo.html">Lo studio &amp; gli host</a></li><li><a href="demo-ospiti-redazione.html">Gli ospiti &amp; la redazione</a></li><li><a href="demo-contatti.html">Contatti &amp; Collaborazioni</a></li></ul></li>
+				</ul>
+			</nav>
+			<div class="header-search">
+				<input type="text" placeholder="Cerca...">
+			</div>
+		</div>
+		<div class="header-extras">
+			<div class="header-social">
+				<a href="#" class="header-social__link" aria-label="YouTube">
+					<svg viewBox="0 0 24 24"><path d="M23.5 6.19a3 3 0 0 0-2.11-2.13C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.39.56A3 3 0 0 0 .5 6.19 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.81 3 3 0 0 0 2.11 2.13c1.89.56 9.39.56 9.39.56s7.5 0 9.39-.56a3 3 0 0 0 2.11-2.13A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.81ZM9.75 15.02V8.98L15.5 12l-5.75 3.02Z"/></svg>
+				</a>
+				<a href="#" class="header-social__link" aria-label="Spotify">
+					<svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.31a.75.75 0 0 1-1.03.25c-2.82-1.72-6.37-2.11-10.55-1.16a.75.75 0 1 1-.34-1.46c4.57-1.05 8.49-.6 11.67 1.34a.75.75 0 0 1 .25 1.03Zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.23-1.98-8.15-2.56-11.97-1.4a.94.94 0 1 1-.54-1.8c4.36-1.32 9.78-.68 13.49 1.6a.94.94 0 0 1 .31 1.29Zm.13-3.4C15.5 8.4 9 8.2 5.24 9.33a1.13 1.13 0 1 1-.65-2.16c4.33-1.3 11.52-1.05 16.07 1.68a1.13 1.13 0 0 1-1.56 1.79Z"/></svg>
+				</a>
+			</div>
+			<div class="header-auth">
+				<a href="demo-profilo.html" class="header-auth__btn"><span class="material-symbols-outlined">person</span> Cristian T.</a>
+			</div>
+			<button class="menu-toggle" id="menuToggle" aria-label="Menu">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</button>
+		</div>
+	</div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════ -->
+
+<div class="it-page">
+
+	<div class="it-hero">
+		<div class="it-hero__bg"></div>
+		<div class="it-hero__content">
+			<p class="it-hero__breadcrumb"><a href="demo-librerie.html">Luoghi</a> / Itinerari letterari</p>
+			<h1 class="it-hero__title">Itinerari Letterari</h1>
+			<p class="it-hero__subtitle">Percorsi a piedi tra librerie, caffè letterari e luoghi che hanno ispirato le pagine più belle. Dalle vie di Milano alle rive della Senna.</p>
+			<div class="it-hero__stats">
+				<div><span class="it-hero__stat-value">18</span><span class="it-hero__stat-label">Itinerari</span></div>
+				<div><span class="it-hero__stat-value">8</span><span class="it-hero__stat-label">Città italiane</span></div>
+				<div><span class="it-hero__stat-value">4</span><span class="it-hero__stat-label">Regioni</span></div>
+				<div><span class="it-hero__stat-value">6</span><span class="it-hero__stat-label">Capitali europee</span></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ── Filters ── -->
+	<div class="it-filters">
+		<button class="it-filter active" data-filter="tutti">Tutti</button>
+		<button class="it-filter" data-filter="citta">Città italiane</button>
+		<button class="it-filter" data-filter="regione">Regioni</button>
+		<button class="it-filter" data-filter="europa">Capitali europee</button>
+	</div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════
+     FEATURED — In evidenza
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark" data-category="citta">
+	<div class="it-page">
+
+		<a href="#" class="it-featured">
+			<div class="it-featured__visual">
+				<div class="it-featured__visual-placeholder" style="background:linear-gradient(135deg,#1d2d44 0%,#3e5c76 50%,#5a9a7a 100%);">Navigli, Milano — foto itinerario</div>
+				<div class="it-featured__route">
+					<div class="it-featured__route-dot">1</div>
+					<div class="it-featured__route-line"></div>
+					<div class="it-featured__route-dot">2</div>
+					<div class="it-featured__route-line"></div>
+					<div class="it-featured__route-dot">3</div>
+					<div class="it-featured__route-line"></div>
+					<div class="it-featured__route-dot">4</div>
+					<div class="it-featured__route-line"></div>
+					<div class="it-featured__route-dot">5</div>
+				</div>
+			</div>
+			<div class="it-featured__body">
+				<span class="it-featured__overline">In evidenza</span>
+				<h2 class="it-featured__title">La Milano dei Navigli</h2>
+				<p class="it-featured__desc">Un percorso lungo i canali storici di Milano tra librerie indipendenti, caffè letterari e spazi culturali dove la città incontra la letteratura contemporanea.</p>
+				<div class="it-featured__meta">
+					<span><span class="material-symbols-outlined">pin_drop</span> 5 tappe</span>
+					<span><span class="material-symbols-outlined">straighten</span> 3.2 km</span>
+					<span><span class="material-symbols-outlined">schedule</span> ~3 ore</span>
+					<span><span class="material-symbols-outlined">trending_flat</span> Facile</span>
+				</div>
+				<span class="it-featured__cta">Scopri l'itinerario <span class="material-symbols-outlined">arrow_forward</span></span>
+			</div>
+		</a>
+
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CITTÀ ITALIANE
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface" data-category="citta">
+	<div class="it-page">
+
+		<div class="it-section-header">
+			<p class="it-section-overline">Italia</p>
+			<h2 class="it-section-title"><span class="material-symbols-outlined">location_city</span> Città italiane</h2>
+			<p class="it-section-subtitle">Percorsi urbani tra i luoghi letterari delle grandi città italiane</p>
+		</div>
+
+		<div class="it-grid">
+
+			<a href="#" class="it-card" data-type="citta">
+				<div class="it-card__img">
+					<div class="it-card__img-placeholder" style="background:linear-gradient(135deg,#3e5c76,#748cab);">Roma — Trastevere</div>
+					<span class="it-card__category it-badge--citta">Città</span>
+					<div class="it-card__steps">
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+					</div>
+				</div>
+				<div class="it-card__body">
+					<span class="it-card__location"><span class="material-symbols-outlined">location_on</span> Roma</span>
+					<h3 class="it-card__title">Trastevere tra le Righe</h3>
+					<p class="it-card__desc">Da Open Door Bookshop a Piazza Santa Maria, passando per le botteghe dei linotipisti e le osterie dove Pasolini scriveva i suoi versi.</p>
+					<div class="it-card__meta">
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">pin_drop</span> 6 tappe</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">straighten</span> 2.8 km</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">schedule</span> ~2.5 ore</span>
+						<span class="it-card__cta">Scopri <span class="material-symbols-outlined">arrow_forward</span></span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="it-card" data-type="citta">
+				<div class="it-card__img">
+					<div class="it-card__img-placeholder" style="background:linear-gradient(135deg,#1d2d44,#5a8aab);">Torino — Quadrilatero</div>
+					<span class="it-card__category it-badge--citta">Città</span>
+					<div class="it-card__steps">
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+					</div>
+				</div>
+				<div class="it-card__body">
+					<span class="it-card__location"><span class="material-symbols-outlined">location_on</span> Torino</span>
+					<h3 class="it-card__title">La Torino di Pavese e Ginzburg</h3>
+					<p class="it-card__desc">Un percorso tra i portici e i caffè storici sulle tracce degli intellettuali Einaudi, dalla sede storica della casa editrice al Circolo dei Lettori.</p>
+					<div class="it-card__meta">
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">pin_drop</span> 5 tappe</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">straighten</span> 3.5 km</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">schedule</span> ~3 ore</span>
+						<span class="it-card__cta">Scopri <span class="material-symbols-outlined">arrow_forward</span></span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="it-card" data-type="citta">
+				<div class="it-card__img">
+					<div class="it-card__img-placeholder" style="background:linear-gradient(135deg,#748cab,#5a9a7a);">Firenze — Oltrarno</div>
+					<span class="it-card__category it-badge--citta">Città</span>
+					<div class="it-card__steps">
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+					</div>
+				</div>
+				<div class="it-card__body">
+					<span class="it-card__location"><span class="material-symbols-outlined">location_on</span> Firenze</span>
+					<h3 class="it-card__title">L'Oltrarno dei Poeti</h3>
+					<p class="it-card__desc">Dalle librerie antiquarie di San Frediano al Caffè Letterario Le Murate, attraversando i luoghi che hanno segnato la poesia ermetica fiorentina.</p>
+					<div class="it-card__meta">
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">pin_drop</span> 4 tappe</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">straighten</span> 2.1 km</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">schedule</span> ~2 ore</span>
+						<span class="it-card__cta">Scopri <span class="material-symbols-outlined">arrow_forward</span></span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="it-card" data-type="citta">
+				<div class="it-card__img">
+					<div class="it-card__img-placeholder" style="background:linear-gradient(135deg,#0d1321,#3e5c76);">Napoli — Centro storico</div>
+					<span class="it-card__category it-badge--citta">Città</span>
+					<div class="it-card__steps">
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+					</div>
+				</div>
+				<div class="it-card__body">
+					<span class="it-card__location"><span class="material-symbols-outlined">location_on</span> Napoli</span>
+					<h3 class="it-card__title">I Vicoli di Ferrante</h3>
+					<p class="it-card__desc">Il rione Luzzatti, i Quartieri Spagnoli e il lungomare: un itinerario nei luoghi dell'Amica geniale e della Napoli letteraria contemporanea.</p>
+					<div class="it-card__meta">
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">pin_drop</span> 7 tappe</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">straighten</span> 4.5 km</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">schedule</span> ~4 ore</span>
+						<span class="it-card__cta">Scopri <span class="material-symbols-outlined">arrow_forward</span></span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="it-card" data-type="citta">
+				<div class="it-card__img">
+					<div class="it-card__img-placeholder" style="background:linear-gradient(135deg,#5a8aab,#1d2d44);">Bologna — Portici</div>
+					<span class="it-card__category it-badge--citta">Città</span>
+					<div class="it-card__steps">
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+					</div>
+				</div>
+				<div class="it-card__body">
+					<span class="it-card__location"><span class="material-symbols-outlined">location_on</span> Bologna</span>
+					<h3 class="it-card__title">Sotto i Portici, tra le Parole</h3>
+					<p class="it-card__desc">Da Modo Infoshop alla Libreria Coop Ambasciatori, passando per la zona universitaria dove ogni muro racconta una storia letteraria.</p>
+					<div class="it-card__meta">
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">pin_drop</span> 4 tappe</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">straighten</span> 2.3 km</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">schedule</span> ~2 ore</span>
+						<span class="it-card__cta">Scopri <span class="material-symbols-outlined">arrow_forward</span></span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="it-card" data-type="citta">
+				<div class="it-card__img">
+					<div class="it-card__img-placeholder" style="background:linear-gradient(135deg,#3e5c76,#0d1321);">Trieste — Lungomare</div>
+					<span class="it-card__category it-badge--citta">Città</span>
+					<div class="it-card__steps">
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+					</div>
+				</div>
+				<div class="it-card__body">
+					<span class="it-card__location"><span class="material-symbols-outlined">location_on</span> Trieste</span>
+					<h3 class="it-card__title">La Trieste di Svevo e Saba</h3>
+					<p class="it-card__desc">Dal Caffè San Marco alla Libreria Antiquaria Umberto Saba, un viaggio nella città che ha dato vita alla coscienza di Zeno e al Canzoniere.</p>
+					<div class="it-card__meta">
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">pin_drop</span> 5 tappe</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">straighten</span> 3.0 km</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">schedule</span> ~2.5 ore</span>
+						<span class="it-card__cta">Scopri <span class="material-symbols-outlined">arrow_forward</span></span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     REGIONI
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark" data-category="regione">
+	<div class="it-page">
+
+		<div class="it-section-header">
+			<p class="it-section-overline">Fuori città</p>
+			<h2 class="it-section-title"><span class="material-symbols-outlined">landscape</span> Regioni</h2>
+			<p class="it-section-subtitle">Itinerari che attraversano borghi, paesaggi e strade letterarie regionali</p>
+		</div>
+
+		<div class="it-grid">
+
+			<a href="#" class="it-card" data-type="regione">
+				<div class="it-card__img">
+					<div class="it-card__img-placeholder" style="background:linear-gradient(135deg,#e07a5f,#748cab);">Sicilia — Costa orientale</div>
+					<span class="it-card__category it-badge--regione">Regione</span>
+					<div class="it-card__steps">
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+					</div>
+				</div>
+				<div class="it-card__body">
+					<span class="it-card__location"><span class="material-symbols-outlined">location_on</span> Sicilia</span>
+					<h3 class="it-card__title">La Sicilia di Ferrante, Catarsi, Ferrante</h3>
+					<p class="it-card__desc">Da Catania a Siracusa passando per Vizzini: i luoghi di Verga, Vittorini, Bufalino e Ferrante Ferranti. Un viaggio tra barocco e realismo.</p>
+					<div class="it-card__meta">
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">pin_drop</span> 6 tappe</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">straighten</span> 120 km</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">schedule</span> 2 giorni</span>
+						<span class="it-card__cta">Scopri <span class="material-symbols-outlined">arrow_forward</span></span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="it-card" data-type="regione">
+				<div class="it-card__img">
+					<div class="it-card__img-placeholder" style="background:linear-gradient(135deg,#5a9a7a,#3e5c76);">Toscana — Colline del Chianti</div>
+					<span class="it-card__category it-badge--regione">Regione</span>
+					<div class="it-card__steps">
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+					</div>
+				</div>
+				<div class="it-card__body">
+					<span class="it-card__location"><span class="material-symbols-outlined">location_on</span> Toscana</span>
+					<h3 class="it-card__title">Le Colline dei Libri</h3>
+					<p class="it-card__desc">Da Montepulciano a San Gimignano: librerie di borgo, festival letterari e agriturismi con biblioteche dove il Chianti incontra la narrativa contemporanea.</p>
+					<div class="it-card__meta">
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">pin_drop</span> 5 tappe</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">straighten</span> 85 km</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">schedule</span> 2 giorni</span>
+						<span class="it-card__cta">Scopri <span class="material-symbols-outlined">arrow_forward</span></span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="it-card" data-type="regione">
+				<div class="it-card__img">
+					<div class="it-card__img-placeholder" style="background:linear-gradient(135deg,#5a8aab,#748cab);">Liguria — Riviera di Ponente</div>
+					<span class="it-card__category it-badge--regione">Regione</span>
+					<div class="it-card__steps">
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+					</div>
+				</div>
+				<div class="it-card__body">
+					<span class="it-card__location"><span class="material-symbols-outlined">location_on</span> Liguria</span>
+					<h3 class="it-card__title">Il Sentiero di Montale</h3>
+					<p class="it-card__desc">Da Monterosso a Genova lungo la costa: i paesaggi degli Ossi di seppia, le ville di Calvino a Sanremo e i caruggi dove è nato il giallo italiano.</p>
+					<div class="it-card__meta">
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">pin_drop</span> 4 tappe</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">straighten</span> 140 km</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">schedule</span> 3 giorni</span>
+						<span class="it-card__cta">Scopri <span class="material-symbols-outlined">arrow_forward</span></span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="it-card" data-type="regione">
+				<div class="it-card__img">
+					<div class="it-card__img-placeholder" style="background:linear-gradient(135deg,#1d2d44,#e07a5f);">Puglia — Valle d'Itria</div>
+					<span class="it-card__category it-badge--regione">Regione</span>
+					<div class="it-card__steps">
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+					</div>
+				</div>
+				<div class="it-card__body">
+					<span class="it-card__location"><span class="material-symbols-outlined">location_on</span> Puglia</span>
+					<h3 class="it-card__title">Tra i Trulli e le Storie</h3>
+					<p class="it-card__desc">Da Lecce ad Alberobello: le masserie letterarie, i festival estivi del Salento e i borghi bianchi dove la narrativa meridionale trova nuove voci.</p>
+					<div class="it-card__meta">
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">pin_drop</span> 5 tappe</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">straighten</span> 95 km</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">schedule</span> 2 giorni</span>
+						<span class="it-card__cta">Scopri <span class="material-symbols-outlined">arrow_forward</span></span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CAPITALI EUROPEE
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface" data-category="europa">
+	<div class="it-page">
+
+		<div class="it-section-header">
+			<p class="it-section-overline">Europa</p>
+			<h2 class="it-section-title"><span class="material-symbols-outlined">public</span> Capitali europee</h2>
+			<p class="it-section-subtitle">Le grandi capitali letterarie d'Europa, una tappa alla volta</p>
+		</div>
+
+		<div class="it-grid">
+
+			<a href="#" class="it-card" data-type="europa">
+				<div class="it-card__img">
+					<div class="it-card__img-placeholder" style="background:linear-gradient(135deg,#9467bd,#3e5c76);">Parigi — Rive Gauche</div>
+					<span class="it-card__category it-badge--europa">Europa</span>
+					<div class="it-card__steps">
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+					</div>
+				</div>
+				<div class="it-card__body">
+					<span class="it-card__location"><span class="material-symbols-outlined">location_on</span> Parigi</span>
+					<h3 class="it-card__title">La Rive Gauche dei Libri</h3>
+					<p class="it-card__desc">Da Shakespeare and Company ai bouquinistes lungo la Senna: il cuore letterario di Parigi tra caffè esistenzialisti e librerie storiche.</p>
+					<div class="it-card__meta">
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">pin_drop</span> 7 tappe</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">straighten</span> 4.2 km</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">schedule</span> ~4 ore</span>
+						<span class="it-card__cta">Scopri <span class="material-symbols-outlined">arrow_forward</span></span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="it-card" data-type="europa">
+				<div class="it-card__img">
+					<div class="it-card__img-placeholder" style="background:linear-gradient(135deg,#748cab,#9467bd);">Londra — Bloomsbury</div>
+					<span class="it-card__category it-badge--europa">Europa</span>
+					<div class="it-card__steps">
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+					</div>
+				</div>
+				<div class="it-card__body">
+					<span class="it-card__location"><span class="material-symbols-outlined">location_on</span> Londra</span>
+					<h3 class="it-card__title">Bloomsbury, il Quartiere delle Parole</h3>
+					<p class="it-card__desc">Dalla British Library a Persephone Books, passando per le piazze del Bloomsbury Group: Woolf, Forster e Keynes a ogni angolo.</p>
+					<div class="it-card__meta">
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">pin_drop</span> 6 tappe</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">straighten</span> 3.5 km</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">schedule</span> ~3.5 ore</span>
+						<span class="it-card__cta">Scopri <span class="material-symbols-outlined">arrow_forward</span></span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="it-card" data-type="europa">
+				<div class="it-card__img">
+					<div class="it-card__img-placeholder" style="background:linear-gradient(135deg,#e07a5f,#9467bd);">Lisbona — Alfama e Chiado</div>
+					<span class="it-card__category it-badge--europa">Europa</span>
+					<div class="it-card__steps">
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+					</div>
+				</div>
+				<div class="it-card__body">
+					<span class="it-card__location"><span class="material-symbols-outlined">location_on</span> Lisbona</span>
+					<h3 class="it-card__title">Lisbona sulle Tracce di Pessoa</h3>
+					<p class="it-card__desc">Dal Café A Brasileira alla Livraria Bertrand, la più antica del mondo: un percorso tra gli eteronomi di Pessoa e la saudade letteraria portoghese.</p>
+					<div class="it-card__meta">
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">pin_drop</span> 5 tappe</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">straighten</span> 3.0 km</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">schedule</span> ~3 ore</span>
+						<span class="it-card__cta">Scopri <span class="material-symbols-outlined">arrow_forward</span></span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="it-card" data-type="europa">
+				<div class="it-card__img">
+					<div class="it-card__img-placeholder" style="background:linear-gradient(135deg,#1d2d44,#9467bd);">Berlino — Kreuzberg</div>
+					<span class="it-card__category it-badge--europa">Europa</span>
+					<div class="it-card__steps">
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+					</div>
+				</div>
+				<div class="it-card__body">
+					<span class="it-card__location"><span class="material-symbols-outlined">location_on</span> Berlino</span>
+					<h3 class="it-card__title">Berlino, Muri e Manoscritti</h3>
+					<p class="it-card__desc">Da Dussmann a do you read me?!, passando per il memoriale dei libri bruciati in Bebelplatz: dove la letteratura tedesca rinasce ogni giorno.</p>
+					<div class="it-card__meta">
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">pin_drop</span> 5 tappe</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">straighten</span> 4.0 km</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">schedule</span> ~3.5 ore</span>
+						<span class="it-card__cta">Scopri <span class="material-symbols-outlined">arrow_forward</span></span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="it-card" data-type="europa">
+				<div class="it-card__img">
+					<div class="it-card__img-placeholder" style="background:linear-gradient(135deg,#5a9a7a,#1d2d44);">Praga — Città Vecchia</div>
+					<span class="it-card__category it-badge--europa">Europa</span>
+					<div class="it-card__steps">
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+					</div>
+				</div>
+				<div class="it-card__body">
+					<span class="it-card__location"><span class="material-symbols-outlined">location_on</span> Praga</span>
+					<h3 class="it-card__title">La Praga di Kafka</h3>
+					<p class="it-card__desc">Dal Vicolo d'Oro al Café Louvre, passando per la casa natale di Franz Kafka: un itinerario nell'assurdo e nel meraviglioso della Mitteleuropa letteraria.</p>
+					<div class="it-card__meta">
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">pin_drop</span> 4 tappe</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">straighten</span> 2.5 km</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">schedule</span> ~2.5 ore</span>
+						<span class="it-card__cta">Scopri <span class="material-symbols-outlined">arrow_forward</span></span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="it-card" data-type="europa">
+				<div class="it-card__img">
+					<div class="it-card__img-placeholder" style="background:linear-gradient(135deg,#3e5c76,#5a9a7a);">Dublino — Temple Bar</div>
+					<span class="it-card__category it-badge--europa">Europa</span>
+					<div class="it-card__steps">
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+						<span class="it-card__step-dot"></span>
+					</div>
+				</div>
+				<div class="it-card__body">
+					<span class="it-card__location"><span class="material-symbols-outlined">location_on</span> Dublino</span>
+					<h3 class="it-card__title">Il Bloomsday di Joyce</h3>
+					<p class="it-card__desc">Il percorso dell'Ulisse: da Sandycove alla National Library, le tappe di Leopold Bloom il 16 giugno 1904, ancora vive nei pub e nelle strade dublinesi.</p>
+					<div class="it-card__meta">
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">pin_drop</span> 6 tappe</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">straighten</span> 5.0 km</span>
+						<span class="it-card__meta-item"><span class="material-symbols-outlined">schedule</span> ~4 ore</span>
+						<span class="it-card__cta">Scopri <span class="material-symbols-outlined">arrow_forward</span></span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CTA BANNER
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="it-page">
+		<div class="it-cta-banner">
+			<div class="it-cta-banner__text">
+				<h3>Proponi un itinerario</h3>
+				<p>Conosci un percorso letterario nella tua città? Raccontacelo e lo aggiungeremo alla mappa.</p>
+			</div>
+			<a href="demo-community.html" class="btn btn--accent">Scrivi alla community</a>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ -->
+
+<footer class="site-footer">
+	<div style="max-width:80rem;margin:0 auto;padding:0 2rem;">
+		<div class="footer-main">
+			<div class="footer-brand">
+				<p class="site-title">Not My Cup of Read</p>
+				<p>Esploriamo la letteratura contemporanea attraverso podcast, recensioni e approfondimenti.</p>
+				<div class="footer-social">
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">podcasts</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">play_circle</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">photo_camera</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">send</span></a>
+				</div>
+			</div>
+			<div class="footer-col">
+				<h4>ESPLORA</h4>
+				<ul>
+					<li><a href="demo-recensioni.html">Recensioni</a></li>
+					<li><a href="demo-approfondimenti.html">Approfondimenti</a></li>
+					<li><a href="demo-podcast.html">Podcast</a></li>
+					<li><a href="demo-libri.html">Libri</a></li>
+					<li><a href="demo-autori.html">Autori</a></li>
+					<li><a href="demo-librerie.html">Luoghi</a></li>
+					<li><a href="demo-eventi.html">Timeline</a></li>
+					<li><a href="demo-calendario.html">Calendario</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>PROGETTO</h4>
+				<ul>
+					<li><a href="demo-chi-siamo.html">Chi siamo</a></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Contatti</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>NEWSLETTER</h4>
+				<p style="font-size:0.875rem;margin-bottom:1rem;opacity:0.75;">Ricevi le nostre selezioni editoriali.</p>
+				<div class="newsletter-form">
+					<input type="email" placeholder="La tua email" style="background:rgba(255,255,255,0.05);color:#fff;">
+					<button class="btn btn--teal btn--small">Iscriviti</button>
+				</div>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<span>&copy; 2026 Not My Cup of Read.</span>
+			<div class="footer-bottom-links">
+				<a href="#">Privacy Policy</a>
+				<a href="#">Cookie Policy</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════════ -->
+<script>
+(function() {
+	'use strict';
+
+	var filters = document.querySelectorAll('.it-filter');
+	var sections = document.querySelectorAll('section[data-category]');
+
+	filters.forEach(function(btn) {
+		btn.addEventListener('click', function() {
+			var filter = this.getAttribute('data-filter');
+
+			filters.forEach(function(f) { f.classList.remove('active'); });
+			this.classList.add('active');
+
+			sections.forEach(function(sec) {
+				var cat = sec.getAttribute('data-category');
+				if (filter === 'tutti' || cat === filter) {
+					sec.style.display = '';
+				} else {
+					sec.style.display = 'none';
+				}
+			});
+		});
+	});
+})();
+</script>
+
+</body>
+</html>

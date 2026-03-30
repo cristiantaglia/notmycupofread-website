@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Community — Not My Cup of Read</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<style>
+	.demo-placeholder-img {
+		background: linear-gradient(135deg, #1d2d44 0%, #3e5c76 50%, #748cab 100%);
+		display: flex; align-items: center; justify-content: center;
+		color: rgba(255,255,255,0.3); font-size: 0.75rem; font-family: var(--font-body);
+	}
+	.demo-placeholder-img.warm {
+		background: linear-gradient(135deg, #3e5c76 0%, #748cab 50%, #b8c5d6 100%);
+	}
+	.demo-placeholder-img.neutral {
+		background: linear-gradient(135deg, #0d1321 0%, #1d2d44 50%, #3e5c76 100%);
+	}
+	.demo-placeholder-avatar {
+		background: linear-gradient(180deg, #4a5568 0%, #2d3748 100%);
+		display: inline-flex; align-items: center; justify-content: center;
+		color: rgba(255,255,255,0.15); font-size: 0.5rem; font-family: var(--font-body);
+		border-radius: 50%; flex-shrink: 0;
+	}
+	/* ═══ Embedded iframe overlay ═══ */
+	.dash-embed {
+		display: none;
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 500;
+		background: var(--c-surface-container);
+		flex-direction: column;
+	}
+	.dash-embed.active { display: flex; }
+	.dash-embed__topbar {
+		display: flex;
+		align-items: center;
+		gap: var(--sp-3);
+		padding: var(--sp-2) var(--sp-4);
+		background: var(--c-primary);
+		color: #fff;
+		flex-shrink: 0;
+	}
+	.dash-embed__back {
+		display: flex;
+		align-items: center;
+		gap: var(--sp-2);
+		background: none;
+		border: none;
+		color: var(--c-accent-light);
+		font-family: var(--font-body);
+		font-size: 0.8125rem;
+		font-weight: 600;
+		cursor: pointer;
+		padding: var(--sp-1) var(--sp-3);
+		border-radius: var(--radius-sm);
+		transition: all 0.15s;
+	}
+	.dash-embed__back:hover { color: #fff; background: rgba(255,255,255,0.08); }
+	.dash-embed__back .material-symbols-outlined { font-size: 18px; }
+	.dash-embed__title {
+		font-family: var(--font-headline);
+		font-size: 0.9375rem;
+		font-weight: 700;
+		opacity: 0.8;
+	}
+	.dash-embed__iframe {
+		flex: 1;
+		border: none;
+		width: 100%;
+	}
+
+	/* Dashboard full-height layout */
+	body.dash-body {
+		background: var(--c-surface-container);
+	}
+	.comm-dash-page {
+		max-width: 80rem;
+		margin: 0 auto;
+		padding: var(--sp-4) 2rem var(--sp-8);
+		display: grid;
+		grid-template-columns: 260px 1fr;
+		gap: var(--sp-4);
+		min-height: calc(100vh - 80px);
+	}
+	@media (max-width: 1024px) {
+		.comm-dash-page { grid-template-columns: 1fr; }
+	}
+
+	/* ═══ Mini-board (dashboard preview) ═══ */
+	.mini-board {
+		position: relative;
+		height: 280px;
+		border-radius: 0.5rem;
+		overflow: hidden;
+		background:
+			radial-gradient(circle, rgba(13,19,33,0.04) 1px, transparent 1px);
+		background-size: 18px 18px;
+		background-color: #f5f3ee;
+		cursor: pointer;
+	}
+	.mini-board:hover { box-shadow: 0 4px 20px rgba(13,19,33,0.1); }
+	.mini-board__inner {
+		position: relative;
+		width: 100%;
+		height: 100%;
+	}
+
+	/* Mini sticky note */
+	.mini-note {
+		position: absolute;
+		width: 175px;
+		padding: 1.25rem 0.75rem 0.6rem;
+		border-radius: 3px;
+		box-shadow: 2px 3px 10px rgba(13,19,33,0.07), 1px 1px 2px rgba(13,19,33,0.05);
+		display: flex;
+		flex-direction: column;
+		gap: 0.3rem;
+		transition: transform 0.2s, box-shadow 0.2s;
+	}
+	.mini-note:hover {
+		transform: scale(1.06) !important;
+		box-shadow: 4px 6px 16px rgba(13,19,33,0.14);
+		z-index: 10;
+	}
+	.mini-note__pin {
+		position: absolute;
+		top: -6px;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 16px;
+		height: 16px;
+		filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.15));
+	}
+	.mini-note__emoji {
+		position: absolute;
+		top: 4px;
+		right: 6px;
+		font-size: 0.875rem;
+		line-height: 1;
+	}
+	.mini-note__title {
+		font-family: var(--font-headline);
+		font-size: 0.75rem;
+		font-weight: 600;
+		line-height: 1.35;
+		color: var(--c-on-surface);
+	}
+	.mini-note__footer {
+		display: flex;
+		align-items: center;
+		gap: 0.3rem;
+		font-size: 0.5625rem;
+		color: var(--c-on-surface-variant);
+		margin-top: auto;
+		padding-top: 0.25rem;
+		border-top: 1px solid rgba(13,19,33,0.05);
+	}
+	.mini-note__badge {
+		width: 16px; height: 16px;
+		border-radius: 50%;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 0.375rem;
+		font-weight: 700;
+		color: #fff;
+		flex-shrink: 0;
+	}
+	.mini-note__stats {
+		margin-left: auto;
+		opacity: 0.7;
+		font-size: 0.5rem;
+	}
+
+	/* Mini note colors */
+	.mini-note--consiglio { background: #fff1e6; }
+	.mini-note--scambio { background: #e8f5e9; }
+	.mini-note--evento { background: #fff8e1; }
+	.mini-note--collab { background: #f3e5f5; }
+	.mini-note--podcast { background: #fce4ec; }
+	.mini-note--discussione { background: #e3f2fd; }
+</style>
+</head>
+<body class="dash-body">
+
+<!-- ═══════════════════════════════════════════
+     HEADER
+     ═══════════════════════════════════════════ -->
+
+<header class="site-header" id="siteHeader">
+	<div class="header-outer">
+		<div class="header-inner">
+			<div class="site-branding">
+				<div class="site-branding__icon">
+					<img src="assets/img/logo-nmcor.png" alt="NMCOR">
+				</div>
+				<h1 class="site-title"><a href="demo.html">Not My Cup of Read</a></h1>
+			</div>
+			<nav class="primary-nav" id="primaryNav">
+				<ul>
+					<li><a href="#">Articoli</a><ul class="sub-menu"><li><a href="demo-recensioni.html">Recensioni</a></li><li><a href="demo-approfondimenti.html">Approfondimenti</a></li><li><a href="demo-classifiche.html">Classifiche</a></li></ul></li>
+					<li><a href="#">Podcast</a><ul class="sub-menu"><li><a href="demo-podcast.html">Episodi</a></li><li><a href="demo-format.html">Format</a></li><li><a href="demo-dietro-le-quinte.html">Dietro le quinte</a></li></ul></li>
+					<li><a href="#">Biblioteca</a><ul class="sub-menu"><li><a href="demo-libri.html">Libri</a></li><li><a href="demo-autori.html">Autori</a></li></ul></li>
+					<li><a href="#">Luoghi</a><ul class="sub-menu"><li><a href="demo-librerie.html">La mappa del Lettore</a></li><li><a href="demo-luoghi-milano.html">Milano</a></li><li><a href="demo-itinerari.html">Itinerari letterari</a></li><li><a href="demo-luoghi-librerie.html">Librerie</a></li><li><a href="demo-luoghi-biblioteche.html">Biblioteche</a></li><li><a href="demo-luoghi-caffe.html">Caffè letterari</a></li><li><a href="demo-luoghi-spazi.html">Spazi culturali</a></li></ul></li>
+					<li><a href="#">Eventi</a><ul class="sub-menu"><li><a href="demo-eventi.html">Timeline</a></li><li><a href="demo-calendario.html">Calendario</a></li><li><a href="demo-fiere-festival.html">Fiere e Festival</a></li><li><a href="demo-premi-letterari.html">Premi letterari</a></li></ul></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Chi siamo</a><ul class="sub-menu"><li><a href="demo-chi-siamo.html">Lo studio &amp; gli host</a></li><li><a href="demo-ospiti-redazione.html">Gli ospiti &amp; la redazione</a></li><li><a href="demo-contatti.html">Contatti &amp; Collaborazioni</a></li></ul></li>
+				</ul>
+			</nav>
+			<div class="header-search">
+				<input type="text" placeholder="Cerca...">
+			</div>
+		</div>
+		<div class="header-extras">
+			<div class="header-social">
+				<a href="#" class="header-social__link" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23.5 6.19a3 3 0 0 0-2.11-2.13C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.39.56A3 3 0 0 0 .5 6.19 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.81 3 3 0 0 0 2.11 2.13c1.89.56 9.39.56 9.39.56s7.5 0 9.39-.56a3 3 0 0 0 2.11-2.13A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.81ZM9.75 15.02V8.98L15.5 12l-5.75 3.02Z"/></svg></a>
+				<a href="#" class="header-social__link" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.97.24 2.44.41.61.24 1.05.52 1.51.98.46.46.74.9.98 1.51.17.47.36 1.27.41 2.44.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.24 1.97-.41 2.44a4.07 4.07 0 0 1-.98 1.51c-.46.46-.9.74-1.51.98-.47.17-1.27.36-2.44.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.97-.24-2.44-.41a4.07 4.07 0 0 1-1.51-.98 4.07 4.07 0 0 1-.98-1.51c-.17-.47-.36-1.27-.41-2.44C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.24-1.97.41-2.44.24-.61.52-1.05.98-1.51a4.07 4.07 0 0 1 1.51-.98c.47-.17 1.27-.36 2.44-.41C8.42 2.17 8.8 2.16 12 2.16ZM12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63a5.85 5.85 0 0 0-2.13 1.38A5.85 5.85 0 0 0 .63 4.14C.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13a5.85 5.85 0 0 0 2.13 1.38c.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56a5.85 5.85 0 0 0 2.13-1.38 5.85 5.85 0 0 0 1.38-2.13c.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.85 5.85 0 0 0-1.38-2.13A5.85 5.85 0 0 0 19.86.63C19.1.33 18.22.13 16.95.07 15.67.01 15.26 0 12 0Zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32ZM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm6.41-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88Z"/></svg></a>
+				<a href="#" class="header-social__link" aria-label="Spotify"><svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.31a.75.75 0 0 1-1.03.25c-2.82-1.72-6.37-2.11-10.55-1.16a.75.75 0 1 1-.34-1.46c4.57-1.05 8.49-.6 11.67 1.34a.75.75 0 0 1 .25 1.03Zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.23-1.98-8.15-2.56-11.97-1.4a.94.94 0 1 1-.54-1.8c4.36-1.32 9.78-.68 13.49 1.6a.94.94 0 0 1 .31 1.29Zm.13-3.4C15.5 8.4 9 8.2 5.24 9.33a1.13 1.13 0 1 1-.65-2.16c4.33-1.3 11.52-1.05 16.07 1.68a1.13 1.13 0 0 1-1.56 1.79Z"/></svg></a>
+				<a href="#" class="header-social__link" aria-label="X"><svg viewBox="0 0 24 24"><path d="M18.9 1.15h3.68l-8.04 9.19L24 22.85h-7.4l-5.8-7.58-6.63 7.58H.49l8.6-9.83L0 1.15h7.59l5.24 6.93 6.07-6.93Zm-1.29 19.5h2.04L6.48 3.24H4.3L17.61 20.65Z"/></svg></a>
+			</div>
+			<div class="header-auth">
+				<a href="demo-profilo.html" class="header-auth__btn"><span class="material-symbols-outlined">person</span> Cristian T.</a>
+				<div class="header-auth__dropdown">
+					<a href="demo-community-dashboard.html"><span class="material-symbols-outlined">dashboard</span> Dashboard</a>
+					<a href="#"><span class="material-symbols-outlined">settings</span> Impostazioni</a>
+					<a href="demo-community.html"><span class="material-symbols-outlined">logout</span> Esci</a>
+				</div>
+			</div>
+			<button class="menu-toggle" id="menuToggle" aria-label="Menu"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
+		</div>
+	</div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     DASHBOARD LAYOUT
+     ═══════════════════════════════════════════ -->
+
+<div class="comm-dash-page">
+	<!-- Sidebar -->
+	<aside class="comm-dash__sidebar">
+		<div class="comm-dash__profile">
+			<div class="demo-placeholder-avatar" style="width:56px;height:56px;">AV</div>
+			<div>
+				<strong>Cristian T.</strong>
+				<span>Membro dal 2024</span>
+			</div>
+		</div>
+		<a href="demo-profilo.html" class="comm-dash__profile-link"><span class="material-symbols-outlined" style="font-size:1rem;vertical-align:middle;margin-right:0.25rem;">visibility</span>Vedi Profilo</a>
+		<nav class="comm-dash__nav" id="dashNav">
+			<a href="#" class="active" data-section="sec-dashboard"><span class="material-symbols-outlined">dashboard</span> Dashboard</a>
+			<a href="#" data-section="sec-bacheca"><span class="material-symbols-outlined">dashboard_customize</span> Bacheca</a>
+			<a href="#" data-section="sec-discussioni"><span class="material-symbols-outlined">forum</span> Discussioni</a>
+			<a href="#" data-section="sec-letture"><span class="material-symbols-outlined">auto_stories</span> Letture condivise</a>
+			<a href="#" data-section="sec-episodi"><span class="material-symbols-outlined">podcasts</span> Episodi</a>
+			<a href="#" data-section="sec-salvati"><span class="material-symbols-outlined">bookmark</span> Salvati</a>
+			<a href="#" data-section="sec-notifiche"><span class="material-symbols-outlined">notifications</span> Notifiche <span class="comm-dash__badge">3</span></a>
+		</nav>
+	</aside>
+
+	<!-- Main content -->
+	<main class="comm-dash__main">
+
+		<!-- ═══ SECTION: Dashboard ═══ -->
+		<div class="comm-dash__view active" id="sec-dashboard">
+			<div class="comm-dash__welcome">
+				<h2>Bentornato, Cristian</h2>
+				<p>3 nuove risposte ai tuoi post &middot; 1 nuova lettura condivisa &middot; Episodio 48 disponibile</p>
+				<a href="demo-profilo.html" class="comm-dash__welcome-profile"><span class="material-symbols-outlined" style="font-size:1rem;vertical-align:middle;margin-right:0.25rem;">person</span>Vai al tuo profilo</a>
+			</div>
+
+			<!-- Mini-lavagna: ultimi post -->
+			<div class="comm-dash__section">
+				<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+					<h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:-4px;">sticky_note_2</span> Ultimi post dalla Bacheca</h3>
+					<a href="demo-lavagna.html" class="btn btn--teal btn--small"><span class="material-symbols-outlined" style="font-size:16px;">open_in_new</span> Apri lavagna</a>
+				</div>
+				<div class="mini-board">
+					<div class="mini-board__inner">
+						<div class="mini-note mini-note--podcast" style="left:20px;top:18px;transform:rotate(-1.5deg);">
+							<svg class="mini-note__pin" viewBox="0 0 16 16"><circle cx="8" cy="6" r="5" fill="#e07a5f"/><circle cx="8" cy="6" r="2.5" fill="#fff" opacity="0.3"/><line x1="8" y1="11" x2="8" y2="16" stroke="#555" stroke-width="1.2" stroke-linecap="round"/></svg>
+							<span class="mini-note__emoji">🌍</span>
+							<div class="mini-note__title">Ep. 48 — Premio Nobel: pronostici</div>
+							<div class="mini-note__footer"><span class="mini-note__badge" style="background:#e07a5f;">MV</span> Marco V. <span class="mini-note__stats">💬38 🔥52</span></div>
+						</div>
+						<div class="mini-note mini-note--consiglio" style="left:210px;top:10px;transform:rotate(1deg);">
+							<svg class="mini-note__pin" viewBox="0 0 16 16"><circle cx="8" cy="6" r="5" fill="#c0392b"/><circle cx="8" cy="6" r="2.5" fill="#fff" opacity="0.3"/><line x1="8" y1="11" x2="8" y2="16" stroke="#555" stroke-width="1.2" stroke-linecap="round"/></svg>
+							<span class="mini-note__emoji">📚</span>
+							<div class="mini-note__title">Libri simili a "Il deserto dei Tartari"?</div>
+							<div class="mini-note__footer"><span class="mini-note__badge" style="background:#c0392b;">GM</span> Giulia M. <span class="mini-note__stats">💬14 ❤️8</span></div>
+						</div>
+						<div class="mini-note mini-note--evento" style="left:400px;top:22px;transform:rotate(-0.8deg);">
+							<svg class="mini-note__pin" viewBox="0 0 16 16"><circle cx="8" cy="6" r="5" fill="#d4a017"/><circle cx="8" cy="6" r="2.5" fill="#fff" opacity="0.3"/><line x1="8" y1="11" x2="8" y2="16" stroke="#555" stroke-width="1.2" stroke-linecap="round"/></svg>
+							<span class="mini-note__emoji">🎪</span>
+							<div class="mini-note__title">Ferrante al Salone — chi viene?</div>
+							<div class="mini-note__footer"><span class="mini-note__badge" style="background:#d4a017;">SB</span> Sara B. <span class="mini-note__stats">💬31 ❤️45</span></div>
+						</div>
+						<div class="mini-note mini-note--scambio" style="left:70px;top:142px;transform:rotate(1.8deg);">
+							<svg class="mini-note__pin" viewBox="0 0 16 16"><circle cx="8" cy="6" r="5" fill="#27ae60"/><circle cx="8" cy="6" r="2.5" fill="#fff" opacity="0.3"/><line x1="8" y1="11" x2="8" y2="16" stroke="#555" stroke-width="1.2" stroke-linecap="round"/></svg>
+							<span class="mini-note__emoji">📦</span>
+							<div class="mini-note__title">Collezione Adelphi — 15 titoli</div>
+							<div class="mini-note__footer"><span class="mini-note__badge" style="background:#27ae60;">AT</span> Alessandro T. <span class="mini-note__stats">💬7 ❤️23</span></div>
+						</div>
+						<div class="mini-note mini-note--collab" style="left:260px;top:148px;transform:rotate(-2deg);">
+							<svg class="mini-note__pin" viewBox="0 0 16 16"><circle cx="8" cy="6" r="5" fill="#8e44ad"/><circle cx="8" cy="6" r="2.5" fill="#fff" opacity="0.3"/><line x1="8" y1="11" x2="8" y2="16" stroke="#555" stroke-width="1.2" stroke-linecap="round"/></svg>
+							<span class="mini-note__emoji">🤝</span>
+							<div class="mini-note__title">Cerco co-host per episodio Ferrante</div>
+							<div class="mini-note__footer"><span class="mini-note__badge" style="background:#8e44ad;">DC</span> Davide C. <span class="mini-note__stats">💬9 ❤️16</span></div>
+						</div>
+						<div class="mini-note mini-note--consiglio" style="left:445px;top:155px;transform:rotate(0.5deg);">
+							<svg class="mini-note__pin" viewBox="0 0 16 16"><circle cx="8" cy="6" r="5" fill="#c0392b"/><circle cx="8" cy="6" r="2.5" fill="#fff" opacity="0.3"/><line x1="8" y1="11" x2="8" y2="16" stroke="#555" stroke-width="1.2" stroke-linecap="round"/></svg>
+							<span class="mini-note__emoji">💡</span>
+							<div class="mini-note__title">Romanzi brevi da leggere in un weekend?</div>
+							<div class="mini-note__footer"><span class="mini-note__badge" style="background:#c0392b;">LP</span> Luca P. <span class="mini-note__stats">💬26 ❤️31</span></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="comm-dash__section">
+				<h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:-4px;">dashboard_customize</span> Bacheca — Le Lavagne</h3>
+				<div class="comm-lavagne-grid">
+					<a href="demo-lavagna.html?board=consiglio" class="comm-lavagna"><span class="material-symbols-outlined">search</span><strong>Consigli &amp; Ricerche</strong><span class="comm-lavagna__count">34 post</span></a>
+					<a href="demo-lavagna.html?board=scambio" class="comm-lavagna"><span class="material-symbols-outlined">swap_horiz</span><strong>Scambio Libri</strong><span class="comm-lavagna__count">18 post</span></a>
+					<a href="demo-lavagna.html?board=evento" class="comm-lavagna"><span class="material-symbols-outlined">event</span><strong>Eventi &amp; Segnalazioni</strong><span class="comm-lavagna__count">12 post</span></a>
+					<a href="demo-lavagna.html?board=collab" class="comm-lavagna"><span class="material-symbols-outlined">handshake</span><strong>Collaborazioni</strong><span class="comm-lavagna__count">7 post</span></a>
+					<a href="demo-lavagna.html?board=discussione" class="comm-lavagna"><span class="material-symbols-outlined">chat</span><strong>Discussioni</strong><span class="comm-lavagna__count">45 post</span></a>
+					<a href="demo-lavagna.html?board=podcast" class="comm-lavagna"><span class="material-symbols-outlined">mic</span><strong>Podcast</strong><span class="comm-lavagna__count">28 post</span></a>
+				</div>
+			</div>
+
+			<div class="comm-dash__section">
+				<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+					<h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:-4px;">history</span> Attivit&agrave; recente</h3>
+					<a href="#" class="btn btn--teal btn--small"><span class="material-symbols-outlined" style="font-size:16px;">add</span> Nuovo post</a>
+				</div>
+				<div class="comm-feed">
+					<div class="comm-feed__item">
+						<div class="demo-placeholder-avatar" style="width:40px;height:40px;">AV</div>
+						<div class="comm-feed__content">
+							<div class="comm-feed__meta"><strong>Elena R.</strong> ha risposto al tuo post <span>&middot; 20 min fa</span></div>
+							<div class="comm-feed__body"><span class="comm-badge comm-badge--cerco" style="font-size:0.5625rem;">CERCO</span><a href="demo-discussione.html?title=Libri%20simili%20a%20%22Il%20deserto%20dei%20Tartari%22%20di%20Buzzati%3F&cat=consiglio&author=Giulia%20M.&emoji=%F0%9F%93%9A&from=consiglio">Libri simili a "Il deserto dei Tartari"</a></div>
+							<p class="comm-feed__reply">"Prova con <em>Stoner</em> di John Williams. Stessa lentezza devastante, stesso senso di vita che scivola via..."</p>
+						</div>
+					</div>
+					<div class="comm-feed__item">
+						<div class="demo-placeholder-avatar" style="width:40px;height:40px;">AV</div>
+						<div class="comm-feed__content">
+							<div class="comm-feed__meta"><strong>Luca P.</strong> ha pubblicato in Discussioni <span>&middot; 1 ora fa</span></div>
+							<div class="comm-feed__body"><span class="comm-badge comm-badge--consiglio" style="font-size:0.5625rem;">CONSIGLIO</span><a href="demo-discussione.html?title=Murakami%20sopravvalutato%3F%20Opinione%20impopolare&cat=discussione&author=Luca%20P.&emoji=%F0%9F%97%A3%EF%B8%8F&from=discussione">Opinione impopolare: Murakami &egrave; sopravvalutato</a></div>
+							<p class="comm-feed__reply">"Lo so che mi odierete, ma dopo 5 romanzi devo dirlo: i gatti parlanti non bastano pi&ugrave;..."</p>
+						</div>
+					</div>
+					<div class="comm-feed__item">
+						<div class="demo-placeholder-avatar" style="width:40px;height:40px;">AV</div>
+						<div class="comm-feed__content">
+							<div class="comm-feed__meta"><strong>Sistema</strong> &middot; Lettura condivisa <span>&middot; 3 ore fa</span></div>
+							<div class="comm-feed__body"><span class="material-symbols-outlined" style="font-size:16px;color:var(--c-accent);">auto_stories</span><a href="demo-discussione.html?title=Capitoli%205-8%20di%20%22Austerlitz%22%20%E2%80%94%20Discussione&cat=discussione&author=Sistema&emoji=%F0%9F%93%96&from=discussione">Aperta discussione Capitoli 5-8 di "Austerlitz"</a></div>
+							<p class="comm-feed__reply">La lettura condivisa procede: 87 membri stanno partecipando.</p>
+						</div>
+					</div>
+					<div class="comm-feed__item">
+						<div class="demo-placeholder-avatar" style="width:40px;height:40px;">AV</div>
+						<div class="comm-feed__content">
+							<div class="comm-feed__meta"><strong>Marta F.</strong> ha pubblicato in Scambio Libri <span>&middot; 5 ore fa</span></div>
+							<div class="comm-feed__body"><span class="comm-badge comm-badge--vendo" style="font-size:0.5625rem;">REGALO</span><a href="demo-discussione.html?title=Scatolone%20di%20gialli%20Sellerio%20%E2%80%94%20ritiro%20Milano%20zona%20Isola&cat=scambio&author=Marta%20F.&emoji=%F0%9F%8E%81&from=scambio">Scatolone di gialli Sellerio — ritiro a Milano zona Isola</a></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="comm-dash__section">
+				<h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:-4px;">auto_stories</span> Lettura in corso</h3>
+				<div class="comm-reading-card">
+					<div class="comm-reading-card__cover"><div class="demo-placeholder-img neutral" style="width:100px;aspect-ratio:2/3;border-radius:var(--radius-sm);flex-shrink:0;">Cover</div></div>
+					<div class="comm-reading-card__info">
+						<span class="comm-reading-card__label">Lettura condivisa #12</span>
+						<h4>"Austerlitz" — W.G. Sebald</h4>
+						<div class="comm-reading-card__progress"><div class="comm-reading-card__bar"><div class="comm-reading-card__bar-fill" style="width:62%;"></div></div><span>Capitolo 8 di 12 &middot; 62%</span></div>
+						<p>87 lettori partecipanti &middot; 156 commenti &middot; Discussione cap. 5-8 aperta</p>
+						<a href="#" class="btn btn--teal btn--small" data-goto="sec-letture">Partecipa alla discussione</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- ═══ SECTION: Bacheca ═══ -->
+		<div class="comm-dash__view" id="sec-bacheca">
+			<div class="comm-dash__section">
+				<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;">
+					<h3 style="margin:0;"><span class="material-symbols-outlined" style="font-size:20px;vertical-align:-4px;">dashboard_customize</span> La Bacheca dei Lettori</h3>
+					<a href="#" class="btn btn--teal btn--small"><span class="material-symbols-outlined" style="font-size:16px;">add</span> Nuovo post</a>
+				</div>
+				<!-- Lavagna filters -->
+				<div class="librerie-map-filters" id="bachecaFilters" style="margin-bottom:1.25rem;">
+					<button class="librerie-filter-pill active" data-bfilter="all">Tutti</button>
+					<button class="librerie-filter-pill" data-bfilter="cerco"><span class="librerie-filter-dot" style="background:var(--c-accent);"></span> Consigli</button>
+					<button class="librerie-filter-pill" data-bfilter="scambio"><span class="librerie-filter-dot" style="background:#27ae60;"></span> Scambio</button>
+					<button class="librerie-filter-pill" data-bfilter="evento"><span class="librerie-filter-dot" style="background:#b8860b;"></span> Eventi</button>
+					<button class="librerie-filter-pill" data-bfilter="collab"><span class="librerie-filter-dot" style="background:#8e44ad;"></span> Collaborazioni</button>
+					<button class="librerie-filter-pill" data-bfilter="podcast"><span class="librerie-filter-dot" style="background:#c0392b;"></span> Podcast</button>
+				</div>
+				<!-- Posts list -->
+				<div class="comm-feed" id="bachecaFeed">
+					<div class="comm-feed__item" data-cat="cerco">
+						<div class="demo-placeholder-avatar" style="width:40px;height:40px;">AV</div>
+						<div class="comm-feed__content">
+							<div class="comm-feed__meta"><strong>Giulia M.</strong> <span>&middot; 3 ore fa</span></div>
+							<div class="comm-feed__body"><span class="comm-badge comm-badge--cerco" style="font-size:0.5625rem;">CERCO</span><a href="demo-discussione.html?title=Libri%20simili%20a%20%22Il%20deserto%20dei%20Tartari%22%20di%20Buzzati%3F&cat=consiglio&author=Giulia%20M.&emoji=%F0%9F%93%9A&from=consiglio">Libri simili a "Il deserto dei Tartari" di Buzzati?</a></div>
+							<p class="comm-feed__reply">Ho appena finito il Deserto e sono devastata. Cerco qualcosa con la stessa atmosfera di attesa e vuoto esistenziale...</p>
+							<div class="comm-preview-post__meta" style="margin-top:0.5rem;"><span><span class="material-symbols-outlined" style="font-size:14px;">chat_bubble</span> 14</span><span><span class="material-symbols-outlined" style="font-size:14px;">favorite</span> 8</span></div>
+						</div>
+					</div>
+					<div class="comm-feed__item" data-cat="scambio">
+						<div class="demo-placeholder-avatar" style="width:40px;height:40px;">AV</div>
+						<div class="comm-feed__content">
+							<div class="comm-feed__meta"><strong>Alessandro T.</strong> <span>&middot; 5 ore fa</span></div>
+							<div class="comm-feed__body"><span class="comm-badge comm-badge--vendo" style="font-size:0.5625rem;">VENDO</span><a href="demo-discussione.html?title=Collezione%20Adelphi%20%E2%80%94%2015%20titoli%2C%20ottime%20condizioni&cat=scambio&author=Alessandro%20T.&emoji=%F0%9F%93%A6&from=scambio">Collezione Adelphi — 15 titoli, ottime condizioni</a></div>
+							<p class="comm-feed__reply">Mi trasferisco e devo alleggerire la libreria. Vendo blocco unico o singoli. Calasso, Bernhard, Walser...</p>
+							<div class="comm-preview-post__meta" style="margin-top:0.5rem;"><span><span class="material-symbols-outlined" style="font-size:14px;">chat_bubble</span> 7</span><span><span class="material-symbols-outlined" style="font-size:14px;">favorite</span> 23</span></div>
+						</div>
+					</div>
+					<div class="comm-feed__item" data-cat="evento">
+						<div class="demo-placeholder-avatar" style="width:40px;height:40px;">AV</div>
+						<div class="comm-feed__content">
+							<div class="comm-feed__meta"><strong>Sara B.</strong> <span>&middot; 1 giorno fa</span></div>
+							<div class="comm-feed__body"><span class="comm-badge comm-badge--evento" style="font-size:0.5625rem;">EVENTO</span><a href="demo-discussione.html?title=Ferrante%20al%20Salone%20del%20Libro%20%E2%80%94%20chi%20viene%3F&cat=evento&author=Sara%20B.&emoji=%F0%9F%8E%AA&from=evento">Ferrante al Salone del Libro — chi viene?</a></div>
+							<p class="comm-feed__reply">Confermata la presenza al Salone di Torino, sabato 17 maggio. Organizziamo un ritrovo NMCOR?</p>
+							<div class="comm-preview-post__meta" style="margin-top:0.5rem;"><span><span class="material-symbols-outlined" style="font-size:14px;">chat_bubble</span> 31</span><span><span class="material-symbols-outlined" style="font-size:14px;">favorite</span> 45</span></div>
+						</div>
+					</div>
+					<div class="comm-feed__item" data-cat="podcast">
+						<div class="demo-placeholder-avatar" style="width:40px;height:40px;">AV</div>
+						<div class="comm-feed__content">
+							<div class="comm-feed__meta"><strong>Marco V.</strong> <span>&middot; 2 giorni fa</span></div>
+							<div class="comm-feed__body"><span class="comm-badge comm-badge--podcast" style="font-size:0.5625rem;">PODCAST</span><a href="demo-discussione.html?title=Ep.%2047%20%E2%80%94%20%E2%80%9CL%E2%80%99architettura%20del%20silenzio%E2%80%9D&cat=podcast&author=Marco%20V.&emoji=%F0%9F%8E%99%EF%B8%8F&from=podcast">Ep. 47 — "L'architettura del silenzio": i vostri pensieri</a></div>
+							<p class="comm-feed__reply">Thread ufficiale. Trovate interessante il parallelo tra Sebald e la fotografia?</p>
+							<div class="comm-preview-post__meta" style="margin-top:0.5rem;"><span><span class="material-symbols-outlined" style="font-size:14px;">chat_bubble</span> 22</span><span><span class="material-symbols-outlined" style="font-size:14px;">favorite</span> 19</span></div>
+						</div>
+					</div>
+					<div class="comm-feed__item" data-cat="scambio">
+						<div class="demo-placeholder-avatar" style="width:40px;height:40px;">AV</div>
+						<div class="comm-feed__content">
+							<div class="comm-feed__meta"><strong>Marta F.</strong> <span>&middot; 2 giorni fa</span></div>
+							<div class="comm-feed__body"><span class="comm-badge comm-badge--vendo" style="font-size:0.5625rem;">REGALO</span><a href="demo-discussione.html?title=Scatolone%20di%20gialli%20Sellerio%20%E2%80%94%20ritiro%20Milano%20zona%20Isola&cat=scambio&author=Marta%20F.&emoji=%F0%9F%8E%81&from=scambio">Scatolone di gialli Sellerio — ritiro a Milano zona Isola</a></div>
+							<div class="comm-preview-post__meta" style="margin-top:0.5rem;"><span><span class="material-symbols-outlined" style="font-size:14px;">chat_bubble</span> 5</span><span><span class="material-symbols-outlined" style="font-size:14px;">favorite</span> 12</span></div>
+						</div>
+					</div>
+					<div class="comm-feed__item" data-cat="collab">
+						<div class="demo-placeholder-avatar" style="width:40px;height:40px;">AV</div>
+						<div class="comm-feed__content">
+							<div class="comm-feed__meta"><strong>Davide C.</strong> <span>&middot; 3 giorni fa</span></div>
+							<div class="comm-feed__body"><span class="comm-badge comm-badge--consiglio" style="font-size:0.5625rem;">COLLABORAZIONE</span><a href="demo-discussione.html?title=Cerco%20co-host%20per%20episodio%20speciale%20su%20Ferrante&cat=collab&author=Davide%20C.&emoji=%F0%9F%A4%9D&from=collab">Cerco co-host per episodio speciale su Ferrante</a></div>
+							<p class="comm-feed__reply">Sto preparando un episodio lungo sull'intera tetralogia. Cerco qualcuno che l'abbia letta tutta e voglia discuterne in modo critico.</p>
+							<div class="comm-preview-post__meta" style="margin-top:0.5rem;"><span><span class="material-symbols-outlined" style="font-size:14px;">chat_bubble</span> 9</span><span><span class="material-symbols-outlined" style="font-size:14px;">favorite</span> 16</span></div>
+						</div>
+					</div>
+					<div class="comm-feed__item" data-cat="cerco">
+						<div class="demo-placeholder-avatar" style="width:40px;height:40px;">AV</div>
+						<div class="comm-feed__content">
+							<div class="comm-feed__meta"><strong>Francesca L.</strong> <span>&middot; 4 giorni fa</span></div>
+							<div class="comm-feed__body"><span class="comm-badge comm-badge--cerco" style="font-size:0.5625rem;">CONSIGLIO</span><a href="demo-discussione.html?title=Migliori%20saggi%20di%20antropologia%20per%20neofiti%3F&cat=consiglio&author=Francesca%20L.&emoji=%F0%9F%94%8D&from=consiglio">Migliori saggi di antropologia per neofiti?</a></div>
+							<p class="comm-feed__reply">Non ho mai letto saggistica antropologica ma mi incuriosisce. Da dove comincio?</p>
+							<div class="comm-preview-post__meta" style="margin-top:0.5rem;"><span><span class="material-symbols-outlined" style="font-size:14px;">chat_bubble</span> 18</span><span><span class="material-symbols-outlined" style="font-size:14px;">favorite</span> 7</span></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- ═══ SECTION: Discussioni ═══ -->
+		<div class="comm-dash__view" id="sec-discussioni">
+			<div class="comm-dash__section">
+				<h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:-4px;">forum</span> Discussioni attive</h3>
+				<div class="comm-feed">
+					<div class="comm-feed__item">
+						<div class="demo-placeholder-avatar" style="width:40px;height:40px;">AV</div>
+						<div class="comm-feed__content">
+							<div class="comm-feed__meta"><strong>Luca P.</strong> <span>&middot; 1 ora fa &middot; 42 risposte</span></div>
+							<div class="comm-feed__body"><a href="demo-discussione.html?title=Murakami%20sopravvalutato%3F%20Opinione%20impopolare&cat=discussione&author=Luca%20P.&emoji=%F0%9F%97%A3%EF%B8%8F&from=discussione">Opinione impopolare: Murakami &egrave; sopravvalutato</a></div>
+							<p class="comm-feed__reply">"Lo so che mi odierete, ma dopo 5 romanzi devo dirlo: i gatti parlanti non bastano pi&ugrave;..."</p>
+						</div>
+					</div>
+					<div class="comm-feed__item">
+						<div class="demo-placeholder-avatar" style="width:40px;height:40px;">AV</div>
+						<div class="comm-feed__content">
+							<div class="comm-feed__meta"><strong>Sofia M.</strong> <span>&middot; 6 ore fa &middot; 28 risposte</span></div>
+							<div class="comm-feed__body"><a href="demo-discussione.html?title=Perch%C3%A9%20i%20premi%20letterari%20non%20premiano%20mai%20i%20libri%20migliori%3F&cat=discussione&author=Sofia%20M.&emoji=%F0%9F%8F%86&from=discussione">Perch&eacute; i premi letterari non premiano mai i libri migliori?</a></div>
+							<p class="comm-feed__reply">Strega, Campiello, Bancarella... Ogni anno la stessa delusione. Serve una riforma?</p>
+						</div>
+					</div>
+					<div class="comm-feed__item">
+						<div class="demo-placeholder-avatar" style="width:40px;height:40px;">AV</div>
+						<div class="comm-feed__content">
+							<div class="comm-feed__meta"><strong>Andrea R.</strong> <span>&middot; 1 giorno fa &middot; 15 risposte</span></div>
+							<div class="comm-feed__body"><a href="demo-discussione.html?title=Audiolibri%20vs.%20lettura%20tradizionale%3A%20conta%20davvero%20la%20differenza%3F&cat=discussione&author=Andrea%20R.&emoji=%F0%9F%8E%A7&from=discussione">Audiolibri vs. lettura tradizionale: conta davvero la differenza?</a></div>
+							<p class="comm-feed__reply">Un tema che divide. Per me ascoltare &egrave; leggere, per altri &egrave; un tradimento. Voi cosa ne pensate?</p>
+						</div>
+					</div>
+					<div class="comm-feed__item">
+						<div class="demo-placeholder-avatar" style="width:40px;height:40px;">AV</div>
+						<div class="comm-feed__content">
+							<div class="comm-feed__meta"><strong>Giulia M.</strong> <span>&middot; 2 giorni fa &middot; 33 risposte</span></div>
+							<div class="comm-feed__body"><a href="demo-discussione.html?title=Libri%20che%20vi%20hanno%20cambiato%20la%20vita%20%E2%80%94%20senza%20ironia&cat=discussione&author=Giulia%20M.&emoji=%F0%9F%92%AB&from=discussione">Libri che vi hanno cambiato la vita — senza ironia</a></div>
+							<p class="comm-feed__reply">Per me &egrave; stato "L'insostenibile leggerezza dell'essere". Avevo 19 anni e non ero pi&ugrave; la stessa dopo.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- ═══ SECTION: Letture condivise ═══ -->
+		<div class="comm-dash__view" id="sec-letture">
+			<div class="comm-dash__section">
+				<h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:-4px;">auto_stories</span> Lettura in corso</h3>
+				<div class="comm-reading-card">
+					<div class="comm-reading-card__cover"><div class="demo-placeholder-img neutral" style="width:120px;aspect-ratio:2/3;border-radius:var(--radius-sm);flex-shrink:0;">Cover</div></div>
+					<div class="comm-reading-card__info">
+						<span class="comm-reading-card__label">Lettura condivisa #12</span>
+						<h4>"Austerlitz" — W.G. Sebald</h4>
+						<div class="comm-reading-card__progress"><div class="comm-reading-card__bar"><div class="comm-reading-card__bar-fill" style="width:62%;"></div></div><span>Capitolo 8 di 12 &middot; 62%</span></div>
+						<p>87 lettori partecipanti &middot; 156 commenti</p>
+					</div>
+				</div>
+			</div>
+			<div class="comm-dash__section">
+				<h3>Discussioni per capitolo</h3>
+				<div class="comm-feed">
+					<div class="comm-feed__item">
+						<div style="width:40px;height:40px;border-radius:var(--radius-sm);background:var(--c-accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.875rem;flex-shrink:0;">5-8</div>
+						<div class="comm-feed__content">
+							<div class="comm-feed__meta"><strong>Capitoli 5-8</strong> &middot; Aperta <span>&middot; 3 ore fa &middot; 24 commenti</span></div>
+							<div class="comm-feed__body"><a href="demo-discussione.html?title=Il%20viaggio%20a%20Terez%C3%ADn%20e%20la%20memoria%20degli%20spazi&cat=discussione&author=Cristian%20T.&emoji=%F0%9F%93%96&from=discussione">Il viaggio a Terez&iacute;n e la memoria degli spazi</a></div>
+							<p class="comm-feed__reply">In questi capitoli Sebald ci porta dentro l'architettura come contenitore di memoria collettiva...</p>
+						</div>
+					</div>
+					<div class="comm-feed__item">
+						<div style="width:40px;height:40px;border-radius:var(--radius-sm);background:var(--c-surface-container-high);color:var(--c-on-surface);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.875rem;flex-shrink:0;">1-4</div>
+						<div class="comm-feed__content">
+							<div class="comm-feed__meta"><strong>Capitoli 1-4</strong> &middot; Completata <span>&middot; 1 settimana fa &middot; 67 commenti</span></div>
+							<div class="comm-feed__body"><a href="demo-discussione.html?title=L%27incontro%20alla%20stazione%20e%20il%20tema%20dell%27identit%C3%A0&cat=discussione&author=Sofia%20M.&emoji=%F0%9F%9A%89&from=discussione">L'incontro alla stazione e il tema dell'identit&agrave;</a></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="comm-dash__section">
+				<h3>Letture precedenti</h3>
+				<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
+					<div style="background:var(--c-surface-container);border-radius:var(--radius-md);padding:1rem;text-align:center;">
+						<div class="demo-placeholder-img neutral" style="width:60px;aspect-ratio:2/3;border-radius:var(--radius-sm);margin:0 auto 0.75rem;">C</div>
+						<strong style="font-size:0.8125rem;display:block;">#11 — Stoner</strong>
+						<span style="font-size:0.6875rem;color:var(--c-on-surface-variant);">J. Williams &middot; 92 lettori</span>
+					</div>
+					<div style="background:var(--c-surface-container);border-radius:var(--radius-md);padding:1rem;text-align:center;">
+						<div class="demo-placeholder-img warm" style="width:60px;aspect-ratio:2/3;border-radius:var(--radius-sm);margin:0 auto 0.75rem;">C</div>
+						<strong style="font-size:0.8125rem;display:block;">#10 — Il Gattopardo</strong>
+						<span style="font-size:0.6875rem;color:var(--c-on-surface-variant);">Tomasi &middot; 78 lettori</span>
+					</div>
+					<div style="background:var(--c-surface-container);border-radius:var(--radius-md);padding:1rem;text-align:center;">
+						<div class="demo-placeholder-img" style="width:60px;aspect-ratio:2/3;border-radius:var(--radius-sm);margin:0 auto 0.75rem;">C</div>
+						<strong style="font-size:0.8125rem;display:block;">#9 — Pedro P&aacute;ramo</strong>
+						<span style="font-size:0.6875rem;color:var(--c-on-surface-variant);">Rulfo &middot; 65 lettori</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- ═══ SECTION: Episodi ═══ -->
+		<div class="comm-dash__view" id="sec-episodi">
+			<div class="comm-dash__section">
+				<h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:-4px;">podcasts</span> Episodi recenti — Thread della community</h3>
+				<div class="comm-feed">
+					<div class="comm-feed__item">
+						<div style="width:40px;height:40px;border-radius:var(--radius-sm);background:var(--c-primary-container);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.75rem;flex-shrink:0;">48</div>
+						<div class="comm-feed__content">
+							<div class="comm-feed__meta"><span class="comm-badge comm-badge--podcast" style="font-size:0.5625rem;">NUOVO</span> <span>&middot; Pubblicato oggi</span></div>
+							<div class="comm-feed__body"><a href="demo-discussione.html?title=Ep.%2048%20%E2%80%94%20Ferrante%20e%20il%20confine%20tra%20autofiction%20e%20romanzo&cat=podcast&author=Marco%20V.&emoji=%F0%9F%8E%99%EF%B8%8F&from=podcast">Ep. 48 — Ferrante e il confine tra autofiction e romanzo</a></div>
+							<p class="comm-feed__reply">0 commenti &middot; Sii il primo a commentare</p>
+						</div>
+					</div>
+					<div class="comm-feed__item">
+						<div style="width:40px;height:40px;border-radius:var(--radius-sm);background:var(--c-surface-container-high);color:var(--c-on-surface);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.75rem;flex-shrink:0;">47</div>
+						<div class="comm-feed__content">
+							<div class="comm-feed__meta"><span>&middot; 1 settimana fa &middot; 22 commenti</span></div>
+							<div class="comm-feed__body"><a href="demo-discussione.html?title=Ep.%2047%20%E2%80%94%20L%27architettura%20del%20silenzio&cat=podcast&author=Marco%20V.&emoji=%F0%9F%8E%A7&from=podcast">Ep. 47 — L'architettura del silenzio: Sebald e la fotografia</a></div>
+							<p class="comm-feed__reply">Il parallelo tra le immagini sfocate di Sebald e la memoria involontaria di Proust...</p>
+						</div>
+					</div>
+					<div class="comm-feed__item">
+						<div style="width:40px;height:40px;border-radius:var(--radius-sm);background:var(--c-surface-container-high);color:var(--c-on-surface);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.75rem;flex-shrink:0;">46</div>
+						<div class="comm-feed__content">
+							<div class="comm-feed__meta"><span>&middot; 2 settimane fa &middot; 35 commenti</span></div>
+							<div class="comm-feed__body"><a href="demo-discussione.html?title=Ep.%2046%20%E2%80%94%20Perch%C3%A9%20la%20fantascienza%20italiana%20non%20decolla&cat=podcast&author=Marco%20V.&emoji=%F0%9F%8E%A7&from=podcast">Ep. 46 — Perch&eacute; la fantascienza italiana non decolla</a></div>
+							<p class="comm-feed__reply">Un'analisi del mercato e delle ragioni culturali. Thread infuocato.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- ═══ SECTION: Salvati ═══ -->
+		<div class="comm-dash__view" id="sec-salvati">
+			<div class="comm-dash__section">
+				<h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:-4px;">bookmark</span> I tuoi post salvati</h3>
+				<div class="comm-feed">
+					<div class="comm-feed__item">
+						<div class="demo-placeholder-avatar" style="width:40px;height:40px;">AV</div>
+						<div class="comm-feed__content">
+							<div class="comm-feed__meta"><strong>Giulia M.</strong> <span>&middot; Salvato 2 giorni fa</span></div>
+							<div class="comm-feed__body"><span class="comm-badge comm-badge--cerco" style="font-size:0.5625rem;">CERCO</span><a href="demo-discussione.html?title=Libri%20simili%20a%20%22Il%20deserto%20dei%20Tartari%22&cat=consiglio&author=Giulia%20M.&emoji=%F0%9F%93%9A&from=consiglio">Libri simili a "Il deserto dei Tartari"</a></div>
+						</div>
+					</div>
+					<div class="comm-feed__item">
+						<div class="demo-placeholder-avatar" style="width:40px;height:40px;">AV</div>
+						<div class="comm-feed__content">
+							<div class="comm-feed__meta"><strong>Alessandro T.</strong> <span>&middot; Salvato 5 giorni fa</span></div>
+							<div class="comm-feed__body"><span class="comm-badge comm-badge--vendo" style="font-size:0.5625rem;">VENDO</span><a href="demo-discussione.html?title=Collezione%20Adelphi%20%E2%80%94%2015%20titoli&cat=scambio&author=Alessandro%20T.&emoji=%F0%9F%93%96&from=scambio">Collezione Adelphi — 15 titoli</a></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- ═══ SECTION: Notifiche ═══ -->
+		<div class="comm-dash__view" id="sec-notifiche">
+			<div class="comm-dash__section">
+				<h3><span class="material-symbols-outlined" style="font-size:20px;vertical-align:-4px;">notifications</span> Notifiche</h3>
+				<div class="comm-feed">
+					<div class="comm-feed__item" style="background:rgba(62,92,118,0.04);margin:0 -1.5rem;padding-left:1.5rem;padding-right:1.5rem;border-radius:var(--radius-sm);">
+						<span class="material-symbols-outlined" style="font-size:1.5rem;color:var(--c-accent);margin-top:0.25rem;">reply</span>
+						<div class="comm-feed__content">
+							<div class="comm-feed__meta"><strong>Elena R.</strong> ha risposto al tuo post <span>&middot; 20 min fa</span></div>
+							<div class="comm-feed__body"><a href="demo-discussione.html?title=Prova%20con%20Stoner%20di%20John%20Williams&cat=consiglio&author=Elena%20R.&emoji=%F0%9F%93%96&from=consiglio">\"Prova con Stoner di John Williams...\"</a></div>
+						</div>
+					</div>
+					<div class="comm-feed__item" style="background:rgba(62,92,118,0.04);margin:0 -1.5rem;padding-left:1.5rem;padding-right:1.5rem;border-radius:var(--radius-sm);">
+						<span class="material-symbols-outlined" style="font-size:1.5rem;color:var(--c-accent);margin-top:0.25rem;">auto_stories</span>
+						<div class="comm-feed__content">
+							<div class="comm-feed__meta"><strong>Lettura condivisa</strong> <span>&middot; 3 ore fa</span></div>
+							<div class="comm-feed__body"><a href="demo-discussione.html?title=Capitoli%205-8%20di%20%22Austerlitz%22&cat=discussione&author=Lettura%20condivisa&emoji=%F0%9F%93%96&from=discussione">Nuova discussione: Capitoli 5-8 di "Austerlitz"</a></div>
+						</div>
+					</div>
+					<div class="comm-feed__item" style="background:rgba(62,92,118,0.04);margin:0 -1.5rem;padding-left:1.5rem;padding-right:1.5rem;border-radius:var(--radius-sm);">
+						<span class="material-symbols-outlined" style="font-size:1.5rem;color:var(--c-accent);margin-top:0.25rem;">podcasts</span>
+						<div class="comm-feed__content">
+							<div class="comm-feed__meta"><strong>Nuovo episodio</strong> <span>&middot; oggi</span></div>
+							<div class="comm-feed__body"><a href="demo-discussione.html?title=Ep.%2048%20%E2%80%94%20Ferrante%20e%20il%20confine%20tra%20autofiction%20e%20romanzo&cat=podcast&author=Marco%20V.&emoji=%F0%9F%8E%99%EF%B8%8F&from=podcast">Ep. 48 — Ferrante e il confine tra autofiction e romanzo</a></div>
+						</div>
+					</div>
+					<div class="comm-feed__item">
+						<span class="material-symbols-outlined" style="font-size:1.5rem;color:var(--c-surface-dim);margin-top:0.25rem;">favorite</span>
+						<div class="comm-feed__content">
+							<div class="comm-feed__meta"><strong>Luca P.</strong> ha messo like al tuo commento <span>&middot; ieri</span></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- ═══ SECTION: Profilo ═══ -->
+		<div class="comm-dash__view" id="sec-profilo">
+			<div class="comm-dash__section">
+				<div style="display:flex;gap:1.5rem;align-items:flex-start;">
+					<div class="demo-placeholder-avatar" style="width:80px;height:80px;font-size:0.75rem;">AV</div>
+					<div style="flex:1;">
+						<h3 style="margin:0 0 0.25rem;">Cristian T.</h3>
+						<span style="font-size:0.8125rem;color:var(--c-on-surface-variant);display:block;margin-bottom:1rem;">Membro dal 2024 &middot; Milano</span>
+						<p style="font-size:0.9375rem;line-height:1.6;color:var(--c-on-surface-variant);margin:0 0 1.25rem;">Fondatore di Not My Cup of Read. Lettore compulsivo, ascoltatore seriale. Convinto che la letteratura sia l'ultimo atto di resistenza culturale.</p>
+						<div style="display:flex;gap:var(--sp-6);">
+							<div class="comm-stat"><strong style="color:var(--c-on-surface);">23</strong><span style="color:var(--c-on-surface-variant);">post</span></div>
+							<div class="comm-stat"><strong style="color:var(--c-on-surface);">156</strong><span style="color:var(--c-on-surface-variant);">commenti</span></div>
+							<div class="comm-stat"><strong style="color:var(--c-on-surface);">12</strong><span style="color:var(--c-on-surface-variant);">letture</span></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="comm-dash__section">
+				<h3>Libri preferiti</h3>
+				<div style="display:flex;gap:1rem;flex-wrap:wrap;">
+					<div class="demo-placeholder-img neutral" style="width:70px;aspect-ratio:2/3;border-radius:var(--radius-sm);">1</div>
+					<div class="demo-placeholder-img warm" style="width:70px;aspect-ratio:2/3;border-radius:var(--radius-sm);">2</div>
+					<div class="demo-placeholder-img" style="width:70px;aspect-ratio:2/3;border-radius:var(--radius-sm);">3</div>
+					<div class="demo-placeholder-img neutral" style="width:70px;aspect-ratio:2/3;border-radius:var(--radius-sm);">4</div>
+					<div class="demo-placeholder-img warm" style="width:70px;aspect-ratio:2/3;border-radius:var(--radius-sm);">5</div>
+				</div>
+			</div>
+			<div class="comm-dash__section">
+				<h3>I tuoi ultimi post</h3>
+				<div class="comm-feed">
+					<div class="comm-feed__item">
+						<div class="comm-feed__content">
+							<div class="comm-feed__meta"><span>&middot; 1 settimana fa &middot; 14 risposte</span></div>
+							<div class="comm-feed__body"><span class="comm-badge comm-badge--cerco" style="font-size:0.5625rem;">CERCO</span><a href="demo-discussione.html?title=Libri%20simili%20a%20%22Il%20deserto%20dei%20Tartari%22&cat=consiglio&author=Cristian%20T.&emoji=%F0%9F%93%9A&from=consiglio">Libri simili a "Il deserto dei Tartari"</a></div>
+						</div>
+					</div>
+					<div class="comm-feed__item">
+						<div class="comm-feed__content">
+							<div class="comm-feed__meta"><span>&middot; 2 settimane fa &middot; 8 risposte</span></div>
+							<div class="comm-feed__body"><span class="comm-badge comm-badge--consiglio" style="font-size:0.5625rem;">CONSIGLIO</span><a href="demo-discussione.html?title=I%205%20saggi%20che%20hanno%20cambiato%20il%20mio%20modo%20di%20leggere&cat=consiglio&author=Cristian%20T.&emoji=%F0%9F%93%9A&from=consiglio">I 5 saggi che hanno cambiato il mio modo di leggere</a></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</main>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     EMBEDDED VIEW (iframe overlay)
+     ═══════════════════════════════════════════ -->
+<div class="dash-embed" id="dashEmbed">
+	<div class="dash-embed__topbar">
+		<button class="dash-embed__back" id="embedBack">
+			<span class="material-symbols-outlined">arrow_back</span>
+			Torna alla Dashboard
+		</button>
+		<span class="dash-embed__title" id="embedTitle"></span>
+	</div>
+	<iframe class="dash-embed__iframe" id="embedFrame"></iframe>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SCRIPTS
+     ═══════════════════════════════════════════ -->
+
+<script>
+(function() {
+	'use strict';
+
+	/* ── Sidebar navigation ─────────────────── */
+	var navLinks = document.querySelectorAll('#dashNav a');
+	var views = document.querySelectorAll('.comm-dash__view');
+
+	function switchSection(sectionId) {
+		navLinks.forEach(function(l) { l.classList.remove('active'); });
+		var targetLink = document.querySelector('#dashNav [data-section="' + sectionId + '"]');
+		if (targetLink) targetLink.classList.add('active');
+
+		views.forEach(function(v) { v.classList.remove('active'); });
+		var target = document.getElementById(sectionId);
+		if (target) target.classList.add('active');
+
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+	}
+
+	navLinks.forEach(function(link) {
+		link.addEventListener('click', function(e) {
+			e.preventDefault();
+			switchSection(this.dataset.section);
+		});
+	});
+
+	/* ── Lavagna shortcuts (from dashboard) ──── */
+	document.querySelectorAll('[data-goto]').forEach(function(el) {
+		el.addEventListener('click', function(e) {
+			e.preventDefault();
+			switchSection(this.dataset.goto);
+		});
+	});
+
+	/* ── Bacheca filter pills ────────────────── */
+	var filterBtns = document.querySelectorAll('#bachecaFilters button');
+	var feedItems = document.querySelectorAll('#bachecaFeed .comm-feed__item');
+
+	filterBtns.forEach(function(btn) {
+		btn.addEventListener('click', function() {
+			filterBtns.forEach(function(b) { b.classList.remove('active'); });
+			this.classList.add('active');
+			var filter = this.dataset.bfilter;
+
+			feedItems.forEach(function(item) {
+				if (filter === 'all' || item.dataset.cat === filter) {
+					item.style.display = '';
+				} else {
+					item.style.display = 'none';
+				}
+			});
+		});
+	});
+
+	/* ── Embedded iframe overlay ─────────────── */
+	var embed = document.getElementById('dashEmbed');
+	var embedFrame = document.getElementById('embedFrame');
+	var embedTitle = document.getElementById('embedTitle');
+	var embedBack = document.getElementById('embedBack');
+
+	var embedTitles = {
+		consiglio: 'Consigli & Ricerche',
+		scambio: 'Scambio Libri',
+		evento: 'Eventi & Segnalazioni',
+		collab: 'Collaborazioni',
+		discussione: 'Discussioni',
+		podcast: 'Podcast'
+	};
+
+	function openEmbed(url, title) {
+		embedFrame.src = url;
+		embedTitle.textContent = title || '';
+		embed.classList.add('active');
+		document.body.style.overflow = 'hidden';
+	}
+
+	function closeEmbed() {
+		embed.classList.remove('active');
+		embedFrame.src = '';
+		document.body.style.overflow = '';
+	}
+
+	embedBack.addEventListener('click', closeEmbed);
+
+	document.addEventListener('keydown', function(e) {
+		if (e.key === 'Escape' && embed.classList.contains('active')) closeEmbed();
+	});
+
+	/* Intercept all lavagna and thread links */
+	document.addEventListener('click', function(e) {
+		var link = e.target.closest('a[href]');
+		if (!link) return;
+		var href = link.getAttribute('href');
+		if (!href) return;
+
+		// Intercept lavagna links
+		if (href.indexOf('demo-lavagna.html') !== -1) {
+			e.preventDefault();
+			var boardMatch = href.match(/board=([^&]+)/);
+			var boardType = boardMatch ? boardMatch[1] : '';
+			var title = embedTitles[boardType] || 'Lavagna';
+			openEmbed(href, title);
+			return;
+		}
+
+		// Intercept discussion/thread links
+		if (href.indexOf('demo-discussione.html') !== -1) {
+			e.preventDefault();
+			var titleMatch = href.match(/title=([^&]+)/);
+			var threadTitle = titleMatch ? decodeURIComponent(titleMatch[1]) : 'Discussione';
+			openEmbed(href, threadTitle);
+			return;
+		}
+	});
+
+	/* Mini-board click → open general lavagna */
+	var miniBoard = document.querySelector('.mini-board');
+	if (miniBoard) {
+		miniBoard.addEventListener('click', function() {
+			openEmbed('demo-lavagna.html', 'Ultimi Post');
+		});
+	}
+
+})();
+</script>
+
+</body>
+</html>

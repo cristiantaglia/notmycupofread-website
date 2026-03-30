@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dietro le quinte — Podcast — Not My Cup of Read</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Newsreader:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<style>
+/* ═══════════════════════════════════════════
+   DIETRO LE QUINTE PAGE
+   ═══════════════════════════════════════════ */
+
+.dlq-page { max-width: 80rem; margin: 0 auto; padding: 0 2rem; }
+
+/* ── Hero ── */
+.dlq-hero {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 0;
+	min-height: 420px;
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	margin-bottom: 3rem;
+}
+
+.dlq-hero__content {
+	padding: 3rem 3.5rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	background: var(--c-primary-container);
+}
+
+.dlq-hero__overline {
+	font-size: 0.75rem;
+	font-weight: 600;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: var(--c-accent);
+	margin-bottom: 0.75rem;
+}
+
+.dlq-hero__title {
+	font-family: var(--font-headline);
+	font-size: clamp(1.75rem, 4vw, 2.75rem);
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-surface);
+	margin: 0 0 1rem;
+	line-height: 1.15;
+}
+
+.dlq-hero__desc {
+	font-size: 1rem;
+	color: rgba(240,235,216,0.7);
+	line-height: 1.7;
+	margin: 0 0 1.5rem;
+	max-width: 28rem;
+}
+
+.dlq-hero__cta {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	padding: 0.6rem 1.5rem;
+	font-size: 0.8125rem;
+	font-weight: 600;
+	color: #fff;
+	background: var(--c-accent);
+	border-radius: var(--radius-full);
+	text-decoration: none;
+	align-self: flex-start;
+	transition: background 0.2s, transform 0.2s;
+}
+
+.dlq-hero__cta:hover { background: #c9684d; transform: translateY(-1px); }
+.dlq-hero__cta .material-symbols-outlined { font-size: 1.125rem; }
+
+.dlq-hero__visual {
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.dlq-hero__visual-placeholder {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.75rem;
+	color: rgba(255,255,255,0.15);
+}
+
+.dlq-hero__play-overlay {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0,0,0,0.25);
+	transition: background 0.2s;
+	cursor: pointer;
+}
+
+.dlq-hero__play-overlay:hover { background: rgba(0,0,0,0.4); }
+
+.dlq-hero__play-overlay .material-symbols-outlined {
+	font-size: 4.5rem;
+	color: rgba(255,255,255,0.85);
+}
+
+/* ── Section common ── */
+.dlq-section-header { margin-bottom: 2rem; }
+
+.dlq-section-overline {
+	font-size: 0.6875rem;
+	font-weight: 700;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: var(--c-accent);
+	margin-bottom: 0.35rem;
+}
+
+.dlq-section-title {
+	font-family: var(--font-headline);
+	font-size: 1.75rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	margin: 0;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.dlq-section-title .material-symbols-outlined { color: var(--c-accent); }
+
+.dlq-section-subtitle {
+	font-size: 0.9375rem;
+	color: var(--c-on-surface-variant);
+	margin: 0.35rem 0 0;
+	line-height: 1.5;
+}
+
+/* ── Video grid ── */
+.dlq-videos {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+	gap: 1.5rem;
+}
+
+.dlq-video {
+	display: block;
+	text-decoration: none;
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.dlq-video:hover {
+	border-color: var(--c-accent);
+	box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+	transform: translateY(-3px);
+}
+
+.dlq-video__thumb {
+	position: relative;
+	aspect-ratio: 16/9;
+	overflow: hidden;
+}
+
+.dlq-video__thumb-placeholder {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.6875rem;
+	color: rgba(255,255,255,0.15);
+}
+
+.dlq-video__play {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0,0,0,0.2);
+	opacity: 0;
+	transition: opacity 0.2s;
+}
+
+.dlq-video:hover .dlq-video__play { opacity: 1; }
+
+.dlq-video__play .material-symbols-outlined {
+	font-size: 3rem;
+	color: rgba(255,255,255,0.9);
+}
+
+.dlq-video__duration {
+	position: absolute;
+	bottom: 0.5rem;
+	right: 0.5rem;
+	font-size: 0.6875rem;
+	font-weight: 600;
+	color: #fff;
+	background: rgba(0,0,0,0.7);
+	padding: 0.15rem 0.5rem;
+	border-radius: var(--radius-sm);
+}
+
+.dlq-video__body {
+	padding: 1rem 1.25rem 1.25rem;
+}
+
+.dlq-video__tag {
+	display: inline-block;
+	font-size: 0.5625rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	padding: 0.15rem 0.5rem;
+	border-radius: var(--radius-full);
+	margin-bottom: 0.4rem;
+}
+
+.dlq-tag--making-of { background: rgba(224,122,95,0.15); color: var(--c-accent); }
+.dlq-tag--bloopers { background: rgba(148,103,189,0.15); color: #9467bd; }
+.dlq-tag--tour { background: rgba(129,178,154,0.15); color: #5a9a7a; }
+.dlq-tag--q-and-a { background: rgba(62,92,118,0.15); color: #5a8aab; }
+.dlq-tag--unboxing { background: rgba(196,191,168,0.2); color: #8a8470; }
+
+.dlq-video__title {
+	font-family: var(--font-headline);
+	font-size: 1rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	margin: 0 0 0.25rem;
+	line-height: 1.3;
+}
+
+.dlq-video__desc {
+	font-size: 0.8125rem;
+	color: var(--c-on-surface-variant);
+	margin: 0 0 0.5rem;
+	line-height: 1.5;
+}
+
+.dlq-video__meta {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	font-size: 0.6875rem;
+	color: var(--c-on-surface-variant);
+	opacity: 0.65;
+}
+
+/* ── Photo journal (gallery) ── */
+.dlq-journal {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	grid-template-rows: 200px 200px;
+	gap: 0.75rem;
+}
+
+.dlq-journal__item {
+	border-radius: var(--radius-md);
+	overflow: hidden;
+	position: relative;
+	cursor: pointer;
+	transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.dlq-journal__item:hover {
+	transform: scale(1.02);
+	box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.dlq-journal__item--wide { grid-column: span 2; }
+.dlq-journal__item--tall { grid-row: span 2; }
+
+.dlq-journal__item-placeholder {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.6875rem;
+	color: rgba(255,255,255,0.15);
+}
+
+.dlq-journal__item-caption {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	padding: 2rem 0.75rem 0.6rem;
+	background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+	font-size: 0.6875rem;
+	color: rgba(255,255,255,0.85);
+	line-height: 1.35;
+	opacity: 0;
+	transition: opacity 0.2s;
+}
+
+.dlq-journal__item:hover .dlq-journal__item-caption { opacity: 1; }
+
+/* ── Rubriche (recurring series) ── */
+.dlq-series {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+	gap: 1.25rem;
+}
+
+.dlq-serie {
+	display: flex;
+	align-items: flex-start;
+	gap: 1.25rem;
+	padding: 1.5rem;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	border-radius: var(--radius-lg);
+	text-decoration: none;
+	transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.dlq-serie:hover {
+	border-color: var(--c-accent);
+	box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+.dlq-serie__icon {
+	width: 52px;
+	height: 52px;
+	border-radius: var(--radius-md);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+}
+
+.dlq-serie__icon .material-symbols-outlined {
+	font-size: 1.5rem;
+	color: rgba(255,255,255,0.7);
+}
+
+.dlq-serie__name {
+	font-family: var(--font-headline);
+	font-size: 1rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	margin: 0 0 0.2rem;
+}
+
+.dlq-serie__desc {
+	font-size: 0.8125rem;
+	color: var(--c-on-surface-variant);
+	line-height: 1.5;
+	margin: 0 0 0.35rem;
+}
+
+.dlq-serie__count {
+	font-size: 0.6875rem;
+	font-weight: 600;
+	color: var(--c-accent);
+}
+
+/* ── YouTube CTA ── */
+.dlq-yt-cta {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 2rem;
+	padding: 2rem 2.5rem;
+	background: linear-gradient(135deg, #282828, #1a1a1a);
+	border-radius: var(--radius-lg);
+	border: 1px solid rgba(255,255,255,0.06);
+}
+
+.dlq-yt-cta__text h3 {
+	font-family: var(--font-headline);
+	font-size: 1.125rem;
+	font-weight: 700;
+	color: #fff;
+	margin: 0 0 0.25rem;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.dlq-yt-cta__text h3 svg { width: 24px; height: 24px; fill: #FF0000; }
+
+.dlq-yt-cta__text p {
+	font-size: 0.875rem;
+	color: rgba(255,255,255,0.6);
+	margin: 0;
+}
+
+.dlq-yt-cta__btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	padding: 0.65rem 1.5rem;
+	font-size: 0.8125rem;
+	font-weight: 600;
+	color: #fff;
+	background: #FF0000;
+	border-radius: var(--radius-full);
+	text-decoration: none;
+	white-space: nowrap;
+	transition: background 0.2s, transform 0.2s;
+}
+
+.dlq-yt-cta__btn:hover { background: #cc0000; transform: translateY(-1px); }
+
+/* ── Attrezzatura (gear) ── */
+.dlq-gear {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+	gap: 1.25rem;
+}
+
+.dlq-gear-item {
+	padding: 1.5rem;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	border-radius: var(--radius-lg);
+	text-align: center;
+	transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.dlq-gear-item:hover {
+	border-color: var(--c-accent);
+	box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+.dlq-gear-item__icon {
+	width: 56px;
+	height: 56px;
+	border-radius: var(--radius-md);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0 auto 1rem;
+}
+
+.dlq-gear-item__icon .material-symbols-outlined {
+	font-size: 1.5rem;
+	color: rgba(255,255,255,0.7);
+}
+
+.dlq-gear-item__name {
+	font-family: var(--font-headline);
+	font-size: 0.9375rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	margin: 0 0 0.15rem;
+}
+
+.dlq-gear-item__model {
+	font-size: 0.75rem;
+	color: var(--c-accent);
+	font-weight: 600;
+	margin: 0 0 0.5rem;
+}
+
+.dlq-gear-item__desc {
+	font-size: 0.75rem;
+	color: var(--c-on-surface-variant);
+	line-height: 1.5;
+	margin: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+	.dlq-hero { grid-template-columns: 1fr; min-height: auto; }
+	.dlq-hero__content { padding: 2.5rem 2rem; }
+	.dlq-hero__visual { min-height: 240px; }
+	.dlq-journal { grid-template-columns: repeat(2, 1fr); grid-template-rows: 160px 160px 160px; }
+	.dlq-journal__item--tall { grid-row: span 1; }
+	.dlq-yt-cta { flex-direction: column; text-align: center; }
+}
+
+@media (max-width: 600px) {
+	.dlq-videos { grid-template-columns: 1fr; }
+	.dlq-series { grid-template-columns: 1fr; }
+	.dlq-journal { grid-template-columns: 1fr; grid-template-rows: auto; }
+	.dlq-journal__item--wide { grid-column: span 1; }
+	.dlq-journal__item { height: 180px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     HEADER / NAVIGATION
+     ═══════════════════════════════════════════ -->
+
+<header class="site-header" id="siteHeader">
+	<div class="header-outer">
+		<div class="header-inner">
+			<div class="site-branding">
+				<div class="site-branding__icon">
+					<img src="assets/img/logo-nmcor.png" alt="NMCOR">
+				</div>
+				<h1 class="site-title"><a href="demo.html">Not My Cup of Read</a></h1>
+			</div>
+
+			<nav class="primary-nav" id="primaryNav">
+				<ul>
+					<li><a href="#">Articoli</a><ul class="sub-menu"><li><a href="demo-recensioni.html">Recensioni</a></li><li><a href="demo-approfondimenti.html">Approfondimenti</a></li><li><a href="demo-classifiche.html">Classifiche</a></li></ul></li>
+					<li><a href="#">Podcast</a><ul class="sub-menu"><li><a href="demo-podcast.html">Episodi</a></li><li><a href="demo-format.html">Format</a></li><li><a href="demo-dietro-le-quinte.html">Dietro le quinte</a></li></ul></li>
+					<li><a href="#">Biblioteca</a><ul class="sub-menu"><li><a href="demo-libri.html">Libri</a></li><li><a href="demo-autori.html">Autori</a></li></ul></li>
+					<li><a href="#">Luoghi</a><ul class="sub-menu"><li><a href="demo-librerie.html">La mappa del Lettore</a></li><li><a href="demo-luoghi-milano.html">Milano</a></li><li><a href="demo-itinerari.html">Itinerari letterari</a></li><li><a href="demo-luoghi-librerie.html">Librerie</a></li><li><a href="demo-luoghi-biblioteche.html">Biblioteche</a></li><li><a href="demo-luoghi-caffe.html">Caffè letterari</a></li><li><a href="demo-luoghi-spazi.html">Spazi culturali</a></li></ul></li>
+					<li><a href="#">Eventi</a><ul class="sub-menu"><li><a href="demo-eventi.html">Timeline</a></li><li><a href="demo-calendario.html">Calendario</a></li><li><a href="demo-fiere-festival.html">Fiere e Festival</a></li><li><a href="demo-premi-letterari.html">Premi letterari</a></li></ul></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Chi siamo</a><ul class="sub-menu"><li><a href="demo-chi-siamo.html">Lo studio &amp; gli host</a></li><li><a href="demo-ospiti-redazione.html">Gli ospiti &amp; la redazione</a></li><li><a href="demo-contatti.html">Contatti &amp; Collaborazioni</a></li></ul></li>
+				</ul>
+			</nav>
+
+			<div class="header-search">
+				<input type="text" placeholder="Cerca...">
+			</div>
+		</div>
+
+		<div class="header-extras">
+			<div class="header-social">
+				<a href="#" class="header-social__link" aria-label="YouTube">
+					<svg viewBox="0 0 24 24"><path d="M23.5 6.19a3 3 0 0 0-2.11-2.13C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.39.56A3 3 0 0 0 .5 6.19 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.81 3 3 0 0 0 2.11 2.13c1.89.56 9.39.56 9.39.56s7.5 0 9.39-.56a3 3 0 0 0 2.11-2.13A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.81ZM9.75 15.02V8.98L15.5 12l-5.75 3.02Z"/></svg>
+				</a>
+				<a href="#" class="header-social__link" aria-label="Spotify">
+					<svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.31a.75.75 0 0 1-1.03.25c-2.82-1.72-6.37-2.11-10.55-1.16a.75.75 0 1 1-.34-1.46c4.57-1.05 8.49-.6 11.67 1.34a.75.75 0 0 1 .25 1.03Zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.23-1.98-8.15-2.56-11.97-1.4a.94.94 0 1 1-.54-1.8c4.36-1.32 9.78-.68 13.49 1.6a.94.94 0 0 1 .31 1.29Zm.13-3.4C15.5 8.4 9 8.2 5.24 9.33a1.13 1.13 0 1 1-.65-2.16c4.33-1.3 11.52-1.05 16.07 1.68a1.13 1.13 0 0 1-1.56 1.79Z"/></svg>
+				</a>
+			</div>
+			<div class="header-auth">
+				<a href="demo-profilo.html" class="header-auth__btn"><span class="material-symbols-outlined">person</span> Cristian T.</a>
+			</div>
+			<button class="menu-toggle" id="menuToggle" aria-label="Menu">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</button>
+		</div>
+	</div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     HERO — Video featured
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="dlq-page">
+		<div class="dlq-hero">
+			<div class="dlq-hero__content">
+				<p class="dlq-hero__overline">Voci tra le Righe</p>
+				<h1 class="dlq-hero__title">Dietro le quinte</h1>
+				<p class="dlq-hero__desc">Il making-of del podcast. Come nascono gli episodi, cosa succede prima e dopo il microfono, i momenti che non finiscono nell'audio ma che raccontano chi siamo.</p>
+				<a href="#" class="dlq-hero__cta"><span class="material-symbols-outlined">play_circle</span> Guarda l'ultimo video</a>
+			</div>
+			<div class="dlq-hero__visual" style="background:linear-gradient(135deg,#1d2d44,#3e5c76,#748cab);">
+				<div class="dlq-hero__visual-placeholder">1200 × 640</div>
+				<div class="dlq-hero__play-overlay">
+					<span class="material-symbols-outlined">play_circle</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     RUBRICHE — Serie ricorrenti
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface">
+	<div class="dlq-page">
+		<div class="dlq-section-header">
+			<p class="dlq-section-overline">Le nostre rubriche</p>
+			<h2 class="dlq-section-title"><span class="material-symbols-outlined">view_list</span> Serie</h2>
+			<p class="dlq-section-subtitle">Contenuti ricorrenti che raccontano il backstage del podcast</p>
+		</div>
+
+		<div class="dlq-series">
+
+			<a href="#" class="dlq-serie">
+				<div class="dlq-serie__icon" style="background:linear-gradient(135deg,#e07a5f,#c9684d);">
+					<span class="material-symbols-outlined">movie</span>
+				</div>
+				<div>
+					<h3 class="dlq-serie__name">Making Of</h3>
+					<p class="dlq-serie__desc">Come nasce un episodio: dalla scelta del tema alla registrazione, dal montaggio alla pubblicazione.</p>
+					<span class="dlq-serie__count">8 video</span>
+				</div>
+			</a>
+
+			<a href="#" class="dlq-serie">
+				<div class="dlq-serie__icon" style="background:linear-gradient(135deg,#9467bd,#5a3478);">
+					<span class="material-symbols-outlined">sentiment_very_satisfied</span>
+				</div>
+				<div>
+					<h3 class="dlq-serie__name">Bloopers &amp; Fuori Onda</h3>
+					<p class="dlq-serie__desc">Le risate, gli errori e i momenti imbarazzanti che non entrano nell'episodio finale.</p>
+					<span class="dlq-serie__count">12 video</span>
+				</div>
+			</a>
+
+			<a href="#" class="dlq-serie">
+				<div class="dlq-serie__icon" style="background:linear-gradient(135deg,#81b29a,#3d6b55);">
+					<span class="material-symbols-outlined">store</span>
+				</div>
+				<div>
+					<h3 class="dlq-serie__name">Tour delle Librerie</h3>
+					<p class="dlq-serie__desc">Vi portiamo nelle librerie indipendenti che amiamo: gli scaffali, le persone, le storie dietro il bancone.</p>
+					<span class="dlq-serie__count">6 video</span>
+				</div>
+			</a>
+
+			<a href="#" class="dlq-serie">
+				<div class="dlq-serie__icon" style="background:linear-gradient(135deg,#3e5c76,#1d2d44);">
+					<span class="material-symbols-outlined">forum</span>
+				</div>
+				<div>
+					<h3 class="dlq-serie__name">Q&amp;A con la Redazione</h3>
+					<p class="dlq-serie__desc">Rispondiamo alle domande della community: consigli di lettura, curiosit&agrave; personali, polemiche letterarie.</p>
+					<span class="dlq-serie__count">5 video</span>
+				</div>
+			</a>
+
+			<a href="#" class="dlq-serie">
+				<div class="dlq-serie__icon" style="background:linear-gradient(135deg,#c4bfa8,#8a8470);">
+					<span class="material-symbols-outlined">package_2</span>
+				</div>
+				<div>
+					<h3 class="dlq-serie__name">Unboxing Editoriale</h3>
+					<p class="dlq-serie__desc">Apriamo pacchi dalle case editrici, novit&agrave; in arrivo, edizioni speciali. Le prime impressioni a caldo.</p>
+					<span class="dlq-serie__count">9 video</span>
+				</div>
+			</a>
+
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     ULTIMI VIDEO
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="dlq-page">
+		<div class="dlq-section-header">
+			<p class="dlq-section-overline">Video</p>
+			<h2 class="dlq-section-title"><span class="material-symbols-outlined">videocam</span> Ultimi video</h2>
+		</div>
+
+		<div class="dlq-videos">
+
+			<a href="#" class="dlq-video">
+				<div class="dlq-video__thumb">
+					<div class="dlq-video__thumb-placeholder" style="background:linear-gradient(135deg,#e07a5f,#3e5c76);">1280 × 720</div>
+					<div class="dlq-video__play"><span class="material-symbols-outlined">play_circle</span></div>
+					<span class="dlq-video__duration">12:34</span>
+				</div>
+				<div class="dlq-video__body">
+					<span class="dlq-video__tag dlq-tag--making-of">Making of</span>
+					<h3 class="dlq-video__title">Come nasce l'episodio su M&aacute;rquez</h3>
+					<p class="dlq-video__desc">Dalla riunione editoriale alla scaletta finale: 3 settimane di lavoro condensate in 12 minuti.</p>
+					<div class="dlq-video__meta">
+						<span>Cristian T.</span>
+						<span>18 Mar 2026</span>
+						<span>2.4k visualizzazioni</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="dlq-video">
+				<div class="dlq-video__thumb">
+					<div class="dlq-video__thumb-placeholder" style="background:linear-gradient(135deg,#9467bd,#1d2d44);">1280 × 720</div>
+					<div class="dlq-video__play"><span class="material-symbols-outlined">play_circle</span></div>
+					<span class="dlq-video__duration">6:48</span>
+				</div>
+				<div class="dlq-video__body">
+					<span class="dlq-video__tag dlq-tag--bloopers">Bloopers</span>
+					<h3 class="dlq-video__title">I migliori fuori onda della Stagione 2</h3>
+					<p class="dlq-video__desc">Nomi storpiati, gatti che entrano in studio, confessioni imbarazzanti sui libri mai finiti.</p>
+					<div class="dlq-video__meta">
+						<span>Redazione NMCOR</span>
+						<span>10 Mar 2026</span>
+						<span>5.1k visualizzazioni</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="dlq-video">
+				<div class="dlq-video__thumb">
+					<div class="dlq-video__thumb-placeholder" style="background:linear-gradient(135deg,#81b29a,#0d1321);">1280 × 720</div>
+					<div class="dlq-video__play"><span class="material-symbols-outlined">play_circle</span></div>
+					<span class="dlq-video__duration">18:22</span>
+				</div>
+				<div class="dlq-video__body">
+					<span class="dlq-video__tag dlq-tag--tour">Tour libreria</span>
+					<h3 class="dlq-video__title">Libreria del Mondo Offeso: un rifugio a Milano</h3>
+					<p class="dlq-video__desc">Vi portiamo nella libreria specializzata in letteratura di resistenza che ha ispirato il nostro episodio live.</p>
+					<div class="dlq-video__meta">
+						<span>Emma R.</span>
+						<span>2 Mar 2026</span>
+						<span>3.7k visualizzazioni</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="dlq-video">
+				<div class="dlq-video__thumb">
+					<div class="dlq-video__thumb-placeholder" style="background:linear-gradient(135deg,#3e5c76,#748cab);">1280 × 720</div>
+					<div class="dlq-video__play"><span class="material-symbols-outlined">play_circle</span></div>
+					<span class="dlq-video__duration">22:15</span>
+				</div>
+				<div class="dlq-video__body">
+					<span class="dlq-video__tag dlq-tag--q-and-a">Q&amp;A</span>
+					<h3 class="dlq-video__title">Rispondiamo alle vostre domande (Febbraio)</h3>
+					<p class="dlq-video__desc">Libri consigliati per chi non legge, il nostro rapporto con gli ebook, i libri che non abbiamo il coraggio di recensire.</p>
+					<div class="dlq-video__meta">
+						<span>Tutta la redazione</span>
+						<span>22 Feb 2026</span>
+						<span>1.9k visualizzazioni</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="dlq-video">
+				<div class="dlq-video__thumb">
+					<div class="dlq-video__thumb-placeholder" style="background:linear-gradient(135deg,#c4bfa8,#1d2d44);">1280 × 720</div>
+					<div class="dlq-video__play"><span class="material-symbols-outlined">play_circle</span></div>
+					<span class="dlq-video__duration">8:56</span>
+				</div>
+				<div class="dlq-video__body">
+					<span class="dlq-video__tag dlq-tag--unboxing">Unboxing</span>
+					<h3 class="dlq-video__title">Novit&agrave; Adelphi, Einaudi e minimum fax: Primavera 2026</h3>
+					<p class="dlq-video__desc">Apriamo i pacchi delle case editrici e vi diciamo quali titoli ci hanno incuriosito di pi&ugrave;.</p>
+					<div class="dlq-video__meta">
+						<span>Claudia F.</span>
+						<span>15 Feb 2026</span>
+						<span>4.2k visualizzazioni</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="dlq-video">
+				<div class="dlq-video__thumb">
+					<div class="dlq-video__thumb-placeholder" style="background:linear-gradient(135deg,#0d1321,#e07a5f);">1280 × 720</div>
+					<div class="dlq-video__play"><span class="material-symbols-outlined">play_circle</span></div>
+					<span class="dlq-video__duration">15:10</span>
+				</div>
+				<div class="dlq-video__body">
+					<span class="dlq-video__tag dlq-tag--making-of">Making of</span>
+					<h3 class="dlq-video__title">24 ore al Salone del Libro: il vlog</h3>
+					<p class="dlq-video__desc">Dalle 7 del mattino all'ultimo stand, tutto quello che succede quando NMCOR va al Salone.</p>
+					<div class="dlq-video__meta">
+						<span>Mattia L.</span>
+						<span>8 Feb 2026</span>
+						<span>6.8k visualizzazioni</span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     PHOTO JOURNAL — Gallery
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface">
+	<div class="dlq-page">
+		<div class="dlq-section-header">
+			<p class="dlq-section-overline">Istantanee</p>
+			<h2 class="dlq-section-title"><span class="material-symbols-outlined">photo_library</span> Diario fotografico</h2>
+			<p class="dlq-section-subtitle">Momenti catturati tra una registrazione e l'altra</p>
+		</div>
+
+		<div class="dlq-journal">
+			<div class="dlq-journal__item dlq-journal__item--wide">
+				<div class="dlq-journal__item-placeholder" style="background:linear-gradient(135deg,#1d2d44,#3e5c76);">Lo studio di registrazione</div>
+				<div class="dlq-journal__item-caption">Lo studio — il tavolo, i microfoni, le pile di libri che non stanno mai in ordine</div>
+			</div>
+			<div class="dlq-journal__item">
+				<div class="dlq-journal__item-placeholder" style="background:linear-gradient(135deg,#e07a5f,#c9684d);">Cristian e Emma</div>
+				<div class="dlq-journal__item-caption">Pre-registrazione: l'ultimo caffè prima del via</div>
+			</div>
+			<div class="dlq-journal__item dlq-journal__item--tall">
+				<div class="dlq-journal__item-placeholder" style="background:linear-gradient(135deg,#748cab,#0d1321);">La libreria dello studio</div>
+				<div class="dlq-journal__item-caption">Lo scaffale della vergogna: i libri che dobbiamo ancora leggere</div>
+			</div>
+			<div class="dlq-journal__item">
+				<div class="dlq-journal__item-placeholder" style="background:linear-gradient(135deg,#81b29a,#3d6b55);">Post-it</div>
+				<div class="dlq-journal__item-caption">La scaletta dell'EP #42 — piena di frecce e ripensamenti</div>
+			</div>
+			<div class="dlq-journal__item">
+				<div class="dlq-journal__item-placeholder" style="background:linear-gradient(135deg,#9467bd,#1d2d44);">Live recording</div>
+				<div class="dlq-journal__item-caption">Milano, Libreria del Mondo Offeso: il setup per il live</div>
+			</div>
+			<div class="dlq-journal__item">
+				<div class="dlq-journal__item-placeholder" style="background:linear-gradient(135deg,#c4bfa8,#6b6650);">Unboxing</div>
+				<div class="dlq-journal__item-caption">I pacchi di Adelphi: sempre una festa</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     ATTREZZATURA
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="dlq-page">
+		<div class="dlq-section-header">
+			<p class="dlq-section-overline">Il nostro setup</p>
+			<h2 class="dlq-section-title"><span class="material-symbols-outlined">settings</span> Attrezzatura</h2>
+			<p class="dlq-section-subtitle">Cosa usiamo per registrare, montare e pubblicare Voci tra le Righe</p>
+		</div>
+
+		<div class="dlq-gear">
+
+			<div class="dlq-gear-item">
+				<div class="dlq-gear-item__icon" style="background:linear-gradient(135deg,#e07a5f,#c9684d);">
+					<span class="material-symbols-outlined">mic</span>
+				</div>
+				<h4 class="dlq-gear-item__name">Microfono</h4>
+				<p class="dlq-gear-item__model">Shure SM7B</p>
+				<p class="dlq-gear-item__desc">Il classico da broadcast. Voce calda, zero rumore di fondo. Ne abbiamo quattro, uno per host.</p>
+			</div>
+
+			<div class="dlq-gear-item">
+				<div class="dlq-gear-item__icon" style="background:linear-gradient(135deg,#3e5c76,#1d2d44);">
+					<span class="material-symbols-outlined">tune</span>
+				</div>
+				<h4 class="dlq-gear-item__name">Interfaccia Audio</h4>
+				<p class="dlq-gear-item__model">RØDECaster Pro II</p>
+				<p class="dlq-gear-item__desc">Mixer all-in-one per podcast: 4 ingressi XLR, pad sonori, registrazione multitraccia integrata.</p>
+			</div>
+
+			<div class="dlq-gear-item">
+				<div class="dlq-gear-item__icon" style="background:linear-gradient(135deg,#81b29a,#3d6b55);">
+					<span class="material-symbols-outlined">headphones</span>
+				</div>
+				<h4 class="dlq-gear-item__name">Cuffie</h4>
+				<p class="dlq-gear-item__model">beyerdynamic DT 770 Pro</p>
+				<p class="dlq-gear-item__desc">Chiuse, comode per sessioni lunghe. Le usiamo per il monitoraggio in cuffia durante le registrazioni.</p>
+			</div>
+
+			<div class="dlq-gear-item">
+				<div class="dlq-gear-item__icon" style="background:linear-gradient(135deg,#9467bd,#5a3478);">
+					<span class="material-symbols-outlined">cut</span>
+				</div>
+				<h4 class="dlq-gear-item__name">Montaggio Audio</h4>
+				<p class="dlq-gear-item__model">Adobe Audition + Descript</p>
+				<p class="dlq-gear-item__desc">Audition per il mix finale, Descript per editing rapido basato su trascrizione. Velocizza tutto.</p>
+			</div>
+
+			<div class="dlq-gear-item">
+				<div class="dlq-gear-item__icon" style="background:linear-gradient(135deg,#748cab,#3e5c76);">
+					<span class="material-symbols-outlined">videocam</span>
+				</div>
+				<h4 class="dlq-gear-item__name">Camera Video</h4>
+				<p class="dlq-gear-item__model">Sony A7 IV</p>
+				<p class="dlq-gear-item__desc">Per i video dietro le quinte e le riprese in studio. Due angolazioni fisse + una camera a mano.</p>
+			</div>
+
+			<div class="dlq-gear-item">
+				<div class="dlq-gear-item__icon" style="background:linear-gradient(135deg,#c4bfa8,#8a8470);">
+					<span class="material-symbols-outlined">podcasts</span>
+				</div>
+				<h4 class="dlq-gear-item__name">Hosting &amp; Distribuzione</h4>
+				<p class="dlq-gear-item__model">Spotify for Podcasters</p>
+				<p class="dlq-gear-item__desc">Distribuzione automatica su tutte le piattaforme: Spotify, Apple Podcasts, Google, Amazon Music.</p>
+			</div>
+
+			<div class="dlq-gear-item">
+				<div class="dlq-gear-item__icon" style="background:linear-gradient(135deg,#1d2d44,#0d1321);">
+					<span class="material-symbols-outlined">desktop_windows</span>
+				</div>
+				<h4 class="dlq-gear-item__name">Registrazione Remota</h4>
+				<p class="dlq-gear-item__model">Riverside.fm</p>
+				<p class="dlq-gear-item__desc">Per le interviste a distanza. Registra in locale su ogni partecipante, qualit&agrave; studio anche da casa.</p>
+			</div>
+
+			<div class="dlq-gear-item">
+				<div class="dlq-gear-item__icon" style="background:linear-gradient(135deg,#e07a5f,#9467bd);">
+					<span class="material-symbols-outlined">music_note</span>
+				</div>
+				<h4 class="dlq-gear-item__name">Musiche &amp; Jingle</h4>
+				<p class="dlq-gear-item__model">Composizioni originali</p>
+				<p class="dlq-gear-item__desc">Sigla e transizioni composte da Mattia. Strumentazione: chitarra acustica, piano e synth analogico.</p>
+			</div>
+
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     YOUTUBE CTA
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="dlq-page">
+		<div class="dlq-yt-cta">
+			<div class="dlq-yt-cta__text">
+				<h3>
+					<svg viewBox="0 0 24 24"><path d="M23.5 6.19a3 3 0 0 0-2.11-2.13C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.39.56A3 3 0 0 0 .5 6.19 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.81 3 3 0 0 0 2.11 2.13c1.89.56 9.39.56 9.39.56s7.5 0 9.39-.56a3 3 0 0 0 2.11-2.13A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.81ZM9.75 15.02V8.98L15.5 12l-5.75 3.02Z"/></svg>
+					Seguici su YouTube
+				</h3>
+				<p>Tutti i video dietro le quinte, i bloopers e i tour delle librerie sul nostro canale.</p>
+			</div>
+			<a href="#" class="dlq-yt-cta__btn"><span class="material-symbols-outlined" style="font-size:1rem;">open_in_new</span> Vai al canale</a>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ -->
+
+<footer class="site-footer">
+	<div style="max-width:80rem;margin:0 auto;padding:0 2rem;">
+		<div class="footer-main">
+			<div class="footer-brand">
+				<p class="site-title">Not My Cup of Read</p>
+				<p>Esploriamo la letteratura contemporanea attraverso podcast, recensioni e approfondimenti.</p>
+				<div class="footer-social">
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">podcasts</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">play_circle</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">photo_camera</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">send</span></a>
+				</div>
+			</div>
+			<div class="footer-col">
+				<h4>ESPLORA</h4>
+				<ul>
+					<li><a href="demo-recensioni.html">Recensioni</a></li>
+					<li><a href="demo-approfondimenti.html">Approfondimenti</a></li>
+					<li><a href="demo-podcast.html">Podcast</a></li>
+					<li><a href="demo-libri.html">Libri</a></li>
+					<li><a href="demo-autori.html">Autori</a></li>
+					<li><a href="demo-librerie.html">Librerie</a></li>
+					<li><a href="demo-eventi.html">Timeline</a></li>
+					<li><a href="demo-calendario.html">Calendario</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>PROGETTO</h4>
+				<ul>
+					<li><a href="demo-chi-siamo.html">Chi siamo</a></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Contatti</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>NEWSLETTER</h4>
+				<p style="font-size:0.875rem;margin-bottom:1rem;opacity:0.75;">Ricevi le nostre selezioni editoriali.</p>
+				<div class="newsletter-form">
+					<input type="email" placeholder="La tua email" style="background:rgba(255,255,255,0.05);color:#fff;">
+					<button class="btn btn--teal btn--small">Iscriviti</button>
+				</div>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<span>&copy; 2026 Not My Cup of Read.</span>
+			<div class="footer-bottom-links">
+				<a href="#">Privacy Policy</a>
+				<a href="#">Cookie Policy</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+</body>
+</html>

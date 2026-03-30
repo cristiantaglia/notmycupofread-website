@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I migliori del 2025 — Classifiche — Not My Cup of Read</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Newsreader:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<style>
+/* ═══════════════════════════════════════════
+   CLASSIFICA DETTAGLIO — Template
+   ═══════════════════════════════════════════ */
+
+.cd-page { max-width: 64rem; margin: 0 auto; padding: 0 2rem; }
+
+/* ── Hero ── */
+.cd-hero { text-align: center; padding: 3rem 0 1.5rem; }
+
+.cd-hero__breadcrumb {
+	font-size: 0.75rem; color: var(--c-on-surface-variant);
+	margin-bottom: 1rem;
+}
+.cd-hero__breadcrumb a { color: var(--c-accent); text-decoration: none; }
+.cd-hero__breadcrumb a:hover { text-decoration: underline; }
+
+.cd-hero__label {
+	display: inline-block; font-size: 0.6875rem; font-weight: 700;
+	letter-spacing: 0.15em; text-transform: uppercase;
+	padding: 0.3rem 0.85rem; background: var(--c-accent); color: #fff;
+	border-radius: 2px; margin-bottom: 1rem;
+}
+
+.cd-hero__title {
+	font-family: var(--font-headline); font-size: clamp(2rem, 5vw, 3rem);
+	font-weight: 700; font-style: italic; color: var(--c-surface);
+	margin: 0 0 0.5rem;
+}
+
+.cd-hero__subtitle {
+	font-size: 1rem; color: var(--c-on-surface-variant);
+	max-width: 36rem; margin: 0 auto 1rem; line-height: 1.7;
+}
+
+.cd-hero__meta {
+	display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;
+	font-size: 0.8125rem; color: var(--c-on-surface-variant);
+}
+.cd-hero__meta-item { display: flex; align-items: center; gap: 0.3rem; }
+.cd-hero__meta-item .material-symbols-outlined { font-size: 1rem; color: var(--c-accent); }
+
+/* ── Score badges (same system) ── */
+.cd-score {
+	display: inline-flex; align-items: center; justify-content: center;
+	border-radius: 8px; font-weight: 900; line-height: 1;
+	position: relative; flex-shrink: 0; font-family: var(--font-body);
+}
+.cd-score--sm { width: 40px; height: 40px; font-size: 0.875rem; border-radius: 6px; }
+.cd-score--md { width: 52px; height: 52px; font-size: 1.125rem; border-radius: 8px; }
+.cd-score--lg { width: 64px; height: 64px; font-size: 1.375rem; border-radius: 10px; }
+
+.cd-score--standard { background: var(--c-primary-container); color: rgba(255,255,255,0.85); }
+.cd-score--silver { background: linear-gradient(135deg, #e8e8e8, #b0b0b0, #d4d4d4); color: #2a2a2a; box-shadow: 0 2px 8px rgba(176,176,176,0.4); }
+.cd-score--gold { background: linear-gradient(135deg, #f7dc6f, #d4a017, #f0c040); color: #4a3500; box-shadow: 0 2px 8px rgba(212,160,23,0.4); }
+.cd-score--lode { background: linear-gradient(135deg, #f7dc6f, #d4a017, #f0c040); color: #4a3500; box-shadow: 0 2px 12px rgba(212,160,23,0.5); }
+.cd-score--lode::after { content: '\2605'; position: absolute; top: -6px; right: -6px; font-size: 0.875rem; color: #d4a017; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3)); }
+.cd-score--lg.cd-score--lode::after { font-size: 1.125rem; top: -8px; right: -8px; }
+
+.cd-community { display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.75rem; color: var(--c-on-surface-variant); }
+.cd-community .material-symbols-outlined { font-size: 0.9375rem; color: var(--c-accent); }
+
+/* ── Podium ── */
+.cd-podium { padding: 2rem 0 3rem; }
+
+.cd-podium__stage {
+	display: flex; align-items: flex-end; justify-content: center;
+	gap: 2rem; margin-bottom: 1rem;
+}
+
+.cd-podium__item {
+	display: flex; flex-direction: column; align-items: center;
+	text-decoration: none; text-align: center; transition: transform 0.2s;
+	max-width: 200px;
+}
+.cd-podium__item:hover { transform: translateY(-4px); }
+
+.cd-podium__item--1 { order: 2; }
+.cd-podium__item--2 { order: 1; }
+.cd-podium__item--3 { order: 3; }
+
+.cd-podium__cover {
+	border-radius: var(--radius-md); overflow: hidden;
+	box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+	display: flex; align-items: center; justify-content: center;
+	font-family: var(--font-headline); font-weight: 700; font-style: italic;
+	color: rgba(255,255,255,0.85); text-align: center; padding: 0.75rem;
+	line-height: 1.2; transition: box-shadow 0.2s;
+}
+.cd-podium__item:hover .cd-podium__cover { box-shadow: 0 10px 36px rgba(0,0,0,0.4); }
+
+.cd-podium__item--1 .cd-podium__cover { width: 150px; height: 225px; font-size: 0.9375rem; }
+.cd-podium__item--2 .cd-podium__cover { width: 120px; height: 180px; font-size: 0.8125rem; }
+.cd-podium__item--3 .cd-podium__cover { width: 120px; height: 180px; font-size: 0.8125rem; }
+
+.cd-podium__rank {
+	display: flex; align-items: center; justify-content: center;
+	border-radius: 50%; font-weight: 800;
+	margin-top: -18px; position: relative; z-index: 2;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+.cd-podium__rank--1 { width: 44px; height: 44px; font-size: 1.125rem; background: linear-gradient(135deg, #f7dc6f, #d4a017); color: #4a3500; margin-top: -22px; }
+.cd-podium__rank--2 { width: 36px; height: 36px; font-size: 0.9375rem; background: linear-gradient(135deg, #e8e8e8, #b0b0b0); color: #2a2a2a; }
+.cd-podium__rank--3 { width: 36px; height: 36px; font-size: 0.9375rem; background: linear-gradient(135deg, #cd7f32, #a0612b); color: #fff; }
+
+.cd-podium__info { margin-top: 0.75rem; }
+.cd-podium__name { font-family: var(--font-headline); font-size: 0.9375rem; font-weight: 700; color: var(--c-on-surface); margin: 0 0 0.1rem; }
+.cd-podium__item--1 .cd-podium__name { font-size: 1.0625rem; }
+.cd-podium__author { font-size: 0.75rem; color: var(--c-on-surface-variant); margin: 0 0 0.5rem; }
+.cd-podium__scores { display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+
+/* ── Full list ── */
+.cd-list { padding-bottom: 3rem; }
+
+.cd-list__header {
+	display: grid;
+	grid-template-columns: 3.5rem 56px 1fr 160px 70px 70px;
+	gap: 1rem; align-items: center;
+	padding: 0.75rem 1.25rem;
+	font-size: 0.625rem; font-weight: 700;
+	letter-spacing: 0.1em; text-transform: uppercase;
+	color: var(--c-on-surface-variant); opacity: 0.6;
+	border-bottom: 2px solid var(--c-surface-container-high);
+}
+
+.cd-list__entry {
+	display: grid;
+	grid-template-columns: 3.5rem 56px 1fr 160px 70px 70px;
+	gap: 1rem; align-items: center;
+	padding: 1rem 1.25rem;
+	border-bottom: 1px solid var(--c-surface-container-high);
+	text-decoration: none;
+	transition: background 0.15s;
+}
+.cd-list__entry:hover { background: var(--c-surface-container); }
+.cd-list__entry:last-child { border-bottom: none; }
+
+/* Position number */
+.cd-list__pos {
+	font-family: var(--font-headline); font-size: 1.5rem; font-weight: 700;
+	color: var(--c-on-surface-variant); text-align: center;
+}
+.cd-list__entry:nth-child(-n+4) .cd-list__pos { color: var(--c-accent); }
+
+/* Mini cover */
+.cd-list__cover {
+	width: 56px; height: 80px; border-radius: 4px;
+	overflow: hidden; flex-shrink: 0;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.cd-list__cover-ph {
+	width: 100%; height: 100%;
+	display: flex; align-items: center; justify-content: center;
+	font-family: var(--font-headline); font-size: 0.5rem; font-style: italic;
+	color: rgba(255,255,255,0.7); text-align: center; padding: 0.25rem;
+	line-height: 1.2;
+}
+
+/* Book info */
+.cd-list__info { min-width: 0; }
+.cd-list__title {
+	font-size: 0.9375rem; font-weight: 600; color: var(--c-on-surface);
+	margin: 0 0 0.15rem; line-height: 1.3;
+}
+.cd-list__book-author { font-size: 0.75rem; color: var(--c-on-surface-variant); margin: 0 0 0.25rem; }
+.cd-list__mini-review {
+	font-size: 0.6875rem; font-style: italic;
+	color: var(--c-on-surface-variant); opacity: 0.7;
+	margin: 0; line-height: 1.4;
+	display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+
+/* Genre tag */
+.cd-list__genre {
+	display: flex; flex-wrap: wrap; gap: 0.25rem; justify-content: flex-end;
+}
+.cd-list__genre-tag {
+	font-size: 0.5625rem; font-weight: 700; text-transform: uppercase;
+	letter-spacing: 0.05em; padding: 0.15rem 0.5rem;
+	border-radius: var(--radius-full);
+	background: rgba(224,122,95,0.1); color: var(--c-accent);
+}
+
+/* Scores */
+.cd-list__nmcor { text-align: center; }
+.cd-list__comm { text-align: center; }
+
+/* Movement indicator */
+.cd-list__move {
+	display: inline-flex; align-items: center; gap: 0.1rem;
+	font-size: 0.625rem; font-weight: 700; margin-left: 0.35rem;
+}
+.cd-list__move--up { color: #5a9a7a; }
+.cd-list__move--down { color: #e07a5f; }
+.cd-list__move--new { color: var(--c-accent); font-weight: 800; letter-spacing: 0.05em; }
+
+/* ── Back link ── */
+.cd-back {
+	display: inline-flex; align-items: center; gap: 0.35rem;
+	padding: 0.5rem 1.25rem; font-size: 0.8125rem; font-weight: 600;
+	color: var(--c-accent); text-decoration: none;
+	border: 1px solid var(--c-accent); border-radius: var(--radius-full);
+	transition: background 0.2s, color 0.2s;
+}
+.cd-back:hover { background: var(--c-accent); color: #fff; }
+.cd-back .material-symbols-outlined { font-size: 1rem; }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+	.cd-list__header { display: none; }
+	.cd-list__entry {
+		grid-template-columns: 2.5rem 48px 1fr auto;
+		grid-template-rows: auto auto;
+		gap: 0.5rem 0.75rem;
+	}
+	.cd-list__genre { display: none; }
+	.cd-list__comm { display: none; }
+	.cd-list__cover { width: 48px; height: 68px; }
+}
+@media (max-width: 600px) {
+	.cd-podium__stage { gap: 0.75rem; }
+	.cd-podium__item--1 .cd-podium__cover { width: 110px; height: 165px; }
+	.cd-podium__item--2 .cd-podium__cover, .cd-podium__item--3 .cd-podium__cover { width: 85px; height: 127px; }
+	.cd-list__entry { padding: 0.75rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     HEADER
+     ═══════════════════════════════════════════ -->
+
+<header class="site-header" id="siteHeader">
+	<div class="header-outer">
+		<div class="header-inner">
+			<div class="site-branding">
+				<div class="site-branding__icon"><img src="assets/img/logo-nmcor.png" alt="NMCOR"></div>
+				<h1 class="site-title"><a href="demo.html">Not My Cup of Read</a></h1>
+			</div>
+			<nav class="primary-nav" id="primaryNav">
+				<ul>
+					<li><a href="#">Articoli</a><ul class="sub-menu"><li><a href="demo-recensioni.html">Recensioni</a></li><li><a href="demo-approfondimenti.html">Approfondimenti</a></li><li><a href="demo-classifiche.html">Classifiche</a></li></ul></li>
+					<li><a href="#">Podcast</a><ul class="sub-menu"><li><a href="demo-podcast.html">Episodi</a></li><li><a href="demo-format.html">Format</a></li><li><a href="demo-dietro-le-quinte.html">Dietro le quinte</a></li></ul></li>
+					<li><a href="#">Biblioteca</a><ul class="sub-menu"><li><a href="demo-libri.html">Libri</a></li><li><a href="demo-autori.html">Autori</a></li></ul></li>
+					<li><a href="#">Luoghi</a><ul class="sub-menu"><li><a href="demo-librerie.html">La mappa del Lettore</a></li><li><a href="demo-luoghi-milano.html">Milano</a></li><li><a href="demo-itinerari.html">Itinerari letterari</a></li><li><a href="demo-luoghi-librerie.html">Librerie</a></li><li><a href="demo-luoghi-biblioteche.html">Biblioteche</a></li><li><a href="demo-luoghi-caffe.html">Caffè letterari</a></li><li><a href="demo-luoghi-spazi.html">Spazi culturali</a></li></ul></li>
+					<li><a href="#">Eventi</a><ul class="sub-menu"><li><a href="demo-eventi.html">Timeline</a></li><li><a href="demo-calendario.html">Calendario</a></li><li><a href="demo-fiere-festival.html">Fiere e Festival</a></li><li><a href="demo-premi-letterari.html">Premi letterari</a></li></ul></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Chi siamo</a><ul class="sub-menu"><li><a href="demo-chi-siamo.html">Lo studio &amp; gli host</a></li><li><a href="demo-ospiti-redazione.html">Gli ospiti &amp; la redazione</a></li><li><a href="demo-contatti.html">Contatti &amp; Collaborazioni</a></li></ul></li>
+				</ul>
+			</nav>
+			<div class="header-search"><input type="text" placeholder="Cerca..."></div>
+		</div>
+		<div class="header-extras">
+			<div class="header-social">
+				<a href="#" class="header-social__link" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23.5 6.19a3 3 0 0 0-2.11-2.13C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.39.56A3 3 0 0 0 .5 6.19 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.81 3 3 0 0 0 2.11 2.13c1.89.56 9.39.56 9.39.56s7.5 0 9.39-.56a3 3 0 0 0 2.11-2.13A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.81ZM9.75 15.02V8.98L15.5 12l-5.75 3.02Z"/></svg></a>
+				<a href="#" class="header-social__link" aria-label="Spotify"><svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.31a.75.75 0 0 1-1.03.25c-2.82-1.72-6.37-2.11-10.55-1.16a.75.75 0 1 1-.34-1.46c4.57-1.05 8.49-.6 11.67 1.34a.75.75 0 0 1 .25 1.03Zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.23-1.98-8.15-2.56-11.97-1.4a.94.94 0 1 1-.54-1.8c4.36-1.32 9.78-.68 13.49 1.6a.94.94 0 0 1 .31 1.29Zm.13-3.4C15.5 8.4 9 8.2 5.24 9.33a1.13 1.13 0 1 1-.65-2.16c4.33-1.3 11.52-1.05 16.07 1.68a1.13 1.13 0 0 1-1.56 1.79Z"/></svg></a>
+			</div>
+			<div class="header-auth"><a href="demo-profilo.html" class="header-auth__btn"><span class="material-symbols-outlined">person</span> Cristian T.</a></div>
+			<button class="menu-toggle" id="menuToggle" aria-label="Menu"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
+		</div>
+	</div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="cd-page">
+		<div class="cd-hero">
+			<p class="cd-hero__breadcrumb"><a href="demo-classifiche.html">Classifiche</a> / I migliori del 2025</p>
+			<span class="cd-hero__label">Top 25</span>
+			<h1 class="cd-hero__title">I migliori del 2025</h1>
+			<p class="cd-hero__subtitle">I libri che ci hanno fatto battere il cuore, litigare tra di noi e restare svegli fino alle tre di notte. La classifica definitiva della redazione NMCOR.</p>
+			<div class="cd-hero__meta">
+				<span class="cd-hero__meta-item"><span class="material-symbols-outlined">auto_stories</span> 25 libri</span>
+				<span class="cd-hero__meta-item"><span class="material-symbols-outlined">update</span> Aggiornata: 15 Gen 2026</span>
+				<span class="cd-hero__meta-item"><span class="material-symbols-outlined">group</span> 1.847 voti community</span>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     PODIUM — Top 3
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface">
+	<div class="cd-page">
+		<div class="cd-podium">
+
+			<div class="cd-podium__stage">
+
+				<!-- #2 -->
+				<a href="#" class="cd-podium__item cd-podium__item--2">
+					<div class="cd-podium__cover" style="background:linear-gradient(160deg,#9467bd,#5a3478);">La nostra parte di notte</div>
+					<div class="cd-podium__rank cd-podium__rank--2">2</div>
+					<div class="cd-podium__info">
+						<h4 class="cd-podium__name">La nostra parte di notte</h4>
+						<p class="cd-podium__author">Mariana Enriquez</p>
+						<div class="cd-podium__scores">
+							<span class="cd-score cd-score--md cd-score--gold">94</span>
+							<span class="cd-community"><span class="material-symbols-outlined">group</span> 91</span>
+						</div>
+					</div>
+				</a>
+
+				<!-- #1 -->
+				<a href="#" class="cd-podium__item cd-podium__item--1">
+					<div class="cd-podium__cover" style="background:linear-gradient(160deg,#e07a5f,#c9684d,#8b3a2a);">Sulla Terra siamo brevemente splendidi</div>
+					<div class="cd-podium__rank cd-podium__rank--1">1</div>
+					<div class="cd-podium__info">
+						<h4 class="cd-podium__name">Sulla Terra siamo brevemente splendidi</h4>
+						<p class="cd-podium__author">Ocean Vuong</p>
+						<div class="cd-podium__scores">
+							<span class="cd-score cd-score--lg cd-score--lode">100</span>
+							<span class="cd-community"><span class="material-symbols-outlined">group</span> 96</span>
+						</div>
+					</div>
+				</a>
+
+				<!-- #3 -->
+				<a href="#" class="cd-podium__item cd-podium__item--3">
+					<div class="cd-podium__cover" style="background:linear-gradient(160deg,#3e5c76,#1d2d44,#0d1321);">Kentuki</div>
+					<div class="cd-podium__rank cd-podium__rank--3">3</div>
+					<div class="cd-podium__info">
+						<h4 class="cd-podium__name">Kentuki</h4>
+						<p class="cd-podium__author">Samanta Schweblin</p>
+						<div class="cd-podium__scores">
+							<span class="cd-score cd-score--md cd-score--gold">92</span>
+							<span class="cd-community"><span class="material-symbols-outlined">group</span> 88</span>
+						</div>
+					</div>
+				</a>
+
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FULL LIST
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="cd-page">
+		<div class="cd-list">
+
+			<div class="cd-list__header">
+				<span>#</span>
+				<span></span>
+				<span>Titolo</span>
+				<span style="text-align:right;">Genere</span>
+				<span style="text-align:center;">NMCOR</span>
+				<span style="text-align:center;">Community</span>
+			</div>
+
+			<!-- #1 -->
+			<a href="#" class="cd-list__entry">
+				<span class="cd-list__pos">1</span>
+				<div class="cd-list__cover"><div class="cd-list__cover-ph" style="background:linear-gradient(135deg,#e07a5f,#8b3a2a);">Sulla Terra...</div></div>
+				<div class="cd-list__info">
+					<h4 class="cd-list__title">Sulla Terra siamo brevemente splendidi</h4>
+					<p class="cd-list__book-author">Ocean Vuong</p>
+					<p class="cd-list__mini-review">Lettera d'amore alla madre, al linguaggio, alla vita. Poesia pura travestita da romanzo.</p>
+				</div>
+				<div class="cd-list__genre"><span class="cd-list__genre-tag">Narrativa</span></div>
+				<div class="cd-list__nmcor"><span class="cd-score cd-score--sm cd-score--lode">100</span></div>
+				<div class="cd-list__comm"><span class="cd-community"><span class="material-symbols-outlined">group</span> 96</span></div>
+			</a>
+
+			<!-- #2 -->
+			<a href="#" class="cd-list__entry">
+				<span class="cd-list__pos">2</span>
+				<div class="cd-list__cover"><div class="cd-list__cover-ph" style="background:linear-gradient(135deg,#9467bd,#5a3478);">La nostra parte...</div></div>
+				<div class="cd-list__info">
+					<h4 class="cd-list__title">La nostra parte di notte</h4>
+					<p class="cd-list__book-author">Mariana Enriquez</p>
+					<p class="cd-list__mini-review">Horror politico e famigliare che riscrive le regole del genere. Terrificante e bellissimo.</p>
+				</div>
+				<div class="cd-list__genre"><span class="cd-list__genre-tag">Horror</span></div>
+				<div class="cd-list__nmcor"><span class="cd-score cd-score--sm cd-score--gold">94</span></div>
+				<div class="cd-list__comm"><span class="cd-community"><span class="material-symbols-outlined">group</span> 91</span></div>
+			</a>
+
+			<!-- #3 -->
+			<a href="#" class="cd-list__entry">
+				<span class="cd-list__pos">3</span>
+				<div class="cd-list__cover"><div class="cd-list__cover-ph" style="background:linear-gradient(135deg,#3e5c76,#0d1321);">Kentuki</div></div>
+				<div class="cd-list__info">
+					<h4 class="cd-list__title">Kentuki</h4>
+					<p class="cd-list__book-author">Samanta Schweblin</p>
+					<p class="cd-list__mini-review">Distopia digitale che anticipa il presente. Breve, chirurgico, inquietante.</p>
+				</div>
+				<div class="cd-list__genre"><span class="cd-list__genre-tag">Narrativa</span></div>
+				<div class="cd-list__nmcor"><span class="cd-score cd-score--sm cd-score--gold">92</span></div>
+				<div class="cd-list__comm"><span class="cd-community"><span class="material-symbols-outlined">group</span> 88</span></div>
+			</a>
+
+			<!-- #4 -->
+			<a href="#" class="cd-list__entry">
+				<span class="cd-list__pos">4</span>
+				<div class="cd-list__cover"><div class="cd-list__cover-ph" style="background:linear-gradient(135deg,#81b29a,#3d6b55);">Archivio...</div></div>
+				<div class="cd-list__info">
+					<h4 class="cd-list__title">Archivio dei bambini perduti <span class="cd-list__move cd-list__move--up"><span class="material-symbols-outlined" style="font-size:0.75rem;">arrow_upward</span>2</span></h4>
+					<p class="cd-list__book-author">Valeria Luiselli</p>
+					<p class="cd-list__mini-review">Road trip attraverso l'America e la crisi migratoria. Struttura sperimentale che funziona.</p>
+				</div>
+				<div class="cd-list__genre"><span class="cd-list__genre-tag">Saggistica</span></div>
+				<div class="cd-list__nmcor"><span class="cd-score cd-score--sm cd-score--gold">91</span></div>
+				<div class="cd-list__comm"><span class="cd-community"><span class="material-symbols-outlined">group</span> 87</span></div>
+			</a>
+
+			<!-- #5 -->
+			<a href="#" class="cd-list__entry">
+				<span class="cd-list__pos">5</span>
+				<div class="cd-list__cover"><div class="cd-list__cover-ph" style="background:linear-gradient(135deg,#1d2d44,#748cab);">I vagabondi</div></div>
+				<div class="cd-list__info">
+					<h4 class="cd-list__title">I vagabondi</h4>
+					<p class="cd-list__book-author">Olga Tokarczuk</p>
+					<p class="cd-list__mini-review">Romanzo-costellazione sul viaggio e lo sradicamento. Nobel meritato.</p>
+				</div>
+				<div class="cd-list__genre"><span class="cd-list__genre-tag">Narrativa</span></div>
+				<div class="cd-list__nmcor"><span class="cd-score cd-score--sm cd-score--silver">87</span></div>
+				<div class="cd-list__comm"><span class="cd-community"><span class="material-symbols-outlined">group</span> 84</span></div>
+			</a>
+
+			<!-- #6 -->
+			<a href="#" class="cd-list__entry">
+				<span class="cd-list__pos">6</span>
+				<div class="cd-list__cover"><div class="cd-list__cover-ph" style="background:linear-gradient(135deg,#c4bfa8,#748cab);">Selvatico</div></div>
+				<div class="cd-list__info">
+					<h4 class="cd-list__title">Selvatico <span class="cd-list__move cd-list__move--new">NEW</span></h4>
+					<p class="cd-list__book-author">Paolo Ferrara</p>
+					<p class="cd-list__mini-review">Natura come terapia. Prose che profumano di muschio e terra bagnata.</p>
+				</div>
+				<div class="cd-list__genre"><span class="cd-list__genre-tag">Narrativa</span></div>
+				<div class="cd-list__nmcor"><span class="cd-score cd-score--sm cd-score--silver">86</span></div>
+				<div class="cd-list__comm"><span class="cd-community"><span class="material-symbols-outlined">group</span> 83</span></div>
+			</a>
+
+			<!-- #7 -->
+			<a href="#" class="cd-list__entry">
+				<span class="cd-list__pos">7</span>
+				<div class="cd-list__cover"><div class="cd-list__cover-ph" style="background:linear-gradient(135deg,#e07a5f,#9467bd);">Confini mobili</div></div>
+				<div class="cd-list__info">
+					<h4 class="cd-list__title">Confini mobili</h4>
+					<p class="cd-list__book-author">Anna Ferrante</p>
+					<p class="cd-list__mini-review">Emigrazione e seconde generazioni. Scrittura nervosa e necessaria.</p>
+				</div>
+				<div class="cd-list__genre"><span class="cd-list__genre-tag">Narrativa</span></div>
+				<div class="cd-list__nmcor"><span class="cd-score cd-score--sm cd-score--silver">85</span></div>
+				<div class="cd-list__comm"><span class="cd-community"><span class="material-symbols-outlined">group</span> 82</span></div>
+			</a>
+
+			<!-- #8 -->
+			<a href="#" class="cd-list__entry">
+				<span class="cd-list__pos">8</span>
+				<div class="cd-list__cover"><div class="cd-list__cover-ph" style="background:linear-gradient(135deg,#0d1321,#3e5c76);">L'ultimo treno...</div></div>
+				<div class="cd-list__info">
+					<h4 class="cd-list__title">L'ultimo treno per Lisbona <span class="cd-list__move cd-list__move--up"><span class="material-symbols-outlined" style="font-size:0.75rem;">arrow_upward</span>4</span></h4>
+					<p class="cd-list__book-author">Marco Ferraris</p>
+					<p class="cd-list__mini-review">Nostalgia europea in forma di romanzo. La Lisbona che tutti sogniamo.</p>
+				</div>
+				<div class="cd-list__genre"><span class="cd-list__genre-tag">Narrativa</span></div>
+				<div class="cd-list__nmcor"><span class="cd-score cd-score--sm cd-score--silver">84</span></div>
+				<div class="cd-list__comm"><span class="cd-community"><span class="material-symbols-outlined">group</span> 86</span></div>
+			</a>
+
+			<!-- #9 -->
+			<a href="#" class="cd-list__entry">
+				<span class="cd-list__pos">9</span>
+				<div class="cd-list__cover"><div class="cd-list__cover-ph" style="background:linear-gradient(135deg,#748cab,#1d2d44);">Onde corte</div></div>
+				<div class="cd-list__info">
+					<h4 class="cd-list__title">Onde corte <span class="cd-list__move cd-list__move--down"><span class="material-symbols-outlined" style="font-size:0.75rem;">arrow_downward</span>3</span></h4>
+					<p class="cd-list__book-author">Maurizio Ferraris</p>
+					<p class="cd-list__mini-review">Saggio filosofico sulla comunicazione digitale. Denso ma illuminante.</p>
+				</div>
+				<div class="cd-list__genre"><span class="cd-list__genre-tag">Saggistica</span></div>
+				<div class="cd-list__nmcor"><span class="cd-score cd-score--sm cd-score--silver">82</span></div>
+				<div class="cd-list__comm"><span class="cd-community"><span class="material-symbols-outlined">group</span> 76</span></div>
+			</a>
+
+			<!-- #10 -->
+			<a href="#" class="cd-list__entry">
+				<span class="cd-list__pos">10</span>
+				<div class="cd-list__cover"><div class="cd-list__cover-ph" style="background:linear-gradient(135deg,#3e5c76,#81b29a);">Terra di nessuno</div></div>
+				<div class="cd-list__info">
+					<h4 class="cd-list__title">Terra di nessuno</h4>
+					<p class="cd-list__book-author">Luca De Santis</p>
+					<p class="cd-list__mini-review">Il libro del mese di aprile. Lettura condivisa dalla community con grande partecipazione.</p>
+				</div>
+				<div class="cd-list__genre"><span class="cd-list__genre-tag">Narrativa</span></div>
+				<div class="cd-list__nmcor"><span class="cd-score cd-score--sm cd-score--silver">80</span></div>
+				<div class="cd-list__comm"><span class="cd-community"><span class="material-symbols-outlined">group</span> 85</span></div>
+			</a>
+
+			<!-- #11-15 (compact, below silver threshold) -->
+			<a href="#" class="cd-list__entry">
+				<span class="cd-list__pos">11</span>
+				<div class="cd-list__cover"><div class="cd-list__cover-ph" style="background:linear-gradient(135deg,#9467bd,#748cab);">Il canto...</div></div>
+				<div class="cd-list__info">
+					<h4 class="cd-list__title">Il canto dei corpi</h4>
+					<p class="cd-list__book-author">Valentina Ferretti</p>
+					<p class="cd-list__mini-review">Prosa poetica tra realismo sociale e lirismo. Debutto sorprendente.</p>
+				</div>
+				<div class="cd-list__genre"><span class="cd-list__genre-tag">Narrativa</span></div>
+				<div class="cd-list__nmcor"><span class="cd-score cd-score--sm cd-score--standard">78</span></div>
+				<div class="cd-list__comm"><span class="cd-community"><span class="material-symbols-outlined">group</span> 80</span></div>
+			</a>
+
+			<a href="#" class="cd-list__entry">
+				<span class="cd-list__pos">12</span>
+				<div class="cd-list__cover"><div class="cd-list__cover-ph" style="background:linear-gradient(135deg,#1d2d44,#e07a5f);">Confini liquidi</div></div>
+				<div class="cd-list__info">
+					<h4 class="cd-list__title">Confini liquidi</h4>
+					<p class="cd-list__book-author">Paolo Ferraris</p>
+					<p class="cd-list__mini-review">Antropologia dei confini nell'era della globalizzazione. Rigoroso.</p>
+				</div>
+				<div class="cd-list__genre"><span class="cd-list__genre-tag">Saggistica</span></div>
+				<div class="cd-list__nmcor"><span class="cd-score cd-score--sm cd-score--standard">72</span></div>
+				<div class="cd-list__comm"><span class="cd-community"><span class="material-symbols-outlined">group</span> 68</span></div>
+			</a>
+
+			<a href="#" class="cd-list__entry">
+				<span class="cd-list__pos">13</span>
+				<div class="cd-list__cover"><div class="cd-list__cover-ph" style="background:linear-gradient(135deg,#81b29a,#0d1321);">Notte bianca</div></div>
+				<div class="cd-list__info">
+					<h4 class="cd-list__title">Notte bianca <span class="cd-list__move cd-list__move--new">NEW</span></h4>
+					<p class="cd-list__book-author">Sofia Ferraro</p>
+					<p class="cd-list__mini-review">Thriller psicologico ambientato a Helsinki. Atmosfere nordiche convincenti.</p>
+				</div>
+				<div class="cd-list__genre"><span class="cd-list__genre-tag">Thriller</span></div>
+				<div class="cd-list__nmcor"><span class="cd-score cd-score--sm cd-score--standard">71</span></div>
+				<div class="cd-list__comm"><span class="cd-community"><span class="material-symbols-outlined">group</span> 74</span></div>
+			</a>
+
+			<a href="#" class="cd-list__entry">
+				<span class="cd-list__pos">14</span>
+				<div class="cd-list__cover"><div class="cd-list__cover-ph" style="background:linear-gradient(135deg,#c4bfa8,#3e5c76);">Il giardino...</div></div>
+				<div class="cd-list__info">
+					<h4 class="cd-list__title">Il giardino delle parole</h4>
+					<p class="cd-list__book-author">Maria Grazia Ferro</p>
+					<p class="cd-list__mini-review">Raccolta poetica delicata. Versi che si depositano lentamente.</p>
+				</div>
+				<div class="cd-list__genre"><span class="cd-list__genre-tag">Poesia</span></div>
+				<div class="cd-list__nmcor"><span class="cd-score cd-score--sm cd-score--standard">69</span></div>
+				<div class="cd-list__comm"><span class="cd-community"><span class="material-symbols-outlined">group</span> 72</span></div>
+			</a>
+
+			<a href="#" class="cd-list__entry">
+				<span class="cd-list__pos">15</span>
+				<div class="cd-list__cover"><div class="cd-list__cover-ph" style="background:linear-gradient(135deg,#e07a5f,#1d2d44);">Frequenze...</div></div>
+				<div class="cd-list__info">
+					<h4 class="cd-list__title">Frequenze invisibili <span class="cd-list__move cd-list__move--down"><span class="material-symbols-outlined" style="font-size:0.75rem;">arrow_downward</span>5</span></h4>
+					<p class="cd-list__book-author">Andrea Ferrante</p>
+					<p class="cd-list__mini-review">Fantascienza italiana ambiziosa, a tratti acerba ma promettente.</p>
+				</div>
+				<div class="cd-list__genre"><span class="cd-list__genre-tag">Sci-Fi</span></div>
+				<div class="cd-list__nmcor"><span class="cd-score cd-score--sm cd-score--standard">65</span></div>
+				<div class="cd-list__comm"><span class="cd-community"><span class="material-symbols-outlined">group</span> 70</span></div>
+			</a>
+
+		</div>
+
+		<div style="text-align:center;padding-bottom:3rem;">
+			<a href="demo-classifiche.html" class="cd-back"><span class="material-symbols-outlined">arrow_back</span> Tutte le classifiche</a>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ -->
+
+<footer class="site-footer">
+	<div style="max-width:80rem;margin:0 auto;padding:0 2rem;">
+		<div class="footer-main">
+			<div class="footer-brand">
+				<p class="site-title">Not My Cup of Read</p>
+				<p>Esploriamo la letteratura contemporanea attraverso podcast, recensioni e approfondimenti.</p>
+				<div class="footer-social">
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">podcasts</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">play_circle</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">photo_camera</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">send</span></a>
+				</div>
+			</div>
+			<div class="footer-col">
+				<h4>ESPLORA</h4>
+				<ul>
+					<li><a href="demo-recensioni.html">Recensioni</a></li>
+					<li><a href="demo-approfondimenti.html">Approfondimenti</a></li>
+					<li><a href="demo-classifiche.html">Classifiche</a></li>
+					<li><a href="demo-podcast.html">Podcast</a></li>
+					<li><a href="demo-libri.html">Libri</a></li>
+					<li><a href="demo-autori.html">Autori</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>PROGETTO</h4>
+				<ul>
+					<li><a href="demo-chi-siamo.html">Chi siamo</a></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Contatti</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>NEWSLETTER</h4>
+				<p style="font-size:0.875rem;margin-bottom:1rem;opacity:0.75;">Ricevi le nostre selezioni editoriali.</p>
+				<div class="newsletter-form">
+					<input type="email" placeholder="La tua email" style="background:rgba(255,255,255,0.05);color:#fff;">
+					<button class="btn btn--teal btn--small">Iscriviti</button>
+				</div>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<span>&copy; 2026 Not My Cup of Read.</span>
+			<div class="footer-bottom-links">
+				<a href="#">Privacy Policy</a>
+				<a href="#">Cookie Policy</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+</body>
+</html>

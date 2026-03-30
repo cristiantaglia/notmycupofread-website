@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approfondimenti — Not My Cup of Read</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Newsreader:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<style>
+/* ═══════════════════════════════════════════
+   APPROFONDIMENTI PAGE
+   ═══════════════════════════════════════════ */
+
+.appr-page { max-width: 80rem; margin: 0 auto; padding: 0 2rem; }
+
+/* ── Hero ── */
+.appr-hero { text-align: center; padding: 3.5rem 0 2rem; }
+.appr-hero__overline { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--c-accent); margin-bottom: 0.5rem; }
+.appr-hero__title { font-family: var(--font-headline); font-size: clamp(2rem, 5vw, 3.25rem); font-weight: 700; font-style: italic; color: var(--c-surface); margin: 0 0 0.75rem; }
+.appr-hero__subtitle { font-size: 1.0625rem; color: var(--c-on-surface-variant); max-width: 36rem; margin: 0 auto; line-height: 1.6; }
+
+/* ── Filter tabs ── */
+.appr-filters {
+	display: flex;
+	justify-content: center;
+	gap: 0.5rem;
+	flex-wrap: wrap;
+	padding: 1.5rem 0 2.5rem;
+}
+
+.appr-filter {
+	padding: 0.45rem 1.1rem;
+	font-size: 0.8125rem;
+	font-weight: 600;
+	border-radius: var(--radius-full);
+	border: 1px solid var(--c-surface-container-high);
+	background: transparent;
+	color: var(--c-on-surface-variant);
+	cursor: pointer;
+	transition: all 0.2s;
+}
+
+.appr-filter:hover {
+	border-color: var(--c-accent);
+	color: var(--c-accent);
+}
+
+.appr-filter.active {
+	background: var(--c-accent);
+	border-color: var(--c-accent);
+	color: #fff;
+}
+
+/* ── Section headers ── */
+.appr-section-header {
+	margin-bottom: 2rem;
+}
+
+.appr-section-overline {
+	font-size: 0.6875rem;
+	font-weight: 700;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: var(--c-accent);
+	margin-bottom: 0.35rem;
+}
+
+.appr-section-title {
+	font-family: var(--font-headline);
+	font-size: 1.75rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	margin: 0;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.appr-section-title .material-symbols-outlined { color: var(--c-accent); }
+
+.appr-section-subtitle {
+	font-size: 0.9375rem;
+	color: var(--c-on-surface-variant);
+	margin: 0.35rem 0 0;
+	line-height: 1.5;
+}
+
+/* ── Featured article (hero card) ── */
+.appr-featured {
+	display: grid;
+	grid-template-columns: 1.1fr 1fr;
+	gap: 0;
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	margin-bottom: 3rem;
+	transition: border-color 0.2s, box-shadow 0.2s;
+	text-decoration: none;
+}
+
+.appr-featured:hover {
+	border-color: var(--c-accent);
+	box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+}
+
+.appr-featured__img {
+	min-height: 320px;
+	overflow: hidden;
+}
+
+.appr-featured__img-placeholder {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.75rem;
+	color: rgba(255,255,255,0.15);
+}
+
+.appr-featured__body {
+	padding: 2.5rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.appr-featured__type {
+	display: inline-block;
+	font-size: 0.625rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	padding: 0.25rem 0.7rem;
+	border-radius: var(--radius-full);
+	margin-bottom: 0.75rem;
+	align-self: flex-start;
+}
+
+.appr-featured__title {
+	font-family: var(--font-headline);
+	font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-on-surface);
+	margin: 0 0 0.75rem;
+	line-height: 1.25;
+}
+
+.appr-featured__excerpt {
+	font-size: 0.9375rem;
+	color: var(--c-on-surface-variant);
+	margin: 0 0 1.25rem;
+	line-height: 1.65;
+}
+
+.appr-featured__meta {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	font-size: 0.75rem;
+	color: var(--c-on-surface-variant);
+}
+
+.appr-featured__author {
+	font-weight: 600;
+	color: var(--c-on-surface);
+}
+
+.appr-featured__read {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.2rem;
+	margin-left: auto;
+	font-weight: 600;
+	color: var(--c-accent);
+}
+
+.appr-featured__read .material-symbols-outlined { font-size: 1rem; transition: transform 0.2s; }
+.appr-featured:hover .appr-featured__read .material-symbols-outlined { transform: translateX(3px); }
+
+/* ── Article card (reusable) ── */
+.appr-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	gap: 1.5rem;
+	margin-bottom: 2rem;
+}
+
+.appr-card {
+	display: flex;
+	flex-direction: column;
+	text-decoration: none;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.appr-card:hover {
+	border-color: var(--c-accent);
+	box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+	transform: translateY(-3px);
+}
+
+.appr-card__img {
+	aspect-ratio: 16/9;
+	overflow: hidden;
+}
+
+.appr-card__img-placeholder {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.6875rem;
+	color: rgba(255,255,255,0.15);
+}
+
+.appr-card__body {
+	padding: 1.25rem;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+.appr-card__type {
+	display: inline-block;
+	font-size: 0.625rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	padding: 0.2rem 0.6rem;
+	border-radius: var(--radius-full);
+	margin-bottom: 0.5rem;
+	align-self: flex-start;
+}
+
+/* Type colors */
+.appr-type--approfondimento { background: rgba(62,92,118,0.15); color: #5a8aab; }
+.appr-type--lista { background: rgba(148,103,189,0.15); color: #9467bd; }
+.appr-type--intervista { background: rgba(129,178,154,0.15); color: #5a9a7a; }
+.appr-type--confronto { background: rgba(224,122,95,0.15); color: var(--c-accent); }
+
+.appr-card__title {
+	font-family: var(--font-headline);
+	font-size: 1.0625rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	margin: 0 0 0.4rem;
+	line-height: 1.3;
+}
+
+.appr-card__excerpt {
+	font-size: 0.8125rem;
+	color: var(--c-on-surface-variant);
+	margin: 0 0 auto;
+	line-height: 1.55;
+	padding-bottom: 0.75rem;
+}
+
+.appr-card__meta {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	font-size: 0.6875rem;
+	color: var(--c-on-surface-variant);
+	padding-top: 0.75rem;
+	border-top: 1px solid var(--c-surface-container-high);
+}
+
+.appr-card__author { font-weight: 600; color: var(--c-on-surface); }
+.appr-card__reading { margin-left: auto; opacity: 0.65; }
+
+/* ── Liste curate (horizontal scroll) ── */
+.appr-lists-scroll {
+	display: flex;
+	gap: 1.25rem;
+	overflow-x: auto;
+	padding: 0.5rem 0 1.5rem;
+	scroll-snap-type: x mandatory;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: thin;
+	scrollbar-color: var(--c-accent) transparent;
+}
+
+.appr-lists-scroll::-webkit-scrollbar { height: 4px; }
+.appr-lists-scroll::-webkit-scrollbar-track { background: transparent; }
+.appr-lists-scroll::-webkit-scrollbar-thumb { background: var(--c-accent); border-radius: 2px; }
+
+.appr-list-card {
+	flex-shrink: 0;
+	width: 300px;
+	scroll-snap-align: start;
+	text-decoration: none;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.appr-list-card:hover {
+	border-color: var(--c-accent);
+	box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+	transform: translateY(-3px);
+}
+
+.appr-list-card__covers {
+	display: flex;
+	height: 100px;
+	overflow: hidden;
+}
+
+.appr-list-card__cover-item {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: var(--font-headline);
+	font-size: 0.6875rem;
+	font-style: italic;
+	color: rgba(255,255,255,0.7);
+	text-align: center;
+	padding: 0.5rem;
+	line-height: 1.2;
+}
+
+.appr-list-card__body {
+	padding: 1rem 1.25rem 1.25rem;
+}
+
+.appr-list-card__count {
+	font-size: 0.625rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--c-accent);
+	margin-bottom: 0.25rem;
+}
+
+.appr-list-card__title {
+	font-family: var(--font-headline);
+	font-size: 1rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	margin: 0 0 0.25rem;
+	line-height: 1.3;
+}
+
+.appr-list-card__desc {
+	font-size: 0.75rem;
+	color: var(--c-on-surface-variant);
+	margin: 0;
+	line-height: 1.45;
+}
+
+/* ── Interviste (card with quote) ── */
+.appr-interview {
+	display: grid;
+	grid-template-columns: 80px 1fr;
+	gap: 1.25rem;
+	padding: 1.5rem;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	border-radius: var(--radius-lg);
+	text-decoration: none;
+	transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.appr-interview:hover {
+	border-color: var(--c-accent);
+	box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+.appr-interview__avatar {
+	width: 80px;
+	height: 80px;
+	border-radius: var(--radius-md);
+	overflow: hidden;
+}
+
+.appr-interview__avatar-placeholder {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: var(--font-headline);
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: rgba(255,255,255,0.12);
+}
+
+.appr-interview__content {}
+
+.appr-interview__label {
+	font-size: 0.625rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: #5a9a7a;
+	margin-bottom: 0.25rem;
+}
+
+.appr-interview__name {
+	font-family: var(--font-headline);
+	font-size: 1.125rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	margin: 0 0 0.15rem;
+}
+
+.appr-interview__role {
+	font-size: 0.75rem;
+	color: var(--c-on-surface-variant);
+	margin: 0 0 0.5rem;
+}
+
+.appr-interview__quote {
+	font-family: var(--font-headline);
+	font-size: 0.875rem;
+	font-style: italic;
+	color: var(--c-on-surface-variant);
+	margin: 0;
+	line-height: 1.55;
+}
+
+/* ── Confronti (VS card) ── */
+.appr-vs {
+	display: flex;
+	text-decoration: none;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.appr-vs:hover {
+	border-color: var(--c-accent);
+	box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+	transform: translateY(-2px);
+}
+
+.appr-vs__side {
+	flex: 1;
+	padding: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	gap: 0.5rem;
+}
+
+.appr-vs__cover {
+	width: 70px;
+	height: 105px;
+	border-radius: var(--radius-sm);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: var(--font-headline);
+	font-size: 0.625rem;
+	font-style: italic;
+	color: rgba(255,255,255,0.7);
+	text-align: center;
+	padding: 0.5rem;
+	line-height: 1.2;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.appr-vs__author {
+	font-size: 0.75rem;
+	font-weight: 600;
+	color: var(--c-on-surface);
+}
+
+.appr-vs__book-title {
+	font-size: 0.6875rem;
+	color: var(--c-on-surface-variant);
+	font-style: italic;
+}
+
+.appr-vs__divider {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 50px;
+	flex-shrink: 0;
+	font-family: var(--font-headline);
+	font-size: 1.25rem;
+	font-weight: 700;
+	color: var(--c-accent);
+	border-left: 1px solid var(--c-surface-container-high);
+	border-right: 1px solid var(--c-surface-container-high);
+}
+
+.appr-vs__info {
+	padding: 1rem 1.5rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	flex: 1.2;
+}
+
+.appr-vs__info-title {
+	font-family: var(--font-headline);
+	font-size: 1rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	margin: 0 0 0.25rem;
+}
+
+.appr-vs__info-desc {
+	font-size: 0.8125rem;
+	color: var(--c-on-surface-variant);
+	margin: 0 0 0.5rem;
+	line-height: 1.5;
+}
+
+.appr-vs__info-meta {
+	font-size: 0.6875rem;
+	color: var(--c-on-surface-variant);
+	opacity: 0.65;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+	.appr-featured { grid-template-columns: 1fr; }
+	.appr-featured__img { min-height: 200px; }
+	.appr-vs { flex-direction: column; }
+	.appr-vs__divider { width: 100%; height: 40px; border-left: none; border-right: none; border-top: 1px solid var(--c-surface-container-high); border-bottom: 1px solid var(--c-surface-container-high); }
+	.appr-vs__side { flex-direction: row; text-align: left; }
+}
+
+@media (max-width: 600px) {
+	.appr-grid { grid-template-columns: 1fr; }
+	.appr-interview { grid-template-columns: 60px 1fr; gap: 1rem; }
+	.appr-interview__avatar { width: 60px; height: 60px; }
+	.appr-list-card { width: 260px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     HEADER / NAVIGATION
+     ═══════════════════════════════════════════ -->
+
+<header class="site-header" id="siteHeader">
+	<div class="header-outer">
+		<div class="header-inner">
+			<div class="site-branding">
+				<div class="site-branding__icon">
+					<img src="assets/img/logo-nmcor.png" alt="NMCOR">
+				</div>
+				<h1 class="site-title"><a href="demo.html">Not My Cup of Read</a></h1>
+			</div>
+
+			<nav class="primary-nav" id="primaryNav">
+				<ul>
+					<li><a href="#">Articoli</a><ul class="sub-menu"><li><a href="demo-recensioni.html">Recensioni</a></li><li><a href="demo-approfondimenti.html">Approfondimenti</a></li><li><a href="demo-classifiche.html">Classifiche</a></li></ul></li>
+					<li><a href="#">Podcast</a><ul class="sub-menu"><li><a href="demo-podcast.html">Episodi</a></li><li><a href="demo-format.html">Format</a></li><li><a href="demo-dietro-le-quinte.html">Dietro le quinte</a></li></ul></li>
+					<li><a href="#">Biblioteca</a><ul class="sub-menu"><li><a href="demo-libri.html">Libri</a></li><li><a href="demo-autori.html">Autori</a></li></ul></li>
+					<li><a href="#">Luoghi</a><ul class="sub-menu"><li><a href="demo-librerie.html">La mappa del Lettore</a></li><li><a href="demo-luoghi-milano.html">Milano</a></li><li><a href="demo-itinerari.html">Itinerari letterari</a></li><li><a href="demo-luoghi-librerie.html">Librerie</a></li><li><a href="demo-luoghi-biblioteche.html">Biblioteche</a></li><li><a href="demo-luoghi-caffe.html">Caffè letterari</a></li><li><a href="demo-luoghi-spazi.html">Spazi culturali</a></li></ul></li>
+					<li><a href="#">Eventi</a><ul class="sub-menu"><li><a href="demo-eventi.html">Timeline</a></li><li><a href="demo-calendario.html">Calendario</a></li><li><a href="demo-fiere-festival.html">Fiere e Festival</a></li><li><a href="demo-premi-letterari.html">Premi letterari</a></li></ul></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Chi siamo</a><ul class="sub-menu"><li><a href="demo-chi-siamo.html">Lo studio &amp; gli host</a></li><li><a href="demo-ospiti-redazione.html">Gli ospiti &amp; la redazione</a></li><li><a href="demo-contatti.html">Contatti &amp; Collaborazioni</a></li></ul></li>
+				</ul>
+			</nav>
+
+			<div class="header-search">
+				<input type="text" placeholder="Cerca...">
+			</div>
+		</div>
+
+		<div class="header-extras">
+			<div class="header-social">
+				<a href="#" class="header-social__link" aria-label="YouTube">
+					<svg viewBox="0 0 24 24"><path d="M23.5 6.19a3 3 0 0 0-2.11-2.13C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.39.56A3 3 0 0 0 .5 6.19 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.81 3 3 0 0 0 2.11 2.13c1.89.56 9.39.56 9.39.56s7.5 0 9.39-.56a3 3 0 0 0 2.11-2.13A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.81ZM9.75 15.02V8.98L15.5 12l-5.75 3.02Z"/></svg>
+				</a>
+				<a href="#" class="header-social__link" aria-label="Spotify">
+					<svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.31a.75.75 0 0 1-1.03.25c-2.82-1.72-6.37-2.11-10.55-1.16a.75.75 0 1 1-.34-1.46c4.57-1.05 8.49-.6 11.67 1.34a.75.75 0 0 1 .25 1.03Zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.23-1.98-8.15-2.56-11.97-1.4a.94.94 0 1 1-.54-1.8c4.36-1.32 9.78-.68 13.49 1.6a.94.94 0 0 1 .31 1.29Zm.13-3.4C15.5 8.4 9 8.2 5.24 9.33a1.13 1.13 0 1 1-.65-2.16c4.33-1.3 11.52-1.05 16.07 1.68a1.13 1.13 0 0 1-1.56 1.79Z"/></svg>
+				</a>
+			</div>
+			<div class="header-auth">
+				<a href="demo-profilo.html" class="header-auth__btn"><span class="material-symbols-outlined">person</span> Cristian T.</a>
+			</div>
+			<button class="menu-toggle" id="menuToggle" aria-label="Menu">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</button>
+		</div>
+	</div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="appr-page">
+		<div class="appr-hero">
+			<p class="appr-hero__overline">Oltre la recensione</p>
+			<h1 class="appr-hero__title">Approfondimenti</h1>
+			<p class="appr-hero__subtitle">Analisi, liste curate, interviste e confronti. Per chi vuole andare oltre la superficie e scavare nella letteratura.</p>
+		</div>
+
+		<!-- Filter tabs -->
+		<div class="appr-filters">
+			<button class="appr-filter active" data-filter="tutti">Tutti</button>
+			<button class="appr-filter" data-filter="approfondimento">Approfondimenti</button>
+			<button class="appr-filter" data-filter="lista">Liste curate</button>
+			<button class="appr-filter" data-filter="intervista">Interviste</button>
+			<button class="appr-filter" data-filter="confronto">Confronti</button>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     ARTICOLO IN EVIDENZA
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface" data-type="approfondimento">
+	<div class="appr-page">
+		<a href="#" class="appr-featured">
+			<div class="appr-featured__img">
+				<div class="appr-featured__img-placeholder" style="background:linear-gradient(135deg,#1d2d44,#3e5c76,#748cab);">1200 × 640</div>
+			</div>
+			<div class="appr-featured__body">
+				<span class="appr-featured__type appr-type--approfondimento">Approfondimento</span>
+				<h2 class="appr-featured__title">Il realismo magico nel XXI secolo: chi raccoglie l'eredit&agrave; di Macondo?</h2>
+				<p class="appr-featured__excerpt">Da Samanta Schweblin a Mohsin Hamid, il realismo magico si reinventa. Non pi&ugrave; villaggi incantati ma metropoli digitali, non pi&ugrave; colonnelli ma rider. Una mappa della nuova letteratura fantastica.</p>
+				<div class="appr-featured__meta">
+					<span class="appr-featured__author">Cristian T.</span>
+					<span>22 Marzo 2026</span>
+					<span>12 min di lettura</span>
+					<span class="appr-featured__read">Leggi <span class="material-symbols-outlined">arrow_forward</span></span>
+				</div>
+			</div>
+		</a>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     APPROFONDIMENTI — Griglia
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark" data-type="approfondimento">
+	<div class="appr-page">
+		<div class="appr-section-header">
+			<p class="appr-section-overline">Analisi</p>
+			<h2 class="appr-section-title"><span class="material-symbols-outlined">psychology</span> Approfondimenti</h2>
+			<p class="appr-section-subtitle">Saggi critici, analisi tematiche e riflessioni sulla letteratura contemporanea</p>
+		</div>
+
+		<div class="appr-grid">
+
+			<a href="#" class="appr-card" data-type="approfondimento">
+				<div class="appr-card__img">
+					<div class="appr-card__img-placeholder" style="background:linear-gradient(135deg,#3e5c76,#1d2d44);">960 × 540</div>
+				</div>
+				<div class="appr-card__body">
+					<span class="appr-card__type appr-type--approfondimento">Approfondimento</span>
+					<h3 class="appr-card__title">La letteratura come atto politico: da Ferrante a Ferrante</h3>
+					<p class="appr-card__excerpt">Come la narrativa italiana contemporanea affronta il tema del potere, della classe e del corpo. Un viaggio da Ferrante a Ferrante (Elena e Ferrante, il concetto).</p>
+					<div class="appr-card__meta">
+						<span class="appr-card__author">Emma R.</span>
+						<span>15 Mar 2026</span>
+						<span class="appr-card__reading">9 min</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="appr-card" data-type="approfondimento">
+				<div class="appr-card__img">
+					<div class="appr-card__img-placeholder" style="background:linear-gradient(135deg,#748cab,#0d1321);">960 × 540</div>
+				</div>
+				<div class="appr-card__body">
+					<span class="appr-card__type appr-type--approfondimento">Approfondimento</span>
+					<h3 class="appr-card__title">Scrivere la migrazione: voci dal confine</h3>
+					<p class="appr-card__excerpt">Valeria Luiselli, Mohsin Hamid, Jenny Erpenbeck. Tre modi di raccontare lo sradicamento che sta ridefinendo la narrativa mondiale.</p>
+					<div class="appr-card__meta">
+						<span class="appr-card__author">Mattia L.</span>
+						<span>8 Mar 2026</span>
+						<span class="appr-card__reading">11 min</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="appr-card" data-type="approfondimento">
+				<div class="appr-card__img">
+					<div class="appr-card__img-placeholder" style="background:linear-gradient(135deg,#9467bd,#5a3478);">960 × 540</div>
+				</div>
+				<div class="appr-card__body">
+					<span class="appr-card__type appr-type--approfondimento">Approfondimento</span>
+					<h3 class="appr-card__title">Il ritorno del romanzo epistolare nell'era di WhatsApp</h3>
+					<p class="appr-card__excerpt">Chat, email, vocali: il romanzo epistolare non &egrave; mai morto, ha solo cambiato piattaforma. Da Richardson ai thread di Twitter.</p>
+					<div class="appr-card__meta">
+						<span class="appr-card__author">Claudia F.</span>
+						<span>1 Mar 2026</span>
+						<span class="appr-card__reading">7 min</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="appr-card" data-type="approfondimento">
+				<div class="appr-card__img">
+					<div class="appr-card__img-placeholder" style="background:linear-gradient(135deg,#81b29a,#3d6b55);">960 × 540</div>
+				</div>
+				<div class="appr-card__body">
+					<span class="appr-card__type appr-type--approfondimento">Approfondimento</span>
+					<h3 class="appr-card__title">Perch&eacute; i Nobel dividono sempre (e forse &egrave; giusto cos&igrave;)</h3>
+					<p class="appr-card__excerpt">L'Accademia svedese tra scandali e scoperte. Un'analisi dei premi pi&ugrave; controversi e di quelli che hanno cambiato la nostra libreria.</p>
+					<div class="appr-card__meta">
+						<span class="appr-card__author">Cristian T.</span>
+						<span>18 Feb 2026</span>
+						<span class="appr-card__reading">14 min</span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     LISTE CURATE — Scroll orizzontale
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface" data-type="lista">
+	<div class="appr-page">
+		<div class="appr-section-header">
+			<p class="appr-section-overline">Selezioni editoriali</p>
+			<h2 class="appr-section-title"><span class="material-symbols-outlined">format_list_numbered</span> Liste curate</h2>
+			<p class="appr-section-subtitle">Reading list tematiche per ogni umore e curiosit&agrave;</p>
+		</div>
+
+		<div class="appr-lists-scroll">
+
+			<a href="#" class="appr-list-card" data-type="lista">
+				<div class="appr-list-card__covers">
+					<div class="appr-list-card__cover-item" style="background:linear-gradient(135deg,#e07a5f,#8b3a2a);">Norwegian Wood</div>
+					<div class="appr-list-card__cover-item" style="background:linear-gradient(135deg,#1d2d44,#3e5c76);">Kitchen</div>
+					<div class="appr-list-card__cover-item" style="background:linear-gradient(135deg,#81b29a,#3d6b55);">Sputnik Sweetheart</div>
+					<div class="appr-list-card__cover-item" style="background:linear-gradient(135deg,#9467bd,#5a3478);">La ragazza...</div>
+				</div>
+				<div class="appr-list-card__body">
+					<p class="appr-list-card__count">5 libri</p>
+					<h4 class="appr-list-card__title">Per chi ha amato Norwegian Wood</h4>
+					<p class="appr-list-card__desc">Da Yoshimoto a Ogawa, letture che completano il viaggio iniziato con Toru Watanabe.</p>
+				</div>
+			</a>
+
+			<a href="#" class="appr-list-card" data-type="lista">
+				<div class="appr-list-card__covers">
+					<div class="appr-list-card__cover-item" style="background:linear-gradient(135deg,#748cab,#1d2d44);">Cent'anni...</div>
+					<div class="appr-list-card__cover-item" style="background:linear-gradient(135deg,#e07a5f,#c9684d);">Pedro P&aacute;ramo</div>
+					<div class="appr-list-card__cover-item" style="background:linear-gradient(135deg,#3e5c76,#0d1321);">La casa degli...</div>
+					<div class="appr-list-card__cover-item" style="background:linear-gradient(135deg,#81b29a,#9467bd);">2666</div>
+				</div>
+				<div class="appr-list-card__body">
+					<p class="appr-list-card__count">8 libri</p>
+					<h4 class="appr-list-card__title">Iniziare con il realismo magico</h4>
+					<p class="appr-list-card__desc">Il percorso ideale per chi si avvicina al genere, dal pi&ugrave; accessibile al pi&ugrave; radicale.</p>
+				</div>
+			</a>
+
+			<a href="#" class="appr-list-card" data-type="lista">
+				<div class="appr-list-card__covers">
+					<div class="appr-list-card__cover-item" style="background:linear-gradient(135deg,#0d1321,#1d2d44);">Sulla Terra...</div>
+					<div class="appr-list-card__cover-item" style="background:linear-gradient(135deg,#c4bfa8,#6b6650);">Febbre</div>
+					<div class="appr-list-card__cover-item" style="background:linear-gradient(135deg,#9467bd,#e07a5f);">I vagabondi</div>
+					<div class="appr-list-card__cover-item" style="background:linear-gradient(135deg,#3e5c76,#81b29a);">Kentuki</div>
+				</div>
+				<div class="appr-list-card__body">
+					<p class="appr-list-card__count">10 libri</p>
+					<h4 class="appr-list-card__title">I migliori esordi del decennio</h4>
+					<p class="appr-list-card__desc">Voci nuove che hanno cambiato il panorama letterario. Da Ocean Vuong a Samanta Schweblin.</p>
+				</div>
+			</a>
+
+			<a href="#" class="appr-list-card" data-type="lista">
+				<div class="appr-list-card__covers">
+					<div class="appr-list-card__cover-item" style="background:linear-gradient(135deg,#e07a5f,#9467bd);">L'amica geniale</div>
+					<div class="appr-list-card__cover-item" style="background:linear-gradient(135deg,#1d2d44,#748cab);">Menzogna e sort.</div>
+					<div class="appr-list-card__cover-item" style="background:linear-gradient(135deg,#81b29a,#c4bfa8);">La Storia</div>
+					<div class="appr-list-card__cover-item" style="background:linear-gradient(135deg,#0d1321,#3e5c76);">Lessico famig.</div>
+				</div>
+				<div class="appr-list-card__body">
+					<p class="appr-list-card__count">7 libri</p>
+					<h4 class="appr-list-card__title">Scrittrici italiane da riscoprire</h4>
+					<p class="appr-list-card__desc">Da Ginzburg a Morante, da Ferrante a Ferrante: le voci femminili che hanno definito la letteratura italiana.</p>
+				</div>
+			</a>
+
+			<a href="#" class="appr-list-card" data-type="lista">
+				<div class="appr-list-card__covers">
+					<div class="appr-list-card__cover-item" style="background:linear-gradient(135deg,#748cab,#3e5c76);">Lo straniero</div>
+					<div class="appr-list-card__cover-item" style="background:linear-gradient(135deg,#9467bd,#1d2d44);">Nausea</div>
+					<div class="appr-list-card__cover-item" style="background:linear-gradient(135deg,#c4bfa8,#0d1321);">Il processo</div>
+					<div class="appr-list-card__cover-item" style="background:linear-gradient(135deg,#e07a5f,#81b29a);">Se questo &egrave;...</div>
+				</div>
+				<div class="appr-list-card__body">
+					<p class="appr-list-card__count">6 libri</p>
+					<h4 class="appr-list-card__title">Libri sotto le 200 pagine che ti cambiano</h4>
+					<p class="appr-list-card__desc">Brevi, densi, indimenticabili. Per chi ha poco tempo ma vuole molto.</p>
+				</div>
+			</a>
+
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     INTERVISTE
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark" data-type="intervista">
+	<div class="appr-page">
+		<div class="appr-section-header">
+			<p class="appr-section-overline">Conversazioni</p>
+			<h2 class="appr-section-title"><span class="material-symbols-outlined">record_voice_over</span> Interviste</h2>
+			<p class="appr-section-subtitle">Dialoghi con autori, editori e protagonisti del mondo letterario</p>
+		</div>
+
+		<div class="appr-grid">
+
+			<a href="#" class="appr-interview" data-type="intervista">
+				<div class="appr-interview__avatar">
+					<div class="appr-interview__avatar-placeholder" style="background:linear-gradient(135deg,#81b29a,#3d6b55);">PA</div>
+				</div>
+				<div class="appr-interview__content">
+					<p class="appr-interview__label">Intervista</p>
+					<h3 class="appr-interview__name">Paolo Giordano</h3>
+					<p class="appr-interview__role">Scrittore &middot; Premio Strega 2008</p>
+					<p class="appr-interview__quote">«Ogni romanzo &egrave; un tentativo di capire qualcosa che nella vita reale mi sfugge.»</p>
+				</div>
+			</a>
+
+			<a href="#" class="appr-interview" data-type="intervista">
+				<div class="appr-interview__avatar">
+					<div class="appr-interview__avatar-placeholder" style="background:linear-gradient(135deg,#9467bd,#5a3478);">SV</div>
+				</div>
+				<div class="appr-interview__content">
+					<p class="appr-interview__label">Intervista</p>
+					<h3 class="appr-interview__name">Sandra Vezzoli</h3>
+					<p class="appr-interview__role">Editor &middot; Adelphi Edizioni</p>
+					<p class="appr-interview__quote">«Il lavoro dell'editor &egrave; sparire nel testo, lasciando solo la voce dell'autore.»</p>
+				</div>
+			</a>
+
+			<a href="#" class="appr-interview" data-type="intervista">
+				<div class="appr-interview__avatar">
+					<div class="appr-interview__avatar-placeholder" style="background:linear-gradient(135deg,#e07a5f,#c9684d);">MR</div>
+				</div>
+				<div class="appr-interview__content">
+					<p class="appr-interview__label">Intervista</p>
+					<h3 class="appr-interview__name">Marco Rossari</h3>
+					<p class="appr-interview__role">Traduttore &middot; David Foster Wallace, Franzen</p>
+					<p class="appr-interview__quote">«Tradurre &egrave; riscrivere un libro che gi&agrave; esiste, il che lo rende pi&ugrave; difficile, non pi&ugrave; facile.»</p>
+				</div>
+			</a>
+
+			<a href="#" class="appr-interview" data-type="intervista">
+				<div class="appr-interview__avatar">
+					<div class="appr-interview__avatar-placeholder" style="background:linear-gradient(135deg,#748cab,#1d2d44);">LC</div>
+				</div>
+				<div class="appr-interview__content">
+					<p class="appr-interview__label">Intervista</p>
+					<h3 class="appr-interview__name">Lucia Coppola</h3>
+					<p class="appr-interview__role">Libraia &middot; Libreria del Mondo Offeso, Milano</p>
+					<p class="appr-interview__quote">«Una libreria indipendente &egrave; un atto di resistenza culturale. Ogni scaffale &egrave; una scelta.»</p>
+				</div>
+			</a>
+
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CONFRONTI — VS Cards
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface" data-type="confronto">
+	<div class="appr-page">
+		<div class="appr-section-header">
+			<p class="appr-section-overline">Faccia a faccia</p>
+			<h2 class="appr-section-title"><span class="material-symbols-outlined">compare_arrows</span> Confronti</h2>
+			<p class="appr-section-subtitle">Due opere, due autori, una domanda. Le analisi comparative della redazione</p>
+		</div>
+
+		<div class="appr-grid" style="grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));">
+
+			<a href="#" class="appr-vs" data-type="confronto">
+				<div class="appr-vs__side">
+					<div class="appr-vs__cover" style="background:linear-gradient(135deg,#e07a5f,#8b3a2a);">L'amica geniale</div>
+					<span class="appr-vs__author">Elena Ferrante</span>
+				</div>
+				<div class="appr-vs__divider">VS</div>
+				<div class="appr-vs__side">
+					<div class="appr-vs__cover" style="background:linear-gradient(135deg,#748cab,#1d2d44);">La Storia</div>
+					<span class="appr-vs__author">Elsa Morante</span>
+				</div>
+				<div class="appr-vs__info">
+					<h4 class="appr-vs__info-title">Ferrante vs Morante</h4>
+					<p class="appr-vs__info-desc">Due modi di raccontare Napoli, la classe operaia e la condizione femminile. Chi vince?</p>
+					<span class="appr-vs__info-meta">Cristian T. &middot; 10 Mar 2026 &middot; 15 min</span>
+				</div>
+			</a>
+
+			<a href="#" class="appr-vs" data-type="confronto">
+				<div class="appr-vs__side">
+					<div class="appr-vs__cover" style="background:linear-gradient(135deg,#3e5c76,#0d1321);">Norwegian Wood</div>
+					<span class="appr-vs__author">Murakami</span>
+				</div>
+				<div class="appr-vs__divider">VS</div>
+				<div class="appr-vs__side">
+					<div class="appr-vs__cover" style="background:linear-gradient(135deg,#81b29a,#3d6b55);">Kitchen</div>
+					<span class="appr-vs__author">Yoshimoto</span>
+				</div>
+				<div class="appr-vs__info">
+					<h4 class="appr-vs__info-title">Murakami vs Yoshimoto</h4>
+					<p class="appr-vs__info-desc">La solitudine giapponese raccontata da due voci opposte: il distacco maschile e la dolcezza femminile.</p>
+					<span class="appr-vs__info-meta">Emma R. &middot; 25 Feb 2026 &middot; 12 min</span>
+				</div>
+			</a>
+
+			<a href="#" class="appr-vs" data-type="confronto">
+				<div class="appr-vs__side">
+					<div class="appr-vs__cover" style="background:linear-gradient(135deg,#9467bd,#5a3478);">Sulla Terra...</div>
+					<span class="appr-vs__author">Ocean Vuong</span>
+				</div>
+				<div class="appr-vs__divider">VS</div>
+				<div class="appr-vs__side">
+					<div class="appr-vs__cover" style="background:linear-gradient(135deg,#c4bfa8,#6b6650);">Americanah</div>
+					<span class="appr-vs__author">Adichie</span>
+				</div>
+				<div class="appr-vs__info">
+					<h4 class="appr-vs__info-title">Vuong vs Adichie</h4>
+					<p class="appr-vs__info-desc">Due figli della diaspora, due continenti, due modi radicalmente diversi di scrivere l'identit&agrave;.</p>
+					<span class="appr-vs__info-meta">Claudia F. &middot; 12 Feb 2026 &middot; 10 min</span>
+				</div>
+			</a>
+
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ -->
+
+<footer class="site-footer">
+	<div style="max-width:80rem;margin:0 auto;padding:0 2rem;">
+		<div class="footer-main">
+			<div class="footer-brand">
+				<p class="site-title">Not My Cup of Read</p>
+				<p>Esploriamo la letteratura contemporanea attraverso podcast, recensioni e approfondimenti.</p>
+				<div class="footer-social">
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">podcasts</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">play_circle</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">photo_camera</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">send</span></a>
+				</div>
+			</div>
+			<div class="footer-col">
+				<h4>ESPLORA</h4>
+				<ul>
+					<li><a href="demo-recensioni.html">Recensioni</a></li>
+					<li><a href="demo-approfondimenti.html">Approfondimenti</a></li>
+					<li><a href="demo-podcast.html">Podcast</a></li>
+					<li><a href="demo-libri.html">Libri</a></li>
+					<li><a href="demo-autori.html">Autori</a></li>
+					<li><a href="demo-librerie.html">Librerie</a></li>
+					<li><a href="demo-eventi.html">Timeline</a></li>
+					<li><a href="demo-calendario.html">Calendario</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>PROGETTO</h4>
+				<ul>
+					<li><a href="demo-chi-siamo.html">Chi siamo</a></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Contatti</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>NEWSLETTER</h4>
+				<p style="font-size:0.875rem;margin-bottom:1rem;opacity:0.75;">Ricevi le nostre selezioni editoriali.</p>
+				<div class="newsletter-form">
+					<input type="email" placeholder="La tua email" style="background:rgba(255,255,255,0.05);color:#fff;">
+					<button class="btn btn--teal btn--small">Iscriviti</button>
+				</div>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<span>&copy; 2026 Not My Cup of Read.</span>
+			<div class="footer-bottom-links">
+				<a href="#">Privacy Policy</a>
+				<a href="#">Cookie Policy</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT — Filter tabs
+     ═══════════════════════════════════════════ -->
+<script>
+(function() {
+	'use strict';
+
+	var filters = document.querySelectorAll('.appr-filter');
+	var sections = document.querySelectorAll('[data-type]');
+	var cards = document.querySelectorAll('[data-type] .appr-card, [data-type] .appr-list-card, [data-type] .appr-interview, [data-type] .appr-vs, [data-type] .appr-featured');
+
+	filters.forEach(function(btn) {
+		btn.addEventListener('click', function() {
+			var filter = this.getAttribute('data-filter');
+
+			// Toggle active
+			filters.forEach(function(f) { f.classList.remove('active'); });
+			this.classList.add('active');
+
+			if (filter === 'tutti') {
+				sections.forEach(function(s) { s.style.display = ''; });
+			} else {
+				sections.forEach(function(s) {
+					s.style.display = s.getAttribute('data-type') === filter ? '' : 'none';
+				});
+			}
+		});
+	});
+})();
+</script>
+
+</body>
+</html>

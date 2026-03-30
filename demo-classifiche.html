@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Classifiche — Not My Cup of Read</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Newsreader:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<style>
+/* ═══════════════════════════════════════════
+   CLASSIFICHE PAGE
+   ═══════════════════════════════════════════ */
+
+.cl-page { max-width: 80rem; margin: 0 auto; padding: 0 2rem; }
+
+/* ── Hero ── */
+.cl-hero { text-align: center; padding: 3.5rem 0 2rem; }
+.cl-hero__overline { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--c-accent); margin-bottom: 0.5rem; }
+.cl-hero__title { font-family: var(--font-headline); font-size: clamp(2rem, 5vw, 3.25rem); font-weight: 700; font-style: italic; color: var(--c-surface); margin: 0 0 0.75rem; }
+.cl-hero__subtitle { font-size: 1rem; color: var(--c-on-surface-variant); max-width: 38rem; margin: 0 auto; line-height: 1.7; }
+
+/* ═══ SCORE BADGE — Metacritic style ═══ */
+.cl-score {
+	display: inline-flex; align-items: center; justify-content: center;
+	width: 44px; height: 44px; border-radius: 8px;
+	font-size: 1rem; font-weight: 900; line-height: 1;
+	position: relative; flex-shrink: 0;
+	font-family: var(--font-body);
+}
+
+.cl-score--sm { width: 36px; height: 36px; font-size: 0.8125rem; border-radius: 6px; }
+.cl-score--lg { width: 56px; height: 56px; font-size: 1.25rem; border-radius: 10px; }
+.cl-score--xl { width: 72px; height: 72px; font-size: 1.625rem; border-radius: 12px; }
+
+/* Standard (< 80) */
+.cl-score--standard { background: var(--c-primary-container); color: rgba(255,255,255,0.85); }
+
+/* Silver (80-89) */
+.cl-score--silver {
+	background: linear-gradient(135deg, #e8e8e8, #b0b0b0, #d4d4d4);
+	color: #2a2a2a;
+	box-shadow: 0 2px 8px rgba(176,176,176,0.4);
+}
+
+/* Gold (90-99) */
+.cl-score--gold {
+	background: linear-gradient(135deg, #f7dc6f, #d4a017, #f0c040);
+	color: #4a3500;
+	box-shadow: 0 2px 8px rgba(212,160,23,0.4);
+}
+
+/* 100 e lode — Gold + star */
+.cl-score--lode {
+	background: linear-gradient(135deg, #f7dc6f, #d4a017, #f0c040);
+	color: #4a3500;
+	box-shadow: 0 2px 12px rgba(212,160,23,0.5);
+}
+
+.cl-score--lode::after {
+	content: '\2605';
+	position: absolute;
+	top: -6px; right: -6px;
+	font-size: 0.875rem;
+	color: #d4a017;
+	filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+}
+
+.cl-score--lg.cl-score--lode::after { font-size: 1rem; top: -7px; right: -7px; }
+.cl-score--xl.cl-score--lode::after { font-size: 1.25rem; top: -8px; right: -8px; }
+
+/* Community score (smaller, lighter) */
+.cl-community-score {
+	display: inline-flex; align-items: center; gap: 0.25rem;
+	font-size: 0.6875rem; color: var(--c-on-surface-variant);
+}
+.cl-community-score .material-symbols-outlined { font-size: 0.875rem; color: var(--c-accent); }
+
+/* ═══ NUOVE USCITE — Grid ═══ */
+.cl-new { margin-bottom: 3rem; }
+
+.cl-section-header {
+	display: flex; align-items: baseline; justify-content: space-between;
+	margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.5rem;
+}
+.cl-section-title {
+	font-family: var(--font-headline); font-size: 1.5rem; font-weight: 700;
+	color: var(--c-on-surface); margin: 0; display: flex; align-items: center; gap: 0.5rem;
+}
+.cl-section-title .material-symbols-outlined { color: var(--c-accent); }
+.cl-section-sub { font-size: 0.8125rem; color: var(--c-on-surface-variant); }
+
+.cl-new__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+	gap: 1.25rem;
+}
+
+.cl-new__card {
+	display: block; text-decoration: none;
+	transition: transform 0.2s;
+}
+.cl-new__card:hover { transform: translateY(-4px); }
+
+.cl-new__cover {
+	position: relative;
+	aspect-ratio: 2/3;
+	border-radius: var(--radius-md);
+	overflow: hidden;
+	margin-bottom: 0.75rem;
+	box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+}
+.cl-new__card:hover .cl-new__cover { box-shadow: 0 8px 28px rgba(0,0,0,0.3); }
+
+.cl-new__cover-placeholder {
+	width: 100%; height: 100%;
+	display: flex; flex-direction: column;
+	align-items: center; justify-content: center;
+	padding: 1rem; text-align: center;
+	font-family: var(--font-headline);
+	color: rgba(255,255,255,0.85);
+}
+.cl-new__cover-author { font-size: 0.625rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.5; margin-bottom: 0.35rem; }
+.cl-new__cover-title { font-size: 0.875rem; font-weight: 700; font-style: italic; line-height: 1.3; }
+
+.cl-new__score-badge {
+	position: absolute; bottom: 0.5rem; right: 0.5rem;
+}
+
+.cl-new__title { font-size: 0.8125rem; font-weight: 600; color: var(--c-on-surface); margin: 0 0 0.1rem; line-height: 1.3; }
+.cl-new__author { font-size: 0.6875rem; color: var(--c-on-surface-variant); margin: 0 0 0.35rem; }
+.cl-new__meta { display: flex; align-items: center; gap: 0.5rem; }
+.cl-new__tag { font-size: 0.5625rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.15rem 0.5rem; border-radius: var(--radius-full); background: rgba(224,122,95,0.1); color: var(--c-accent); }
+
+/* ═══ CLASSIFICHE IN EVIDENZA — Featured rankings ═══ */
+.cl-featured { margin-bottom: 3rem; }
+
+.cl-featured__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+	gap: 1.25rem;
+}
+
+.cl-featured__card {
+	display: flex; text-decoration: none;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+.cl-featured__card:hover {
+	border-color: var(--c-accent);
+	box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+	transform: translateY(-2px);
+}
+
+.cl-featured__covers {
+	display: flex; flex-shrink: 0; width: 140px;
+	position: relative; overflow: hidden;
+}
+
+.cl-featured__cover-stack {
+	position: relative; width: 100%; height: 100%; min-height: 180px;
+}
+
+.cl-featured__cover-stack-item {
+	position: absolute;
+	width: 80px; height: 110px;
+	border-radius: 4px;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+	display: flex; align-items: center; justify-content: center;
+	font-family: var(--font-headline); font-size: 0.6875rem;
+	font-weight: 700; font-style: italic; color: rgba(255,255,255,0.8);
+	text-align: center; padding: 0.35rem; line-height: 1.2;
+}
+
+.cl-featured__cover-stack-item:nth-child(1) { top: 15px; left: 10px; z-index: 3; transform: rotate(-3deg); }
+.cl-featured__cover-stack-item:nth-child(2) { top: 25px; left: 35px; z-index: 2; transform: rotate(2deg); }
+.cl-featured__cover-stack-item:nth-child(3) { top: 10px; left: 55px; z-index: 1; transform: rotate(5deg); opacity: 0.7; }
+
+.cl-featured__body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+.cl-featured__label { font-size: 0.625rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--c-accent); margin-bottom: 0.35rem; }
+.cl-featured__title { font-family: var(--font-headline); font-size: 1.125rem; font-weight: 700; color: var(--c-on-surface); margin: 0 0 0.35rem; }
+.cl-featured__desc { font-size: 0.8125rem; color: var(--c-on-surface-variant); margin: 0 0 0.75rem; line-height: 1.5; }
+.cl-featured__cta { display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.75rem; font-weight: 600; color: var(--c-accent); }
+.cl-featured__cta .material-symbols-outlined { font-size: 0.875rem; transition: transform 0.2s; }
+.cl-featured__card:hover .cl-featured__cta .material-symbols-outlined { transform: translateX(3px); }
+
+/* ═══ CLASSIFICA DEL MESE — Podium ═══ */
+.cl-podium { margin-bottom: 3rem; }
+
+.cl-podium__stage {
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+	gap: 1.5rem;
+	margin-bottom: 2rem;
+}
+
+.cl-podium__item {
+	display: flex; flex-direction: column; align-items: center;
+	text-decoration: none; text-align: center;
+	transition: transform 0.2s;
+}
+.cl-podium__item:hover { transform: translateY(-4px); }
+
+.cl-podium__item--1 { order: 2; }
+.cl-podium__item--2 { order: 1; }
+.cl-podium__item--3 { order: 3; }
+
+.cl-podium__cover {
+	border-radius: var(--radius-md);
+	overflow: hidden;
+	box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+	display: flex; align-items: center; justify-content: center;
+	font-family: var(--font-headline); font-weight: 700; font-style: italic;
+	color: rgba(255,255,255,0.85); text-align: center; padding: 0.75rem;
+	line-height: 1.2;
+	transition: box-shadow 0.2s;
+}
+.cl-podium__item:hover .cl-podium__cover { box-shadow: 0 8px 32px rgba(0,0,0,0.35); }
+
+.cl-podium__item--1 .cl-podium__cover { width: 160px; height: 240px; font-size: 1rem; }
+.cl-podium__item--2 .cl-podium__cover { width: 130px; height: 195px; font-size: 0.875rem; }
+.cl-podium__item--3 .cl-podium__cover { width: 130px; height: 195px; font-size: 0.875rem; }
+
+.cl-podium__rank {
+	display: flex; align-items: center; justify-content: center;
+	width: 32px; height: 32px; border-radius: 50%;
+	font-size: 0.8125rem; font-weight: 800;
+	margin-top: -16px; position: relative; z-index: 2;
+	box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+.cl-podium__rank--1 { background: linear-gradient(135deg, #f7dc6f, #d4a017); color: #4a3500; width: 40px; height: 40px; margin-top: -20px; font-size: 1rem; }
+.cl-podium__rank--2 { background: linear-gradient(135deg, #e8e8e8, #b0b0b0); color: #2a2a2a; }
+.cl-podium__rank--3 { background: linear-gradient(135deg, #cd7f32, #a0612b); color: #fff; }
+
+.cl-podium__info { margin-top: 0.75rem; }
+.cl-podium__book-title { font-family: var(--font-headline); font-size: 0.875rem; font-weight: 700; color: var(--c-on-surface); margin: 0 0 0.1rem; }
+.cl-podium__item--1 .cl-podium__book-title { font-size: 1rem; }
+.cl-podium__book-author { font-size: 0.75rem; color: var(--c-on-surface-variant); margin: 0 0 0.5rem; }
+.cl-podium__score-row { display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+
+/* ═══ CLASSIFICHE PER GENERE ═══ */
+.cl-genres { margin-bottom: 3rem; }
+
+.cl-genres__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	gap: 1rem;
+}
+
+.cl-genre-card {
+	display: flex; align-items: center; gap: 0.75rem;
+	padding: 1rem 1.25rem;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	border-radius: var(--radius-md);
+	text-decoration: none;
+	transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+.cl-genre-card:hover {
+	border-color: var(--c-accent);
+	box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+	transform: translateY(-2px);
+}
+
+.cl-genre-card__icon {
+	width: 40px; height: 40px; border-radius: var(--radius-sm);
+	display: flex; align-items: center; justify-content: center;
+	flex-shrink: 0;
+}
+.cl-genre-card__icon .material-symbols-outlined { font-size: 1.25rem; }
+
+.cl-genre-card__name { font-size: 0.875rem; font-weight: 600; color: var(--c-on-surface); }
+.cl-genre-card__count { font-size: 0.6875rem; color: var(--c-on-surface-variant); }
+
+.cl-genre-card__arrow {
+	margin-left: auto;
+	font-size: 1rem; color: var(--c-on-surface-variant);
+	opacity: 0; transition: opacity 0.2s;
+}
+.cl-genre-card:hover .cl-genre-card__arrow { opacity: 1; }
+
+/* ═══ LA PERSONALISSIMA DI... ═══ */
+.cl-personal { margin-bottom: 3rem; }
+
+.cl-personal__header {
+	display: flex; align-items: center; gap: 1.25rem;
+	margin-bottom: 1.5rem; flex-wrap: wrap;
+}
+
+.cl-personal__avatar {
+	width: 56px; height: 56px; border-radius: 50%;
+	display: flex; align-items: center; justify-content: center;
+	font-weight: 700; font-size: 1.25rem; color: rgba(255,255,255,0.8);
+	flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.cl-personal__intro { flex: 1; }
+.cl-personal__intro-title {
+	font-family: var(--font-headline); font-size: 1.375rem; font-weight: 700;
+	color: var(--c-on-surface); margin: 0 0 0.15rem;
+}
+.cl-personal__intro-sub {
+	font-size: 0.8125rem; color: var(--c-on-surface-variant); margin: 0;
+}
+
+.cl-personal__tabs {
+	display: flex; gap: 0.35rem; flex-wrap: wrap;
+}
+
+.cl-personal__tab {
+	display: inline-flex; align-items: center; gap: 0.35rem;
+	padding: 0.4rem 1rem; border-radius: var(--radius-full);
+	font-size: 0.75rem; font-weight: 600;
+	border: 1px solid var(--c-surface-container-high);
+	background: transparent; color: var(--c-on-surface-variant);
+	cursor: pointer; transition: all 0.2s;
+}
+
+.cl-personal__tab:hover { border-color: var(--c-accent); color: var(--c-accent); }
+.cl-personal__tab.active { background: var(--c-accent); color: #fff; border-color: var(--c-accent); }
+
+.cl-personal__tab-avatar {
+	width: 20px; height: 20px; border-radius: 50%;
+	display: inline-flex; align-items: center; justify-content: center;
+	font-size: 0.5rem; font-weight: 700; color: rgba(255,255,255,0.85);
+}
+
+/* Personal list view */
+.cl-personal__view { display: none; }
+.cl-personal__view.active { display: block; }
+
+.cl-personal__quote {
+	font-family: var(--font-headline); font-style: italic;
+	font-size: 0.9375rem; color: var(--c-on-surface-variant);
+	margin: 0 0 1.25rem; line-height: 1.6;
+	padding-left: 1rem; border-left: 3px solid var(--c-accent);
+}
+
+.cl-personal__list {
+	display: flex; flex-direction: column; gap: 0;
+}
+
+.cl-personal__entry {
+	display: flex; align-items: center; gap: 1rem;
+	padding: 0.875rem 1rem;
+	border-bottom: 1px solid var(--c-surface-container-high);
+	text-decoration: none;
+	transition: background 0.15s;
+}
+.cl-personal__entry:hover { background: var(--c-surface-container); }
+.cl-personal__entry:last-child { border-bottom: none; }
+
+.cl-personal__pos {
+	font-family: var(--font-headline); font-size: 1.25rem; font-weight: 700;
+	color: var(--c-accent); width: 2rem; text-align: center; flex-shrink: 0;
+}
+
+.cl-personal__cover-mini {
+	width: 44px; height: 64px; border-radius: 4px; overflow: hidden;
+	flex-shrink: 0; box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+.cl-personal__cover-mini-ph {
+	width: 100%; height: 100%;
+	display: flex; align-items: center; justify-content: center;
+	font-family: var(--font-headline); font-size: 0.5rem; font-style: italic;
+	color: rgba(255,255,255,0.7); text-align: center; padding: 0.2rem;
+	line-height: 1.2;
+}
+
+.cl-personal__entry-info { flex: 1; min-width: 0; }
+.cl-personal__entry-title {
+	font-size: 0.875rem; font-weight: 600; color: var(--c-on-surface);
+	margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.cl-personal__entry-author {
+	font-size: 0.75rem; color: var(--c-on-surface-variant); margin: 0;
+}
+
+.cl-personal__entry-comment {
+	font-size: 0.6875rem; font-style: italic;
+	color: var(--c-on-surface-variant); opacity: 0.7;
+	margin: 0.15rem 0 0; line-height: 1.3;
+}
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 768px) {
+	.cl-new__grid { grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+	.cl-featured__grid { grid-template-columns: 1fr; }
+	.cl-featured__card { flex-direction: column; }
+	.cl-featured__covers { width: 100%; height: 140px; }
+	.cl-podium__stage { gap: 0.75rem; }
+	.cl-podium__item--1 .cl-podium__cover { width: 120px; height: 180px; }
+	.cl-podium__item--2 .cl-podium__cover, .cl-podium__item--3 .cl-podium__cover { width: 95px; height: 142px; }
+	.cl-genres__grid { grid-template-columns: repeat(2, 1fr); }
+	.cl-personal__header { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 480px) {
+	.cl-new__grid { grid-template-columns: repeat(2, 1fr); }
+	.cl-genres__grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     HEADER
+     ═══════════════════════════════════════════ -->
+
+<header class="site-header" id="siteHeader">
+	<div class="header-outer">
+		<div class="header-inner">
+			<div class="site-branding">
+				<div class="site-branding__icon"><img src="assets/img/logo-nmcor.png" alt="NMCOR"></div>
+				<h1 class="site-title"><a href="demo.html">Not My Cup of Read</a></h1>
+			</div>
+			<nav class="primary-nav" id="primaryNav">
+				<ul>
+					<li><a href="#">Articoli</a><ul class="sub-menu"><li><a href="demo-recensioni.html">Recensioni</a></li><li><a href="demo-approfondimenti.html">Approfondimenti</a></li><li><a href="demo-classifiche.html">Classifiche</a></li></ul></li>
+					<li><a href="#">Podcast</a><ul class="sub-menu"><li><a href="demo-podcast.html">Episodi</a></li><li><a href="demo-format.html">Format</a></li><li><a href="demo-dietro-le-quinte.html">Dietro le quinte</a></li></ul></li>
+					<li><a href="#">Biblioteca</a><ul class="sub-menu"><li><a href="demo-libri.html">Libri</a></li><li><a href="demo-autori.html">Autori</a></li></ul></li>
+					<li><a href="#">Luoghi</a><ul class="sub-menu"><li><a href="demo-librerie.html">La mappa del Lettore</a></li><li><a href="demo-luoghi-milano.html">Milano</a></li><li><a href="demo-itinerari.html">Itinerari letterari</a></li><li><a href="demo-luoghi-librerie.html">Librerie</a></li><li><a href="demo-luoghi-biblioteche.html">Biblioteche</a></li><li><a href="demo-luoghi-caffe.html">Caffè letterari</a></li><li><a href="demo-luoghi-spazi.html">Spazi culturali</a></li></ul></li>
+					<li><a href="#">Eventi</a><ul class="sub-menu"><li><a href="demo-eventi.html">Timeline</a></li><li><a href="demo-calendario.html">Calendario</a></li><li><a href="demo-fiere-festival.html">Fiere e Festival</a></li><li><a href="demo-premi-letterari.html">Premi letterari</a></li></ul></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Chi siamo</a><ul class="sub-menu"><li><a href="demo-chi-siamo.html">Lo studio &amp; gli host</a></li><li><a href="demo-ospiti-redazione.html">Gli ospiti &amp; la redazione</a></li><li><a href="demo-contatti.html">Contatti &amp; Collaborazioni</a></li></ul></li>
+				</ul>
+			</nav>
+			<div class="header-search"><input type="text" placeholder="Cerca..."></div>
+		</div>
+		<div class="header-extras">
+			<div class="header-social">
+				<a href="#" class="header-social__link" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23.5 6.19a3 3 0 0 0-2.11-2.13C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.39.56A3 3 0 0 0 .5 6.19 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.81 3 3 0 0 0 2.11 2.13c1.89.56 9.39.56 9.39.56s7.5 0 9.39-.56a3 3 0 0 0 2.11-2.13A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.81ZM9.75 15.02V8.98L15.5 12l-5.75 3.02Z"/></svg></a>
+				<a href="#" class="header-social__link" aria-label="Spotify"><svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.31a.75.75 0 0 1-1.03.25c-2.82-1.72-6.37-2.11-10.55-1.16a.75.75 0 1 1-.34-1.46c4.57-1.05 8.49-.6 11.67 1.34a.75.75 0 0 1 .25 1.03Zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.23-1.98-8.15-2.56-11.97-1.4a.94.94 0 1 1-.54-1.8c4.36-1.32 9.78-.68 13.49 1.6a.94.94 0 0 1 .31 1.29Zm.13-3.4C15.5 8.4 9 8.2 5.24 9.33a1.13 1.13 0 1 1-.65-2.16c4.33-1.3 11.52-1.05 16.07 1.68a1.13 1.13 0 0 1-1.56 1.79Z"/></svg></a>
+			</div>
+			<div class="header-auth"><a href="demo-profilo.html" class="header-auth__btn"><span class="material-symbols-outlined">person</span> Cristian T.</a></div>
+			<button class="menu-toggle" id="menuToggle" aria-label="Menu"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
+		</div>
+	</div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="cl-page">
+		<div class="cl-hero">
+			<p class="cl-hero__overline">Recensioni</p>
+			<h2 class="cl-hero__title">Le Classifiche NMCOR</h2>
+			<p class="cl-hero__subtitle">I voti della redazione e della community. Perché dare un numero a un libro è sbagliato, ma irresistibile.</p>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     NUOVE USCITE
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface">
+	<div class="cl-page">
+		<div class="cl-new">
+			<div class="cl-section-header">
+				<h3 class="cl-section-title"><span class="material-symbols-outlined">new_releases</span> Nuove uscite</h3>
+				<span class="cl-section-sub">Valutazioni fresche dalla redazione</span>
+			</div>
+
+			<div class="cl-new__grid">
+
+				<!-- 100 e lode -->
+				<a href="#" class="cl-new__card">
+					<div class="cl-new__cover">
+						<div class="cl-new__cover-placeholder" style="background:linear-gradient(160deg,#e07a5f,#c9684d,#8b3a2a);">
+							<span class="cl-new__cover-author">Ocean Vuong</span>
+							<span class="cl-new__cover-title">Sulla Terra siamo brevemente splendidi</span>
+						</div>
+						<div class="cl-new__score-badge"><span class="cl-score cl-score--sm cl-score--lode">100</span></div>
+					</div>
+					<h4 class="cl-new__title">Sulla Terra siamo brevemente splendidi</h4>
+					<p class="cl-new__author">Ocean Vuong</p>
+					<div class="cl-new__meta">
+						<span class="cl-new__tag">Narrativa</span>
+						<span class="cl-community-score"><span class="material-symbols-outlined">group</span> 96</span>
+					</div>
+				</a>
+
+				<!-- Gold (92) -->
+				<a href="#" class="cl-new__card">
+					<div class="cl-new__cover">
+						<div class="cl-new__cover-placeholder" style="background:linear-gradient(160deg,#3e5c76,#1d2d44,#0d1321);">
+							<span class="cl-new__cover-author">Samanta Schweblin</span>
+							<span class="cl-new__cover-title">Kentuki</span>
+						</div>
+						<div class="cl-new__score-badge"><span class="cl-score cl-score--sm cl-score--gold">92</span></div>
+					</div>
+					<h4 class="cl-new__title">Kentuki</h4>
+					<p class="cl-new__author">Samanta Schweblin</p>
+					<div class="cl-new__meta">
+						<span class="cl-new__tag">Narrativa</span>
+						<span class="cl-community-score"><span class="material-symbols-outlined">group</span> 88</span>
+					</div>
+				</a>
+
+				<!-- Silver (85) -->
+				<a href="#" class="cl-new__card">
+					<div class="cl-new__cover">
+						<div class="cl-new__cover-placeholder" style="background:linear-gradient(160deg,#81b29a,#5a9a7a,#3d6b55);">
+							<span class="cl-new__cover-author">Valeria Luiselli</span>
+							<span class="cl-new__cover-title">Archivio dei bambini perduti</span>
+						</div>
+						<div class="cl-new__score-badge"><span class="cl-score cl-score--sm cl-score--silver">85</span></div>
+					</div>
+					<h4 class="cl-new__title">Archivio dei bambini perduti</h4>
+					<p class="cl-new__author">Valeria Luiselli</p>
+					<div class="cl-new__meta">
+						<span class="cl-new__tag">Saggistica</span>
+						<span class="cl-community-score"><span class="material-symbols-outlined">group</span> 82</span>
+					</div>
+				</a>
+
+				<!-- Gold (94) -->
+				<a href="#" class="cl-new__card">
+					<div class="cl-new__cover">
+						<div class="cl-new__cover-placeholder" style="background:linear-gradient(160deg,#9467bd,#7b4ea0,#5a3478);">
+							<span class="cl-new__cover-author">Mariana Enriquez</span>
+							<span class="cl-new__cover-title">La nostra parte di notte</span>
+						</div>
+						<div class="cl-new__score-badge"><span class="cl-score cl-score--sm cl-score--gold">94</span></div>
+					</div>
+					<h4 class="cl-new__title">La nostra parte di notte</h4>
+					<p class="cl-new__author">Mariana Enriquez</p>
+					<div class="cl-new__meta">
+						<span class="cl-new__tag">Horror</span>
+						<span class="cl-community-score"><span class="material-symbols-outlined">group</span> 91</span>
+					</div>
+				</a>
+
+				<!-- Standard (72) -->
+				<a href="#" class="cl-new__card">
+					<div class="cl-new__cover">
+						<div class="cl-new__cover-placeholder" style="background:linear-gradient(160deg,#748cab,#3e5c76,#1d2d44);">
+							<span class="cl-new__cover-author">Paolo Ferraris</span>
+							<span class="cl-new__cover-title">Confini liquidi</span>
+						</div>
+						<div class="cl-new__score-badge"><span class="cl-score cl-score--sm cl-score--standard">72</span></div>
+					</div>
+					<h4 class="cl-new__title">Confini liquidi</h4>
+					<p class="cl-new__author">Paolo Ferraris</p>
+					<div class="cl-new__meta">
+						<span class="cl-new__tag">Saggistica</span>
+						<span class="cl-community-score"><span class="material-symbols-outlined">group</span> 68</span>
+					</div>
+				</a>
+
+				<!-- Silver (87) -->
+				<a href="#" class="cl-new__card">
+					<div class="cl-new__cover">
+						<div class="cl-new__cover-placeholder" style="background:linear-gradient(160deg,#1d2d44,#0d1321,#000);">
+							<span class="cl-new__cover-author">Olga Tokarczuk</span>
+							<span class="cl-new__cover-title">I vagabondi</span>
+						</div>
+						<div class="cl-new__score-badge"><span class="cl-score cl-score--sm cl-score--silver">87</span></div>
+					</div>
+					<h4 class="cl-new__title">I vagabondi</h4>
+					<p class="cl-new__author">Olga Tokarczuk</p>
+					<div class="cl-new__meta">
+						<span class="cl-new__tag">Narrativa</span>
+						<span class="cl-community-score"><span class="material-symbols-outlined">group</span> 84</span>
+					</div>
+				</a>
+
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CLASSIFICHE IN EVIDENZA
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="cl-page">
+		<div class="cl-featured">
+			<div class="cl-section-header">
+				<h3 class="cl-section-title"><span class="material-symbols-outlined">emoji_events</span> Classifiche in evidenza</h3>
+			</div>
+
+			<div class="cl-featured__grid">
+
+				<!-- I migliori del 2025 -->
+				<a href="demo-classifica-dettaglio.html" class="cl-featured__card">
+					<div class="cl-featured__covers">
+						<div class="cl-featured__cover-stack">
+							<div class="cl-featured__cover-stack-item" style="background:linear-gradient(135deg,#e07a5f,#8b3a2a);">Sulla Terra...</div>
+							<div class="cl-featured__cover-stack-item" style="background:linear-gradient(135deg,#9467bd,#5a3478);">La nostra parte...</div>
+							<div class="cl-featured__cover-stack-item" style="background:linear-gradient(135deg,#3e5c76,#0d1321);">Kentuki</div>
+						</div>
+					</div>
+					<div class="cl-featured__body">
+						<span class="cl-featured__label">Top 25</span>
+						<h4 class="cl-featured__title">I migliori del 2025</h4>
+						<p class="cl-featured__desc">I libri più amati dalla redazione e dalla community nell'anno appena concluso.</p>
+						<span class="cl-featured__cta">Vedi classifica <span class="material-symbols-outlined">arrow_forward</span></span>
+					</div>
+				</a>
+
+				<!-- All-Time -->
+				<a href="#" class="cl-featured__card">
+					<div class="cl-featured__covers">
+						<div class="cl-featured__cover-stack">
+							<div class="cl-featured__cover-stack-item" style="background:linear-gradient(135deg,#81b29a,#3d6b55);">Cent'anni...</div>
+							<div class="cl-featured__cover-stack-item" style="background:linear-gradient(135deg,#748cab,#1d2d44);">Se una notte...</div>
+							<div class="cl-featured__cover-stack-item" style="background:linear-gradient(135deg,#c4bfa8,#6b6650);">Amatissima</div>
+						</div>
+					</div>
+					<div class="cl-featured__body">
+						<span class="cl-featured__label">All-Time</span>
+						<h4 class="cl-featured__title">I capolavori senza tempo</h4>
+						<p class="cl-featured__desc">La classifica definitiva NMCOR: i libri che ogni lettore dovrebbe incontrare almeno una volta.</p>
+						<span class="cl-featured__cta">Vedi classifica <span class="material-symbols-outlined">arrow_forward</span></span>
+					</div>
+				</a>
+
+				<!-- Più discussi -->
+				<a href="#" class="cl-featured__card">
+					<div class="cl-featured__covers">
+						<div class="cl-featured__cover-stack">
+							<div class="cl-featured__cover-stack-item" style="background:linear-gradient(135deg,#f0c27f,#d4a017);">Terra di nessuno</div>
+							<div class="cl-featured__cover-stack-item" style="background:linear-gradient(135deg,#1d2d44,#e07a5f);">Confini mobili</div>
+							<div class="cl-featured__cover-stack-item" style="background:linear-gradient(135deg,#81b29a,#9467bd);">Selvatico</div>
+						</div>
+					</div>
+					<div class="cl-featured__body">
+						<span class="cl-featured__label">Community</span>
+						<h4 class="cl-featured__title">I più discussi dalla community</h4>
+						<p class="cl-featured__desc">I libri che hanno generato più dibattito, commenti e reazioni tra i nostri lettori.</p>
+						<span class="cl-featured__cta">Vedi classifica <span class="material-symbols-outlined">arrow_forward</span></span>
+					</div>
+				</a>
+
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CLASSIFICA DEL MESE — Podium
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface">
+	<div class="cl-page">
+		<div class="cl-podium">
+			<div class="cl-section-header">
+				<h3 class="cl-section-title"><span class="material-symbols-outlined">workspace_premium</span> Classifica del Mese — Marzo 2026</h3>
+			</div>
+
+			<div class="cl-podium__stage">
+
+				<!-- #2 -->
+				<a href="#" class="cl-podium__item cl-podium__item--2">
+					<div class="cl-podium__cover" style="background:linear-gradient(160deg,#9467bd,#5a3478);">La nostra parte di notte</div>
+					<div class="cl-podium__rank cl-podium__rank--2">2</div>
+					<div class="cl-podium__info">
+						<h4 class="cl-podium__book-title">La nostra parte di notte</h4>
+						<p class="cl-podium__book-author">Mariana Enriquez</p>
+						<div class="cl-podium__score-row">
+							<span class="cl-score cl-score--sm cl-score--gold">94</span>
+							<span class="cl-community-score"><span class="material-symbols-outlined">group</span> 91</span>
+						</div>
+					</div>
+				</a>
+
+				<!-- #1 -->
+				<a href="#" class="cl-podium__item cl-podium__item--1">
+					<div class="cl-podium__cover" style="background:linear-gradient(160deg,#e07a5f,#c9684d,#8b3a2a);">Sulla Terra siamo brevemente splendidi</div>
+					<div class="cl-podium__rank cl-podium__rank--1">1</div>
+					<div class="cl-podium__info">
+						<h4 class="cl-podium__book-title">Sulla Terra siamo brevemente splendidi</h4>
+						<p class="cl-podium__book-author">Ocean Vuong</p>
+						<div class="cl-podium__score-row">
+							<span class="cl-score cl-score--lode">100</span>
+							<span class="cl-community-score"><span class="material-symbols-outlined">group</span> 96</span>
+						</div>
+					</div>
+				</a>
+
+				<!-- #3 -->
+				<a href="#" class="cl-podium__item cl-podium__item--3">
+					<div class="cl-podium__cover" style="background:linear-gradient(160deg,#3e5c76,#1d2d44,#0d1321);">Kentuki</div>
+					<div class="cl-podium__rank cl-podium__rank--3">3</div>
+					<div class="cl-podium__info">
+						<h4 class="cl-podium__book-title">Kentuki</h4>
+						<p class="cl-podium__book-author">Samanta Schweblin</p>
+						<div class="cl-podium__score-row">
+							<span class="cl-score cl-score--sm cl-score--gold">92</span>
+							<span class="cl-community-score"><span class="material-symbols-outlined">group</span> 88</span>
+						</div>
+					</div>
+				</a>
+
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     LA PERSONALISSIMA DI...
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="cl-page">
+		<div class="cl-personal">
+
+			<div class="cl-personal__header">
+				<div class="cl-personal__avatar" id="personalAvatar" style="background:linear-gradient(135deg,#e07a5f,#c9684d);">CT</div>
+				<div class="cl-personal__intro">
+					<h3 class="cl-personal__intro-title" id="personalTitle">La personalissima di Cristian</h3>
+					<p class="cl-personal__intro-sub">I 5 libri che questa settimana mi porterebbe su un'isola deserta</p>
+				</div>
+				<div class="cl-personal__tabs" id="personalTabs">
+					<button class="cl-personal__tab active" data-host="cristian">
+						<span class="cl-personal__tab-avatar" style="background:linear-gradient(135deg,#e07a5f,#c9684d);">CT</span> Cristian
+					</button>
+					<button class="cl-personal__tab" data-host="emma">
+						<span class="cl-personal__tab-avatar" style="background:linear-gradient(135deg,#81b29a,#5a9a7a);">EM</span> Emma
+					</button>
+					<button class="cl-personal__tab" data-host="claudia">
+						<span class="cl-personal__tab-avatar" style="background:linear-gradient(135deg,#9467bd,#7b4ea0);">CL</span> Claudia
+					</button>
+					<button class="cl-personal__tab" data-host="mattia">
+						<span class="cl-personal__tab-avatar" style="background:linear-gradient(135deg,#3e5c76,#1d2d44);">MT</span> Mattia
+					</button>
+				</div>
+			</div>
+
+			<!-- Cristian -->
+			<div class="cl-personal__view active" id="view-cristian">
+				<p class="cl-personal__quote">«Questa settimana ho voglia di libri che ti sbattono in faccia una realtà più grande di te. Niente comfort zone.»</p>
+				<div class="cl-personal__list">
+					<a href="#" class="cl-personal__entry">
+						<span class="cl-personal__pos">1</span>
+						<div class="cl-personal__cover-mini"><div class="cl-personal__cover-mini-ph" style="background:linear-gradient(135deg,#e07a5f,#8b3a2a);">Cent'anni di solitudine</div></div>
+						<div class="cl-personal__entry-info">
+							<h4 class="cl-personal__entry-title">Cent'anni di solitudine</h4>
+							<p class="cl-personal__entry-author">Gabriel García Márquez</p>
+							<p class="cl-personal__entry-comment">«Sempre lui. Non me ne stanco mai.»</p>
+						</div>
+						<span class="cl-score cl-score--sm cl-score--lode">100</span>
+					</a>
+					<a href="#" class="cl-personal__entry">
+						<span class="cl-personal__pos">2</span>
+						<div class="cl-personal__cover-mini"><div class="cl-personal__cover-mini-ph" style="background:linear-gradient(135deg,#1d2d44,#3e5c76);">I detective selvaggi</div></div>
+						<div class="cl-personal__entry-info">
+							<h4 class="cl-personal__entry-title">I detective selvaggi</h4>
+							<p class="cl-personal__entry-author">Roberto Bolaño</p>
+							<p class="cl-personal__entry-comment">«Il romanzo che vorrei aver scritto io.»</p>
+						</div>
+						<span class="cl-score cl-score--sm cl-score--gold">96</span>
+					</a>
+					<a href="#" class="cl-personal__entry">
+						<span class="cl-personal__pos">3</span>
+						<div class="cl-personal__cover-mini"><div class="cl-personal__cover-mini-ph" style="background:linear-gradient(135deg,#9467bd,#5a3478);">Amatissima</div></div>
+						<div class="cl-personal__entry-info">
+							<h4 class="cl-personal__entry-title">Amatissima</h4>
+							<p class="cl-personal__entry-author">Toni Morrison</p>
+							<p class="cl-personal__entry-comment">«Devastante. Ogni rilettura è diversa.»</p>
+						</div>
+						<span class="cl-score cl-score--sm cl-score--gold">95</span>
+					</a>
+					<a href="#" class="cl-personal__entry">
+						<span class="cl-personal__pos">4</span>
+						<div class="cl-personal__cover-mini"><div class="cl-personal__cover-mini-ph" style="background:linear-gradient(135deg,#748cab,#0d1321);">Se una notte d'inverno un viaggiatore</div></div>
+						<div class="cl-personal__entry-info">
+							<h4 class="cl-personal__entry-title">Se una notte d'inverno un viaggiatore</h4>
+							<p class="cl-personal__entry-author">Italo Calvino</p>
+							<p class="cl-personal__entry-comment">«Il libro che ti insegna a leggere di nuovo.»</p>
+						</div>
+						<span class="cl-score cl-score--sm cl-score--gold">93</span>
+					</a>
+					<a href="#" class="cl-personal__entry">
+						<span class="cl-personal__pos">5</span>
+						<div class="cl-personal__cover-mini"><div class="cl-personal__cover-mini-ph" style="background:linear-gradient(135deg,#81b29a,#3d6b55);">Sulla Terra siamo brevemente splendidi</div></div>
+						<div class="cl-personal__entry-info">
+							<h4 class="cl-personal__entry-title">Sulla Terra siamo brevemente splendidi</h4>
+							<p class="cl-personal__entry-author">Ocean Vuong</p>
+							<p class="cl-personal__entry-comment">«Poesia travestita da romanzo. Perfezione.»</p>
+						</div>
+						<span class="cl-score cl-score--sm cl-score--lode">100</span>
+					</a>
+				</div>
+			</div>
+
+			<!-- Emma -->
+			<div class="cl-personal__view" id="view-emma">
+				<p class="cl-personal__quote">«Mi sono persa tra saggi e poesia questa settimana. Ho bisogno di libri che mi facciano pensare, non solo sentire.»</p>
+				<div class="cl-personal__list">
+					<a href="#" class="cl-personal__entry">
+						<span class="cl-personal__pos">1</span>
+						<div class="cl-personal__cover-mini"><div class="cl-personal__cover-mini-ph" style="background:linear-gradient(135deg,#81b29a,#3e5c76);">L'anno del pensiero magico</div></div>
+						<div class="cl-personal__entry-info">
+							<h4 class="cl-personal__entry-title">L'anno del pensiero magico</h4>
+							<p class="cl-personal__entry-author">Joan Didion</p>
+							<p class="cl-personal__entry-comment">«Il lutto raccontato con una lucidità disumana.»</p>
+						</div>
+						<span class="cl-score cl-score--sm cl-score--gold">97</span>
+					</a>
+					<a href="#" class="cl-personal__entry">
+						<span class="cl-personal__pos">2</span>
+						<div class="cl-personal__cover-mini"><div class="cl-personal__cover-mini-ph" style="background:linear-gradient(135deg,#c4bfa8,#748cab);">Lessico famigliare</div></div>
+						<div class="cl-personal__entry-info">
+							<h4 class="cl-personal__entry-title">Lessico famigliare</h4>
+							<p class="cl-personal__entry-author">Natalia Ginzburg</p>
+							<p class="cl-personal__entry-comment">«Mi ricorda casa. Ogni famiglia ha il suo lessico.»</p>
+						</div>
+						<span class="cl-score cl-score--sm cl-score--gold">94</span>
+					</a>
+					<a href="#" class="cl-personal__entry">
+						<span class="cl-personal__pos">3</span>
+						<div class="cl-personal__cover-mini"><div class="cl-personal__cover-mini-ph" style="background:linear-gradient(135deg,#3e5c76,#9467bd);">Il corpo in cui sono nata</div></div>
+						<div class="cl-personal__entry-info">
+							<h4 class="cl-personal__entry-title">Il corpo in cui sono nata</h4>
+							<p class="cl-personal__entry-author">Guadalupe Nettel</p>
+							<p class="cl-personal__entry-comment">«Crudo, tenero, necessario.»</p>
+						</div>
+						<span class="cl-score cl-score--sm cl-score--silver">88</span>
+					</a>
+					<a href="#" class="cl-personal__entry">
+						<span class="cl-personal__pos">4</span>
+						<div class="cl-personal__cover-mini"><div class="cl-personal__cover-mini-ph" style="background:linear-gradient(135deg,#e07a5f,#9467bd);">Poesie</div></div>
+						<div class="cl-personal__entry-info">
+							<h4 class="cl-personal__entry-title">Vista con granello di sabbia</h4>
+							<p class="cl-personal__entry-author">Wisława Szymborska</p>
+							<p class="cl-personal__entry-comment">«Una poesia al giorno toglie il medico di torno.»</p>
+						</div>
+						<span class="cl-score cl-score--sm cl-score--gold">91</span>
+					</a>
+					<a href="#" class="cl-personal__entry">
+						<span class="cl-personal__pos">5</span>
+						<div class="cl-personal__cover-mini"><div class="cl-personal__cover-mini-ph" style="background:linear-gradient(135deg,#0d1321,#3e5c76);">La vegetariana</div></div>
+						<div class="cl-personal__entry-info">
+							<h4 class="cl-personal__entry-title">La vegetariana</h4>
+							<p class="cl-personal__entry-author">Han Kang</p>
+							<p class="cl-personal__entry-comment">«Disturbante e ipnotico. Non riesco a smettere di pensarci.»</p>
+						</div>
+						<span class="cl-score cl-score--sm cl-score--silver">86</span>
+					</a>
+				</div>
+			</div>
+
+			<!-- Claudia -->
+			<div class="cl-personal__view" id="view-claudia">
+				<p class="cl-personal__quote">«Horror e gotico, sempre. Ma anche qualcosa che mi faccia ridere, per bilanciare gli incubi notturni.»</p>
+				<div class="cl-personal__list">
+					<a href="#" class="cl-personal__entry">
+						<span class="cl-personal__pos">1</span>
+						<div class="cl-personal__cover-mini"><div class="cl-personal__cover-mini-ph" style="background:linear-gradient(135deg,#9467bd,#1d2d44);">La nostra parte di notte</div></div>
+						<div class="cl-personal__entry-info">
+							<h4 class="cl-personal__entry-title">La nostra parte di notte</h4>
+							<p class="cl-personal__entry-author">Mariana Enriquez</p>
+							<p class="cl-personal__entry-comment">«Il miglior horror letterario degli ultimi vent'anni. Punto.»</p>
+						</div>
+						<span class="cl-score cl-score--sm cl-score--gold">98</span>
+					</a>
+					<a href="#" class="cl-personal__entry">
+						<span class="cl-personal__pos">2</span>
+						<div class="cl-personal__cover-mini"><div class="cl-personal__cover-mini-ph" style="background:linear-gradient(135deg,#0d1321,#748cab);">Frankenstein</div></div>
+						<div class="cl-personal__entry-info">
+							<h4 class="cl-personal__entry-title">Frankenstein</h4>
+							<p class="cl-personal__entry-author">Mary Shelley</p>
+							<p class="cl-personal__entry-comment">«1818 e ancora nessuno ha scritto qualcosa di più moderno.»</p>
+						</div>
+						<span class="cl-score cl-score--sm cl-score--gold">95</span>
+					</a>
+					<a href="#" class="cl-personal__entry">
+						<span class="cl-personal__pos">3</span>
+						<div class="cl-personal__cover-mini"><div class="cl-personal__cover-mini-ph" style="background:linear-gradient(135deg,#e07a5f,#0d1321);">Il corpo</div></div>
+						<div class="cl-personal__entry-info">
+							<h4 class="cl-personal__entry-title">Il suo corpo e altre feste</h4>
+							<p class="cl-personal__entry-author">Carmen María Machado</p>
+							<p class="cl-personal__entry-comment">«Queer horror al suo meglio. Finalmente.»</p>
+						</div>
+						<span class="cl-score cl-score--sm cl-score--gold">92</span>
+					</a>
+					<a href="#" class="cl-personal__entry">
+						<span class="cl-personal__pos">4</span>
+						<div class="cl-personal__cover-mini"><div class="cl-personal__cover-mini-ph" style="background:linear-gradient(135deg,#c4bfa8,#e07a5f);">Umorismo</div></div>
+						<div class="cl-personal__entry-info">
+							<h4 class="cl-personal__entry-title">Un uomo che dorme</h4>
+							<p class="cl-personal__entry-author">Georges Perec</p>
+							<p class="cl-personal__entry-comment">«Per bilanciare l'horror: l'esistenzialismo più ironico che c'è.»</p>
+						</div>
+						<span class="cl-score cl-score--sm cl-score--silver">84</span>
+					</a>
+					<a href="#" class="cl-personal__entry">
+						<span class="cl-personal__pos">5</span>
+						<div class="cl-personal__cover-mini"><div class="cl-personal__cover-mini-ph" style="background:linear-gradient(135deg,#3e5c76,#81b29a);">Racconti</div></div>
+						<div class="cl-personal__entry-info">
+							<h4 class="cl-personal__entry-title">I pericoli del fumo a letto</h4>
+							<p class="cl-personal__entry-author">Mariana Enriquez</p>
+							<p class="cl-personal__entry-comment">«Sì, due Enriquez. Non mi scuso.»</p>
+						</div>
+						<span class="cl-score cl-score--sm cl-score--gold">90</span>
+					</a>
+				</div>
+			</div>
+
+			<!-- Mattia -->
+			<div class="cl-personal__view" id="view-mattia">
+				<p class="cl-personal__quote">«Settimana filosofica. Libri che ti fanno sentire stupido in modo costruttivo.»</p>
+				<div class="cl-personal__list">
+					<a href="#" class="cl-personal__entry">
+						<span class="cl-personal__pos">1</span>
+						<div class="cl-personal__cover-mini"><div class="cl-personal__cover-mini-ph" style="background:linear-gradient(135deg,#1d2d44,#0d1321);">Se questo è un uomo</div></div>
+						<div class="cl-personal__entry-info">
+							<h4 class="cl-personal__entry-title">Se questo è un uomo</h4>
+							<p class="cl-personal__entry-author">Primo Levi</p>
+							<p class="cl-personal__entry-comment">«Il libro più importante mai scritto in italiano.»</p>
+						</div>
+						<span class="cl-score cl-score--sm cl-score--lode">100</span>
+					</a>
+					<a href="#" class="cl-personal__entry">
+						<span class="cl-personal__pos">2</span>
+						<div class="cl-personal__cover-mini"><div class="cl-personal__cover-mini-ph" style="background:linear-gradient(135deg,#748cab,#3e5c76);">Lo straniero</div></div>
+						<div class="cl-personal__entry-info">
+							<h4 class="cl-personal__entry-title">Lo straniero</h4>
+							<p class="cl-personal__entry-author">Albert Camus</p>
+							<p class="cl-personal__entry-comment">«120 pagine che pesano come un macigno.»</p>
+						</div>
+						<span class="cl-score cl-score--sm cl-score--gold">94</span>
+					</a>
+					<a href="#" class="cl-personal__entry">
+						<span class="cl-personal__pos">3</span>
+						<div class="cl-personal__cover-mini"><div class="cl-personal__cover-mini-ph" style="background:linear-gradient(135deg,#e07a5f,#748cab);">Cecità</div></div>
+						<div class="cl-personal__entry-info">
+							<h4 class="cl-personal__entry-title">Cecità</h4>
+							<p class="cl-personal__entry-author">José Saramago</p>
+							<p class="cl-personal__entry-comment">«Profetico. Rileggendolo post-pandemia fa ancora più male.»</p>
+						</div>
+						<span class="cl-score cl-score--sm cl-score--gold">93</span>
+					</a>
+					<a href="#" class="cl-personal__entry">
+						<span class="cl-personal__pos">4</span>
+						<div class="cl-personal__cover-mini"><div class="cl-personal__cover-mini-ph" style="background:linear-gradient(135deg,#81b29a,#1d2d44);">Il nome della rosa</div></div>
+						<div class="cl-personal__entry-info">
+							<h4 class="cl-personal__entry-title">Il nome della rosa</h4>
+							<p class="cl-personal__entry-author">Umberto Eco</p>
+							<p class="cl-personal__entry-comment">«Un giallo medievale che è anche un trattato di semiotica. Solo Eco.»</p>
+						</div>
+						<span class="cl-score cl-score--sm cl-score--gold">91</span>
+					</a>
+					<a href="#" class="cl-personal__entry">
+						<span class="cl-personal__pos">5</span>
+						<div class="cl-personal__cover-mini"><div class="cl-personal__cover-mini-ph" style="background:linear-gradient(135deg,#9467bd,#e07a5f);">Finzioni</div></div>
+						<div class="cl-personal__entry-info">
+							<h4 class="cl-personal__entry-title">Finzioni</h4>
+							<p class="cl-personal__entry-author">Jorge Luis Borges</p>
+							<p class="cl-personal__entry-comment">«Ogni racconto è un universo. Borges è il Big Bang della letteratura.»</p>
+						</div>
+						<span class="cl-score cl-score--sm cl-score--gold">96</span>
+					</a>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CLASSIFICHE PER GENERE
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="cl-page">
+		<div class="cl-genres">
+			<div class="cl-section-header">
+				<h3 class="cl-section-title"><span class="material-symbols-outlined">category</span> Classifiche per genere</h3>
+				<span class="cl-section-sub">Esplora i migliori libri per ogni categoria</span>
+			</div>
+
+			<div class="cl-genres__grid">
+
+				<a href="#" class="cl-genre-card">
+					<div class="cl-genre-card__icon" style="background:rgba(224,122,95,0.12);"><span class="material-symbols-outlined" style="color:#e07a5f;">auto_stories</span></div>
+					<div><span class="cl-genre-card__name">Narrativa</span><br><span class="cl-genre-card__count">127 libri classificati</span></div>
+					<span class="material-symbols-outlined cl-genre-card__arrow">chevron_right</span>
+				</a>
+
+				<a href="#" class="cl-genre-card">
+					<div class="cl-genre-card__icon" style="background:rgba(62,92,118,0.15);"><span class="material-symbols-outlined" style="color:#3e5c76;">school</span></div>
+					<div><span class="cl-genre-card__name">Saggistica</span><br><span class="cl-genre-card__count">68 libri classificati</span></div>
+					<span class="material-symbols-outlined cl-genre-card__arrow">chevron_right</span>
+				</a>
+
+				<a href="#" class="cl-genre-card">
+					<div class="cl-genre-card__icon" style="background:rgba(148,103,189,0.15);"><span class="material-symbols-outlined" style="color:#9467bd;">lyrics</span></div>
+					<div><span class="cl-genre-card__name">Poesia</span><br><span class="cl-genre-card__count">34 libri classificati</span></div>
+					<span class="material-symbols-outlined cl-genre-card__arrow">chevron_right</span>
+				</a>
+
+				<a href="#" class="cl-genre-card">
+					<div class="cl-genre-card__icon" style="background:rgba(129,178,154,0.15);"><span class="material-symbols-outlined" style="color:#81b29a;">rocket_launch</span></div>
+					<div><span class="cl-genre-card__name">Miglior Debutto</span><br><span class="cl-genre-card__count">41 libri classificati</span></div>
+					<span class="material-symbols-outlined cl-genre-card__arrow">chevron_right</span>
+				</a>
+
+				<a href="#" class="cl-genre-card">
+					<div class="cl-genre-card__icon" style="background:rgba(116,140,171,0.15);"><span class="material-symbols-outlined" style="color:#748cab;">translate</span></div>
+					<div><span class="cl-genre-card__name">Miglior Traduzione</span><br><span class="cl-genre-card__count">29 libri classificati</span></div>
+					<span class="material-symbols-outlined cl-genre-card__arrow">chevron_right</span>
+				</a>
+
+				<a href="#" class="cl-genre-card">
+					<div class="cl-genre-card__icon" style="background:rgba(196,191,168,0.2);"><span class="material-symbols-outlined" style="color:#a09a82;">draw</span></div>
+					<div><span class="cl-genre-card__name">Graphic Novel</span><br><span class="cl-genre-card__count">22 libri classificati</span></div>
+					<span class="material-symbols-outlined cl-genre-card__arrow">chevron_right</span>
+				</a>
+
+				<a href="#" class="cl-genre-card">
+					<div class="cl-genre-card__icon" style="background:rgba(13,19,33,0.1);"><span class="material-symbols-outlined" style="color:#0d1321;">skull</span></div>
+					<div><span class="cl-genre-card__name">Horror &amp; Gotico</span><br><span class="cl-genre-card__count">18 libri classificati</span></div>
+					<span class="material-symbols-outlined cl-genre-card__arrow">chevron_right</span>
+				</a>
+
+				<a href="#" class="cl-genre-card">
+					<div class="cl-genre-card__icon" style="background:rgba(240,235,216,0.2);"><span class="material-symbols-outlined" style="color:#c4bfa8;">child_care</span></div>
+					<div><span class="cl-genre-card__name">Young Adult</span><br><span class="cl-genre-card__count">15 libri classificati</span></div>
+					<span class="material-symbols-outlined cl-genre-card__arrow">chevron_right</span>
+				</a>
+
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ -->
+
+<footer class="site-footer">
+	<div style="max-width:80rem;margin:0 auto;padding:0 2rem;">
+		<div class="footer-main">
+			<div class="footer-brand">
+				<p class="site-title">Not My Cup of Read</p>
+				<p>Esploriamo la letteratura contemporanea attraverso podcast, recensioni e approfondimenti.</p>
+				<div class="footer-social">
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">podcasts</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">play_circle</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">photo_camera</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">send</span></a>
+				</div>
+			</div>
+			<div class="footer-col">
+				<h4>ESPLORA</h4>
+				<ul>
+					<li><a href="demo-recensioni.html">Recensioni</a></li>
+					<li><a href="demo-approfondimenti.html">Approfondimenti</a></li>
+					<li><a href="demo-classifiche.html">Classifiche</a></li>
+					<li><a href="demo-podcast.html">Podcast</a></li>
+					<li><a href="demo-libri.html">Libri</a></li>
+					<li><a href="demo-autori.html">Autori</a></li>
+					<li><a href="demo-librerie.html">Librerie</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>PROGETTO</h4>
+				<ul>
+					<li><a href="demo-chi-siamo.html">Chi siamo</a></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Contatti</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>NEWSLETTER</h4>
+				<p style="font-size:0.875rem;margin-bottom:1rem;opacity:0.75;">Ricevi le nostre selezioni editoriali.</p>
+				<div class="newsletter-form">
+					<input type="email" placeholder="La tua email" style="background:rgba(255,255,255,0.05);color:#fff;">
+					<button class="btn btn--teal btn--small">Iscriviti</button>
+				</div>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<span>&copy; 2026 Not My Cup of Read.</span>
+			<div class="footer-bottom-links">
+				<a href="#">Privacy Policy</a>
+				<a href="#">Cookie Policy</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<script>
+(function() {
+	var HOSTS = {
+		cristian: { name: 'Cristian', initials: 'CT', color: 'linear-gradient(135deg,#e07a5f,#c9684d)' },
+		emma:     { name: 'Emma',     initials: 'EM', color: 'linear-gradient(135deg,#81b29a,#5a9a7a)' },
+		claudia:  { name: 'Claudia',  initials: 'CL', color: 'linear-gradient(135deg,#9467bd,#7b4ea0)' },
+		mattia:   { name: 'Mattia',   initials: 'MT', color: 'linear-gradient(135deg,#3e5c76,#1d2d44)' }
+	};
+
+	var tabs = document.querySelectorAll('.cl-personal__tab');
+	var views = document.querySelectorAll('.cl-personal__view');
+	var avatar = document.getElementById('personalAvatar');
+	var title = document.getElementById('personalTitle');
+
+	tabs.forEach(function(tab) {
+		tab.addEventListener('click', function() {
+			var host = this.getAttribute('data-host');
+			var h = HOSTS[host];
+
+			tabs.forEach(function(t) { t.classList.remove('active'); });
+			views.forEach(function(v) { v.classList.remove('active'); });
+
+			this.classList.add('active');
+			var target = document.getElementById('view-' + host);
+			if (target) target.classList.add('active');
+
+			avatar.textContent = h.initials;
+			avatar.style.background = h.color;
+			title.textContent = 'La personalissima di ' + h.name;
+		});
+	});
+})();
+</script>
+
+</body>
+</html>

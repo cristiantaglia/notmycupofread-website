@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caffè Letterari — Luoghi — Not My Cup of Read</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Newsreader:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<style>
+/* ═══════════════════════════════════════════
+   CAFFÈ LETTERARI — Listing nazionale
+   ═══════════════════════════════════════════ */
+
+.cl-page { max-width: 80rem; margin: 0 auto; padding: 0 2rem; }
+
+/* ── Hero ── */
+.cl-hero {
+	position: relative;
+	min-height: 380px;
+	display: flex;
+	align-items: flex-end;
+	overflow: hidden;
+	border-radius: var(--radius-lg);
+	margin-bottom: 3rem;
+}
+
+.cl-hero__bg {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(135deg, #1d2d44 0%, #9467bd 40%, #e07a5f 80%, #3e5c76 100%);
+}
+
+.cl-hero__bg::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(to top, rgba(13,19,33,0.9) 0%, rgba(13,19,33,0.35) 50%, transparent 100%);
+}
+
+.cl-hero__content {
+	position: relative;
+	z-index: 1;
+	padding: 3rem;
+	width: 100%;
+}
+
+.cl-hero__breadcrumb {
+	font-size: 0.75rem;
+	color: rgba(240,235,216,0.6);
+	margin-bottom: 0.75rem;
+}
+
+.cl-hero__breadcrumb a { color: var(--c-accent); text-decoration: none; }
+.cl-hero__breadcrumb a:hover { text-decoration: underline; }
+
+.cl-hero__title {
+	font-family: var(--font-headline);
+	font-size: clamp(2.5rem, 5vw, 4rem);
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-surface);
+	margin: 0 0 0.5rem;
+	line-height: 1.1;
+}
+
+.cl-hero__subtitle {
+	font-size: 1.0625rem;
+	color: rgba(240,235,216,0.7);
+	margin: 0 0 1.5rem;
+	max-width: 40rem;
+	line-height: 1.6;
+}
+
+.cl-hero__stats {
+	display: flex;
+	gap: 2rem;
+	flex-wrap: wrap;
+}
+
+.cl-hero__stat-value {
+	font-family: var(--font-headline);
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: var(--c-accent);
+	display: block;
+	line-height: 1.2;
+}
+
+.cl-hero__stat-label {
+	font-size: 0.6875rem;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: rgba(240,235,216,0.5);
+}
+
+/* ── Filters ── */
+.cl-filters {
+	display: flex;
+	justify-content: center;
+	gap: 0.5rem;
+	flex-wrap: wrap;
+	padding: 0 0 2.5rem;
+}
+
+.cl-filter {
+	padding: 0.5rem 1.25rem;
+	font-size: 0.8125rem;
+	font-weight: 600;
+	border-radius: var(--radius-full);
+	border: 1px solid var(--c-surface-container-high);
+	background: transparent;
+	color: var(--c-on-surface-variant);
+	cursor: pointer;
+	transition: all 0.2s;
+}
+
+.cl-filter:hover { border-color: var(--c-accent); color: var(--c-accent); }
+.cl-filter.active { background: var(--c-accent); border-color: var(--c-accent); color: #fff; }
+
+/* ── Section header ── */
+.cl-section-header { margin-bottom: 2rem; }
+
+.cl-section-overline {
+	font-size: 0.6875rem;
+	font-weight: 700;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: var(--c-accent);
+	margin-bottom: 0.35rem;
+}
+
+.cl-section-title {
+	font-family: var(--font-headline);
+	font-size: 1.75rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	margin: 0;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.cl-section-title .material-symbols-outlined { color: var(--c-accent); }
+
+.cl-section-subtitle {
+	font-size: 0.9375rem;
+	color: var(--c-on-surface-variant);
+	margin: 0.35rem 0 0;
+	line-height: 1.5;
+}
+
+/* ── Featured ── */
+.cl-featured {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	text-decoration: none;
+	transition: border-color 0.2s, box-shadow 0.2s;
+	margin-bottom: 2.5rem;
+}
+
+.cl-featured:hover {
+	border-color: var(--c-accent);
+	box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+}
+
+.cl-featured__visual {
+	min-height: 320px;
+	position: relative;
+	overflow: hidden;
+}
+
+.cl-featured__visual-placeholder {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.6875rem;
+	color: rgba(255,255,255,0.12);
+}
+
+.cl-featured__badge {
+	position: absolute;
+	top: 1rem;
+	left: 1rem;
+	display: flex;
+	align-items: center;
+	gap: 0.3rem;
+	padding: 0.3rem 0.75rem;
+	border-radius: var(--radius-full);
+	background: #9467bd;
+	color: #fff;
+	font-size: 0.625rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.cl-featured__badge .material-symbols-outlined { font-size: 0.85rem; }
+
+.cl-featured__body {
+	padding: 2.5rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.cl-featured__overline {
+	font-size: 0.625rem;
+	font-weight: 700;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: var(--c-accent);
+	margin-bottom: 0.5rem;
+}
+
+.cl-featured__title {
+	font-family: var(--font-headline);
+	font-size: 1.75rem;
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-on-surface);
+	margin: 0 0 0.35rem;
+	line-height: 1.2;
+}
+
+.cl-featured__city {
+	font-size: 0.8125rem;
+	color: var(--c-accent);
+	font-weight: 600;
+	margin: 0 0 0.75rem;
+}
+
+.cl-featured__desc {
+	font-size: 0.9375rem;
+	color: var(--c-on-surface-variant);
+	margin: 0 0 1.25rem;
+	line-height: 1.65;
+}
+
+.cl-featured__amenities {
+	display: flex;
+	gap: 1rem;
+	flex-wrap: wrap;
+	margin-bottom: 1rem;
+}
+
+.cl-amenity {
+	display: flex;
+	align-items: center;
+	gap: 0.3rem;
+	font-size: 0.6875rem;
+	font-weight: 600;
+	color: var(--c-on-surface-variant);
+	padding: 0.3rem 0.65rem;
+	border-radius: var(--radius-full);
+	background: rgba(148,103,189,0.1);
+}
+
+.cl-amenity .material-symbols-outlined { font-size: 0.85rem; color: #9467bd; }
+
+.cl-featured__cta {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	font-size: 0.875rem;
+	font-weight: 600;
+	color: var(--c-accent);
+}
+
+.cl-featured__cta .material-symbols-outlined { font-size: 1rem; transition: transform 0.2s; }
+.cl-featured:hover .cl-featured__cta .material-symbols-outlined { transform: translateX(3px); }
+
+/* ── Card grid ── */
+.cl-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	gap: 1.5rem;
+}
+
+.cl-card {
+	display: flex;
+	flex-direction: column;
+	text-decoration: none;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.cl-card:hover {
+	border-color: var(--c-accent);
+	box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+	transform: translateY(-3px);
+}
+
+.cl-card__img {
+	aspect-ratio: 3/2;
+	overflow: hidden;
+	position: relative;
+}
+
+.cl-card__img-placeholder {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.6875rem;
+	color: rgba(255,255,255,0.15);
+}
+
+.cl-card__type-badge {
+	position: absolute;
+	top: 0.75rem;
+	left: 0.75rem;
+	font-size: 0.5625rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	padding: 0.2rem 0.6rem;
+	border-radius: var(--radius-full);
+	color: #fff;
+}
+
+.cl-badge--storico { background: #9467bd; }
+.cl-badge--bookbar { background: var(--c-accent); }
+.cl-badge--brunch { background: #5a9a7a; }
+.cl-badge--serale { background: #5a8aab; }
+.cl-badge--coworking { background: #c4a35a; }
+
+.cl-card__nmcor-pick {
+	position: absolute;
+	top: 0.75rem;
+	right: 0.75rem;
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	background: var(--c-accent);
+	color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+
+.cl-card__nmcor-pick .material-symbols-outlined { font-size: 0.875rem; }
+
+.cl-card__body {
+	padding: 1.25rem;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+.cl-card__city {
+	font-size: 0.625rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--c-accent);
+	margin-bottom: 0.25rem;
+}
+
+.cl-card__name {
+	font-family: var(--font-headline);
+	font-size: 1.0625rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	margin: 0 0 0.35rem;
+	line-height: 1.3;
+}
+
+.cl-card__desc {
+	font-size: 0.8125rem;
+	color: var(--c-on-surface-variant);
+	margin: 0 0 auto;
+	line-height: 1.55;
+	padding-bottom: 0.75rem;
+}
+
+.cl-card__amenities {
+	display: flex;
+	gap: 0.35rem;
+	flex-wrap: wrap;
+	margin-bottom: 0.75rem;
+}
+
+.cl-card__amenity-icon {
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	background: rgba(148,103,189,0.1);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.cl-card__amenity-icon .material-symbols-outlined { font-size: 0.8rem; color: #9467bd; }
+
+.cl-card__footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+	padding-top: 0.75rem;
+	border-top: 1px solid var(--c-surface-container-high);
+	font-size: 0.6875rem;
+	color: var(--c-on-surface-variant);
+}
+
+.cl-card__address {
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+}
+
+.cl-card__address .material-symbols-outlined { font-size: 0.875rem; color: var(--c-accent); }
+
+.cl-card__hours {
+	display: flex;
+	align-items: center;
+	gap: 0.2rem;
+	font-weight: 600;
+	color: #5a9a7a;
+}
+
+.cl-card__hours .material-symbols-outlined { font-size: 0.875rem; }
+
+/* ── City header ── */
+.cl-city-header {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	margin-bottom: 1.5rem;
+	padding-bottom: 0.75rem;
+	border-bottom: 1px solid var(--c-surface-container-high);
+}
+
+.cl-city-header__name {
+	font-family: var(--font-headline);
+	font-size: 1.25rem;
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-on-surface);
+	margin: 0;
+}
+
+.cl-city-header__count {
+	font-size: 0.6875rem;
+	font-weight: 600;
+	padding: 0.2rem 0.6rem;
+	border-radius: var(--radius-full);
+	background: var(--c-primary-container);
+	color: var(--c-surface);
+}
+
+/* ── CTA banner ── */
+.cl-cta-banner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 2rem;
+	padding: 2.5rem 3rem;
+	background: linear-gradient(135deg, #1d2d44 0%, #9467bd 100%);
+	border-radius: var(--radius-lg);
+}
+
+.cl-cta-banner__text h3 {
+	font-family: var(--font-headline);
+	font-size: 1.375rem;
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-surface);
+	margin: 0 0 0.35rem;
+}
+
+.cl-cta-banner__text p {
+	font-size: 0.875rem;
+	color: rgba(240,235,216,0.7);
+	margin: 0;
+}
+
+.cl-cta-banner .btn { white-space: nowrap; }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+	.cl-featured { grid-template-columns: 1fr; }
+	.cl-featured__visual { min-height: 220px; }
+}
+
+@media (max-width: 600px) {
+	.cl-grid { grid-template-columns: 1fr; }
+	.cl-hero__stats { gap: 1.5rem; }
+	.cl-cta-banner { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header" id="siteHeader">
+	<div class="header-outer">
+		<div class="header-inner">
+			<div class="site-branding">
+				<div class="site-branding__icon">
+					<img src="assets/img/logo-nmcor.png" alt="NMCOR">
+				</div>
+				<h1 class="site-title"><a href="demo.html">Not My Cup of Read</a></h1>
+			</div>
+			<nav class="primary-nav" id="primaryNav">
+				<ul>
+					<li><a href="#">Articoli</a><ul class="sub-menu"><li><a href="demo-recensioni.html">Recensioni</a></li><li><a href="demo-approfondimenti.html">Approfondimenti</a></li><li><a href="demo-classifiche.html">Classifiche</a></li></ul></li>
+					<li><a href="#">Podcast</a><ul class="sub-menu"><li><a href="demo-podcast.html">Episodi</a></li><li><a href="demo-format.html">Format</a></li><li><a href="demo-dietro-le-quinte.html">Dietro le quinte</a></li></ul></li>
+					<li><a href="#">Biblioteca</a><ul class="sub-menu"><li><a href="demo-libri.html">Libri</a></li><li><a href="demo-autori.html">Autori</a></li></ul></li>
+					<li><a href="#">Luoghi</a><ul class="sub-menu"><li><a href="demo-librerie.html">La mappa del Lettore</a></li><li><a href="demo-luoghi-milano.html">Milano</a></li><li><a href="demo-itinerari.html">Itinerari letterari</a></li><li><a href="demo-luoghi-librerie.html">Librerie</a></li><li><a href="demo-luoghi-biblioteche.html">Biblioteche</a></li><li><a href="demo-luoghi-caffe.html">Caffè letterari</a></li><li><a href="demo-luoghi-spazi.html">Spazi culturali</a></li></ul></li>
+					<li><a href="#">Eventi</a><ul class="sub-menu"><li><a href="demo-eventi.html">Timeline</a></li><li><a href="demo-calendario.html">Calendario</a></li><li><a href="demo-fiere-festival.html">Fiere e Festival</a></li><li><a href="demo-premi-letterari.html">Premi letterari</a></li></ul></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Chi siamo</a><ul class="sub-menu"><li><a href="demo-chi-siamo.html">Lo studio &amp; gli host</a></li><li><a href="demo-ospiti-redazione.html">Gli ospiti &amp; la redazione</a></li><li><a href="demo-contatti.html">Contatti &amp; Collaborazioni</a></li></ul></li>
+				</ul>
+			</nav>
+			<div class="header-search">
+				<input type="text" placeholder="Cerca...">
+			</div>
+		</div>
+		<div class="header-extras">
+			<div class="header-social">
+				<a href="#" class="header-social__link" aria-label="YouTube">
+					<svg viewBox="0 0 24 24"><path d="M23.5 6.19a3 3 0 0 0-2.11-2.13C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.39.56A3 3 0 0 0 .5 6.19 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.81 3 3 0 0 0 2.11 2.13c1.89.56 9.39.56 9.39.56s7.5 0 9.39-.56a3 3 0 0 0 2.11-2.13A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.81ZM9.75 15.02V8.98L15.5 12l-5.75 3.02Z"/></svg>
+				</a>
+				<a href="#" class="header-social__link" aria-label="Spotify">
+					<svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.31a.75.75 0 0 1-1.03.25c-2.82-1.72-6.37-2.11-10.55-1.16a.75.75 0 1 1-.34-1.46c4.57-1.05 8.49-.6 11.67 1.34a.75.75 0 0 1 .25 1.03Zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.23-1.98-8.15-2.56-11.97-1.4a.94.94 0 1 1-.54-1.8c4.36-1.32 9.78-.68 13.49 1.6a.94.94 0 0 1 .31 1.29Zm.13-3.4C15.5 8.4 9 8.2 5.24 9.33a1.13 1.13 0 1 1-.65-2.16c4.33-1.3 11.52-1.05 16.07 1.68a1.13 1.13 0 0 1-1.56 1.79Z"/></svg>
+				</a>
+			</div>
+			<div class="header-auth">
+				<a href="demo-profilo.html" class="header-auth__btn"><span class="material-symbols-outlined">person</span> Cristian T.</a>
+			</div>
+			<button class="menu-toggle" id="menuToggle" aria-label="Menu">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</button>
+		</div>
+	</div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════ -->
+
+<div class="cl-page">
+
+	<div class="cl-hero">
+		<div class="cl-hero__bg"></div>
+		<div class="cl-hero__content">
+			<p class="cl-hero__breadcrumb"><a href="demo-librerie.html">Luoghi</a> / Caffè letterari</p>
+			<h1 class="cl-hero__title">Caffè Letterari</h1>
+			<p class="cl-hero__subtitle">Dove il caffè incontra la letteratura: locali con librerie, reading serali, brunch tra le pagine e angoli silenziosi per scrivere il prossimo capitolo.</p>
+			<div class="cl-hero__stats">
+				<div><span class="cl-hero__stat-value">24</span><span class="cl-hero__stat-label">Caffè letterari</span></div>
+				<div><span class="cl-hero__stat-value">9</span><span class="cl-hero__stat-label">Città</span></div>
+				<div><span class="cl-hero__stat-value">5</span><span class="cl-hero__stat-label">Tipologie</span></div>
+				<div><span class="cl-hero__stat-value">120+</span><span class="cl-hero__stat-label">Eventi/mese</span></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ── Filters ── -->
+	<div class="cl-filters">
+		<button class="cl-filter active" data-filter="tutti">Tutti</button>
+		<button class="cl-filter" data-filter="storico">Storici</button>
+		<button class="cl-filter" data-filter="bookbar">Bookbar</button>
+		<button class="cl-filter" data-filter="brunch">Brunch & Libri</button>
+		<button class="cl-filter" data-filter="serale">Serali</button>
+		<button class="cl-filter" data-filter="coworking">Coworking</button>
+	</div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════
+     FEATURED
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="cl-page">
+
+		<a href="#" class="cl-featured">
+			<div class="cl-featured__visual">
+				<div class="cl-featured__visual-placeholder" style="background:linear-gradient(135deg,#1d2d44 0%,#9467bd 50%,#e07a5f 100%);">Caffè San Marco — Trieste, interno storico</div>
+				<span class="cl-featured__badge"><span class="material-symbols-outlined">local_cafe</span> Caffè del mese</span>
+			</div>
+			<div class="cl-featured__body">
+				<span class="cl-featured__overline">Caffè del mese</span>
+				<h2 class="cl-featured__title">Caffè San Marco</h2>
+				<p class="cl-featured__city">Trieste — Centro</p>
+				<p class="cl-featured__desc">Aperto nel 1914, è il caffè letterario per eccellenza: Svevo, Saba e Joyce si sedevano ai suoi tavoli. Oggi ospita una libreria indipendente, presentazioni settimanali e mantiene intatto il fascino asburgico dei suoi interni liberty.</p>
+				<div class="cl-featured__amenities">
+					<span class="cl-amenity"><span class="material-symbols-outlined">menu_book</span> Libreria</span>
+					<span class="cl-amenity"><span class="material-symbols-outlined">wifi</span> Wi-Fi</span>
+					<span class="cl-amenity"><span class="material-symbols-outlined">event</span> Eventi</span>
+					<span class="cl-amenity"><span class="material-symbols-outlined">restaurant</span> Cucina</span>
+				</div>
+				<span class="cl-featured__cta">Scopri di più <span class="material-symbols-outlined">arrow_forward</span></span>
+			</div>
+		</a>
+
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     MILANO
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface">
+	<div class="cl-page">
+
+		<div class="cl-city-header">
+			<h3 class="cl-city-header__name">Milano</h3>
+			<span class="cl-city-header__count">4 caffè</span>
+		</div>
+
+		<div class="cl-grid">
+
+			<a href="#" class="cl-card" data-type="bookbar">
+				<div class="cl-card__img">
+					<div class="cl-card__img-placeholder" style="background:linear-gradient(135deg,#e07a5f,#3e5c76);">Caffè Letterario Manoscritto</div>
+					<span class="cl-card__type-badge cl-badge--bookbar">Bookbar</span>
+					<span class="cl-card__nmcor-pick"><span class="material-symbols-outlined">verified</span></span>
+				</div>
+				<div class="cl-card__body">
+					<span class="cl-card__city">Milano — Porta Romana</span>
+					<h4 class="cl-card__name">Manoscritto</h4>
+					<p class="cl-card__desc">Caffè e cocktail bar con scaffali a tutta parete. Ogni drink è ispirato a un classico della letteratura. Reading il giovedì, open mic il venerdì.</p>
+					<div class="cl-card__amenities">
+						<span class="cl-card__amenity-icon" title="Libreria"><span class="material-symbols-outlined">menu_book</span></span>
+						<span class="cl-card__amenity-icon" title="Cocktail"><span class="material-symbols-outlined">local_bar</span></span>
+						<span class="cl-card__amenity-icon" title="Eventi"><span class="material-symbols-outlined">event</span></span>
+						<span class="cl-card__amenity-icon" title="Wi-Fi"><span class="material-symbols-outlined">wifi</span></span>
+					</div>
+					<div class="cl-card__footer">
+						<span class="cl-card__address"><span class="material-symbols-outlined">location_on</span> Via Crema 5</span>
+						<span class="cl-card__hours"><span class="material-symbols-outlined">schedule</span> 8–24</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="cl-card" data-type="serale">
+				<div class="cl-card__img">
+					<div class="cl-card__img-placeholder" style="background:linear-gradient(135deg,#5a8aab,#1d2d44);">LeSirene Bookbar</div>
+					<span class="cl-card__type-badge cl-badge--serale">Serale</span>
+					<span class="cl-card__nmcor-pick"><span class="material-symbols-outlined">verified</span></span>
+				</div>
+				<div class="cl-card__body">
+					<span class="cl-card__city">Milano — Garibaldi</span>
+					<h4 class="cl-card__name">LeSirene Bookbar</h4>
+					<p class="cl-card__desc">Atmosfera intima in zona Garibaldi: vini naturali, birre artigianali e una selezione di narrativa contemporanea da sfogliare tra un bicchiere e l'altro.</p>
+					<div class="cl-card__amenities">
+						<span class="cl-card__amenity-icon" title="Vini"><span class="material-symbols-outlined">wine_bar</span></span>
+						<span class="cl-card__amenity-icon" title="Libri"><span class="material-symbols-outlined">menu_book</span></span>
+						<span class="cl-card__amenity-icon" title="Musica"><span class="material-symbols-outlined">music_note</span></span>
+					</div>
+					<div class="cl-card__footer">
+						<span class="cl-card__address"><span class="material-symbols-outlined">location_on</span> Corso Como 7</span>
+						<span class="cl-card__hours"><span class="material-symbols-outlined">schedule</span> 18–2</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="cl-card" data-type="brunch">
+				<div class="cl-card__img">
+					<div class="cl-card__img-placeholder" style="background:linear-gradient(135deg,#5a9a7a,#748cab);">Il Covo dei Narratori</div>
+					<span class="cl-card__type-badge cl-badge--brunch">Brunch & Libri</span>
+				</div>
+				<div class="cl-card__body">
+					<span class="cl-card__city">Milano — Ticinese</span>
+					<h4 class="cl-card__name">Il Covo dei Narratori</h4>
+					<p class="cl-card__desc">Brunch letterari la domenica mattina: colazione abbondante, reading dal vivo e una selezione di novità editoriali curata ogni settimana.</p>
+					<div class="cl-card__amenities">
+						<span class="cl-card__amenity-icon" title="Brunch"><span class="material-symbols-outlined">brunch_dining</span></span>
+						<span class="cl-card__amenity-icon" title="Libri"><span class="material-symbols-outlined">menu_book</span></span>
+						<span class="cl-card__amenity-icon" title="Bambini"><span class="material-symbols-outlined">child_care</span></span>
+					</div>
+					<div class="cl-card__footer">
+						<span class="cl-card__address"><span class="material-symbols-outlined">location_on</span> Ripa di Porta Ticinese 55</span>
+						<span class="cl-card__hours"><span class="material-symbols-outlined">schedule</span> 9–20</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="cl-card" data-type="coworking">
+				<div class="cl-card__img">
+					<div class="cl-card__img-placeholder" style="background:linear-gradient(135deg,#c4a35a,#3e5c76);">La Scrivania</div>
+					<span class="cl-card__type-badge cl-badge--coworking">Coworking</span>
+				</div>
+				<div class="cl-card__body">
+					<span class="cl-card__city">Milano — Porta Venezia</span>
+					<h4 class="cl-card__name">La Scrivania</h4>
+					<p class="cl-card__desc">Metà caffè, metà studio: tavoli ampi, prese ovunque, silenzio garantito e una biblioteca condivisa. Il rifugio perfetto per scrittori e freelance.</p>
+					<div class="cl-card__amenities">
+						<span class="cl-card__amenity-icon" title="Wi-Fi"><span class="material-symbols-outlined">wifi</span></span>
+						<span class="cl-card__amenity-icon" title="Prese"><span class="material-symbols-outlined">power</span></span>
+						<span class="cl-card__amenity-icon" title="Silenzio"><span class="material-symbols-outlined">volume_off</span></span>
+						<span class="cl-card__amenity-icon" title="Caffè"><span class="material-symbols-outlined">local_cafe</span></span>
+					</div>
+					<div class="cl-card__footer">
+						<span class="cl-card__address"><span class="material-symbols-outlined">location_on</span> Via Lecco 22</span>
+						<span class="cl-card__hours"><span class="material-symbols-outlined">schedule</span> 8–22</span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     ROMA
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="cl-page">
+
+		<div class="cl-city-header">
+			<h3 class="cl-city-header__name">Roma</h3>
+			<span class="cl-city-header__count">4 caffè</span>
+		</div>
+
+		<div class="cl-grid">
+
+			<a href="#" class="cl-card" data-type="storico">
+				<div class="cl-card__img">
+					<div class="cl-card__img-placeholder" style="background:linear-gradient(135deg,#9467bd,#0d1321);">Antico Caffè Greco</div>
+					<span class="cl-card__type-badge cl-badge--storico">Storico</span>
+				</div>
+				<div class="cl-card__body">
+					<span class="cl-card__city">Roma — Centro</span>
+					<h4 class="cl-card__name">Antico Caffè Greco</h4>
+					<p class="cl-card__desc">Dal 1760 in Via dei Condotti. Goethe, Keats, Byron e Stendhal si sedevano tra queste pareti. Il secondo caffè più antico d'Italia, un museo vivente.</p>
+					<div class="cl-card__amenities">
+						<span class="cl-card__amenity-icon" title="Storico"><span class="material-symbols-outlined">history</span></span>
+						<span class="cl-card__amenity-icon" title="Pasticceria"><span class="material-symbols-outlined">cake</span></span>
+					</div>
+					<div class="cl-card__footer">
+						<span class="cl-card__address"><span class="material-symbols-outlined">location_on</span> Via dei Condotti 86</span>
+						<span class="cl-card__hours"><span class="material-symbols-outlined">schedule</span> 9–21</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="cl-card" data-type="bookbar">
+				<div class="cl-card__img">
+					<div class="cl-card__img-placeholder" style="background:linear-gradient(135deg,#e07a5f,#748cab);">Giufà Libreria Caffè</div>
+					<span class="cl-card__type-badge cl-badge--bookbar">Bookbar</span>
+					<span class="cl-card__nmcor-pick"><span class="material-symbols-outlined">verified</span></span>
+				</div>
+				<div class="cl-card__body">
+					<span class="cl-card__city">Roma — San Lorenzo</span>
+					<h4 class="cl-card__name">Giufà Libreria Caffè</h4>
+					<p class="cl-card__desc">Poesia, piccola editoria e aperitivi letterari nel cuore di San Lorenzo. Il giovedì sera reading e presentazioni con autori emergenti.</p>
+					<div class="cl-card__amenities">
+						<span class="cl-card__amenity-icon" title="Libri"><span class="material-symbols-outlined">menu_book</span></span>
+						<span class="cl-card__amenity-icon" title="Aperitivo"><span class="material-symbols-outlined">local_bar</span></span>
+						<span class="cl-card__amenity-icon" title="Eventi"><span class="material-symbols-outlined">event</span></span>
+					</div>
+					<div class="cl-card__footer">
+						<span class="cl-card__address"><span class="material-symbols-outlined">location_on</span> Via degli Aurunci 38</span>
+						<span class="cl-card__hours"><span class="material-symbols-outlined">schedule</span> 10–1</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="cl-card" data-type="brunch">
+				<div class="cl-card__img">
+					<div class="cl-card__img-placeholder" style="background:linear-gradient(135deg,#5a9a7a,#1d2d44);">Caffè Letterarie Le Murate</div>
+					<span class="cl-card__type-badge cl-badge--brunch">Brunch & Libri</span>
+				</div>
+				<div class="cl-card__body">
+					<span class="cl-card__city">Roma — Trastevere</span>
+					<h4 class="cl-card__name">Libreria Caffè Bohémien</h4>
+					<p class="cl-card__desc">Colazioni con vista su Trastevere, scaffali di romanzi e una corte interna nascosta. Il brunch della domenica è accompagnato da musica acustica.</p>
+					<div class="cl-card__amenities">
+						<span class="cl-card__amenity-icon" title="Brunch"><span class="material-symbols-outlined">brunch_dining</span></span>
+						<span class="cl-card__amenity-icon" title="Musica"><span class="material-symbols-outlined">music_note</span></span>
+						<span class="cl-card__amenity-icon" title="Terrazza"><span class="material-symbols-outlined">deck</span></span>
+					</div>
+					<div class="cl-card__footer">
+						<span class="cl-card__address"><span class="material-symbols-outlined">location_on</span> Via degli Zingari 36</span>
+						<span class="cl-card__hours"><span class="material-symbols-outlined">schedule</span> 9–22</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="cl-card" data-type="serale">
+				<div class="cl-card__img">
+					<div class="cl-card__img-placeholder" style="background:linear-gradient(135deg,#5a8aab,#9467bd);">Blackmarket</div>
+					<span class="cl-card__type-badge cl-badge--serale">Serale</span>
+				</div>
+				<div class="cl-card__body">
+					<span class="cl-card__city">Roma — Monti</span>
+					<h4 class="cl-card__name">Blackmarket</h4>
+					<p class="cl-card__desc">Cocktail d'autore in un seminterrato pieno di libri usati. Slam poetry il mercoledì, DJ set letterari il sabato. Il lato dark della lettura romana.</p>
+					<div class="cl-card__amenities">
+						<span class="cl-card__amenity-icon" title="Cocktail"><span class="material-symbols-outlined">local_bar</span></span>
+						<span class="cl-card__amenity-icon" title="Musica"><span class="material-symbols-outlined">music_note</span></span>
+						<span class="cl-card__amenity-icon" title="Libri usati"><span class="material-symbols-outlined">menu_book</span></span>
+					</div>
+					<div class="cl-card__footer">
+						<span class="cl-card__address"><span class="material-symbols-outlined">location_on</span> Via Panisperna 101</span>
+						<span class="cl-card__hours"><span class="material-symbols-outlined">schedule</span> 18–2</span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     TORINO + TRIESTE
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface">
+	<div class="cl-page">
+
+		<div class="cl-city-header">
+			<h3 class="cl-city-header__name">Torino</h3>
+			<span class="cl-city-header__count">3 caffè</span>
+		</div>
+
+		<div class="cl-grid">
+
+			<a href="#" class="cl-card" data-type="storico">
+				<div class="cl-card__img">
+					<div class="cl-card__img-placeholder" style="background:linear-gradient(135deg,#9467bd,#748cab);">Caffè Al Bicerin</div>
+					<span class="cl-card__type-badge cl-badge--storico">Storico</span>
+					<span class="cl-card__nmcor-pick"><span class="material-symbols-outlined">verified</span></span>
+				</div>
+				<div class="cl-card__body">
+					<span class="cl-card__city">Torino — Centro</span>
+					<h4 class="cl-card__name">Caffè Al Bicerin</h4>
+					<p class="cl-card__desc">Dal 1763, la casa del bicerin torinese. Cavour, Nietzsche e Umberto Eco hanno seduto in questo piccolo gioiello di Piazza della Consolata.</p>
+					<div class="cl-card__amenities">
+						<span class="cl-card__amenity-icon" title="Storico"><span class="material-symbols-outlined">history</span></span>
+						<span class="cl-card__amenity-icon" title="Pasticceria"><span class="material-symbols-outlined">cake</span></span>
+					</div>
+					<div class="cl-card__footer">
+						<span class="cl-card__address"><span class="material-symbols-outlined">location_on</span> Piazza della Consolata 5</span>
+						<span class="cl-card__hours"><span class="material-symbols-outlined">schedule</span> 8:30–19:30</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="cl-card" data-type="bookbar">
+				<div class="cl-card__img">
+					<div class="cl-card__img-placeholder" style="background:linear-gradient(135deg,#e07a5f,#5a9a7a);">Circolo dei Lettori</div>
+					<span class="cl-card__type-badge cl-badge--bookbar">Bookbar</span>
+					<span class="cl-card__nmcor-pick"><span class="material-symbols-outlined">verified</span></span>
+				</div>
+				<div class="cl-card__body">
+					<span class="cl-card__city">Torino — Centro</span>
+					<h4 class="cl-card__name">Caffè del Circolo dei Lettori</h4>
+					<p class="cl-card__desc">Nel Palazzo Graneri della Roccia: il caffè del Circolo dei Lettori è il salotto letterario di Torino. Presentazioni quotidiane, corsi di scrittura e un menu ispirato ai libri.</p>
+					<div class="cl-card__amenities">
+						<span class="cl-card__amenity-icon" title="Libri"><span class="material-symbols-outlined">menu_book</span></span>
+						<span class="cl-card__amenity-icon" title="Eventi"><span class="material-symbols-outlined">event</span></span>
+						<span class="cl-card__amenity-icon" title="Corsi"><span class="material-symbols-outlined">school</span></span>
+						<span class="cl-card__amenity-icon" title="Cucina"><span class="material-symbols-outlined">restaurant</span></span>
+					</div>
+					<div class="cl-card__footer">
+						<span class="cl-card__address"><span class="material-symbols-outlined">location_on</span> Via Bogino 9</span>
+						<span class="cl-card__hours"><span class="material-symbols-outlined">schedule</span> 9:30–23</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="cl-card" data-type="coworking">
+				<div class="cl-card__img">
+					<div class="cl-card__img-placeholder" style="background:linear-gradient(135deg,#c4a35a,#1d2d44);">OFF TOPIC</div>
+					<span class="cl-card__type-badge cl-badge--coworking">Coworking</span>
+				</div>
+				<div class="cl-card__body">
+					<span class="cl-card__city">Torino — San Salvario</span>
+					<h4 class="cl-card__name">OFF TOPIC</h4>
+					<p class="cl-card__desc">Hub creativo con caffetteria letteraria: coworking di giorno, eventi culturali la sera. Biblioteca condivisa e un calendario denso di presentazioni.</p>
+					<div class="cl-card__amenities">
+						<span class="cl-card__amenity-icon" title="Wi-Fi"><span class="material-symbols-outlined">wifi</span></span>
+						<span class="cl-card__amenity-icon" title="Coworking"><span class="material-symbols-outlined">desktop_windows</span></span>
+						<span class="cl-card__amenity-icon" title="Eventi"><span class="material-symbols-outlined">event</span></span>
+					</div>
+					<div class="cl-card__footer">
+						<span class="cl-card__address"><span class="material-symbols-outlined">location_on</span> Via Pallavicino 35</span>
+						<span class="cl-card__hours"><span class="material-symbols-outlined">schedule</span> 9–24</span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+
+	</div>
+</section>
+
+<section class="section section--dark">
+	<div class="cl-page">
+
+		<div class="cl-city-header">
+			<h3 class="cl-city-header__name">Trieste</h3>
+			<span class="cl-city-header__count">3 caffè</span>
+		</div>
+
+		<div class="cl-grid">
+
+			<a href="#" class="cl-card" data-type="storico">
+				<div class="cl-card__img">
+					<div class="cl-card__img-placeholder" style="background:linear-gradient(135deg,#9467bd,#3e5c76);">Caffè San Marco</div>
+					<span class="cl-card__type-badge cl-badge--storico">Storico</span>
+					<span class="cl-card__nmcor-pick"><span class="material-symbols-outlined">verified</span></span>
+				</div>
+				<div class="cl-card__body">
+					<span class="cl-card__city">Trieste — Centro</span>
+					<h4 class="cl-card__name">Caffè San Marco</h4>
+					<p class="cl-card__desc">Dal 1914: Svevo, Saba e Joyce tra i suoi tavoli. Interni liberty restaurati, libreria indipendente integrata e il miglior caffè di Trieste.</p>
+					<div class="cl-card__amenities">
+						<span class="cl-card__amenity-icon" title="Storico"><span class="material-symbols-outlined">history</span></span>
+						<span class="cl-card__amenity-icon" title="Libreria"><span class="material-symbols-outlined">menu_book</span></span>
+						<span class="cl-card__amenity-icon" title="Cucina"><span class="material-symbols-outlined">restaurant</span></span>
+					</div>
+					<div class="cl-card__footer">
+						<span class="cl-card__address"><span class="material-symbols-outlined">location_on</span> Via Cesare Battisti 18</span>
+						<span class="cl-card__hours"><span class="material-symbols-outlined">schedule</span> 8:30–24</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="cl-card" data-type="storico">
+				<div class="cl-card__img">
+					<div class="cl-card__img-placeholder" style="background:linear-gradient(135deg,#9467bd,#e07a5f);">Caffè degli Specchi</div>
+					<span class="cl-card__type-badge cl-badge--storico">Storico</span>
+				</div>
+				<div class="cl-card__body">
+					<span class="cl-card__city">Trieste — Piazza Unità</span>
+					<h4 class="cl-card__name">Caffè degli Specchi</h4>
+					<p class="cl-card__desc">Affacciato su Piazza Unità d'Italia, la piazza sul mare più grande d'Europa. Caffè storico dal 1839, punto d'incontro di irredentisti e letterati.</p>
+					<div class="cl-card__amenities">
+						<span class="cl-card__amenity-icon" title="Storico"><span class="material-symbols-outlined">history</span></span>
+						<span class="cl-card__amenity-icon" title="Terrazza"><span class="material-symbols-outlined">deck</span></span>
+					</div>
+					<div class="cl-card__footer">
+						<span class="cl-card__address"><span class="material-symbols-outlined">location_on</span> Piazza Unità d'Italia 7</span>
+						<span class="cl-card__hours"><span class="material-symbols-outlined">schedule</span> 8–23</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="cl-card" data-type="bookbar">
+				<div class="cl-card__img">
+					<div class="cl-card__img-placeholder" style="background:linear-gradient(135deg,#e07a5f,#5a8aab);">Knulp</div>
+					<span class="cl-card__type-badge cl-badge--bookbar">Bookbar</span>
+				</div>
+				<div class="cl-card__body">
+					<span class="cl-card__city">Trieste — Città Vecchia</span>
+					<h4 class="cl-card__name">Knulp</h4>
+					<p class="cl-card__desc">Il nome viene dal romanzo di Hesse. Birre artigianali, vinili, libri usati e un'atmosfera che mescola letteratura mitteleuropea e cultura underground.</p>
+					<div class="cl-card__amenities">
+						<span class="cl-card__amenity-icon" title="Birra"><span class="material-symbols-outlined">sports_bar</span></span>
+						<span class="cl-card__amenity-icon" title="Libri"><span class="material-symbols-outlined">menu_book</span></span>
+						<span class="cl-card__amenity-icon" title="Musica"><span class="material-symbols-outlined">music_note</span></span>
+					</div>
+					<div class="cl-card__footer">
+						<span class="cl-card__address"><span class="material-symbols-outlined">location_on</span> Via Madonna del Mare 7</span>
+						<span class="cl-card__hours"><span class="material-symbols-outlined">schedule</span> 17–1</span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FIRENZE + NAPOLI
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface">
+	<div class="cl-page">
+
+		<div class="cl-city-header">
+			<h3 class="cl-city-header__name">Firenze</h3>
+			<span class="cl-city-header__count">3 caffè</span>
+		</div>
+
+		<div class="cl-grid">
+
+			<a href="#" class="cl-card" data-type="storico">
+				<div class="cl-card__img">
+					<div class="cl-card__img-placeholder" style="background:linear-gradient(135deg,#9467bd,#5a9a7a);">Caffè Gilli</div>
+					<span class="cl-card__type-badge cl-badge--storico">Storico</span>
+				</div>
+				<div class="cl-card__body">
+					<span class="cl-card__city">Firenze — Centro</span>
+					<h4 class="cl-card__name">Caffè Gilli</h4>
+					<p class="cl-card__desc">Dal 1733 in Piazza della Repubblica. Il più antico caffè di Firenze, con interni art nouveau e una tradizione pasticcera che non ha rivali.</p>
+					<div class="cl-card__amenities">
+						<span class="cl-card__amenity-icon" title="Storico"><span class="material-symbols-outlined">history</span></span>
+						<span class="cl-card__amenity-icon" title="Pasticceria"><span class="material-symbols-outlined">cake</span></span>
+						<span class="cl-card__amenity-icon" title="Terrazza"><span class="material-symbols-outlined">deck</span></span>
+					</div>
+					<div class="cl-card__footer">
+						<span class="cl-card__address"><span class="material-symbols-outlined">location_on</span> Piazza della Repubblica 39</span>
+						<span class="cl-card__hours"><span class="material-symbols-outlined">schedule</span> 8–24</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="cl-card" data-type="bookbar">
+				<div class="cl-card__img">
+					<div class="cl-card__img-placeholder" style="background:linear-gradient(135deg,#e07a5f,#1d2d44);">La Cité</div>
+					<span class="cl-card__type-badge cl-badge--bookbar">Bookbar</span>
+					<span class="cl-card__nmcor-pick"><span class="material-symbols-outlined">verified</span></span>
+				</div>
+				<div class="cl-card__body">
+					<span class="cl-card__city">Firenze — Oltrarno</span>
+					<h4 class="cl-card__name">La Cité Libreria Café</h4>
+					<p class="cl-card__desc">Libri usati, concerti, mostre e aperitivi nell'Oltrarno. Il punto d'incontro della Firenze culturale underground, aperto fino a tarda notte.</p>
+					<div class="cl-card__amenities">
+						<span class="cl-card__amenity-icon" title="Libri"><span class="material-symbols-outlined">menu_book</span></span>
+						<span class="cl-card__amenity-icon" title="Concerti"><span class="material-symbols-outlined">music_note</span></span>
+						<span class="cl-card__amenity-icon" title="Mostre"><span class="material-symbols-outlined">photo_camera</span></span>
+					</div>
+					<div class="cl-card__footer">
+						<span class="cl-card__address"><span class="material-symbols-outlined">location_on</span> Borgo San Frediano 20</span>
+						<span class="cl-card__hours"><span class="material-symbols-outlined">schedule</span> 11–1</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="cl-card" data-type="coworking">
+				<div class="cl-card__img">
+					<div class="cl-card__img-placeholder" style="background:linear-gradient(135deg,#c4a35a,#748cab);">Ditta Artigianale</div>
+					<span class="cl-card__type-badge cl-badge--coworking">Coworking</span>
+				</div>
+				<div class="cl-card__body">
+					<span class="cl-card__city">Firenze — Sant'Ambrogio</span>
+					<h4 class="cl-card__name">Ditta Artigianale</h4>
+					<p class="cl-card__desc">Specialty coffee d'eccellenza con angolo libreria e tavoli da lavoro. Il caffè preferito dai nomadi digitali e dagli scrittori in trasferta fiorentina.</p>
+					<div class="cl-card__amenities">
+						<span class="cl-card__amenity-icon" title="Caffè speciality"><span class="material-symbols-outlined">local_cafe</span></span>
+						<span class="cl-card__amenity-icon" title="Wi-Fi"><span class="material-symbols-outlined">wifi</span></span>
+						<span class="cl-card__amenity-icon" title="Prese"><span class="material-symbols-outlined">power</span></span>
+					</div>
+					<div class="cl-card__footer">
+						<span class="cl-card__address"><span class="material-symbols-outlined">location_on</span> Via dei Neri 32</span>
+						<span class="cl-card__hours"><span class="material-symbols-outlined">schedule</span> 8–21</span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+
+	</div>
+</section>
+
+<section class="section section--dark">
+	<div class="cl-page">
+
+		<div class="cl-city-header">
+			<h3 class="cl-city-header__name">Napoli</h3>
+			<span class="cl-city-header__count">3 caffè</span>
+		</div>
+
+		<div class="cl-grid">
+
+			<a href="#" class="cl-card" data-type="storico">
+				<div class="cl-card__img">
+					<div class="cl-card__img-placeholder" style="background:linear-gradient(135deg,#9467bd,#0d1321);">Gran Caffè Gambrinus</div>
+					<span class="cl-card__type-badge cl-badge--storico">Storico</span>
+					<span class="cl-card__nmcor-pick"><span class="material-symbols-outlined">verified</span></span>
+				</div>
+				<div class="cl-card__body">
+					<span class="cl-card__city">Napoli — Centro</span>
+					<h4 class="cl-card__name">Gran Caffè Gambrinus</h4>
+					<p class="cl-card__desc">Dal 1860, il salotto di Napoli. Wilde, D'Annunzio, Hemingway tra i suoi tavoli. Affreschi, stucchi dorati e il miglior sfogliatella della città.</p>
+					<div class="cl-card__amenities">
+						<span class="cl-card__amenity-icon" title="Storico"><span class="material-symbols-outlined">history</span></span>
+						<span class="cl-card__amenity-icon" title="Pasticceria"><span class="material-symbols-outlined">cake</span></span>
+						<span class="cl-card__amenity-icon" title="Terrazza"><span class="material-symbols-outlined">deck</span></span>
+					</div>
+					<div class="cl-card__footer">
+						<span class="cl-card__address"><span class="material-symbols-outlined">location_on</span> Via Chiaia 1/2</span>
+						<span class="cl-card__hours"><span class="material-symbols-outlined">schedule</span> 7–24</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="cl-card" data-type="serale">
+				<div class="cl-card__img">
+					<div class="cl-card__img-placeholder" style="background:linear-gradient(135deg,#5a8aab,#e07a5f);">Spazio Nea</div>
+					<span class="cl-card__type-badge cl-badge--serale">Serale</span>
+				</div>
+				<div class="cl-card__body">
+					<span class="cl-card__city">Napoli — Centro storico</span>
+					<h4 class="cl-card__name">Spazio Nea</h4>
+					<p class="cl-card__desc">Galleria d'arte, libreria e bistrot nei Quartieri Spagnoli. Arte contemporanea alle pareti, cocktail letterari e jam session il giovedì sera.</p>
+					<div class="cl-card__amenities">
+						<span class="cl-card__amenity-icon" title="Arte"><span class="material-symbols-outlined">palette</span></span>
+						<span class="cl-card__amenity-icon" title="Cocktail"><span class="material-symbols-outlined">local_bar</span></span>
+						<span class="cl-card__amenity-icon" title="Musica"><span class="material-symbols-outlined">music_note</span></span>
+					</div>
+					<div class="cl-card__footer">
+						<span class="cl-card__address"><span class="material-symbols-outlined">location_on</span> Via Santa Maria di Costantinopoli 53</span>
+						<span class="cl-card__hours"><span class="material-symbols-outlined">schedule</span> 10–1</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="cl-card" data-type="brunch">
+				<div class="cl-card__img">
+					<div class="cl-card__img-placeholder" style="background:linear-gradient(135deg,#5a9a7a,#3e5c76);">Intra Moenia</div>
+					<span class="cl-card__type-badge cl-badge--brunch">Brunch & Libri</span>
+				</div>
+				<div class="cl-card__body">
+					<span class="cl-card__city">Napoli — Piazza Bellini</span>
+					<h4 class="cl-card__name">Intra Moenia</h4>
+					<p class="cl-card__desc">Caffè letterario storico in Piazza Bellini, cuore intellettuale di Napoli. Brunch culturali, editoria indipendente e tavolini tra le rovine greche.</p>
+					<div class="cl-card__amenities">
+						<span class="cl-card__amenity-icon" title="Brunch"><span class="material-symbols-outlined">brunch_dining</span></span>
+						<span class="cl-card__amenity-icon" title="Libri"><span class="material-symbols-outlined">menu_book</span></span>
+						<span class="cl-card__amenity-icon" title="Terrazza"><span class="material-symbols-outlined">deck</span></span>
+					</div>
+					<div class="cl-card__footer">
+						<span class="cl-card__address"><span class="material-symbols-outlined">location_on</span> Piazza Bellini 70</span>
+						<span class="cl-card__hours"><span class="material-symbols-outlined">schedule</span> 9–2</span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CTA BANNER
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface">
+	<div class="cl-page">
+		<div class="cl-cta-banner">
+			<div class="cl-cta-banner__text">
+				<h3>Conosci un caffè letterario?</h3>
+				<p>Segnalaci il tuo angolo preferito dove leggere, scrivere o semplicemente perdersi tra le pagine.</p>
+			</div>
+			<a href="demo-community.html" class="btn btn--accent">Segnala un caffè</a>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ -->
+
+<footer class="site-footer">
+	<div style="max-width:80rem;margin:0 auto;padding:0 2rem;">
+		<div class="footer-main">
+			<div class="footer-brand">
+				<p class="site-title">Not My Cup of Read</p>
+				<p>Esploriamo la letteratura contemporanea attraverso podcast, recensioni e approfondimenti.</p>
+				<div class="footer-social">
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">podcasts</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">play_circle</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">photo_camera</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">send</span></a>
+				</div>
+			</div>
+			<div class="footer-col">
+				<h4>ESPLORA</h4>
+				<ul>
+					<li><a href="demo-recensioni.html">Recensioni</a></li>
+					<li><a href="demo-approfondimenti.html">Approfondimenti</a></li>
+					<li><a href="demo-podcast.html">Podcast</a></li>
+					<li><a href="demo-libri.html">Libri</a></li>
+					<li><a href="demo-autori.html">Autori</a></li>
+					<li><a href="demo-librerie.html">Luoghi</a></li>
+					<li><a href="demo-eventi.html">Timeline</a></li>
+					<li><a href="demo-calendario.html">Calendario</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>PROGETTO</h4>
+				<ul>
+					<li><a href="demo-chi-siamo.html">Chi siamo</a></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Contatti</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>NEWSLETTER</h4>
+				<p style="font-size:0.875rem;margin-bottom:1rem;opacity:0.75;">Ricevi le nostre selezioni editoriali.</p>
+				<div class="newsletter-form">
+					<input type="email" placeholder="La tua email" style="background:rgba(255,255,255,0.05);color:#fff;">
+					<button class="btn btn--teal btn--small">Iscriviti</button>
+				</div>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<span>&copy; 2026 Not My Cup of Read.</span>
+			<div class="footer-bottom-links">
+				<a href="#">Privacy Policy</a>
+				<a href="#">Cookie Policy</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════════ -->
+<script>
+(function() {
+	'use strict';
+
+	var filters = document.querySelectorAll('.cl-filter');
+	var cards = document.querySelectorAll('.cl-card');
+
+	filters.forEach(function(btn) {
+		btn.addEventListener('click', function() {
+			var filter = this.getAttribute('data-filter');
+
+			filters.forEach(function(f) { f.classList.remove('active'); });
+			this.classList.add('active');
+
+			cards.forEach(function(card) {
+				if (filter === 'tutti' || card.getAttribute('data-type') === filter) {
+					card.style.display = '';
+				} else {
+					card.style.display = 'none';
+				}
+			});
+		});
+	});
+})();
+</script>
+
+</body>
+</html>

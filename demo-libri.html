@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Libri — Not My Cup of Read</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<style>
+/* ═══════════════════════════════════════
+   PLACEHOLDER IMAGES
+   ═══════════════════════════════════════ */
+.demo-placeholder-img {
+	background: linear-gradient(135deg, #1d2d44 0%, #3e5c76 50%, #748cab 100%);
+	display: flex; align-items: center; justify-content: center;
+	color: rgba(255,255,255,0.3); font-size: 0.75rem; font-family: var(--font-body);
+}
+.demo-placeholder-img.warm {
+	background: linear-gradient(135deg, #3e5c76 0%, #748cab 50%, #b8c5d6 100%);
+}
+.demo-placeholder-img.neutral {
+	background: linear-gradient(135deg, #0d1321 0%, #1d2d44 50%, #3e5c76 100%);
+}
+
+/* ═══════════════════════════════════════
+   HERO / SEARCH AREA
+   ═══════════════════════════════════════ */
+.libri-hero {
+	background: var(--c-surface);
+	padding: 3rem 2rem 2rem;
+}
+.libri-hero__inner {
+	max-width: 80rem;
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: 240px 1fr 260px;
+	gap: 2rem;
+	align-items: center;
+}
+.libri-hero__sidebar-left {
+	background: #fff;
+	border-radius: var(--radius-lg);
+	padding: 1.25rem;
+	text-align: center;
+}
+.libri-hero__sidebar-left p {
+	font-size: 0.6875rem;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--c-on-surface-variant);
+	margin-bottom: 0.5rem;
+	font-weight: 600;
+}
+.libri-hero__sidebar-left h3 {
+	font-family: var(--font-headline);
+	font-size: 1.125rem;
+	margin-bottom: 0.75rem;
+}
+.libri-hero__covers {
+	display: flex;
+	gap: 0.5rem;
+	justify-content: center;
+	margin-bottom: 0.75rem;
+}
+.libri-hero__covers .cover-thumb {
+	width: 50px;
+	aspect-ratio: 2/3;
+	border-radius: 4px;
+}
+.libri-hero__sidebar-left .desc {
+	font-size: 0.75rem;
+	color: var(--c-on-surface-variant);
+	line-height: 1.5;
+	margin-bottom: 1rem;
+}
+.libri-hero__sidebar-left .btn-explore {
+	display: inline-block;
+	padding: 0.5rem 1.25rem;
+	background: var(--c-accent);
+	color: #fff;
+	border-radius: var(--radius-sm);
+	font-size: 0.8125rem;
+	font-weight: 700;
+	text-decoration: none;
+	font-family: var(--font-body);
+}
+.libri-hero__center {
+	text-align: center;
+}
+.libri-hero__center h1 {
+	font-family: var(--font-headline);
+	font-size: 3.5rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	line-height: 1.1;
+	margin-bottom: 1.5rem;
+}
+.libri-search {
+	display: flex;
+	align-items: center;
+	background: #fff;
+	border-radius: var(--radius-full, 9999px);
+	padding: 0.5rem 0.75rem 0.5rem 1.5rem;
+	max-width: 520px;
+	margin: 0 auto 0.75rem;
+	box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.libri-search input {
+	flex: 1;
+	border: none;
+	outline: none;
+	font-size: 1rem;
+	font-family: var(--font-body);
+	color: var(--c-on-surface);
+	background: transparent;
+}
+.libri-search input::placeholder { color: var(--c-surface-dim); }
+.libri-search button {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	border: none;
+	background: var(--c-primary);
+	color: #fff;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	transition: background 0.15s;
+}
+.libri-search button:hover { background: var(--c-primary-container); }
+.libri-advanced {
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	cursor: pointer;
+	background: none;
+	border: none;
+	font-family: var(--font-body);
+	margin-top: 0.25rem;
+}
+.libri-advanced:hover { text-decoration: underline; }
+
+/* Advanced search panel */
+.libri-advanced-panel {
+	display: none;
+	max-width: 520px;
+	margin: 1rem auto 0;
+	background: #fff;
+	border-radius: var(--radius-md);
+	padding: 1.25rem;
+	box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+	text-align: left;
+}
+.libri-advanced-panel.active { display: block; }
+.libri-advanced-panel label {
+	display: block;
+	font-size: 0.75rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--c-on-surface-variant);
+	margin-bottom: 0.25rem;
+}
+.libri-advanced-panel input,
+.libri-advanced-panel select {
+	width: 100%;
+	padding: 0.5rem 0.75rem;
+	border: 1.5px solid rgba(0,0,0,0.1);
+	border-radius: var(--radius-sm);
+	font-family: var(--font-body);
+	font-size: 0.875rem;
+	margin-bottom: 0.75rem;
+	background: var(--c-surface);
+	color: var(--c-on-surface);
+}
+.libri-advanced-panel .adv-row {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 0.75rem;
+}
+
+.libri-hero__sidebar-right {
+	background: var(--c-primary);
+	border-radius: var(--radius-lg);
+	padding: 1.25rem;
+	color: #fff;
+}
+.libri-hero__sidebar-right .badge {
+	display: inline-block;
+	font-size: 0.5625rem;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	background: rgba(255,255,255,0.15);
+	padding: 0.2rem 0.5rem;
+	border-radius: 4px;
+	margin-bottom: 0.75rem;
+	font-weight: 600;
+}
+.libri-hero__sidebar-right h4 {
+	font-family: var(--font-headline);
+	font-size: 1.25rem;
+	margin-bottom: 0.25rem;
+}
+.libri-hero__sidebar-right .author {
+	font-size: 0.8125rem;
+	opacity: 0.7;
+	font-style: italic;
+	margin-bottom: 1rem;
+}
+.libri-hero__sidebar-right .btn-pod {
+	display: block;
+	text-align: center;
+	padding: 0.5rem 1rem;
+	border: 1.5px solid rgba(255,255,255,0.3);
+	border-radius: var(--radius-sm);
+	color: #fff;
+	font-size: 0.8125rem;
+	font-weight: 600;
+	text-decoration: none;
+	margin-bottom: 0.5rem;
+	transition: background 0.15s;
+	font-family: var(--font-body);
+	background: none;
+	cursor: pointer;
+	width: 100%;
+}
+.libri-hero__sidebar-right .btn-pod:hover { background: rgba(255,255,255,0.1); }
+.libri-hero__sidebar-right .btn-pod-fill {
+	background: #fff;
+	color: var(--c-primary);
+	border-color: #fff;
+}
+.libri-hero__sidebar-right .btn-pod-fill:hover { background: var(--c-surface); }
+
+/* ═══════════════════════════════════════
+   LANDING SECTIONS
+   ═══════════════════════════════════════ */
+.libri-landing { }
+.libri-section {
+	max-width: 80rem;
+	margin: 0 auto;
+	padding: 3rem 2rem;
+}
+.libri-section--alt {
+	background: rgba(0,0,0,0.02);
+}
+.libri-section__header {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	margin-bottom: 1.5rem;
+}
+.libri-section__header h2 {
+	font-family: var(--font-headline);
+	font-size: 1.75rem;
+	font-weight: 700;
+}
+.libri-section__header h2 span {
+	font-weight: 400;
+	font-style: italic;
+	font-size: 1rem;
+	color: var(--c-on-surface-variant);
+	margin-left: 0.5rem;
+}
+.libri-section__header a {
+	font-size: 0.8125rem;
+	color: var(--c-accent);
+	text-decoration: none;
+	font-weight: 600;
+}
+.libri-section__header a:hover { text-decoration: underline; }
+
+/* Podcast Library - horizontal scroll */
+.podcast-shelf {
+	display: flex;
+	gap: 1.25rem;
+	overflow-x: auto;
+	padding-bottom: 0.5rem;
+	scroll-snap-type: x proximity;
+}
+.podcast-shelf::-webkit-scrollbar { height: 4px; }
+.podcast-shelf::-webkit-scrollbar-thumb { background: var(--c-surface-dim); border-radius: 4px; }
+.podcast-shelf__item {
+	flex-shrink: 0;
+	width: 130px;
+	scroll-snap-align: start;
+}
+.podcast-shelf__cover {
+	width: 130px;
+	height: 130px;
+	border-radius: var(--radius-md);
+	margin-bottom: 0.5rem;
+	position: relative;
+	overflow: hidden;
+}
+.podcast-shelf__badge {
+	position: absolute;
+	top: 6px;
+	left: 6px;
+	font-size: 0.5625rem;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	padding: 0.15rem 0.4rem;
+	border-radius: 4px;
+	font-weight: 700;
+	color: #fff;
+}
+.podcast-shelf__badge--podcast { background: var(--c-accent); }
+.podcast-shelf__badge--discussion { background: #8e44ad; }
+.podcast-shelf__title {
+	font-family: var(--font-headline);
+	font-size: 0.8125rem;
+	font-weight: 700;
+	line-height: 1.3;
+	margin-bottom: 0.15rem;
+}
+.podcast-shelf__author {
+	font-size: 0.6875rem;
+	color: var(--c-on-surface-variant);
+	font-style: italic;
+}
+
+/* New Releases - featured + grid */
+.releases-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 1.5rem;
+}
+.releases-featured {
+	grid-row: 1 / 3;
+	background: var(--c-primary);
+	border-radius: var(--radius-lg);
+	padding: 1.5rem;
+	color: #fff;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	min-height: 380px;
+	position: relative;
+	overflow: hidden;
+}
+.releases-featured::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(to bottom, transparent 40%, rgba(13,19,33,0.85));
+	z-index: 1;
+}
+.releases-featured > * { position: relative; z-index: 2; }
+.releases-featured .badge {
+	display: inline-block;
+	font-size: 0.625rem;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	background: rgba(255,255,255,0.2);
+	padding: 0.2rem 0.5rem;
+	border-radius: 4px;
+	margin-bottom: 0.75rem;
+	font-weight: 600;
+	width: fit-content;
+}
+.releases-featured h3 {
+	font-family: var(--font-headline);
+	font-size: 1.5rem;
+	margin-bottom: 0.5rem;
+	line-height: 1.2;
+}
+.releases-featured p {
+	font-size: 0.8125rem;
+	opacity: 0.8;
+	line-height: 1.5;
+	margin-bottom: 1rem;
+}
+.releases-featured .btn-read {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	padding: 0.5rem 1rem;
+	background: #fff;
+	color: var(--c-primary);
+	border-radius: var(--radius-sm);
+	font-size: 0.8125rem;
+	font-weight: 700;
+	text-decoration: none;
+	font-family: var(--font-body);
+	width: fit-content;
+}
+.releases-small-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 1rem;
+}
+.releases-card {
+	background: #fff;
+	border-radius: var(--radius-md);
+	overflow: hidden;
+}
+.releases-card__cover {
+	aspect-ratio: 4/3;
+	width: 100%;
+}
+.releases-card__info {
+	padding: 0.75rem;
+}
+.releases-card__title {
+	font-family: var(--font-headline);
+	font-size: 0.875rem;
+	font-weight: 700;
+	margin-bottom: 0.15rem;
+}
+.releases-card__author {
+	font-size: 0.6875rem;
+	color: var(--c-on-surface-variant);
+	font-style: italic;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+}
+
+/* Genre Shelf - horizontal */
+.genre-shelf {
+	display: flex;
+	gap: 1.5rem;
+	overflow-x: auto;
+	padding-bottom: 0.5rem;
+}
+.genre-shelf__item {
+	flex-shrink: 0;
+	width: 140px;
+	text-align: center;
+}
+.genre-shelf__cover {
+	width: 110px;
+	aspect-ratio: 2/3;
+	border-radius: var(--radius-sm);
+	margin: 0 auto 0.5rem;
+}
+.genre-shelf__title {
+	font-family: var(--font-headline);
+	font-size: 0.8125rem;
+	font-weight: 700;
+}
+.genre-shelf__author {
+	font-size: 0.6875rem;
+	color: var(--c-on-surface-variant);
+	font-style: italic;
+}
+.btn-shuffle {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	padding: 0.4rem 1rem;
+	background: #fff;
+	color: var(--c-on-surface);
+	border: 1.5px solid rgba(0,0,0,0.1);
+	border-radius: var(--radius-full, 9999px);
+	font-size: 0.75rem;
+	font-weight: 600;
+	cursor: pointer;
+	font-family: var(--font-body);
+	transition: all 0.15s;
+}
+.btn-shuffle:hover { background: var(--c-surface-container, #e6e1ce); }
+.btn-shuffle .material-symbols-outlined { font-size: 16px; }
+
+/* Curated Picks */
+.curated-header {
+	text-align: center;
+	margin-bottom: 2rem;
+}
+.curated-header .subtitle {
+	font-size: 0.6875rem;
+	text-transform: uppercase;
+	letter-spacing: 0.15em;
+	color: var(--c-on-surface-variant);
+	font-weight: 600;
+	margin-bottom: 0.25rem;
+}
+.curated-header h2 {
+	font-family: var(--font-headline);
+	font-size: 2rem;
+	font-weight: 700;
+}
+.curated-header blockquote {
+	font-family: var(--font-headline);
+	font-style: italic;
+	color: var(--c-on-surface-variant);
+	max-width: 480px;
+	margin: 0.75rem auto 0;
+	font-size: 0.9375rem;
+	line-height: 1.6;
+}
+.curated-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 2rem;
+}
+.curated-card {
+	text-align: center;
+}
+.curated-card__cover {
+	width: 160px;
+	aspect-ratio: 2/3;
+	border-radius: var(--radius-md);
+	margin: 0 auto 1rem;
+	position: relative;
+	overflow: hidden;
+}
+.curated-card__badge {
+	position: absolute;
+	bottom: 8px;
+	left: 50%;
+	transform: translateX(-50%);
+	font-size: 0.5625rem;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	padding: 0.2rem 0.6rem;
+	border-radius: 4px;
+	font-weight: 700;
+	color: #fff;
+}
+.curated-card__badge--masterpiece { background: #c0392b; }
+.curated-card__badge--mindbending { background: #8e44ad; }
+.curated-card__badge--essential { background: var(--c-accent); }
+.curated-card__title {
+	font-family: var(--font-headline);
+	font-size: 1.125rem;
+	font-weight: 700;
+	margin-bottom: 0.5rem;
+}
+.curated-card__desc {
+	font-size: 0.8125rem;
+	color: var(--c-on-surface-variant);
+	line-height: 1.6;
+	max-width: 280px;
+	margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════
+   SEARCH RESULTS VIEW
+   ═══════════════════════════════════════ */
+.libri-results { display: none; }
+.libri-results.active { display: block; }
+.libri-landing.hidden { display: none; }
+
+.results-banner {
+	background: var(--c-surface);
+	padding: 1.5rem 2rem;
+	border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.results-banner__inner {
+	max-width: 80rem;
+	margin: 0 auto;
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+}
+.results-banner h2 {
+	font-size: 0.6875rem;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	color: var(--c-on-surface-variant);
+	font-weight: 600;
+	margin-bottom: 0.25rem;
+}
+.results-banner h3 {
+	font-family: var(--font-headline);
+	font-size: 2rem;
+	font-style: italic;
+}
+.results-banner .count {
+	font-size: 0.8125rem;
+	color: var(--c-accent);
+	font-style: italic;
+}
+
+.results-layout {
+	max-width: 80rem;
+	margin: 0 auto;
+	padding: 2rem;
+	display: grid;
+	grid-template-columns: 200px 1fr;
+	gap: 2.5rem;
+}
+
+/* Filters sidebar */
+.filters-sidebar h3 {
+	font-size: 0.75rem;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	color: var(--c-accent);
+	font-weight: 700;
+	margin-bottom: 0.25rem;
+}
+.filters-sidebar .subtitle {
+	font-size: 0.75rem;
+	color: var(--c-on-surface-variant);
+	margin-bottom: 1rem;
+}
+.filter-list {
+	list-style: none;
+	margin: 0 0 1.5rem;
+	padding: 0;
+}
+.filter-list li {
+	margin-bottom: 0.15rem;
+}
+.filter-list li a {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.5rem 0.75rem;
+	border-radius: var(--radius-sm);
+	text-decoration: none;
+	font-size: 0.8125rem;
+	font-weight: 500;
+	color: var(--c-on-surface);
+	transition: all 0.15s;
+}
+.filter-list li a:hover { background: rgba(0,0,0,0.04); }
+.filter-list li a.active {
+	background: var(--c-primary);
+	color: #fff;
+}
+.filter-list li a .material-symbols-outlined { font-size: 16px; }
+.filter-divider {
+	height: 1px;
+	background: rgba(0,0,0,0.08);
+	margin: 1rem 0;
+}
+.filter-label {
+	font-size: 0.6875rem;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	color: var(--c-on-surface-variant);
+	font-weight: 600;
+	margin-bottom: 0.5rem;
+}
+.filter-toggle {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 0.5rem;
+	font-size: 0.8125rem;
+}
+.toggle-switch {
+	width: 36px;
+	height: 20px;
+	border-radius: 10px;
+	background: rgba(0,0,0,0.15);
+	position: relative;
+	cursor: pointer;
+	transition: background 0.2s;
+}
+.toggle-switch.on { background: var(--c-accent); }
+.toggle-switch::after {
+	content: '';
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background: #fff;
+	transition: transform 0.2s;
+}
+.toggle-switch.on::after { transform: translateX(16px); }
+.btn-apply-filters {
+	width: 100%;
+	padding: 0.6rem;
+	background: var(--c-primary);
+	color: #fff;
+	border: none;
+	border-radius: var(--radius-sm);
+	font-family: var(--font-body);
+	font-size: 0.8125rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	cursor: pointer;
+	margin-top: 1rem;
+	transition: background 0.15s;
+}
+.btn-apply-filters:hover { background: var(--c-primary-container); }
+
+/* Results grid */
+.results-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 2rem;
+}
+.result-card { }
+.result-card__cover {
+	aspect-ratio: 3/4;
+	border-radius: var(--radius-md);
+	margin-bottom: 0.75rem;
+	overflow: hidden;
+}
+.result-card__badges {
+	display: flex;
+	gap: 0.35rem;
+	margin-bottom: 0.5rem;
+	flex-wrap: wrap;
+}
+.result-badge {
+	font-size: 0.5625rem;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	padding: 0.2rem 0.5rem;
+	border-radius: 4px;
+	font-weight: 700;
+	color: #fff;
+}
+.result-badge--review { background: var(--c-primary); }
+.result-badge--podcast { background: #e07a5f; }
+.result-badge--analysis { background: var(--c-accent); }
+.result-badge--discussion { background: #8e44ad; }
+.result-card__title {
+	font-family: var(--font-headline);
+	font-size: 1.125rem;
+	font-weight: 700;
+	margin-bottom: 0.25rem;
+}
+.result-card__meta {
+	font-size: 0.8125rem;
+	color: var(--c-on-surface-variant);
+	font-style: italic;
+	margin-bottom: 0.5rem;
+}
+.result-card__tags {
+	display: flex;
+	gap: 0.5rem;
+	flex-wrap: wrap;
+}
+.result-tag {
+	font-size: 0.6875rem;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--c-on-surface-variant);
+	font-weight: 600;
+}
+.result-tag + .result-tag::before {
+	content: '\00B7';
+	margin-right: 0.5rem;
+}
+
+/* Pagination */
+.results-pagination {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.25rem;
+	margin-top: 3rem;
+}
+.results-pagination a, .results-pagination span {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	text-decoration: none;
+	font-size: 0.875rem;
+	font-weight: 600;
+	color: var(--c-on-surface);
+	transition: all 0.15s;
+}
+.results-pagination a:hover { background: rgba(0,0,0,0.05); }
+.results-pagination .current {
+	background: var(--c-primary);
+	color: #fff;
+}
+.results-pagination .material-symbols-outlined { font-size: 20px; }
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════ */
+@media (max-width: 1024px) {
+	.libri-hero__inner { grid-template-columns: 1fr; }
+	.libri-hero__sidebar-left, .libri-hero__sidebar-right { display: none; }
+	.releases-grid { grid-template-columns: 1fr; }
+	.releases-featured { min-height: 280px; }
+	.results-layout { grid-template-columns: 1fr; }
+	.filters-sidebar { display: flex; gap: 1rem; flex-wrap: wrap; }
+}
+@media (max-width: 768px) {
+	.libri-hero__center h1 { font-size: 2.25rem; }
+	.curated-grid { grid-template-columns: 1fr; }
+	.results-grid { grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+}
+@media (max-width: 480px) {
+	.results-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header" id="siteHeader">
+	<div class="header-outer">
+		<div class="header-inner">
+			<div class="site-branding">
+				<div class="site-branding__icon">
+					<img src="assets/img/logo-nmcor.png" alt="NMCOR">
+				</div>
+				<h1 class="site-title"><a href="demo.html">Not My Cup of Read</a></h1>
+			</div>
+			<nav class="primary-nav" id="primaryNav">
+				<ul>
+					<li><a href="#">Articoli</a><ul class="sub-menu"><li><a href="demo-recensioni.html">Recensioni</a></li><li><a href="demo-approfondimenti.html">Approfondimenti</a></li><li><a href="demo-classifiche.html">Classifiche</a></li></ul></li>
+					<li><a href="#">Podcast</a><ul class="sub-menu"><li><a href="demo-podcast.html">Episodi</a></li><li><a href="demo-format.html">Format</a></li><li><a href="demo-dietro-le-quinte.html">Dietro le quinte</a></li></ul></li>
+					<li><a href="#">Biblioteca</a><ul class="sub-menu"><li><a href="demo-libri.html">Libri</a></li><li><a href="demo-autori.html">Autori</a></li></ul></li>
+					<li><a href="#">Luoghi</a><ul class="sub-menu"><li><a href="demo-librerie.html">La mappa del Lettore</a></li><li><a href="demo-luoghi-milano.html">Milano</a></li><li><a href="demo-itinerari.html">Itinerari letterari</a></li><li><a href="demo-luoghi-librerie.html">Librerie</a></li><li><a href="demo-luoghi-biblioteche.html">Biblioteche</a></li><li><a href="demo-luoghi-caffe.html">Caffè letterari</a></li><li><a href="demo-luoghi-spazi.html">Spazi culturali</a></li></ul></li>
+					<li><a href="#">Eventi</a><ul class="sub-menu"><li><a href="demo-eventi.html">Timeline</a></li><li><a href="demo-calendario.html">Calendario</a></li><li><a href="demo-fiere-festival.html">Fiere e Festival</a></li><li><a href="demo-premi-letterari.html">Premi letterari</a></li></ul></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Chi siamo</a><ul class="sub-menu"><li><a href="demo-chi-siamo.html">Lo studio &amp; gli host</a></li><li><a href="demo-ospiti-redazione.html">Gli ospiti &amp; la redazione</a></li><li><a href="demo-contatti.html">Contatti &amp; Collaborazioni</a></li></ul></li>
+				</ul>
+			</nav>
+			<div class="header-search">
+				<input type="text" placeholder="Cerca...">
+			</div>
+		</div>
+		<div class="header-extras">
+			<div class="header-social">
+				<a href="#" class="header-social__link" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23.5 6.19a3 3 0 0 0-2.11-2.13C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.39.56A3 3 0 0 0 .5 6.19 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.81 3 3 0 0 0 2.11 2.13c1.89.56 9.39.56 9.39.56s7.5 0 9.39-.56a3 3 0 0 0 2.11-2.13A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.81ZM9.75 15.02V8.98L15.5 12l-5.75 3.02Z"/></svg></a>
+				<a href="#" class="header-social__link" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.97.24 2.44.41.61.24 1.05.52 1.51.98.46.46.74.9.98 1.51.17.47.36 1.27.41 2.44.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.24 1.97-.41 2.44a4.07 4.07 0 0 1-.98 1.51c-.46.46-.9.74-1.51.98-.47.17-1.27.36-2.44.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.97-.24-2.44-.41a4.07 4.07 0 0 1-1.51-.98 4.07 4.07 0 0 1-.98-1.51c-.17-.47-.36-1.27-.41-2.44C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.24-1.97.41-2.44.24-.61.52-1.05.98-1.51a4.07 4.07 0 0 1 1.51-.98c.47-.17 1.27-.36 2.44-.41C8.42 2.17 8.8 2.16 12 2.16ZM12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63a5.85 5.85 0 0 0-2.13 1.38A5.85 5.85 0 0 0 .63 4.14C.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13a5.85 5.85 0 0 0 2.13 1.38c.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56a5.85 5.85 0 0 0 2.13-1.38 5.85 5.85 0 0 0 1.38-2.13c.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.85 5.85 0 0 0-1.38-2.13A5.85 5.85 0 0 0 19.86.63C19.1.33 18.22.13 16.95.07 15.67.01 15.26 0 12 0Zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32ZM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm6.41-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88Z"/></svg></a>
+				<a href="#" class="header-social__link" aria-label="Spotify"><svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.31a.75.75 0 0 1-1.03.25c-2.82-1.72-6.37-2.11-10.55-1.16a.75.75 0 1 1-.34-1.46c4.57-1.05 8.49-.6 11.67 1.34a.75.75 0 0 1 .25 1.03Zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.23-1.98-8.15-2.56-11.97-1.4a.94.94 0 1 1-.54-1.8c4.36-1.32 9.78-.68 13.49 1.6a.94.94 0 0 1 .31 1.29Zm.13-3.4C15.5 8.4 9 8.2 5.24 9.33a1.13 1.13 0 1 1-.65-2.16c4.33-1.3 11.52-1.05 16.07 1.68a1.13 1.13 0 0 1-1.56 1.79Z"/></svg></a>
+				<a href="#" class="header-social__link" aria-label="X"><svg viewBox="0 0 24 24"><path d="M18.9 1.15h3.68l-8.04 9.19L24 22.85h-7.4l-5.8-7.58-6.63 7.58H.49l8.6-9.83L0 1.15h7.59l5.24 6.93 6.07-6.93Zm-1.29 19.5h2.04L6.48 3.24H4.3L17.61 20.65Z"/></svg></a>
+			</div>
+			<div class="header-auth">
+				<a href="demo-profilo.html" class="header-auth__btn"><span class="material-symbols-outlined">person</span> Cristian T.</a>
+				<div class="header-auth__dropdown">
+					<a href="#"><span class="material-symbols-outlined">login</span> Area Personale</a>
+					<a href="#"><span class="material-symbols-outlined">person_add</span> Registrati</a>
+				</div>
+			</div>
+			<button class="menu-toggle" id="menuToggle" aria-label="Menu"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button>
+		</div>
+	</div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     HERO / SEARCH
+     ═══════════════════════════════════════════ -->
+<section class="libri-hero">
+	<div class="libri-hero__inner">
+		<!-- Left sidebar: Publisher of the Month -->
+		<div class="libri-hero__sidebar-left">
+			<p>Editore del mese</p>
+			<h3>Adelphi Edizioni</h3>
+			<div class="libri-hero__covers">
+				<div class="cover-thumb demo-placeholder-img" style="background:linear-gradient(135deg,#1a1a2e,#16213e);">1</div>
+				<div class="cover-thumb demo-placeholder-img warm" style="background:linear-gradient(135deg,#3e5c76,#748cab);">2</div>
+			</div>
+			<p class="desc">Promuovere l'arte della curatela dal 1962, riportando gemme dimenticate al lettore moderno.</p>
+			<a href="#" class="btn-explore">Esplora editore</a>
+		</div>
+
+		<!-- Center: Title + Search -->
+		<div class="libri-hero__center">
+			<h1>The Digital<br>Curator</h1>
+			<div class="libri-search" id="mainSearch">
+				<input type="text" placeholder="Cerca libri, autori, temi..." id="searchInput">
+				<button type="button" id="btnSearch"><span class="material-symbols-outlined">search</span></button>
+			</div>
+			<button class="libri-advanced" id="btnAdvanced">Ricerca avanzata</button>
+			<div class="libri-advanced-panel" id="advancedPanel">
+				<div class="adv-row">
+					<div>
+						<label>Autore</label>
+						<input type="text" placeholder="Es. Italo Calvino" id="advAuthor">
+					</div>
+					<div>
+						<label>Anno</label>
+						<input type="text" placeholder="Es. 1972" id="advYear">
+					</div>
+				</div>
+				<div class="adv-row">
+					<div>
+						<label>Genere</label>
+						<select id="advGenre">
+							<option value="">Tutti i generi</option>
+							<option value="fiction">Fiction</option>
+							<option value="non-fiction">Non-Fiction</option>
+							<option value="poetry">Poesia</option>
+							<option value="essays">Saggi</option>
+						</select>
+					</div>
+					<div>
+						<label>Editore</label>
+						<input type="text" placeholder="Es. Adelphi" id="advPublisher">
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Right sidebar: Now on Podcast -->
+		<div class="libri-hero__sidebar-right">
+			<span class="badge">Now on the Podcast</span>
+			<h4>The Great Emptiness</h4>
+			<p class="author">Elena Ferrante</p>
+			<button class="btn-pod">&#9654; Ascolta episodio</button>
+			<button class="btn-pod btn-pod-fill">Unisciti alla discussione</button>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     LANDING: Grids
+     ═══════════════════════════════════════════ -->
+<div class="libri-landing" id="landingView">
+
+	<!-- Podcast Library -->
+	<div class="libri-section">
+		<div class="libri-section__header">
+			<h2><span class="material-symbols-outlined" style="font-size:24px;vertical-align:-4px;">podcasts</span> Podcast Library</h2>
+			<a href="demo-podcast.html">Tutti gli episodi &rarr;</a>
+		</div>
+		<div class="podcast-shelf">
+			<div class="podcast-shelf__item">
+				<div class="podcast-shelf__cover demo-placeholder-img neutral" style="border-radius:var(--radius-md);">
+					<span class="podcast-shelf__badge podcast-shelf__badge--podcast">PODCAST</span>
+				</div>
+				<div class="podcast-shelf__title">The Invisible Life</div>
+				<div class="podcast-shelf__author">Addie LaRue</div>
+			</div>
+			<div class="podcast-shelf__item">
+				<div class="podcast-shelf__cover demo-placeholder-img warm" style="border-radius:var(--radius-md);">
+					<span class="podcast-shelf__badge podcast-shelf__badge--discussion">DISCUSSION</span>
+				</div>
+				<div class="podcast-shelf__title">Circe</div>
+				<div class="podcast-shelf__author">Madeline Miller</div>
+			</div>
+			<div class="podcast-shelf__item">
+				<div class="podcast-shelf__cover demo-placeholder-img" style="border-radius:var(--radius-md);"></div>
+				<div class="podcast-shelf__title">Hamnet</div>
+				<div class="podcast-shelf__author">Maggie O'Farrell</div>
+			</div>
+			<div class="podcast-shelf__item">
+				<div class="podcast-shelf__cover demo-placeholder-img neutral" style="border-radius:var(--radius-md);"></div>
+				<div class="podcast-shelf__title">Klara and the Sun</div>
+				<div class="podcast-shelf__author">Kazuo Ishiguro</div>
+			</div>
+			<div class="podcast-shelf__item">
+				<div class="podcast-shelf__cover demo-placeholder-img warm" style="border-radius:var(--radius-md);"></div>
+				<div class="podcast-shelf__title">Shuggie Bain</div>
+				<div class="podcast-shelf__author">Douglas Stuart</div>
+			</div>
+			<div class="podcast-shelf__item">
+				<div class="podcast-shelf__cover demo-placeholder-img" style="border-radius:var(--radius-md);"></div>
+				<div class="podcast-shelf__title">Normal People</div>
+				<div class="podcast-shelf__author">Sally Rooney</div>
+			</div>
+			<div class="podcast-shelf__item">
+				<div class="podcast-shelf__cover demo-placeholder-img neutral" style="border-radius:var(--radius-md);"></div>
+				<div class="podcast-shelf__title">Piranesi</div>
+				<div class="podcast-shelf__author">Susanna Clarke</div>
+			</div>
+			<div class="podcast-shelf__item">
+				<div class="podcast-shelf__cover demo-placeholder-img warm" style="border-radius:var(--radius-md);"></div>
+				<div class="podcast-shelf__title">The Overstory</div>
+				<div class="podcast-shelf__author">Richard Powers</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- New Releases of the Month -->
+	<div class="libri-section--alt">
+		<div class="libri-section">
+			<div class="libri-section__header">
+				<h2>New Releases of the Month</h2>
+			</div>
+			<div class="releases-grid">
+				<div class="releases-featured demo-placeholder-img" style="background:linear-gradient(135deg,#1d2d44,#0d1321);">
+					<span class="badge">Editor's Choice</span>
+					<h3>How Contemporary Fiction is Redefining the 'Happy Ending'</h3>
+					<p>An in-depth look at this month's most disruptive releases, from meta-fictional experiments to the return of the epic...</p>
+					<a href="#" class="btn-read">Read article &rarr;</a>
+				</div>
+				<div class="releases-small-grid">
+					<div class="releases-card">
+						<div class="releases-card__cover demo-placeholder-img warm"></div>
+						<div class="releases-card__info">
+							<div class="releases-card__title">Small Things Like These</div>
+							<div class="releases-card__author">Claire Keegan</div>
+						</div>
+					</div>
+					<div class="releases-card">
+						<div class="releases-card__cover demo-placeholder-img"></div>
+						<div class="releases-card__info">
+							<div class="releases-card__title">The Candy House</div>
+							<div class="releases-card__author">Jennifer Egan</div>
+						</div>
+					</div>
+					<div class="releases-card">
+						<div class="releases-card__cover demo-placeholder-img neutral"></div>
+						<div class="releases-card__info">
+							<div class="releases-card__title">Sea of Tranquility</div>
+							<div class="releases-card__author">Emily St. John Mandel</div>
+						</div>
+					</div>
+					<div class="releases-card">
+						<div class="releases-card__cover demo-placeholder-img warm"></div>
+						<div class="releases-card__info">
+							<div class="releases-card__title">The Seven Moons</div>
+							<div class="releases-card__author">Shehan Karunatilaka</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Science Fiction (today's selection) -->
+	<div class="libri-section">
+		<div class="libri-section__header">
+			<h2>Science Fiction <span>(today's selection)</span></h2>
+			<button class="btn-shuffle"><span class="material-symbols-outlined">casino</span> Shuffle</button>
+		</div>
+		<div class="genre-shelf">
+			<div class="genre-shelf__item">
+				<div class="genre-shelf__cover demo-placeholder-img neutral" style="border-radius:var(--radius-sm);"></div>
+				<div class="genre-shelf__title">Project Hail Mary</div>
+				<div class="genre-shelf__author">Andy Weir</div>
+			</div>
+			<div class="genre-shelf__item">
+				<div class="genre-shelf__cover demo-placeholder-img warm" style="border-radius:var(--radius-sm);"></div>
+				<div class="genre-shelf__title">Dune</div>
+				<div class="genre-shelf__author">Frank Herbert</div>
+			</div>
+			<div class="genre-shelf__item">
+				<div class="genre-shelf__cover demo-placeholder-img" style="border-radius:var(--radius-sm);"></div>
+				<div class="genre-shelf__title">Neuromancer</div>
+				<div class="genre-shelf__author">William Gibson</div>
+			</div>
+			<div class="genre-shelf__item">
+				<div class="genre-shelf__cover demo-placeholder-img neutral" style="border-radius:var(--radius-sm);"></div>
+				<div class="genre-shelf__title">Exhalation</div>
+				<div class="genre-shelf__author">Ted Chiang</div>
+			</div>
+			<div class="genre-shelf__item">
+				<div class="genre-shelf__cover demo-placeholder-img warm" style="border-radius:var(--radius-sm);"></div>
+				<div class="genre-shelf__title">The Left Hand of Darkness</div>
+				<div class="genre-shelf__author">Ursula K. Le Guin</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Curated by the Team -->
+	<div class="libri-section--alt">
+		<div class="libri-section">
+			<div class="curated-header">
+				<p class="subtitle">Curated by the Team</p>
+				<h2>Mattia's Picks</h2>
+				<blockquote>"Books that shifted my perspective this month. Not just reads, but experiences that left a mark on how I view the digital and the analog."</blockquote>
+			</div>
+			<div class="curated-grid">
+				<div class="curated-card">
+					<div class="curated-card__cover demo-placeholder-img neutral" style="border-radius:var(--radius-md);">
+						<span class="curated-card__badge curated-card__badge--masterpiece">Masterpiece</span>
+					</div>
+					<div class="curated-card__title">A Little Life</div>
+					<p class="curated-card__desc">An overwhelming study of trauma and friendship that remains with you long after the final page.</p>
+				</div>
+				<div class="curated-card">
+					<div class="curated-card__cover demo-placeholder-img warm" style="border-radius:var(--radius-md);">
+						<span class="curated-card__badge curated-card__badge--mindbending">Mind-Bending</span>
+					</div>
+					<div class="curated-card__title">Annihilation</div>
+					<p class="curated-card__desc">Atmospheric, eerie, and beautifully written. A journey into the unknown that defies genre tags.</p>
+				</div>
+				<div class="curated-card">
+					<div class="curated-card__cover demo-placeholder-img" style="border-radius:var(--radius-md);">
+						<span class="curated-card__badge curated-card__badge--essential">Essential</span>
+					</div>
+					<div class="curated-card__title">On Earth We're Briefly Gorgeous</div>
+					<p class="curated-card__desc">Pure poetry in prose form. A letter to a mother that explores identity, lineage, and language.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SEARCH RESULTS VIEW
+     ═══════════════════════════════════════════ -->
+<div class="libri-results" id="resultsView">
+	<div class="results-banner">
+		<div class="results-banner__inner">
+			<div>
+				<h2>Risultati per:</h2>
+				<h3 id="resultsQuery">Calvino</h3>
+			</div>
+			<span class="count" id="resultsCount">Showing 12 results in Books</span>
+		</div>
+	</div>
+	<div class="results-layout">
+		<aside class="filters-sidebar">
+			<div>
+				<h3>Library Filters</h3>
+				<p class="subtitle">Refine your discovery</p>
+				<ul class="filter-list">
+					<li><a href="#" class="active"><span class="material-symbols-outlined">auto_awesome</span> All Genres</a></li>
+					<li><a href="#"><span class="material-symbols-outlined">menu_book</span> Fiction</a></li>
+					<li><a href="#"><span class="material-symbols-outlined">school</span> Non-Fiction</a></li>
+					<li><a href="#"><span class="material-symbols-outlined">edit_note</span> Poetry</a></li>
+					<li><a href="#"><span class="material-symbols-outlined">article</span> Essays</a></li>
+				</ul>
+			</div>
+			<div>
+				<div class="filter-divider"></div>
+				<p class="filter-label">Editorial Context</p>
+				<div class="filter-toggle"><span>Appears in podcast</span><div class="toggle-switch" data-filter="podcast"></div></div>
+				<div class="filter-toggle"><span>Reviewed</span><div class="toggle-switch on" data-filter="reviewed"></div></div>
+				<div class="filter-toggle"><span>In-depth analysis</span><div class="toggle-switch" data-filter="analysis"></div></div>
+				<button class="btn-apply-filters">Apply Filters</button>
+			</div>
+		</aside>
+		<div>
+			<div class="results-grid" id="resultsGrid">
+				<!-- Row 1 -->
+				<div class="result-card">
+					<div class="result-card__cover demo-placeholder-img neutral"></div>
+					<div class="result-card__badges">
+						<span class="result-badge result-badge--review">Review</span>
+						<span class="result-badge result-badge--podcast">Podcast</span>
+					</div>
+					<div class="result-card__title">Se una notte d'inverno un viaggiatore</div>
+					<div class="result-card__meta">Italo Calvino, 1979</div>
+					<div class="result-card__tags"><span class="result-tag">Post-Modern</span><span class="result-tag">Metafiction</span></div>
+				</div>
+				<div class="result-card">
+					<div class="result-card__cover demo-placeholder-img warm"></div>
+					<div class="result-card__badges">
+						<span class="result-badge result-badge--review">Review</span>
+						<span class="result-badge result-badge--analysis">Analysis</span>
+					</div>
+					<div class="result-card__title">Le citt&agrave; invisibili</div>
+					<div class="result-card__meta">Italo Calvino, 1972</div>
+					<div class="result-card__tags"><span class="result-tag">Travel</span><span class="result-tag">Philosophy</span></div>
+				</div>
+				<div class="result-card">
+					<div class="result-card__cover demo-placeholder-img"></div>
+					<div class="result-card__badges">
+						<span class="result-badge result-badge--discussion">Discussion</span>
+					</div>
+					<div class="result-card__title">Il barone rampante</div>
+					<div class="result-card__meta">Italo Calvino, 1957</div>
+					<div class="result-card__tags"><span class="result-tag">Fable</span><span class="result-tag">Enlightenment</span></div>
+				</div>
+				<!-- Row 2 -->
+				<div class="result-card">
+					<div class="result-card__cover demo-placeholder-img warm"></div>
+					<div class="result-card__badges">
+						<span class="result-badge result-badge--review">Review</span>
+					</div>
+					<div class="result-card__title">Le cosmicomiche</div>
+					<div class="result-card__meta">Italo Calvino, 1965</div>
+					<div class="result-card__tags"><span class="result-tag">Sci-Fi</span><span class="result-tag">Short Stories</span></div>
+				</div>
+				<div class="result-card">
+					<div class="result-card__cover demo-placeholder-img neutral"></div>
+					<div class="result-card__badges">
+						<span class="result-badge result-badge--analysis">Analysis</span>
+					</div>
+					<div class="result-card__title">Il visconte dimezzato</div>
+					<div class="result-card__meta">Italo Calvino, 1952</div>
+					<div class="result-card__tags"><span class="result-tag">Allegory</span><span class="result-tag">Classic</span></div>
+				</div>
+				<div class="result-card">
+					<div class="result-card__cover demo-placeholder-img"></div>
+					<div class="result-card__badges">
+						<span class="result-badge result-badge--podcast">Podcast</span>
+					</div>
+					<div class="result-card__title">Il cavaliere inesistente</div>
+					<div class="result-card__meta">Italo Calvino, 1959</div>
+					<div class="result-card__tags"><span class="result-tag">Knightly</span><span class="result-tag">Existential</span></div>
+				</div>
+			</div>
+			<nav class="results-pagination">
+				<a href="#"><span class="material-symbols-outlined">chevron_left</span></a>
+				<span class="current">1</span>
+				<a href="#">2</a>
+				<a href="#">3</a>
+				<a href="#"><span class="material-symbols-outlined">chevron_right</span></a>
+			</nav>
+		</div>
+	</div>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+	<div style="max-width:80rem;margin:0 auto;padding:0 2rem;">
+		<div class="footer-main">
+			<div class="footer-brand">
+				<p class="site-title">Not My Cup of Read</p>
+				<p>Esploriamo la letteratura contemporanea attraverso podcast, recensioni e approfondimenti. Non è solo lettura, è un rito.</p>
+			</div>
+			<div class="footer-col">
+				<h4>Esplora</h4>
+				<ul>
+					<li><a href="demo-recensioni.html">Recensioni</a></li>
+					<li><a href="demo-approfondimenti.html">Approfondimenti</a></li>
+					<li><a href="demo-podcast.html">Podcast</a></li>
+					<li><a href="demo-librerie.html">Librerie</a></li>
+					<li><a href="demo-eventi.html">Timeline</a></li>
+					<li><a href="demo-calendario.html">Calendario</a></li>
+					<li><a href="demo-libri.html">Libri</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>Progetto</h4>
+				<ul>
+					<li><a href="demo-chi-siamo.html">Chi siamo</a></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Contatti</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>Newsletter</h4>
+				<p style="font-size:0.875rem;margin-bottom:1rem;opacity:0.75;">Ricevi le nostre selezioni editoriali.</p>
+				<div class="newsletter-form">
+					<input type="email" placeholder="La tua email" style="background:rgba(255,255,255,0.05);color:#fff;">
+					<button class="btn btn--teal btn--small">Iscriviti</button>
+				</div>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<span>&copy; 2026 Not My Cup of Read. Curating the modern bibliophile.</span>
+			<div class="footer-bottom-links">
+				<a href="#">Privacy Policy</a>
+				<a href="#">Submission Guidelines</a>
+				<a href="#">Newsletter</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     SCRIPTS
+     ═══════════════════════════════════════════ -->
+<script src="assets/js/navigation.js"></script>
+<script>
+(function() {
+	'use strict';
+
+	var searchInput = document.getElementById('searchInput');
+	var btnSearch = document.getElementById('btnSearch');
+	var btnAdvanced = document.getElementById('btnAdvanced');
+	var advancedPanel = document.getElementById('advancedPanel');
+	var landingView = document.getElementById('landingView');
+	var resultsView = document.getElementById('resultsView');
+	var resultsQuery = document.getElementById('resultsQuery');
+	var resultsCount = document.getElementById('resultsCount');
+
+	// Toggle advanced search
+	btnAdvanced.addEventListener('click', function() {
+		advancedPanel.classList.toggle('active');
+	});
+
+	// Perform search
+	function performSearch() {
+		var query = searchInput.value.trim();
+		if (!query) return;
+
+		resultsQuery.textContent = query;
+		resultsCount.textContent = 'Showing 12 results in Books';
+		landingView.classList.add('hidden');
+		resultsView.classList.add('active');
+		window.scrollTo({ top: 0, behavior: 'smooth' });
+	}
+
+	btnSearch.addEventListener('click', performSearch);
+	searchInput.addEventListener('keydown', function(e) {
+		if (e.key === 'Enter') performSearch();
+	});
+
+	// Back to landing (click on logo or clear search)
+	function backToLanding() {
+		searchInput.value = '';
+		landingView.classList.remove('hidden');
+		resultsView.classList.remove('active');
+	}
+
+	// Click results banner query to go back
+	resultsQuery.style.cursor = 'pointer';
+	resultsQuery.addEventListener('click', backToLanding);
+
+	// Filter genre toggles
+	var filterLinks = document.querySelectorAll('.filter-list a');
+	filterLinks.forEach(function(link) {
+		link.addEventListener('click', function(e) {
+			e.preventDefault();
+			filterLinks.forEach(function(l) { l.classList.remove('active'); });
+			this.classList.add('active');
+		});
+	});
+
+	// Toggle switches
+	document.querySelectorAll('.toggle-switch').forEach(function(toggle) {
+		toggle.addEventListener('click', function() {
+			this.classList.toggle('on');
+		});
+	});
+
+	// Shuffle button animation
+	var shuffleBtn = document.querySelector('.btn-shuffle');
+	if (shuffleBtn) {
+		shuffleBtn.addEventListener('click', function() {
+			var items = document.querySelectorAll('.genre-shelf__item');
+			var parent = items[0].parentNode;
+			var arr = Array.from(items);
+			// Fisher-Yates shuffle
+			for (var i = arr.length - 1; i > 0; i--) {
+				var j = Math.floor(Math.random() * (i + 1));
+				parent.appendChild(arr[j]);
+				var temp = arr[i];
+				arr[i] = arr[j];
+				arr[j] = temp;
+			}
+		});
+	}
+
+})();
+</script>
+
+</body>
+</html>

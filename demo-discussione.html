@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discussione — Not My Cup of Read</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   RESET & VARIABLES
+   ═══════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+	--c-primary: #0d1321;
+	--c-primary-container: #1d2d44;
+	--c-accent: #3e5c76;
+	--c-accent-light: #748cab;
+	--c-surface: #f0ebd8;
+	--c-surface-container: #e6e1ce;
+	--c-surface-dim: #b0a990;
+	--c-on-surface: #0d1321;
+	--c-on-surface-variant: #4a5568;
+	--font-headline: 'Newsreader', Georgia, serif;
+	--font-body: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+	--radius-sm: 8px;
+	--radius-md: 12px;
+	--radius-lg: 16px;
+	--sp-1: 0.25rem;
+	--sp-2: 0.5rem;
+	--sp-3: 0.75rem;
+	--sp-4: 1rem;
+	--sp-5: 1.25rem;
+	--sp-6: 1.5rem;
+
+	/* Category colors */
+	--cat-consiglio: #c0392b;
+	--cat-scambio: #27ae60;
+	--cat-evento: #d4a017;
+	--cat-collab: #8e44ad;
+	--cat-podcast: #e07a5f;
+	--cat-discussione: #3e5c76;
+}
+
+html { height: 100%; }
+body {
+	min-height: 100%;
+	font-family: var(--font-body);
+	background: var(--c-surface);
+	color: var(--c-on-surface);
+	line-height: 1.6;
+}
+
+a { color: var(--c-accent); text-decoration: none; }
+a:hover { color: var(--c-primary-container); }
+
+/* ═══════════════════════════════════════
+   TOPBAR
+   ═══════════════════════════════════════ */
+.topbar {
+	position: sticky;
+	top: 0;
+	z-index: 100;
+	background: var(--c-primary);
+	color: #fff;
+	display: flex;
+	align-items: center;
+	gap: var(--sp-4);
+	padding: var(--sp-3) var(--sp-6);
+	font-size: 0.875rem;
+}
+.topbar__back {
+	display: flex;
+	align-items: center;
+	gap: var(--sp-2);
+	color: var(--c-accent-light);
+	font-size: 0.8125rem;
+	transition: color 0.15s;
+}
+.topbar__back:hover { color: #fff; }
+.topbar__breadcrumb {
+	display: flex;
+	align-items: center;
+	gap: var(--sp-2);
+	color: var(--c-accent-light);
+	font-size: 0.8125rem;
+}
+.topbar__breadcrumb span { color: rgba(255,255,255,0.3); }
+.topbar__breadcrumb a { color: var(--c-accent-light); }
+.topbar__breadcrumb a:hover { color: #fff; }
+.topbar__breadcrumb strong { color: #fff; font-weight: 600; }
+
+/* ═══════════════════════════════════════
+   LAYOUT
+   ═══════════════════════════════════════ */
+.thread-layout {
+	max-width: 780px;
+	margin: 0 auto;
+	padding: var(--sp-6);
+}
+
+/* ═══════════════════════════════════════
+   ORIGINAL POST (OP)
+   ═══════════════════════════════════════ */
+.op {
+	background: #fff;
+	border-radius: var(--radius-lg);
+	padding: var(--sp-6);
+	margin-bottom: var(--sp-4);
+}
+.op__header {
+	display: flex;
+	align-items: center;
+	gap: var(--sp-3);
+	margin-bottom: var(--sp-5);
+}
+.op__avatar {
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #fff;
+	font-weight: 700;
+	font-size: 1rem;
+	flex-shrink: 0;
+}
+.op__meta { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+.op__author { font-weight: 700; font-size: 0.9375rem; }
+.op__time { font-size: 0.75rem; color: var(--c-on-surface-variant); }
+.op__cat-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	padding: 3px 10px;
+	border-radius: 20px;
+	font-size: 0.7rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: #fff;
+	flex-shrink: 0;
+}
+.op__title {
+	font-family: var(--font-headline);
+	font-size: 1.5rem;
+	font-weight: 700;
+	line-height: 1.3;
+	margin-bottom: var(--sp-4);
+}
+.op__emoji {
+	font-size: 1.25rem;
+	margin-right: var(--sp-2);
+}
+.op__body {
+	font-size: 0.9375rem;
+	line-height: 1.7;
+	color: var(--c-on-surface);
+	margin-bottom: var(--sp-5);
+}
+.op__body p + p { margin-top: var(--sp-3); }
+.op__actions {
+	display: flex;
+	align-items: center;
+	gap: var(--sp-4);
+	padding-top: var(--sp-4);
+	border-top: 1px solid rgba(0,0,0,0.06);
+}
+.op__action-btn {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	background: none;
+	border: none;
+	font-family: var(--font-body);
+	font-size: 0.8125rem;
+	font-weight: 600;
+	color: var(--c-on-surface-variant);
+	cursor: pointer;
+	padding: var(--sp-2) var(--sp-3);
+	border-radius: var(--radius-sm);
+	transition: all 0.15s;
+}
+.op__action-btn:hover { background: rgba(0,0,0,0.04); color: var(--c-on-surface); }
+.op__action-btn .material-symbols-outlined { font-size: 18px; }
+.op__action-btn--active { color: var(--cat-consiglio); }
+
+/* ═══════════════════════════════════════
+   REPLIES SECTION
+   ═══════════════════════════════════════ */
+.replies-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: var(--sp-4);
+}
+.replies-header h3 {
+	font-family: var(--font-headline);
+	font-size: 1.125rem;
+	font-weight: 700;
+}
+.replies-sort {
+	display: flex;
+	gap: var(--sp-2);
+}
+.replies-sort__btn {
+	padding: 4px 12px;
+	border: none;
+	border-radius: 20px;
+	background: transparent;
+	font-family: var(--font-body);
+	font-size: 0.75rem;
+	font-weight: 600;
+	color: var(--c-on-surface-variant);
+	cursor: pointer;
+	transition: all 0.15s;
+}
+.replies-sort__btn.active {
+	background: var(--c-primary);
+	color: #fff;
+}
+.replies-sort__btn:hover:not(.active) { background: rgba(0,0,0,0.05); }
+
+/* ═══════════════════════════════════════
+   SINGLE REPLY
+   ═══════════════════════════════════════ */
+.reply {
+	background: #fff;
+	border-radius: var(--radius-md);
+	padding: var(--sp-5);
+	margin-bottom: var(--sp-3);
+}
+.reply--highlighted {
+	background: #fef9ee;
+	box-shadow: inset 3px 0 0 var(--cat-evento);
+}
+.reply__header {
+	display: flex;
+	align-items: center;
+	gap: var(--sp-3);
+	margin-bottom: var(--sp-3);
+}
+.reply__avatar {
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #fff;
+	font-weight: 700;
+	font-size: 0.75rem;
+	flex-shrink: 0;
+}
+.reply__meta { display: flex; flex-direction: column; gap: 1px; flex: 1; }
+.reply__author { font-weight: 700; font-size: 0.8125rem; }
+.reply__author-badge {
+	display: inline-block;
+	padding: 1px 6px;
+	border-radius: 4px;
+	font-size: 0.625rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.03em;
+	margin-left: 6px;
+	vertical-align: 1px;
+}
+.reply__time { font-size: 0.6875rem; color: var(--c-on-surface-variant); }
+.reply__body {
+	font-size: 0.875rem;
+	line-height: 1.65;
+	margin-bottom: var(--sp-3);
+}
+.reply__body p + p { margin-top: var(--sp-2); }
+.reply__body blockquote {
+	margin: var(--sp-2) 0;
+	padding: var(--sp-2) var(--sp-4);
+	border-left: 3px solid var(--c-accent-light);
+	background: rgba(0,0,0,0.02);
+	border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+	font-style: italic;
+	color: var(--c-on-surface-variant);
+	font-size: 0.8125rem;
+}
+.reply__actions {
+	display: flex;
+	align-items: center;
+	gap: var(--sp-3);
+}
+.reply__action {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	background: none;
+	border: none;
+	font-family: var(--font-body);
+	font-size: 0.75rem;
+	color: var(--c-on-surface-variant);
+	cursor: pointer;
+	padding: 3px 8px;
+	border-radius: 6px;
+	transition: all 0.15s;
+}
+.reply__action:hover { background: rgba(0,0,0,0.04); color: var(--c-on-surface); }
+.reply__action .material-symbols-outlined { font-size: 16px; }
+.reply__action--liked { color: var(--cat-consiglio); }
+
+/* Nested replies */
+.reply__nested {
+	margin-top: var(--sp-3);
+	padding-left: var(--sp-5);
+	border-left: 2px solid rgba(0,0,0,0.06);
+}
+.reply__nested .reply {
+	background: rgba(0,0,0,0.015);
+	margin-bottom: var(--sp-2);
+	padding: var(--sp-4);
+}
+
+/* ═══════════════════════════════════════
+   REPLY COMPOSER
+   ═══════════════════════════════════════ */
+.composer {
+	background: #fff;
+	border-radius: var(--radius-lg);
+	padding: var(--sp-5);
+	margin-top: var(--sp-5);
+	border: 2px solid var(--c-accent);
+	box-shadow: 0 2px 12px rgba(62,92,118,0.10);
+}
+.composer__divider {
+	display: flex;
+	align-items: center;
+	gap: var(--sp-3);
+	margin-top: var(--sp-6);
+	margin-bottom: var(--sp-2);
+	font-family: var(--font-headline);
+	font-size: 1rem;
+	font-weight: 700;
+	color: var(--c-accent);
+}
+.composer__divider::after {
+	content: '';
+	flex: 1;
+	height: 1px;
+	background: rgba(62,92,118,0.2);
+}
+.composer__header {
+	display: flex;
+	align-items: center;
+	gap: var(--sp-3);
+	margin-bottom: var(--sp-3);
+}
+.composer__avatar {
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #fff;
+	font-weight: 700;
+	font-size: 0.75rem;
+	flex-shrink: 0;
+	background: var(--cat-podcast);
+}
+.composer__label {
+	font-size: 0.8125rem;
+	font-weight: 600;
+	color: var(--c-on-surface-variant);
+}
+.composer__textarea {
+	width: 100%;
+	min-height: 100px;
+	padding: var(--sp-3) var(--sp-4);
+	font-family: var(--font-body);
+	font-size: 0.875rem;
+	line-height: 1.6;
+	border: 1.5px solid rgba(0,0,0,0.1);
+	border-radius: var(--radius-md);
+	background: var(--c-surface);
+	color: var(--c-on-surface);
+	resize: vertical;
+	outline: none;
+	transition: border-color 0.15s;
+}
+.composer__textarea:focus { border-color: var(--c-accent); }
+.composer__textarea::placeholder { color: var(--c-surface-dim); }
+.composer__footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: var(--sp-3);
+}
+.composer__tools {
+	display: flex;
+	gap: var(--sp-1);
+}
+.composer__tool {
+	background: none;
+	border: none;
+	color: var(--c-on-surface-variant);
+	cursor: pointer;
+	padding: 6px;
+	border-radius: var(--radius-sm);
+	display: flex;
+	transition: all 0.15s;
+}
+.composer__tool:hover { background: rgba(0,0,0,0.05); color: var(--c-on-surface); }
+.composer__tool .material-symbols-outlined { font-size: 18px; }
+.composer__submit {
+	padding: var(--sp-2) var(--sp-5);
+	background: var(--c-accent);
+	color: #fff;
+	border: none;
+	border-radius: var(--radius-sm);
+	font-family: var(--font-body);
+	font-size: 0.8125rem;
+	font-weight: 700;
+	cursor: pointer;
+	transition: background 0.15s;
+}
+.composer__submit:hover { background: var(--c-primary-container); }
+
+/* ═══════════════════════════════════════
+   SIDEBAR INFO
+   ═══════════════════════════════════════ */
+.thread-info {
+	background: #fff;
+	border-radius: var(--radius-md);
+	padding: var(--sp-5);
+	margin-bottom: var(--sp-4);
+}
+.thread-info__row {
+	display: flex;
+	align-items: center;
+	gap: var(--sp-3);
+	padding: var(--sp-2) 0;
+}
+.thread-info__row + .thread-info__row {
+	border-top: 1px solid rgba(0,0,0,0.05);
+}
+.thread-info__icon {
+	color: var(--c-accent);
+}
+.thread-info__icon .material-symbols-outlined { font-size: 18px; }
+.thread-info__label {
+	font-size: 0.75rem;
+	color: var(--c-on-surface-variant);
+}
+.thread-info__value {
+	font-size: 0.8125rem;
+	font-weight: 600;
+}
+
+/* Participants */
+.thread-participants {
+	display: flex;
+	align-items: center;
+	margin-top: var(--sp-2);
+}
+.thread-participants__avatar {
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #fff;
+	font-size: 0.6rem;
+	font-weight: 700;
+	margin-left: -6px;
+	border: 2px solid #fff;
+}
+.thread-participants__avatar:first-child { margin-left: 0; }
+.thread-participants__more {
+	margin-left: var(--sp-2);
+	font-size: 0.75rem;
+	color: var(--c-on-surface-variant);
+}
+
+/* ═══════════════════════════════════════
+   FLOATING COMMENT BUTTON
+   ═══════════════════════════════════════ */
+.fab-comment {
+	position: fixed;
+	bottom: 24px;
+	right: 24px;
+	z-index: 50;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 12px 20px;
+	background: var(--c-accent);
+	color: #fff;
+	border: none;
+	border-radius: 28px;
+	font-family: var(--font-body);
+	font-size: 0.875rem;
+	font-weight: 700;
+	cursor: pointer;
+	box-shadow: 0 4px 16px rgba(13,19,33,0.25);
+	transition: all 0.2s;
+}
+.fab-comment:hover { background: var(--c-primary-container); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(13,19,33,0.3); }
+.fab-comment .material-symbols-outlined { font-size: 20px; }
+.fab-comment.hidden { opacity: 0; pointer-events: none; transform: translateY(10px); }
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════ */
+@media (max-width: 640px) {
+	.thread-layout { padding: var(--sp-4); }
+	.op { padding: var(--sp-4); }
+	.op__title { font-size: 1.25rem; }
+	.topbar__breadcrumb { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     TOPBAR
+     ═══════════════════════════════════════ -->
+<div class="topbar">
+	<a href="demo-lavagna.html" class="topbar__back" id="backLink">
+		<span class="material-symbols-outlined" style="font-size:18px;">arrow_back</span>
+		Lavagna
+	</a>
+	<div class="topbar__breadcrumb">
+		<span>/</span>
+		<a href="demo-community-dashboard.html">Community</a>
+		<span>/</span>
+		<a href="demo-lavagna.html?board=discussione">Discussioni</a>
+		<span>/</span>
+		<strong id="breadcrumbTitle">Thread</strong>
+	</div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     THREAD
+     ═══════════════════════════════════════ -->
+<div class="thread-layout">
+
+	<!-- Thread info bar -->
+	<div class="thread-info" id="threadInfo">
+		<div class="thread-info__row">
+			<div class="thread-info__icon"><span class="material-symbols-outlined">visibility</span></div>
+			<div>
+				<div class="thread-info__label">Visualizzazioni</div>
+				<div class="thread-info__value">342</div>
+			</div>
+		</div>
+		<div class="thread-info__row">
+			<div class="thread-info__icon"><span class="material-symbols-outlined">chat_bubble</span></div>
+			<div>
+				<div class="thread-info__label">Risposte</div>
+				<div class="thread-info__value" id="infoReplies">14</div>
+			</div>
+		</div>
+		<div class="thread-info__row">
+			<div class="thread-info__icon"><span class="material-symbols-outlined">group</span></div>
+			<div>
+				<div class="thread-info__label">Partecipanti</div>
+				<div class="thread-participants">
+					<div class="thread-participants__avatar" style="background:var(--cat-consiglio);">GM</div>
+					<div class="thread-participants__avatar" style="background:var(--cat-scambio);">LP</div>
+					<div class="thread-participants__avatar" style="background:var(--cat-collab);">AC</div>
+					<div class="thread-participants__avatar" style="background:var(--cat-evento);">SM</div>
+					<div class="thread-participants__avatar" style="background:var(--cat-podcast);">CT</div>
+					<span class="thread-participants__more">+9 altri</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Original Post -->
+	<div class="op" id="opCard">
+		<div class="op__header">
+			<div class="op__avatar" id="opAvatar" style="background:var(--cat-consiglio);">GM</div>
+			<div class="op__meta">
+				<span class="op__author" id="opAuthor">Giulia M.</span>
+				<span class="op__time" id="opTime">3 ore fa</span>
+			</div>
+			<span class="op__cat-badge" id="opBadge" style="background:var(--cat-consiglio);">
+				<span id="opEmoji">📚</span> <span id="opCatLabel">Consiglio</span>
+			</span>
+		</div>
+		<h1 class="op__title" id="opTitle">Libri simili a "Il deserto dei Tartari" di Buzzati?</h1>
+		<div class="op__body" id="opBody">
+			<p>Ciao a tutti! Ho appena finito "Il deserto dei Tartari" e sono rimasta folgorata dall'atmosfera di attesa e dalla scrittura ipnotica di Buzzati. Sto cercando romanzi che abbiano un'atmosfera simile: quella sensazione di tempo sospeso, di attesa che diventa la vita stessa.</p>
+			<p>Non cerco per forza lo stesso genere, ma qualcosa che mi faccia sentire quella stessa vertigine. Avete consigli? Grazie mille!</p>
+		</div>
+		<div class="op__actions">
+			<button class="op__action-btn op__action-btn--active">
+				<span class="material-symbols-outlined">favorite</span> 8
+			</button>
+			<button class="op__action-btn">
+				<span class="material-symbols-outlined">chat_bubble_outline</span> 14 risposte
+			</button>
+			<button class="op__action-btn">
+				<span class="material-symbols-outlined">bookmark_border</span> Salva
+			</button>
+			<button class="op__action-btn">
+				<span class="material-symbols-outlined">share</span> Condividi
+			</button>
+		</div>
+	</div>
+
+	<!-- Replies -->
+	<div class="replies-header">
+		<h3>14 Risposte</h3>
+		<div class="replies-sort">
+			<button class="replies-sort__btn active">Recenti</button>
+			<button class="replies-sort__btn">Popolari</button>
+		</div>
+	</div>
+
+	<!-- Reply 1 -->
+	<div class="reply">
+		<div class="reply__header">
+			<div class="reply__avatar" style="background:var(--cat-scambio);">LP</div>
+			<div class="reply__meta">
+				<span class="reply__author">Luca P.<span class="reply__author-badge" style="background:rgba(62,92,118,0.12);color:var(--c-accent);">Top contributor</span></span>
+				<span class="reply__time">2 ore fa</span>
+			</div>
+		</div>
+		<div class="reply__body">
+			<p>Assolutamente "Il processo" di Kafka! La stessa atmosfera claustrofobica e surreale. E poi "La steppa" di Cechov: non succede quasi nulla, eppure succede tutto.</p>
+			<p>Se vuoi qualcosa di contemporaneo, prova "Stoner" di John Williams. Un capolavoro di quieta disperazione.</p>
+		</div>
+		<div class="reply__actions">
+			<button class="reply__action reply__action--liked"><span class="material-symbols-outlined">favorite</span> 12</button>
+			<button class="reply__action"><span class="material-symbols-outlined">chat_bubble_outline</span> Rispondi</button>
+		</div>
+		<div class="reply__nested">
+			<div class="reply">
+				<div class="reply__header">
+					<div class="reply__avatar" style="background:var(--cat-consiglio);">GM</div>
+					<div class="reply__meta">
+						<span class="reply__author">Giulia M.<span class="reply__author-badge" style="background:rgba(192,57,43,0.12);color:var(--cat-consiglio);">OP</span></span>
+						<span class="reply__time">1 ora fa</span>
+					</div>
+				</div>
+				<div class="reply__body">
+					<blockquote>prova "Stoner" di John Williams</blockquote>
+					<p>Stoner lo adoro! Lo avevo letto tre anni fa. Il processo invece non l'ho mai affrontato. Lo metto in lista, grazie Luca!</p>
+				</div>
+				<div class="reply__actions">
+					<button class="reply__action"><span class="material-symbols-outlined">favorite_border</span> 4</button>
+					<button class="reply__action"><span class="material-symbols-outlined">chat_bubble_outline</span> Rispondi</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Reply 2 -->
+	<div class="reply">
+		<div class="reply__header">
+			<div class="reply__avatar" style="background:var(--cat-collab);">AC</div>
+			<div class="reply__meta">
+				<span class="reply__author">Anna C.</span>
+				<span class="reply__time">1 ora fa</span>
+			</div>
+		</div>
+		<div class="reply__body">
+			<p>Io ti consiglierei "L'uomo senza qualita'" di Musil. Lo so, sono 1600 pagine, ma se ti piace l'attesa come tema esistenziale, non c'e' niente di meglio. E' letteralmente un romanzo in cui il protagonista aspetta di vivere.</p>
+		</div>
+		<div class="reply__actions">
+			<button class="reply__action"><span class="material-symbols-outlined">favorite_border</span> 7</button>
+			<button class="reply__action"><span class="material-symbols-outlined">chat_bubble_outline</span> Rispondi</button>
+		</div>
+	</div>
+
+	<!-- Reply 3 -->
+	<div class="reply reply--highlighted">
+		<div class="reply__header">
+			<div class="reply__avatar" style="background:var(--cat-evento);">SM</div>
+			<div class="reply__meta">
+				<span class="reply__author">Sofia M.</span>
+				<span class="reply__time">45 min fa</span>
+			</div>
+		</div>
+		<div class="reply__body">
+			<p>Nessuno ha ancora detto "Aspettando i barbari" di Coetzee? L'eco buzzatiana e' fortissima. E poi, restando in Italia: "Il giardino dei Finzi-Contini" di Bassani. L'attesa della catastrofe che si avvicina lentamente...</p>
+		</div>
+		<div class="reply__actions">
+			<button class="reply__action reply__action--liked"><span class="material-symbols-outlined">favorite</span> 15</button>
+			<button class="reply__action"><span class="material-symbols-outlined">chat_bubble_outline</span> Rispondi</button>
+		</div>
+		<div class="reply__nested">
+			<div class="reply">
+				<div class="reply__header">
+					<div class="reply__avatar" style="background:var(--cat-podcast);">MV</div>
+					<div class="reply__meta">
+						<span class="reply__author">Marco V.</span>
+						<span class="reply__time">30 min fa</span>
+					</div>
+				</div>
+				<div class="reply__body">
+					<p>Coetzee e' perfetto! Ne abbiamo parlato nell'episodio 44 del podcast. E aggiungo: "Deserto" di Le Clezio, Nobel 2008. Gia' dal titolo...</p>
+				</div>
+				<div class="reply__actions">
+					<button class="reply__action"><span class="material-symbols-outlined">favorite_border</span> 6</button>
+					<button class="reply__action"><span class="material-symbols-outlined">chat_bubble_outline</span> Rispondi</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Reply 4 -->
+	<div class="reply">
+		<div class="reply__header">
+			<div class="reply__avatar" style="background:var(--cat-podcast);">CT</div>
+			<div class="reply__meta">
+				<span class="reply__author">Cristian T.<span class="reply__author-badge" style="background:rgba(224,122,95,0.12);color:var(--cat-podcast);">Admin</span></span>
+				<span class="reply__time">20 min fa</span>
+			</div>
+		</div>
+		<div class="reply__body">
+			<p>Thread fantastica, la fisso in evidenza! Buzzati e' uno degli autori piu' sottovalutati della letteratura italiana. Per chi non l'ha letto consiglio anche i suoi racconti: "Sessanta racconti" e' un gioiello.</p>
+			<p>Aggiungo alla lista: "La modificazione" di Michel Butor. Un intero romanzo che si svolge durante un viaggio in treno. Pura attesa.</p>
+		</div>
+		<div class="reply__actions">
+			<button class="reply__action reply__action--liked"><span class="material-symbols-outlined">favorite</span> 9</button>
+			<button class="reply__action"><span class="material-symbols-outlined">chat_bubble_outline</span> Rispondi</button>
+		</div>
+	</div>
+
+	<!-- Reply 5 -->
+	<div class="reply">
+		<div class="reply__header">
+			<div class="reply__avatar" style="background:var(--cat-discussione);">ER</div>
+			<div class="reply__meta">
+				<span class="reply__author">Elena R.</span>
+				<span class="reply__time">10 min fa</span>
+			</div>
+		</div>
+		<div class="reply__body">
+			<p>Sto prendendo appunti come una matta! Volevo anche suggerire qualcosa di diverso: "Remainder" di Tom McCarthy. Non e' la stessa atmosfera, ma condivide quell'ossessione per il rituale e la ripetizione che rende Buzzati cosi' ipnotico.</p>
+		</div>
+		<div class="reply__actions">
+			<button class="reply__action"><span class="material-symbols-outlined">favorite_border</span> 3</button>
+			<button class="reply__action"><span class="material-symbols-outlined">chat_bubble_outline</span> Rispondi</button>
+		</div>
+	</div>
+
+	<!-- Composer -->
+	<div class="composer__divider"><span class="material-symbols-outlined" style="font-size:20px;">edit_note</span> Scrivi la tua risposta</div>
+	<div class="composer">
+		<div class="composer__header">
+			<div class="composer__avatar">CT</div>
+			<span class="composer__label">Rispondi come <strong>Cristian T.</strong></span>
+		</div>
+		<textarea class="composer__textarea" placeholder="Scrivi la tua risposta..." id="replyTextarea"></textarea>
+		<div class="composer__footer">
+			<div class="composer__tools">
+				<button class="composer__tool" title="Formattazione"><span class="material-symbols-outlined">format_bold</span></button>
+				<button class="composer__tool" title="Cita"><span class="material-symbols-outlined">format_quote</span></button>
+				<button class="composer__tool" title="Link"><span class="material-symbols-outlined">link</span></button>
+				<button class="composer__tool" title="Emoji"><span class="material-symbols-outlined">mood</span></button>
+			</div>
+			<button class="composer__submit" id="btnSubmitReply">Pubblica risposta</button>
+		</div>
+	</div>
+
+</div>
+
+<!-- Floating comment button -->
+<button class="fab-comment" id="fabComment">
+	<span class="material-symbols-outlined">edit</span> Commenta
+</button>
+
+<!-- ═══════════════════════════════════════
+     SCRIPTS
+     ═══════════════════════════════════════ -->
+<script>
+(function() {
+	'use strict';
+
+	// ══════ READ URL PARAMS ══════
+	var params = new URLSearchParams(window.location.search);
+	var title = params.get('title') || '';
+	var cat = params.get('cat') || 'consiglio';
+	var author = params.get('author') || '';
+	var emoji = params.get('emoji') || '📚';
+	var desc = params.get('desc') || '';
+	var fromBoard = params.get('from') || '';
+
+	var catLabels = {
+		consiglio: 'Consiglio', scambio: 'Scambio', evento: 'Evento',
+		collab: 'Collaborazione', podcast: 'Podcast', discussione: 'Discussione'
+	};
+	var catColors = {
+		consiglio: 'var(--cat-consiglio)', scambio: 'var(--cat-scambio)',
+		evento: 'var(--cat-evento)', collab: 'var(--cat-collab)',
+		podcast: 'var(--cat-podcast)', discussione: 'var(--cat-discussione)'
+	};
+
+	// ══════ UPDATE BACK LINK ══════
+	if (fromBoard) {
+		document.getElementById('backLink').href = 'demo-lavagna.html?board=' + fromBoard;
+	}
+
+	// ══════ APPLY PARAMS TO OP ══════
+	if (title) {
+		document.getElementById('opTitle').textContent = title;
+		document.getElementById('breadcrumbTitle').textContent = title.length > 40 ? title.substring(0, 40) + '...' : title;
+		document.title = title + ' — Discussione — Not My Cup of Read';
+	}
+	if (author) {
+		document.getElementById('opAuthor').textContent = author;
+		var initials = author.split(' ').map(function(w){ return w[0]; }).join('').toUpperCase().substring(0, 2);
+		document.getElementById('opAvatar').textContent = initials;
+		document.getElementById('opAvatar').style.background = catColors[cat] || catColors.consiglio;
+	}
+	if (emoji) {
+		document.getElementById('opEmoji').textContent = emoji;
+	}
+	if (cat && catLabels[cat]) {
+		document.getElementById('opCatLabel').textContent = catLabels[cat];
+		document.getElementById('opBadge').style.background = catColors[cat];
+	}
+	if (desc) {
+		document.getElementById('opBody').innerHTML = '<p>' + desc.replace(/</g, '&lt;').replace(/\n/g, '</p><p>') + '</p>';
+	}
+
+	// ══════ SORT BUTTONS ══════
+	document.querySelectorAll('.replies-sort__btn').forEach(function(btn) {
+		btn.addEventListener('click', function() {
+			document.querySelectorAll('.replies-sort__btn').forEach(function(b) { b.classList.remove('active'); });
+			this.classList.add('active');
+		});
+	});
+
+	var textarea = document.getElementById('replyTextarea');
+	var composer = document.querySelector('.composer');
+	var replyingTo = null;
+
+	// ══════ REPLY & LIKE (delegated) ══════
+	document.addEventListener('click', function(e) {
+		// "Rispondi" button on any reply
+		var replyBtn = e.target.closest('.reply__action');
+		if (replyBtn && replyBtn.textContent.indexOf('Rispondi') !== -1) {
+			var replyCard = replyBtn.closest('.reply');
+			var authorEl = replyCard.querySelector('.reply__author');
+			var bodyEl = replyCard.querySelector('.reply__body');
+			var authorName = authorEl ? authorEl.childNodes[0].textContent.trim() : '';
+			// Get first paragraph text for quote
+			var firstP = bodyEl ? bodyEl.querySelector('p') : null;
+			var quoteText = firstP ? firstP.textContent.trim() : '';
+			if (quoteText.length > 120) quoteText = quoteText.substring(0, 120) + '...';
+
+			replyingTo = replyCard;
+			textarea.value = '';
+			textarea.placeholder = 'Rispondi a ' + authorName + '...';
+			textarea.dataset.quote = quoteText;
+			textarea.dataset.replyAuthor = authorName;
+
+			// Show replying indicator
+			var indicator = composer.querySelector('.composer__replying');
+			if (!indicator) {
+				indicator = document.createElement('div');
+				indicator.className = 'composer__replying';
+				indicator.style.cssText = 'display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0.75rem;margin-bottom:0.5rem;background:rgba(62,92,118,0.06);border-radius:8px;font-size:0.8125rem;color:var(--c-on-surface-variant);';
+				composer.querySelector('.composer__header').insertAdjacentElement('afterend', indicator);
+			}
+			indicator.innerHTML = '<span class="material-symbols-outlined" style="font-size:16px;">reply</span> In risposta a <strong>' + authorName.replace(/</g, '&lt;') + '</strong>: "' + quoteText.replace(/</g, '&lt;').substring(0, 60) + '..."'
+				+ '<button style="margin-left:auto;background:none;border:none;cursor:pointer;color:var(--c-on-surface-variant);padding:2px;" onclick="this.parentNode.remove();document.getElementById(\'replyTextarea\').placeholder=\'Scrivi la tua risposta...\';"><span class="material-symbols-outlined" style="font-size:16px;">close</span></button>';
+			indicator.style.display = 'flex';
+
+			textarea.focus();
+			composer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+			return;
+		}
+
+		// Like toggle on any reply or OP
+		var likeBtn = e.target.closest('.reply__action, .op__action-btn');
+		if (likeBtn) {
+			var icon = likeBtn.querySelector('.material-symbols-outlined');
+			if (!icon) return;
+			var iconText = icon.textContent.trim();
+			if (iconText === 'favorite_border') {
+				icon.textContent = 'favorite';
+				likeBtn.classList.add('reply__action--liked');
+				// Increment count
+				var match = likeBtn.textContent.match(/(\d+)/);
+				if (match) {
+					var newCount = parseInt(match[1]) + 1;
+					likeBtn.innerHTML = '<span class="material-symbols-outlined">favorite</span> ' + newCount;
+				}
+			} else if (iconText === 'favorite') {
+				icon.textContent = 'favorite_border';
+				likeBtn.classList.remove('reply__action--liked');
+				var match2 = likeBtn.textContent.match(/(\d+)/);
+				if (match2) {
+					var newCount2 = Math.max(0, parseInt(match2[1]) - 1);
+					likeBtn.innerHTML = '<span class="material-symbols-outlined">favorite_border</span> ' + newCount2;
+				}
+			}
+		}
+	});
+
+	// ══════ SUBMIT REPLY ══════
+	function submitReply() {
+		var text = textarea.value.trim();
+		if (!text) return;
+
+		var quoteHtml = '';
+		var indicator = composer.querySelector('.composer__replying');
+		if (indicator && textarea.dataset.quote) {
+			quoteHtml = '<blockquote>' + textarea.dataset.quote.replace(/</g, '&lt;') + '</blockquote>';
+		}
+
+		var reply = document.createElement('div');
+		reply.className = 'reply';
+		reply.style.animation = 'fadeSlideIn 0.3s ease';
+		reply.innerHTML = '<div class="reply__header">'
+			+ '<div class="reply__avatar" style="background:var(--cat-podcast);">CT</div>'
+			+ '<div class="reply__meta">'
+			+ '<span class="reply__author">Cristian T.<span class="reply__author-badge" style="background:rgba(224,122,95,0.12);color:var(--cat-podcast);">Admin</span></span>'
+			+ '<span class="reply__time">Ora</span>'
+			+ '</div></div>'
+			+ '<div class="reply__body">' + quoteHtml + '<p>' + text.replace(/</g, '&lt;').replace(/\n/g, '</p><p>') + '</p></div>'
+			+ '<div class="reply__actions">'
+			+ '<button class="reply__action"><span class="material-symbols-outlined">favorite_border</span> 0</button>'
+			+ '<button class="reply__action"><span class="material-symbols-outlined">chat_bubble_outline</span> Rispondi</button>'
+			+ '</div>';
+
+		// If replying to a specific comment, nest it; otherwise append before composer
+		if (replyingTo) {
+			var nested = replyingTo.querySelector('.reply__nested');
+			if (!nested) {
+				nested = document.createElement('div');
+				nested.className = 'reply__nested';
+				replyingTo.appendChild(nested);
+			}
+			nested.appendChild(reply);
+		} else {
+			composer.parentNode.insertBefore(reply, composer);
+		}
+
+		textarea.value = '';
+		textarea.placeholder = 'Scrivi la tua risposta...';
+		delete textarea.dataset.quote;
+		delete textarea.dataset.replyAuthor;
+		replyingTo = null;
+		if (indicator) indicator.remove();
+
+		// Update count
+		var count = document.querySelectorAll('.reply').length;
+		document.querySelector('.replies-header h3').textContent = count + ' Risposte';
+		document.getElementById('infoReplies').textContent = count;
+
+		reply.scrollIntoView({ behavior: 'smooth', block: 'center' });
+	}
+
+	document.getElementById('btnSubmitReply').addEventListener('click', submitReply);
+
+	// Ctrl+Enter to submit
+	textarea.addEventListener('keydown', function(e) {
+		if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+			e.preventDefault();
+			submitReply();
+		}
+	});
+
+	// ══════ FLOATING COMMENT BUTTON ══════
+	var fab = document.getElementById('fabComment');
+	fab.addEventListener('click', function() {
+		composer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+		setTimeout(function() { textarea.focus(); }, 400);
+	});
+
+	// Hide FAB when composer is visible
+	function checkComposerVisibility() {
+		var rect = composer.getBoundingClientRect();
+		var inView = rect.top < window.innerHeight && rect.bottom > 0;
+		fab.classList.toggle('hidden', inView);
+	}
+	window.addEventListener('scroll', checkComposerVisibility);
+	// Show FAB initially, delay first check so user always sees it
+	fab.classList.remove('hidden');
+	setTimeout(checkComposerVisibility, 2000);
+})();
+</script>
+
+<style>
+@keyframes fadeSlideIn {
+	from { opacity: 0; transform: translateY(10px); }
+	to { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+</body>
+</html>

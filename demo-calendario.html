@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calendario Editoriale — Not My Cup of Read</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<style>
+/* ═══ CALENDAR STYLES ═══ */
+
+.cal-page {
+	max-width: 80rem;
+	margin: 0 auto;
+	padding: 0 2rem;
+}
+
+/* Hero */
+.cal-hero {
+	text-align: center;
+	padding: 3.5rem 0 2rem;
+}
+
+.cal-hero__overline {
+	font-size: 0.75rem;
+	font-weight: 600;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: var(--c-accent);
+	margin-bottom: 0.5rem;
+}
+
+.cal-hero__title {
+	font-family: var(--font-headline);
+	font-size: clamp(2rem, 5vw, 3rem);
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-surface);
+	margin: 0 0 0.75rem;
+}
+
+.cal-hero__subtitle {
+	font-size: 1rem;
+	color: var(--c-on-surface-variant);
+	max-width: 40rem;
+	margin: 0 auto;
+}
+
+/* Calendar container */
+.cal-container {
+	margin-bottom: 3rem;
+}
+
+/* Calendar toolbar */
+.cal-toolbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 1rem;
+	margin-bottom: 1.5rem;
+}
+
+.cal-toolbar__nav {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+}
+
+.cal-toolbar__btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border-radius: var(--radius-sm);
+	border: 1px solid var(--c-surface-container-high);
+	background: var(--c-surface-container-lowest);
+	color: var(--c-on-surface);
+	cursor: pointer;
+	transition: background 0.2s, border-color 0.2s;
+}
+
+.cal-toolbar__btn:hover {
+	background: var(--c-surface-container);
+	border-color: var(--c-accent);
+}
+
+.cal-toolbar__month {
+	font-family: var(--font-headline);
+	font-size: 1.375rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	min-width: 200px;
+	text-align: center;
+}
+
+.cal-toolbar__today {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	padding: 0.4rem 1rem;
+	font-size: 0.8125rem;
+	font-weight: 600;
+	border-radius: var(--radius-full);
+	border: 1px solid var(--c-accent);
+	color: var(--c-accent);
+	background: transparent;
+	cursor: pointer;
+	transition: background 0.2s, color 0.2s;
+}
+
+.cal-toolbar__today:hover {
+	background: var(--c-accent);
+	color: #fff;
+}
+
+/* Filter chips */
+.cal-filters {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+
+.cal-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	padding: 0.35rem 0.85rem;
+	font-size: 0.75rem;
+	font-weight: 600;
+	border-radius: var(--radius-full);
+	border: 1px solid transparent;
+	cursor: pointer;
+	transition: opacity 0.2s, box-shadow 0.2s;
+	opacity: 1;
+}
+
+.cal-chip.inactive {
+	opacity: 0.35;
+}
+
+.cal-chip__dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	flex-shrink: 0;
+}
+
+.cal-chip--podcast { background: rgba(224,122,95,0.12); color: #e07a5f; }
+.cal-chip--podcast .cal-chip__dot { background: #e07a5f; }
+.cal-chip--evento { background: rgba(62,92,118,0.15); color: #3e5c76; }
+.cal-chip--evento .cal-chip__dot { background: #3e5c76; }
+.cal-chip--recensione { background: rgba(129,178,154,0.15); color: #5a9a7a; }
+.cal-chip--recensione .cal-chip__dot { background: #81b29a; }
+.cal-chip--live { background: rgba(148,103,189,0.15); color: #9467bd; }
+.cal-chip--live .cal-chip__dot { background: #9467bd; }
+.cal-chip--community { background: rgba(116,140,171,0.15); color: #748cab; }
+.cal-chip--community .cal-chip__dot { background: #748cab; }
+
+/* Calendar grid */
+.cal-grid {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	border: 1px solid var(--c-surface-container-high);
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	background: var(--c-surface-container-lowest);
+}
+
+.cal-grid__head {
+	background: var(--c-primary-container);
+	padding: 0.625rem 0.5rem;
+	text-align: center;
+	font-size: 0.6875rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: rgba(255,255,255,0.6);
+}
+
+.cal-day {
+	min-height: 110px;
+	padding: 0.35rem;
+	border-right: 1px solid var(--c-surface-container-high);
+	border-bottom: 1px solid var(--c-surface-container-high);
+	display: flex;
+	flex-direction: column;
+	cursor: default;
+	transition: background 0.15s;
+}
+
+.cal-day:nth-child(7n) {
+	border-right: none;
+}
+
+.cal-day:hover {
+	background: var(--c-surface-container);
+}
+
+.cal-day--outside {
+	opacity: 0.3;
+}
+
+.cal-day--today {
+	background: rgba(224,122,95,0.06);
+}
+
+.cal-day__number {
+	font-size: 0.8125rem;
+	font-weight: 600;
+	color: var(--c-on-surface);
+	padding: 0.15rem 0.35rem;
+	line-height: 1;
+	margin-bottom: 0.25rem;
+}
+
+.cal-day--today .cal-day__number {
+	background: var(--c-accent);
+	color: #fff;
+	border-radius: 50%;
+	width: 24px;
+	height: 24px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.cal-day__events {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	flex: 1;
+	overflow: hidden;
+}
+
+/* Event pills */
+.cal-event {
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+	padding: 2px 6px;
+	border-radius: 3px;
+	font-size: 0.625rem;
+	font-weight: 600;
+	line-height: 1.3;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	cursor: pointer;
+	transition: filter 0.15s;
+}
+
+.cal-event:hover {
+	filter: brightness(1.15);
+}
+
+.cal-event--podcast {
+	background: rgba(224,122,95,0.15);
+	color: #e07a5f;
+}
+
+.cal-event--evento {
+	background: rgba(62,92,118,0.2);
+	color: #5a8aab;
+}
+
+.cal-event--recensione {
+	background: rgba(129,178,154,0.15);
+	color: #5a9a7a;
+}
+
+.cal-event--live {
+	background: rgba(148,103,189,0.15);
+	color: #9467bd;
+}
+
+.cal-event--community {
+	background: rgba(116,140,171,0.15);
+	color: #748cab;
+}
+
+.cal-event__icon {
+	font-size: 0.75rem;
+	flex-shrink: 0;
+}
+
+/* Event detail panel */
+.cal-detail {
+	display: none;
+	margin-top: 1.5rem;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	border-radius: var(--radius-lg);
+	padding: 1.5rem 2rem;
+	animation: calDetailIn 0.25s ease;
+}
+
+.cal-detail.active {
+	display: block;
+}
+
+@keyframes calDetailIn {
+	from { opacity: 0; transform: translateY(-8px); }
+	to { opacity: 1; transform: translateY(0); }
+}
+
+.cal-detail__header {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 1rem;
+	margin-bottom: 1rem;
+}
+
+.cal-detail__type {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	font-size: 0.6875rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	padding: 0.25rem 0.75rem;
+	border-radius: var(--radius-full);
+}
+
+.cal-detail__type--podcast { background: rgba(224,122,95,0.15); color: #e07a5f; }
+.cal-detail__type--evento { background: rgba(62,92,118,0.2); color: #5a8aab; }
+.cal-detail__type--recensione { background: rgba(129,178,154,0.15); color: #5a9a7a; }
+.cal-detail__type--live { background: rgba(148,103,189,0.15); color: #9467bd; }
+.cal-detail__type--community { background: rgba(116,140,171,0.15); color: #748cab; }
+
+.cal-detail__title {
+	font-family: var(--font-headline);
+	font-size: 1.25rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	margin: 0.5rem 0 0.25rem;
+}
+
+.cal-detail__date {
+	font-size: 0.8125rem;
+	color: var(--c-on-surface-variant);
+}
+
+.cal-detail__desc {
+	font-size: 0.9rem;
+	color: var(--c-on-surface-variant);
+	line-height: 1.6;
+	margin: 0;
+}
+
+.cal-detail__close {
+	width: 32px;
+	height: 32px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: var(--radius-sm);
+	border: none;
+	background: transparent;
+	color: var(--c-on-surface-variant);
+	cursor: pointer;
+	transition: background 0.2s;
+}
+
+.cal-detail__close:hover {
+	background: var(--c-surface-container);
+}
+
+/* Upcoming sidebar */
+.cal-upcoming {
+	margin-bottom: 3rem;
+}
+
+.cal-upcoming__title {
+	font-family: var(--font-headline);
+	font-size: 1.25rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	margin: 0 0 1rem;
+}
+
+.cal-upcoming__list {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+	gap: 1rem;
+}
+
+.cal-upcoming__card {
+	display: flex;
+	align-items: flex-start;
+	gap: 1rem;
+	padding: 1rem 1.25rem;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	border-radius: var(--radius-md);
+	transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.cal-upcoming__card:hover {
+	border-color: var(--c-accent);
+	box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+.cal-upcoming__date-block {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	min-width: 48px;
+	padding: 0.5rem;
+	border-radius: var(--radius-sm);
+	background: var(--c-primary-container);
+}
+
+.cal-upcoming__date-month {
+	font-size: 0.625rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: rgba(255,255,255,0.5);
+}
+
+.cal-upcoming__date-day {
+	font-size: 1.375rem;
+	font-weight: 700;
+	color: #fff;
+	line-height: 1.2;
+}
+
+.cal-upcoming__info h4 {
+	font-size: 0.9rem;
+	font-weight: 600;
+	color: var(--c-on-surface);
+	margin: 0 0 0.25rem;
+}
+
+.cal-upcoming__info p {
+	font-size: 0.75rem;
+	color: var(--c-on-surface-variant);
+	margin: 0;
+	line-height: 1.4;
+}
+
+.cal-upcoming__tag {
+	display: inline-block;
+	font-size: 0.625rem;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	padding: 0.15rem 0.5rem;
+	border-radius: var(--radius-full);
+	margin-top: 0.35rem;
+}
+
+.cal-upcoming__tag--podcast { background: rgba(224,122,95,0.15); color: #e07a5f; }
+.cal-upcoming__tag--evento { background: rgba(62,92,118,0.2); color: #5a8aab; }
+.cal-upcoming__tag--recensione { background: rgba(129,178,154,0.15); color: #5a9a7a; }
+.cal-upcoming__tag--live { background: rgba(148,103,189,0.15); color: #9467bd; }
+.cal-upcoming__tag--community { background: rgba(116,140,171,0.15); color: #748cab; }
+
+/* Legend */
+.cal-legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1.25rem;
+	margin-bottom: 2rem;
+	padding: 1rem 1.5rem;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	border-radius: var(--radius-md);
+}
+
+.cal-legend__item {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+	font-size: 0.75rem;
+	color: var(--c-on-surface-variant);
+}
+
+.cal-legend__dot {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+	.cal-day { min-height: 70px; }
+	.cal-event { font-size: 0.5625rem; padding: 1px 4px; }
+	.cal-toolbar { flex-direction: column; align-items: stretch; }
+	.cal-toolbar__nav { justify-content: center; }
+	.cal-filters { justify-content: center; }
+	.cal-upcoming__list { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     HEADER / NAVIGATION
+     ═══════════════════════════════════════════ -->
+
+<header class="site-header" id="siteHeader">
+	<div class="header-outer">
+		<div class="header-inner">
+			<div class="site-branding">
+				<div class="site-branding__icon">
+					<img src="assets/img/logo-nmcor.png" alt="NMCOR">
+				</div>
+				<h1 class="site-title"><a href="demo.html">Not My Cup of Read</a></h1>
+			</div>
+
+			<nav class="primary-nav" id="primaryNav">
+				<ul>
+					<li><a href="#">Articoli</a><ul class="sub-menu"><li><a href="demo-recensioni.html">Recensioni</a></li><li><a href="demo-approfondimenti.html">Approfondimenti</a></li><li><a href="demo-classifiche.html">Classifiche</a></li></ul></li>
+					<li><a href="#">Podcast</a><ul class="sub-menu"><li><a href="demo-podcast.html">Episodi</a></li><li><a href="demo-format.html">Format</a></li><li><a href="demo-dietro-le-quinte.html">Dietro le quinte</a></li></ul></li>
+					<li><a href="#">Biblioteca</a><ul class="sub-menu"><li><a href="demo-libri.html">Libri</a></li><li><a href="demo-autori.html">Autori</a></li></ul></li>
+					<li><a href="#">Luoghi</a><ul class="sub-menu"><li><a href="demo-librerie.html">La mappa del Lettore</a></li><li><a href="demo-luoghi-milano.html">Milano</a></li><li><a href="demo-itinerari.html">Itinerari letterari</a></li><li><a href="demo-luoghi-librerie.html">Librerie</a></li><li><a href="demo-luoghi-biblioteche.html">Biblioteche</a></li><li><a href="demo-luoghi-caffe.html">Caffè letterari</a></li><li><a href="demo-luoghi-spazi.html">Spazi culturali</a></li></ul></li>
+					<li><a href="#">Eventi</a><ul class="sub-menu"><li><a href="demo-eventi.html">Timeline</a></li><li><a href="demo-calendario.html">Calendario</a></li><li><a href="demo-fiere-festival.html">Fiere e Festival</a></li><li><a href="demo-premi-letterari.html">Premi letterari</a></li></ul></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Chi siamo</a><ul class="sub-menu"><li><a href="demo-chi-siamo.html">Lo studio &amp; gli host</a></li><li><a href="demo-ospiti-redazione.html">Gli ospiti &amp; la redazione</a></li><li><a href="demo-contatti.html">Contatti &amp; Collaborazioni</a></li></ul></li>
+				</ul>
+			</nav>
+
+			<div class="header-search">
+				<input type="text" placeholder="Cerca...">
+			</div>
+		</div>
+
+		<div class="header-extras">
+			<div class="header-social">
+				<a href="#" class="header-social__link" aria-label="YouTube">
+					<svg viewBox="0 0 24 24"><path d="M23.5 6.19a3 3 0 0 0-2.11-2.13C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.39.56A3 3 0 0 0 .5 6.19 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.81 3 3 0 0 0 2.11 2.13c1.89.56 9.39.56 9.39.56s7.5 0 9.39-.56a3 3 0 0 0 2.11-2.13A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.81ZM9.75 15.02V8.98L15.5 12l-5.75 3.02Z"/></svg>
+				</a>
+				<a href="#" class="header-social__link" aria-label="Spotify">
+					<svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.31a.75.75 0 0 1-1.03.25c-2.82-1.72-6.37-2.11-10.55-1.16a.75.75 0 1 1-.34-1.46c4.57-1.05 8.49-.6 11.67 1.34a.75.75 0 0 1 .25 1.03Zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.23-1.98-8.15-2.56-11.97-1.4a.94.94 0 1 1-.54-1.8c4.36-1.32 9.78-.68 13.49 1.6a.94.94 0 0 1 .31 1.29Zm.13-3.4C15.5 8.4 9 8.2 5.24 9.33a1.13 1.13 0 1 1-.65-2.16c4.33-1.3 11.52-1.05 16.07 1.68a1.13 1.13 0 0 1-1.56 1.79Z"/></svg>
+				</a>
+			</div>
+			<div class="header-auth">
+				<a href="demo-profilo.html" class="header-auth__btn"><span class="material-symbols-outlined">person</span> Cristian T.</a>
+			</div>
+			<button class="menu-toggle" id="menuToggle" aria-label="Menu">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</button>
+		</div>
+	</div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="cal-page">
+		<div class="cal-hero">
+			<p class="cal-hero__overline">Calendario Editoriale</p>
+			<h2 class="cal-hero__title">Prossime uscite &amp; eventi</h2>
+			<p class="cal-hero__subtitle">Tutti gli appuntamenti della community: episodi podcast, eventi live, recensioni e AMA. Segnati le date!</p>
+		</div>
+
+		<!-- ═══ UPCOMING CARDS ═══ -->
+		<div class="cal-upcoming">
+			<h3 class="cal-upcoming__title"><span class="material-symbols-outlined" style="vertical-align:middle;margin-right:0.35rem;color:var(--c-accent);">upcoming</span>Prossimi appuntamenti</h3>
+			<div class="cal-upcoming__list" id="upcomingList">
+				<!-- populated by JS -->
+			</div>
+		</div>
+
+		<!-- ═══ LEGEND + FILTERS ═══ -->
+		<div class="cal-toolbar">
+			<div class="cal-toolbar__nav">
+				<button class="cal-toolbar__btn" id="calPrev" title="Mese precedente"><span class="material-symbols-outlined" style="font-size:1.125rem;">chevron_left</span></button>
+				<span class="cal-toolbar__month" id="calMonth"></span>
+				<button class="cal-toolbar__btn" id="calNext" title="Mese successivo"><span class="material-symbols-outlined" style="font-size:1.125rem;">chevron_right</span></button>
+				<button class="cal-toolbar__today" id="calToday"><span class="material-symbols-outlined" style="font-size:0.875rem;">today</span> Oggi</button>
+			</div>
+			<div class="cal-filters" id="calFilters">
+				<button class="cal-chip cal-chip--podcast" data-type="podcast"><span class="cal-chip__dot"></span>Podcast</button>
+				<button class="cal-chip cal-chip--evento" data-type="evento"><span class="cal-chip__dot"></span>Evento</button>
+				<button class="cal-chip cal-chip--recensione" data-type="recensione"><span class="cal-chip__dot"></span>Recensione</button>
+				<button class="cal-chip cal-chip--live" data-type="live"><span class="cal-chip__dot"></span>Live / AMA</button>
+				<button class="cal-chip cal-chip--community" data-type="community"><span class="cal-chip__dot"></span>Community</button>
+			</div>
+		</div>
+
+		<!-- ═══ CALENDAR GRID ═══ -->
+		<div class="cal-container">
+			<div class="cal-grid" id="calGrid">
+				<!-- populated by JS -->
+			</div>
+
+			<!-- Event detail panel -->
+			<div class="cal-detail" id="calDetail">
+				<div class="cal-detail__header">
+					<div>
+						<span class="cal-detail__type" id="detailType"></span>
+						<h3 class="cal-detail__title" id="detailTitle"></h3>
+						<p class="cal-detail__date" id="detailDate"></p>
+					</div>
+					<button class="cal-detail__close" id="detailClose" title="Chiudi"><span class="material-symbols-outlined">close</span></button>
+				</div>
+				<p class="cal-detail__desc" id="detailDesc"></p>
+			</div>
+		</div>
+
+		<!-- ═══ LEGEND ═══ -->
+		<div class="cal-legend">
+			<div class="cal-legend__item"><div class="cal-legend__dot" style="background:#e07a5f;"></div> Episodio Podcast</div>
+			<div class="cal-legend__item"><div class="cal-legend__dot" style="background:#3e5c76;"></div> Evento / Fiera</div>
+			<div class="cal-legend__item"><div class="cal-legend__dot" style="background:#81b29a;"></div> Recensione</div>
+			<div class="cal-legend__item"><div class="cal-legend__dot" style="background:#9467bd;"></div> Live / AMA</div>
+			<div class="cal-legend__item"><div class="cal-legend__dot" style="background:#748cab;"></div> Community</div>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ -->
+
+<footer class="site-footer">
+	<div style="max-width:80rem;margin:0 auto;padding:0 2rem;">
+		<div class="footer-main">
+			<div class="footer-brand">
+				<p class="site-title">Not My Cup of Read</p>
+				<p>Esploriamo la letteratura contemporanea attraverso podcast, recensioni e approfondimenti.</p>
+				<div class="footer-social">
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">podcasts</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">play_circle</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">photo_camera</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">send</span></a>
+				</div>
+			</div>
+			<div class="footer-col">
+				<h4>ESPLORA</h4>
+				<ul>
+					<li><a href="demo-recensioni.html">Recensioni</a></li>
+					<li><a href="demo-approfondimenti.html">Approfondimenti</a></li>
+					<li><a href="demo-podcast.html">Podcast</a></li>
+					<li><a href="demo-librerie.html">Librerie</a></li>
+					<li><a href="demo-eventi.html">Timeline</a></li>
+					<li><a href="demo-calendario.html">Calendario</a></li>
+					<li><a href="demo-libri.html">Libri</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>PROGETTO</h4>
+				<ul>
+					<li><a href="demo-chi-siamo.html">Chi siamo</a></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Contatti</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>NEWSLETTER</h4>
+				<p style="font-size:0.875rem;margin-bottom:1rem;opacity:0.75;">Ricevi le nostre selezioni editoriali.</p>
+				<div class="newsletter-form">
+					<input type="email" placeholder="La tua email" style="background:rgba(255,255,255,0.05);color:#fff;">
+					<button class="btn btn--teal btn--small">Iscriviti</button>
+				</div>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<span>&copy; 2026 Not My Cup of Read.</span>
+			<div class="footer-bottom-links">
+				<a href="#">Privacy Policy</a>
+				<a href="#">Cookie Policy</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT — Calendar Engine
+     ═══════════════════════════════════════════ -->
+<script>
+(function() {
+	'use strict';
+
+	/* ── Event data (read-only community events) ── */
+	var EVENTS = [
+		// Marzo 2026
+		{ date: '2026-03-02', type: 'podcast',     title: 'Ep. 51 — Nuove voci dalla narrativa africana',       desc: 'Esploriamo autori contemporanei del continente africano: Chimamanda Ngozi Adichie, Ngugi wa Thiong\'o e le nuove leve della letteratura post-coloniale.' },
+		{ date: '2026-03-07', type: 'recensione',   title: 'Recensione: "Il canto dei corpi" di V. Ferretti',    desc: 'Analisi approfondita dell\'ultimo romanzo di Valentina Ferretti, tra prosa poetica e realismo sociale.' },
+		{ date: '2026-03-10', type: 'community',    title: 'Discussione: Libri che cambiano la vita',            desc: 'Thread community aperto: quali libri vi hanno cambiato davvero la prospettiva? Condividete le vostre storie.' },
+		{ date: '2026-03-14', type: 'live',         title: 'AMA con Elena Ferrante (pseudonimi letterari)',      desc: 'Live Q&A sul fenomeno degli pseudonimi nella letteratura contemporanea. Ospite a sorpresa dal mondo editoriale.' },
+		{ date: '2026-03-16', type: 'podcast',      title: 'Ep. 52 — Letteratura e intelligenza artificiale',    desc: 'Come l\'IA sta cambiando la scrittura creativa? Dialogo con un autore che ha sperimentato la co-scrittura uomo-macchina.' },
+		{ date: '2026-03-21', type: 'evento',       title: 'Libro in Piazza — Roma, Trastevere',                desc: 'Lettura collettiva all\'aperto in Piazza Santa Maria. Porta il tuo libro e un cuscino. Ingresso libero.' },
+		{ date: '2026-03-25', type: 'recensione',   title: 'Recensione: "Onde corte" di M. Ferraris',           desc: 'Il nuovo saggio filosofico di Maurizio Ferraris sulla comunicazione nell\'era digitale.' },
+		{ date: '2026-03-29', type: 'community',    title: 'Sondaggio: Libro del Mese — Aprile 2026',           desc: 'Vota il libro che leggeremo insieme ad aprile. Tre candidati selezionati dalla community.' },
+		{ date: '2026-03-30', type: 'podcast',      title: 'Ep. 53 — Speciale: I migliori debutti del 2026',    desc: 'Rassegna dei romanzi d\'esordio più promettenti del primo trimestre 2026. Chi sono le nuove voci da tenere d\'occhio?' },
+
+		// Aprile 2026
+		{ date: '2026-04-01', type: 'community',    title: 'Inizio lettura condivisa: "Terra di nessuno"',      desc: 'Si parte con il Libro del Mese! Ritmo consigliato: 50 pagine a settimana. Discussione settimanale ogni lunedì.' },
+		{ date: '2026-04-04', type: 'live',         title: 'Live: Dietro le quinte di NMCOR',                   desc: 'Sessione live con il team: come nasce un episodio, i nostri strumenti, le dinamiche creative. Q&A aperto.' },
+		{ date: '2026-04-06', type: 'podcast',      title: 'Ep. 54 — Il giallo italiano: da Sciascia a oggi',   desc: 'Viaggio nel poliziesco made in Italy: dall\'impegno civile di Sciascia ai noir contemporanei di De Giovanni e Ferraris.' },
+		{ date: '2026-04-10', type: 'evento',       title: 'Fiera del Libro di Bologna — Stand NMCOR',          desc: 'Ci trovate al Padiglione 7, Stand C12. Firmacopie, panel su podcasting letterario e gadget esclusivi.' },
+		{ date: '2026-04-11', type: 'evento',       title: 'Panel: Podcast e letteratura — Bologna',            desc: 'Tavola rotonda con altri podcaster culturali. Ore 15:00, Sala Rossa. Ingresso con biglietto fiera.' },
+		{ date: '2026-04-14', type: 'recensione',   title: 'Recensione: "L\'ultimo treno per Lisbona"',         desc: 'Recensione del romanzo che sta conquistando le classifiche europee. Un viaggio tra nostalgia e speranza.' },
+		{ date: '2026-04-18', type: 'podcast',      title: 'Ep. 55 — Tradurre l\'intraducibile',                desc: 'Come si traduce la poesia? Intervista alla traduttrice di Paul Celan e riflessioni sulla perdita e il guadagno nella traduzione.' },
+		{ date: '2026-04-20', type: 'community',    title: 'Discussione: Copertine che ingannano',              desc: 'Thread divertente: libri con copertine bellissime ma contenuto deludente (e viceversa). Condividi i tuoi!' },
+		{ date: '2026-04-24', type: 'live',         title: 'AMA con libreria indipendente Minimum Fax',         desc: 'I fondatori della casa editrice Minimum Fax rispondono alle domande della community sulla micro-editoria.' },
+		{ date: '2026-04-28', type: 'recensione',   title: 'Recensione: "Confini mobili" di A. Ferrante',       desc: 'Analisi del nuovo romanzo di Anna Ferrante sull\'emigrazione e l\'identità nelle seconde generazioni.' },
+		{ date: '2026-04-30', type: 'podcast',      title: 'Ep. 56 — Speciale 25 Aprile: Letteratura e resistenza', desc: 'Rilettura dei classici della Resistenza italiana e le nuove narrazioni sulla memoria storica.' },
+
+		// Maggio 2026
+		{ date: '2026-05-03', type: 'podcast',      title: 'Ep. 57 — Graphic novel: letteratura o arte visiva?', desc: 'Confini sfumati tra fumetto d\'autore e romanzo grafico. Con ospite un illustratore premiato al Lucca Comics.' },
+		{ date: '2026-05-07', type: 'community',    title: 'Libro del Mese — Maggio: votazioni aperte',        desc: 'Scegli il prossimo libro! Quattro candidati proposti dalla community. Votazioni aperte fino al 9 maggio.' },
+		{ date: '2026-05-10', type: 'evento',       title: 'Salone del Libro di Torino — NMCOR presente',      desc: 'Stand nel Padiglione 3. Tre panel, un workshop di podcasting e la premiazione del Lettore dell\'Anno NMCOR.' },
+		{ date: '2026-05-14', type: 'live',         title: 'Live dal Salone: interviste in diretta',            desc: 'Diretta dal Salone del Libro. Interviste lampo ad autori e editori. Seguiteci in streaming!' },
+		{ date: '2026-05-17', type: 'podcast',      title: 'Ep. 58 — Le classifiche mentono?',                  desc: 'Analisi critica delle classifiche dei bestseller: chi le decide, come funzionano, e perché non sempre riflettono la qualità.' },
+		{ date: '2026-05-22', type: 'recensione',   title: 'Recensione: "Selvatico" di P. Ferrara',            desc: 'Il romanzo ambientato nelle foreste casentinesi che racconta la riscoperta della natura come terapia.' },
+		{ date: '2026-05-28', type: 'community',    title: 'Challenge: 30 giorni di lettura',                   desc: 'Sfida community: leggere almeno 20 minuti al giorno per tutto giugno. Iscriviti e traccia i tuoi progressi!' },
+		{ date: '2026-05-31', type: 'podcast',      title: 'Ep. 59 — Fine stagione: bilanci e anticipazioni',  desc: 'Ultimo episodio della seconda stagione. Bilancio dei libri letti, momenti migliori e anticipazioni per la terza stagione.' }
+	];
+
+	/* ── State ── */
+	var currentYear = 2026;
+	var currentMonth = 2; // March (0-indexed)
+	var activeFilters = { podcast: true, evento: true, recensione: true, live: true, community: true };
+
+	var MONTHS_IT = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+	var DAYS_IT = ['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];
+
+	var TYPE_LABELS = {
+		podcast: 'Episodio Podcast',
+		evento: 'Evento',
+		recensione: 'Recensione',
+		live: 'Live / AMA',
+		community: 'Community'
+	};
+
+	var TYPE_ICONS = {
+		podcast: 'podcasts',
+		evento: 'location_on',
+		recensione: 'auto_stories',
+		live: 'stream',
+		community: 'groups'
+	};
+
+	/* ── DOM refs ── */
+	var grid = document.getElementById('calGrid');
+	var monthLabel = document.getElementById('calMonth');
+	var detailPanel = document.getElementById('calDetail');
+	var detailType = document.getElementById('detailType');
+	var detailTitle = document.getElementById('detailTitle');
+	var detailDate = document.getElementById('detailDate');
+	var detailDesc = document.getElementById('detailDesc');
+	var upcomingList = document.getElementById('upcomingList');
+
+	/* ── Render calendar ── */
+	function render() {
+		monthLabel.textContent = MONTHS_IT[currentMonth] + ' ' + currentYear;
+
+		// First day of month (convert Sunday=0 to Monday=0 based)
+		var firstDay = new Date(currentYear, currentMonth, 1).getDay();
+		firstDay = firstDay === 0 ? 6 : firstDay - 1; // Monday-based
+
+		var daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+		var daysInPrev = new Date(currentYear, currentMonth, 0).getDate();
+
+		var today = new Date();
+		var todayStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+
+		// Build HTML
+		var html = '';
+
+		// Day headers
+		for (var d = 0; d < 7; d++) {
+			html += '<div class="cal-grid__head">' + DAYS_IT[d] + '</div>';
+		}
+
+		// Previous month trailing days
+		for (var p = firstDay - 1; p >= 0; p--) {
+			var dayNum = daysInPrev - p;
+			html += '<div class="cal-day cal-day--outside"><span class="cal-day__number">' + dayNum + '</span><div class="cal-day__events"></div></div>';
+		}
+
+		// Current month days
+		for (var i = 1; i <= daysInMonth; i++) {
+			var dateStr = currentYear + '-' + String(currentMonth + 1).padStart(2, '0') + '-' + String(i).padStart(2, '0');
+			var isToday = dateStr === todayStr;
+			var cls = 'cal-day' + (isToday ? ' cal-day--today' : '');
+
+			var dayEvents = getEventsForDate(dateStr);
+			var evHtml = '';
+			for (var e = 0; e < dayEvents.length; e++) {
+				var ev = dayEvents[e];
+				if (!activeFilters[ev.type]) continue;
+				evHtml += '<div class="cal-event cal-event--' + ev.type + '" data-idx="' + EVENTS.indexOf(ev) + '">'
+					+ '<span class="material-symbols-outlined cal-event__icon">' + TYPE_ICONS[ev.type] + '</span>'
+					+ ev.title.replace(/^Ep\.\s*\d+\s*—\s*/, '').substring(0, 25)
+					+ '</div>';
+			}
+
+			html += '<div class="' + cls + '"><span class="cal-day__number">' + i + '</span><div class="cal-day__events">' + evHtml + '</div></div>';
+		}
+
+		// Next month leading days
+		var totalCells = firstDay + daysInMonth;
+		var remaining = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+		for (var n = 1; n <= remaining; n++) {
+			html += '<div class="cal-day cal-day--outside"><span class="cal-day__number">' + n + '</span><div class="cal-day__events"></div></div>';
+		}
+
+		grid.innerHTML = html;
+
+		// Attach click handlers to event pills
+		var pills = grid.querySelectorAll('.cal-event');
+		for (var pi = 0; pi < pills.length; pi++) {
+			pills[pi].addEventListener('click', function() {
+				var idx = parseInt(this.getAttribute('data-idx'));
+				showDetail(EVENTS[idx]);
+			});
+		}
+
+		// Close detail if month changes
+		detailPanel.classList.remove('active');
+	}
+
+	/* ── Upcoming cards ── */
+	function renderUpcoming() {
+		var todayDate = new Date();
+		var todayStr = todayDate.getFullYear() + '-' + String(todayDate.getMonth() + 1).padStart(2, '0') + '-' + String(todayDate.getDate()).padStart(2, '0');
+
+		var upcoming = EVENTS.filter(function(ev) { return ev.date >= todayStr; }).slice(0, 4);
+		var html = '';
+
+		for (var i = 0; i < upcoming.length; i++) {
+			var ev = upcoming[i];
+			var parts = ev.date.split('-');
+			var day = parseInt(parts[2]);
+			var month = MONTHS_IT[parseInt(parts[1]) - 1].substring(0, 3).toUpperCase();
+
+			html += '<div class="cal-upcoming__card">'
+				+ '<div class="cal-upcoming__date-block">'
+				+ '<span class="cal-upcoming__date-month">' + month + '</span>'
+				+ '<span class="cal-upcoming__date-day">' + day + '</span>'
+				+ '</div>'
+				+ '<div class="cal-upcoming__info">'
+				+ '<h4>' + ev.title + '</h4>'
+				+ '<p>' + ev.desc.substring(0, 80) + '…</p>'
+				+ '<span class="cal-upcoming__tag cal-upcoming__tag--' + ev.type + '">' + TYPE_LABELS[ev.type] + '</span>'
+				+ '</div>'
+				+ '</div>';
+		}
+
+		upcomingList.innerHTML = html;
+	}
+
+	/* ── Helpers ── */
+	function getEventsForDate(dateStr) {
+		return EVENTS.filter(function(ev) { return ev.date === dateStr; });
+	}
+
+	function showDetail(ev) {
+		var parts = ev.date.split('-');
+		var day = parseInt(parts[2]);
+		var monthName = MONTHS_IT[parseInt(parts[1]) - 1];
+
+		detailType.textContent = TYPE_LABELS[ev.type];
+		detailType.className = 'cal-detail__type cal-detail__type--' + ev.type;
+		detailTitle.textContent = ev.title;
+		detailDate.innerHTML = '<span class="material-symbols-outlined" style="font-size:1rem;vertical-align:middle;margin-right:0.25rem;">calendar_today</span>' + day + ' ' + monthName + ' ' + parts[0];
+		detailDesc.textContent = ev.desc;
+		detailPanel.classList.add('active');
+		detailPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+	}
+
+	function formatDate(dateStr) {
+		var parts = dateStr.split('-');
+		return parseInt(parts[2]) + ' ' + MONTHS_IT[parseInt(parts[1]) - 1] + ' ' + parts[0];
+	}
+
+	/* ── Event listeners ── */
+	document.getElementById('calPrev').addEventListener('click', function() {
+		currentMonth--;
+		if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+		render();
+	});
+
+	document.getElementById('calNext').addEventListener('click', function() {
+		currentMonth++;
+		if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+		render();
+	});
+
+	document.getElementById('calToday').addEventListener('click', function() {
+		var today = new Date();
+		currentYear = today.getFullYear();
+		currentMonth = today.getMonth();
+		render();
+	});
+
+	document.getElementById('detailClose').addEventListener('click', function() {
+		detailPanel.classList.remove('active');
+	});
+
+	// Filter chips
+	var chips = document.querySelectorAll('.cal-chip');
+	for (var ci = 0; ci < chips.length; ci++) {
+		chips[ci].addEventListener('click', function() {
+			var type = this.getAttribute('data-type');
+			activeFilters[type] = !activeFilters[type];
+			this.classList.toggle('inactive');
+			render();
+		});
+	}
+
+	/* ── Init ── */
+	render();
+	renderUpcoming();
+})();
+</script>
+
+</body>
+</html>

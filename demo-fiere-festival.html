@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fiere e Festival — Eventi — Not My Cup of Read</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Newsreader:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<style>
+/* ═══════════════════════════════════════════
+   FIERE E FESTIVAL
+   ═══════════════════════════════════════════ */
+
+.ff-page { max-width: 80rem; margin: 0 auto; padding: 0 2rem; }
+
+/* ── Hero ── */
+.ff-hero {
+	position: relative;
+	min-height: 380px;
+	display: flex;
+	align-items: flex-end;
+	overflow: hidden;
+	border-radius: var(--radius-lg);
+	margin-bottom: 3rem;
+}
+
+.ff-hero__bg {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(135deg, #0d1321 0%, #3e5c76 30%, #e07a5f 70%, #9467bd 100%);
+}
+
+.ff-hero__bg::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(to top, rgba(13,19,33,0.9) 0%, rgba(13,19,33,0.35) 50%, transparent 100%);
+}
+
+.ff-hero__content {
+	position: relative;
+	z-index: 1;
+	padding: 3rem;
+	width: 100%;
+}
+
+.ff-hero__breadcrumb {
+	font-size: 0.75rem;
+	color: rgba(240,235,216,0.6);
+	margin-bottom: 0.75rem;
+}
+
+.ff-hero__breadcrumb a { color: var(--c-accent); text-decoration: none; }
+.ff-hero__breadcrumb a:hover { text-decoration: underline; }
+
+.ff-hero__title {
+	font-family: var(--font-headline);
+	font-size: clamp(2.5rem, 5vw, 4rem);
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-surface);
+	margin: 0 0 0.5rem;
+	line-height: 1.1;
+}
+
+.ff-hero__subtitle {
+	font-size: 1.0625rem;
+	color: rgba(240,235,216,0.7);
+	margin: 0 0 1.5rem;
+	max-width: 40rem;
+	line-height: 1.6;
+}
+
+.ff-hero__stats {
+	display: flex;
+	gap: 2rem;
+	flex-wrap: wrap;
+}
+
+.ff-hero__stat-value {
+	font-family: var(--font-headline);
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: var(--c-accent);
+	display: block;
+	line-height: 1.2;
+}
+
+.ff-hero__stat-label {
+	font-size: 0.6875rem;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: rgba(240,235,216,0.5);
+}
+
+/* ── Filters ── */
+.ff-filters {
+	display: flex;
+	justify-content: center;
+	gap: 0.5rem;
+	flex-wrap: wrap;
+	padding: 0 0 2.5rem;
+}
+
+.ff-filter {
+	padding: 0.5rem 1.25rem;
+	font-size: 0.8125rem;
+	font-weight: 600;
+	border-radius: var(--radius-full);
+	border: 1px solid var(--c-surface-container-high);
+	background: transparent;
+	color: var(--c-on-surface-variant);
+	cursor: pointer;
+	transition: all 0.2s;
+}
+
+.ff-filter:hover { border-color: var(--c-accent); color: var(--c-accent); }
+.ff-filter.active { background: var(--c-accent); border-color: var(--c-accent); color: #fff; }
+
+/* ── Section header ── */
+.ff-section-header { margin-bottom: 2rem; }
+
+.ff-section-overline {
+	font-size: 0.6875rem;
+	font-weight: 700;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: var(--c-accent);
+	margin-bottom: 0.35rem;
+}
+
+.ff-section-title {
+	font-family: var(--font-headline);
+	font-size: 1.75rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	margin: 0;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.ff-section-title .material-symbols-outlined { color: var(--c-accent); }
+
+.ff-section-subtitle {
+	font-size: 0.9375rem;
+	color: var(--c-on-surface-variant);
+	margin: 0.35rem 0 0;
+	line-height: 1.5;
+}
+
+/* ── Calendar strip ── */
+.ff-calendar {
+	display: flex;
+	gap: 0;
+	overflow-x: auto;
+	padding-bottom: 0.5rem;
+	margin-bottom: 2rem;
+	scrollbar-width: thin;
+}
+
+.ff-month {
+	flex: 0 0 auto;
+	min-width: 90px;
+	text-align: center;
+	padding: 0.75rem 0.5rem;
+	border-bottom: 3px solid transparent;
+	cursor: pointer;
+	transition: all 0.2s;
+}
+
+.ff-month:hover { border-bottom-color: rgba(224,122,95,0.3); }
+.ff-month.active { border-bottom-color: var(--c-accent); }
+.ff-month.has-events { position: relative; }
+
+.ff-month__name {
+	font-size: 0.6875rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--c-on-surface-variant);
+	margin-bottom: 0.15rem;
+}
+
+.ff-month.active .ff-month__name { color: var(--c-accent); }
+
+.ff-month__count {
+	font-family: var(--font-headline);
+	font-size: 1.125rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+}
+
+.ff-month.active .ff-month__count { color: var(--c-accent); }
+
+.ff-month__dots {
+	display: flex;
+	justify-content: center;
+	gap: 3px;
+	margin-top: 0.35rem;
+}
+
+.ff-month__dot {
+	width: 5px;
+	height: 5px;
+	border-radius: 50%;
+	background: var(--c-accent);
+	opacity: 0.5;
+}
+
+.ff-month.active .ff-month__dot { opacity: 1; }
+
+/* ── Card grid ── */
+.ff-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+	gap: 1.5rem;
+}
+
+.ff-card {
+	display: flex;
+	flex-direction: column;
+	text-decoration: none;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.ff-card:hover {
+	border-color: var(--c-accent);
+	box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+	transform: translateY(-3px);
+}
+
+.ff-card__img {
+	aspect-ratio: 16/9;
+	overflow: hidden;
+	position: relative;
+}
+
+.ff-card__img-placeholder {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.6875rem;
+	color: rgba(255,255,255,0.15);
+}
+
+.ff-card__type-badge {
+	position: absolute;
+	top: 0.75rem;
+	left: 0.75rem;
+	font-size: 0.5625rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	padding: 0.2rem 0.6rem;
+	border-radius: var(--radius-full);
+	color: #fff;
+}
+
+.ff-badge--fiera { background: var(--c-accent); }
+.ff-badge--festival { background: #9467bd; }
+
+.ff-card__date-ribbon {
+	position: absolute;
+	top: 0.75rem;
+	right: 0.75rem;
+	background: rgba(13,19,33,0.85);
+	backdrop-filter: blur(8px);
+	padding: 0.4rem 0.65rem;
+	border-radius: var(--radius-md);
+	text-align: center;
+	min-width: 52px;
+}
+
+.ff-card__date-day {
+	font-size: 1rem;
+	font-weight: 700;
+	color: var(--c-surface);
+	line-height: 1;
+	display: block;
+}
+
+.ff-card__date-month {
+	font-size: 0.5rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--c-accent);
+	display: block;
+}
+
+.ff-card__body {
+	padding: 1.25rem;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+.ff-card__location {
+	font-size: 0.625rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--c-accent);
+	margin-bottom: 0.25rem;
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+}
+
+.ff-card__location .material-symbols-outlined { font-size: 0.8rem; }
+
+.ff-card__name {
+	font-family: var(--font-headline);
+	font-size: 1.125rem;
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-on-surface);
+	margin: 0 0 0.5rem;
+	line-height: 1.3;
+}
+
+.ff-card__desc {
+	font-size: 0.8125rem;
+	color: var(--c-on-surface-variant);
+	margin: 0 0 auto;
+	line-height: 1.55;
+	padding-bottom: 0.75rem;
+}
+
+.ff-card__meta {
+	display: flex;
+	gap: 1rem;
+	padding-top: 0.75rem;
+	border-top: 1px solid var(--c-surface-container-high);
+	font-size: 0.6875rem;
+	color: var(--c-on-surface-variant);
+	flex-wrap: wrap;
+}
+
+.ff-card__meta-item {
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+}
+
+.ff-card__meta-item .material-symbols-outlined { font-size: 0.875rem; color: var(--c-accent); }
+
+/* ── CTA banner ── */
+.ff-cta-banner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 2rem;
+	padding: 2.5rem 3rem;
+	background: linear-gradient(135deg, var(--c-primary-container) 0%, #9467bd 100%);
+	border-radius: var(--radius-lg);
+}
+
+.ff-cta-banner__text h3 {
+	font-family: var(--font-headline);
+	font-size: 1.375rem;
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-surface);
+	margin: 0 0 0.35rem;
+}
+
+.ff-cta-banner__text p {
+	font-size: 0.875rem;
+	color: rgba(240,235,216,0.7);
+	margin: 0;
+}
+
+.ff-cta-banner .btn { white-space: nowrap; }
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+	.ff-grid { grid-template-columns: 1fr; }
+	.ff-hero__stats { gap: 1.5rem; }
+	.ff-cta-banner { flex-direction: column; text-align: center; }
+}
+
+/* ═══ CALENDAR WIDGET ═══ */
+.cal-container { margin-bottom: 3rem; }
+
+.cal-toolbar {
+	display: flex; align-items: center; justify-content: space-between;
+	flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;
+}
+.cal-toolbar__nav { display: flex; align-items: center; gap: 0.75rem; }
+.cal-toolbar__btn {
+	display: inline-flex; align-items: center; justify-content: center;
+	width: 36px; height: 36px; border-radius: var(--radius-sm);
+	border: 1px solid var(--c-surface-container-high);
+	background: var(--c-surface-container-lowest); color: var(--c-on-surface);
+	cursor: pointer; transition: background 0.2s, border-color 0.2s;
+}
+.cal-toolbar__btn:hover { background: var(--c-surface-container); border-color: var(--c-accent); }
+.cal-toolbar__month {
+	font-family: var(--font-headline); font-size: 1.375rem; font-weight: 700;
+	color: var(--c-on-surface); min-width: 200px; text-align: center;
+}
+.cal-toolbar__today {
+	display: inline-flex; align-items: center; gap: 0.35rem;
+	padding: 0.4rem 1rem; font-size: 0.8125rem; font-weight: 600;
+	border-radius: var(--radius-full); border: 1px solid var(--c-accent);
+	color: var(--c-accent); background: transparent; cursor: pointer;
+	transition: background 0.2s, color 0.2s;
+}
+.cal-toolbar__today:hover { background: var(--c-accent); color: #fff; }
+
+.cal-filters { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.cal-chip {
+	display: inline-flex; align-items: center; gap: 0.35rem;
+	padding: 0.35rem 0.85rem; font-size: 0.75rem; font-weight: 600;
+	border-radius: var(--radius-full); border: 1px solid transparent;
+	cursor: pointer; transition: opacity 0.2s; opacity: 1;
+}
+.cal-chip.inactive { opacity: 0.35; }
+.cal-chip__dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+.cal-chip--fiera { background: rgba(62,92,118,0.15); color: #3e5c76; }
+.cal-chip--fiera .cal-chip__dot { background: #3e5c76; }
+.cal-chip--festival { background: rgba(224,122,95,0.12); color: #e07a5f; }
+.cal-chip--festival .cal-chip__dot { background: #e07a5f; }
+
+.cal-grid {
+	display: grid; grid-template-columns: repeat(7, 1fr);
+	border: 1px solid var(--c-surface-container-high);
+	border-radius: var(--radius-lg); overflow: hidden;
+	background: var(--c-surface-container-lowest);
+}
+.cal-grid__head {
+	background: var(--c-primary-container); padding: 0.625rem 0.5rem;
+	text-align: center; font-size: 0.6875rem; font-weight: 700;
+	letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.6);
+}
+.cal-day {
+	min-height: 110px; padding: 0.35rem;
+	border-right: 1px solid var(--c-surface-container-high);
+	border-bottom: 1px solid var(--c-surface-container-high);
+	display: flex; flex-direction: column; cursor: default; transition: background 0.15s;
+}
+.cal-day:nth-child(7n) { border-right: none; }
+.cal-day:hover { background: var(--c-surface-container); }
+.cal-day--outside { opacity: 0.3; }
+.cal-day--today { background: rgba(224,122,95,0.06); }
+.cal-day__number {
+	font-size: 0.8125rem; font-weight: 600; color: var(--c-on-surface);
+	padding: 0.15rem 0.35rem; line-height: 1; margin-bottom: 0.25rem;
+}
+.cal-day--today .cal-day__number {
+	background: var(--c-accent); color: #fff; border-radius: 50%;
+	width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
+}
+.cal-day__events { display: flex; flex-direction: column; gap: 2px; flex: 1; overflow: hidden; }
+
+.cal-event {
+	display: flex; align-items: center; gap: 0.25rem;
+	padding: 2px 6px; border-radius: 3px; font-size: 0.625rem;
+	font-weight: 600; line-height: 1.3; white-space: nowrap;
+	overflow: hidden; text-overflow: ellipsis; cursor: pointer; transition: filter 0.15s;
+}
+.cal-event:hover { filter: brightness(1.15); }
+.cal-event--fiera { background: rgba(62,92,118,0.2); color: #5a8aab; }
+.cal-event--festival { background: rgba(224,122,95,0.15); color: #e07a5f; }
+.cal-event__icon { font-size: 0.75rem; flex-shrink: 0; }
+
+.cal-detail {
+	display: none; margin-top: 1.5rem; background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high); border-radius: var(--radius-lg);
+	padding: 1.5rem 2rem; animation: calDetailIn 0.25s ease;
+}
+.cal-detail.active { display: block; }
+@keyframes calDetailIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+.cal-detail__header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+.cal-detail__type {
+	display: inline-flex; align-items: center; gap: 0.35rem;
+	font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.08em;
+	text-transform: uppercase; padding: 0.25rem 0.75rem; border-radius: var(--radius-full);
+}
+.cal-detail__type--fiera { background: rgba(62,92,118,0.2); color: #5a8aab; }
+.cal-detail__type--festival { background: rgba(224,122,95,0.15); color: #e07a5f; }
+.cal-detail__title { font-family: var(--font-headline); font-size: 1.25rem; font-weight: 700; color: var(--c-on-surface); margin: 0.5rem 0 0.25rem; }
+.cal-detail__date { font-size: 0.8125rem; color: var(--c-on-surface-variant); }
+.cal-detail__desc { font-size: 0.9rem; color: var(--c-on-surface-variant); line-height: 1.6; margin: 0; }
+.cal-detail__close {
+	width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+	border-radius: var(--radius-sm); border: none; background: transparent;
+	color: var(--c-on-surface-variant); cursor: pointer; transition: background 0.2s;
+}
+.cal-detail__close:hover { background: var(--c-surface-container); }
+
+.cal-legend {
+	display: flex; flex-wrap: wrap; gap: 1.25rem; margin-bottom: 2rem;
+	padding: 1rem 1.5rem; background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high); border-radius: var(--radius-md);
+}
+.cal-legend__item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; color: var(--c-on-surface-variant); }
+.cal-legend__dot { width: 10px; height: 10px; border-radius: 50%; }
+
+@media (max-width: 768px) {
+	.cal-day { min-height: 70px; }
+	.cal-event { font-size: 0.5625rem; padding: 1px 4px; }
+	.cal-toolbar { flex-direction: column; align-items: stretch; }
+	.cal-toolbar__nav { justify-content: center; }
+	.cal-filters { justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header" id="siteHeader">
+	<div class="header-outer">
+		<div class="header-inner">
+			<div class="site-branding">
+				<div class="site-branding__icon">
+					<img src="assets/img/logo-nmcor.png" alt="NMCOR">
+				</div>
+				<h1 class="site-title"><a href="demo.html">Not My Cup of Read</a></h1>
+			</div>
+			<nav class="primary-nav" id="primaryNav">
+				<ul>
+					<li><a href="#">Articoli</a><ul class="sub-menu"><li><a href="demo-recensioni.html">Recensioni</a></li><li><a href="demo-approfondimenti.html">Approfondimenti</a></li><li><a href="demo-classifiche.html">Classifiche</a></li></ul></li>
+					<li><a href="#">Podcast</a><ul class="sub-menu"><li><a href="demo-podcast.html">Episodi</a></li><li><a href="demo-format.html">Format</a></li><li><a href="demo-dietro-le-quinte.html">Dietro le quinte</a></li></ul></li>
+					<li><a href="#">Biblioteca</a><ul class="sub-menu"><li><a href="demo-libri.html">Libri</a></li><li><a href="demo-autori.html">Autori</a></li></ul></li>
+					<li><a href="#">Luoghi</a><ul class="sub-menu"><li><a href="demo-librerie.html">La mappa del Lettore</a></li><li><a href="demo-luoghi-milano.html">Milano</a></li><li><a href="demo-itinerari.html">Itinerari letterari</a></li><li><a href="demo-luoghi-librerie.html">Librerie</a></li><li><a href="demo-luoghi-biblioteche.html">Biblioteche</a></li><li><a href="demo-luoghi-caffe.html">Caffè letterari</a></li><li><a href="demo-luoghi-spazi.html">Spazi culturali</a></li></ul></li>
+					<li><a href="#">Eventi</a><ul class="sub-menu"><li><a href="demo-eventi.html">Timeline</a></li><li><a href="demo-calendario.html">Calendario</a></li><li><a href="demo-fiere-festival.html">Fiere e Festival</a></li><li><a href="demo-premi-letterari.html">Premi letterari</a></li></ul></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Chi siamo</a><ul class="sub-menu"><li><a href="demo-chi-siamo.html">Lo studio &amp; gli host</a></li><li><a href="demo-ospiti-redazione.html">Gli ospiti &amp; la redazione</a></li><li><a href="demo-contatti.html">Contatti &amp; Collaborazioni</a></li></ul></li>
+				</ul>
+			</nav>
+			<div class="header-search">
+				<input type="text" placeholder="Cerca...">
+			</div>
+		</div>
+		<div class="header-extras">
+			<div class="header-social">
+				<a href="#" class="header-social__link" aria-label="YouTube">
+					<svg viewBox="0 0 24 24"><path d="M23.5 6.19a3 3 0 0 0-2.11-2.13C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.39.56A3 3 0 0 0 .5 6.19 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.81 3 3 0 0 0 2.11 2.13c1.89.56 9.39.56 9.39.56s7.5 0 9.39-.56a3 3 0 0 0 2.11-2.13A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.81ZM9.75 15.02V8.98L15.5 12l-5.75 3.02Z"/></svg>
+				</a>
+				<a href="#" class="header-social__link" aria-label="Spotify">
+					<svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.31a.75.75 0 0 1-1.03.25c-2.82-1.72-6.37-2.11-10.55-1.16a.75.75 0 1 1-.34-1.46c4.57-1.05 8.49-.6 11.67 1.34a.75.75 0 0 1 .25 1.03Zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.23-1.98-8.15-2.56-11.97-1.4a.94.94 0 1 1-.54-1.8c4.36-1.32 9.78-.68 13.49 1.6a.94.94 0 0 1 .31 1.29Zm.13-3.4C15.5 8.4 9 8.2 5.24 9.33a1.13 1.13 0 1 1-.65-2.16c4.33-1.3 11.52-1.05 16.07 1.68a1.13 1.13 0 0 1-1.56 1.79Z"/></svg>
+				</a>
+			</div>
+			<div class="header-auth">
+				<a href="demo-profilo.html" class="header-auth__btn"><span class="material-symbols-outlined">person</span> Cristian T.</a>
+			</div>
+			<button class="menu-toggle" id="menuToggle" aria-label="Menu">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</button>
+		</div>
+	</div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════ -->
+
+<div class="ff-page">
+
+	<div class="ff-hero">
+		<div class="ff-hero__bg"></div>
+		<div class="ff-hero__content">
+			<p class="ff-hero__breadcrumb"><a href="demo-eventi.html">Eventi</a> / Fiere e Festival</p>
+			<h1 class="ff-hero__title">Fiere e Festival Letterari</h1>
+			<p class="ff-hero__subtitle">Da Torino a Francoforte, da Mantova a Edimburgo: il calendario completo degli appuntamenti che ogni lettore dovrebbe segnare in agenda.</p>
+			<div class="ff-hero__stats">
+				<div><span class="ff-hero__stat-value">34</span><span class="ff-hero__stat-label">Eventi</span></div>
+				<div><span class="ff-hero__stat-value">18</span><span class="ff-hero__stat-label">Italiani</span></div>
+				<div><span class="ff-hero__stat-value">16</span><span class="ff-hero__stat-label">Internazionali</span></div>
+				<div><span class="ff-hero__stat-value">12</span><span class="ff-hero__stat-label">Mesi coperti</span></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ── Filters ── -->
+	<div class="ff-filters">
+		<button class="ff-filter active" data-filter="tutti">Tutti</button>
+		<button class="ff-filter" data-filter="fiera">Fiere</button>
+		<button class="ff-filter" data-filter="festival">Festival</button>
+		<button class="ff-filter" data-filter="italia">Italia</button>
+		<button class="ff-filter" data-filter="estero">Internazionali</button>
+	</div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CALENDARIO
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="ff-page">
+
+		<div class="ff-section-header">
+			<p class="ff-section-overline">2026</p>
+			<h2 class="ff-section-title"><span class="material-symbols-outlined">calendar_month</span> Calendario annuale</h2>
+			<p class="ff-section-subtitle">Naviga il calendario per scoprire fiere e festival in programma</p>
+		</div>
+
+		<!-- Calendar toolbar -->
+		<div class="cal-toolbar">
+			<div class="cal-toolbar__nav">
+				<button class="cal-toolbar__btn" id="calPrev" title="Mese precedente"><span class="material-symbols-outlined" style="font-size:1.125rem;">chevron_left</span></button>
+				<span class="cal-toolbar__month" id="calMonth"></span>
+				<button class="cal-toolbar__btn" id="calNext" title="Mese successivo"><span class="material-symbols-outlined" style="font-size:1.125rem;">chevron_right</span></button>
+				<button class="cal-toolbar__today" id="calToday"><span class="material-symbols-outlined" style="font-size:0.875rem;">today</span> Oggi</button>
+			</div>
+			<div class="cal-filters" id="calFilters">
+				<button class="cal-chip cal-chip--fiera" data-type="fiera"><span class="cal-chip__dot"></span>Fiere</button>
+				<button class="cal-chip cal-chip--festival" data-type="festival"><span class="cal-chip__dot"></span>Festival</button>
+			</div>
+		</div>
+
+		<!-- Calendar grid -->
+		<div class="cal-container">
+			<div class="cal-grid" id="calGrid">
+				<!-- populated by JS -->
+			</div>
+
+			<!-- Event detail panel -->
+			<div class="cal-detail" id="calDetail">
+				<div class="cal-detail__header">
+					<div>
+						<span class="cal-detail__type" id="detailType"></span>
+						<h3 class="cal-detail__title" id="detailTitle"></h3>
+						<p class="cal-detail__date" id="detailDate"></p>
+					</div>
+					<button class="cal-detail__close" id="detailClose" title="Chiudi"><span class="material-symbols-outlined">close</span></button>
+				</div>
+				<p class="cal-detail__desc" id="detailDesc"></p>
+			</div>
+		</div>
+
+		<!-- Legend -->
+		<div class="cal-legend">
+			<div class="cal-legend__item"><div class="cal-legend__dot" style="background:#3e5c76;"></div> Fiere</div>
+			<div class="cal-legend__item"><div class="cal-legend__dot" style="background:#e07a5f;"></div> Festival</div>
+		</div>
+
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FIERE ITALIANE
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface">
+	<div class="ff-page">
+
+		<div class="ff-section-header">
+			<p class="ff-section-overline">Italia</p>
+			<h2 class="ff-section-title"><span class="material-symbols-outlined">flag</span> Fiere italiane</h2>
+			<p class="ff-section-subtitle">Le grandi fiere del libro che scandiscono l'anno editoriale italiano</p>
+		</div>
+
+		<div class="ff-grid">
+
+			<a href="#" class="ff-card" data-type="fiera" data-country="italia" data-month="5">
+				<div class="ff-card__img">
+					<div class="ff-card__img-placeholder" style="background:linear-gradient(135deg,#e07a5f,#1d2d44);">Salone del Libro — Torino</div>
+					<span class="ff-card__type-badge ff-badge--fiera">Fiera</span>
+					<div class="ff-card__date-ribbon"><span class="ff-card__date-day">15–19</span><span class="ff-card__date-month">Mag</span></div>
+				</div>
+				<div class="ff-card__body">
+					<span class="ff-card__location"><span class="material-symbols-outlined">location_on</span> Torino — Lingotto</span>
+					<h3 class="ff-card__name">Salone Internazionale del Libro</h3>
+					<p class="ff-card__desc">Il più grande evento editoriale italiano. 5 giorni, 1500+ editori, 150.000 visitatori e un programma culturale che è il termometro della letteratura contemporanea.</p>
+					<div class="ff-card__meta">
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">calendar_month</span> 15–19 maggio</span>
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">groups</span> 150.000</span>
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">store</span> 1500+ editori</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="ff-card" data-type="fiera" data-country="italia" data-month="12">
+				<div class="ff-card__img">
+					<div class="ff-card__img-placeholder" style="background:linear-gradient(135deg,#3e5c76,#748cab);">Più Libri Più Liberi — Roma</div>
+					<span class="ff-card__type-badge ff-badge--fiera">Fiera</span>
+					<div class="ff-card__date-ribbon"><span class="ff-card__date-day">4–8</span><span class="ff-card__date-month">Dic</span></div>
+				</div>
+				<div class="ff-card__body">
+					<span class="ff-card__location"><span class="material-symbols-outlined">location_on</span> Roma — La Nuvola</span>
+					<h3 class="ff-card__name">Più Libri Più Liberi</h3>
+					<p class="ff-card__desc">La fiera della piccola e media editoria nel capolavoro architettonico di Fuksas. Il punto d'incontro per chi cerca titoli fuori dai circuiti mainstream.</p>
+					<div class="ff-card__meta">
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">calendar_month</span> 4–8 dicembre</span>
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">groups</span> 100.000</span>
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">store</span> 500+ editori</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="ff-card" data-type="fiera" data-country="italia" data-month="3">
+				<div class="ff-card__img">
+					<div class="ff-card__img-placeholder" style="background:linear-gradient(135deg,#5a9a7a,#0d1321);">Bologna Children's Book Fair</div>
+					<span class="ff-card__type-badge ff-badge--fiera">Fiera</span>
+					<div class="ff-card__date-ribbon"><span class="ff-card__date-day">30–2</span><span class="ff-card__date-month">Mar-Apr</span></div>
+				</div>
+				<div class="ff-card__body">
+					<span class="ff-card__location"><span class="material-symbols-outlined">location_on</span> Bologna — Fiera</span>
+					<h3 class="ff-card__name">Bologna Children's Book Fair</h3>
+					<p class="ff-card__desc">La fiera internazionale di riferimento per l'editoria per ragazzi. Illustratori, editori e agenti da tutto il mondo si incontrano sotto le Due Torri.</p>
+					<div class="ff-card__meta">
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">calendar_month</span> 30 mar – 2 apr</span>
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">groups</span> 30.000</span>
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">public</span> Internazionale</span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FESTIVAL ITALIANI
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="ff-page">
+
+		<div class="ff-section-header">
+			<p class="ff-section-overline">Italia</p>
+			<h2 class="ff-section-title"><span class="material-symbols-outlined">celebration</span> Festival italiani</h2>
+			<p class="ff-section-subtitle">Festival letterari che trasformano piazze e borghi in palcoscenici per le parole</p>
+		</div>
+
+		<div class="ff-grid">
+
+			<a href="#" class="ff-card" data-type="festival" data-country="italia" data-month="9">
+				<div class="ff-card__img">
+					<div class="ff-card__img-placeholder" style="background:linear-gradient(135deg,#9467bd,#3e5c76);">Festivaletteratura — Mantova</div>
+					<span class="ff-card__type-badge ff-badge--festival">Festival</span>
+					<div class="ff-card__date-ribbon"><span class="ff-card__date-day">3–7</span><span class="ff-card__date-month">Set</span></div>
+				</div>
+				<div class="ff-card__body">
+					<span class="ff-card__location"><span class="material-symbols-outlined">location_on</span> Mantova</span>
+					<h3 class="ff-card__name">Festivaletteratura</h3>
+					<p class="ff-card__desc">Il festival pioniere della letteratura italiana. Piazze, chiostri e teatri mantovani diventano il palcoscenico di 300+ eventi in 5 giorni indimenticabili.</p>
+					<div class="ff-card__meta">
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">calendar_month</span> 3–7 settembre</span>
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">groups</span> 80.000</span>
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">event</span> 300+ eventi</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="ff-card" data-type="festival" data-country="italia" data-month="6">
+				<div class="ff-card__img">
+					<div class="ff-card__img-placeholder" style="background:linear-gradient(135deg,#5a8aab,#e07a5f);">Pordenonelegge</div>
+					<span class="ff-card__type-badge ff-badge--festival">Festival</span>
+					<div class="ff-card__date-ribbon"><span class="ff-card__date-day">17–21</span><span class="ff-card__date-month">Set</span></div>
+				</div>
+				<div class="ff-card__body">
+					<span class="ff-card__location"><span class="material-symbols-outlined">location_on</span> Pordenone</span>
+					<h3 class="ff-card__name">pordenonelegge</h3>
+					<p class="ff-card__desc">Festa del Libro con gli Autori: 5 giorni di incontri, reading e spettacoli in una delle città più vivibili d'Italia. Ingresso libero a quasi tutti gli eventi.</p>
+					<div class="ff-card__meta">
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">calendar_month</span> 17–21 settembre</span>
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">groups</span> 60.000</span>
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">sell</span> Ingresso libero</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="ff-card" data-type="festival" data-country="italia" data-month="10">
+				<div class="ff-card__img">
+					<div class="ff-card__img-placeholder" style="background:linear-gradient(135deg,#748cab,#9467bd);">Lucca Comics & Games</div>
+					<span class="ff-card__type-badge ff-badge--festival">Festival</span>
+					<div class="ff-card__date-ribbon"><span class="ff-card__date-day">29–2</span><span class="ff-card__date-month">Ott-Nov</span></div>
+				</div>
+				<div class="ff-card__body">
+					<span class="ff-card__location"><span class="material-symbols-outlined">location_on</span> Lucca</span>
+					<h3 class="ff-card__name">Lucca Comics & Games</h3>
+					<p class="ff-card__desc">Il più grande festival europeo dedicato a fumetto, gioco e narrativa di genere. Le mura medievali di Lucca si trasformano nel paradiso dei lettori-nerd.</p>
+					<div class="ff-card__meta">
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">calendar_month</span> 29 ott – 2 nov</span>
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">groups</span> 300.000</span>
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">auto_awesome</span> Comics + Libri</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="ff-card" data-type="festival" data-country="italia" data-month="5">
+				<div class="ff-card__img">
+					<div class="ff-card__img-placeholder" style="background:linear-gradient(135deg,#1d2d44,#5a9a7a);">La Milanesiana</div>
+					<span class="ff-card__type-badge ff-badge--festival">Festival</span>
+					<div class="ff-card__date-ribbon"><span class="ff-card__date-day">Giu</span><span class="ff-card__date-month">Lug</span></div>
+				</div>
+				<div class="ff-card__body">
+					<span class="ff-card__location"><span class="material-symbols-outlined">location_on</span> Milano + altre città</span>
+					<h3 class="ff-card__name">La Milanesiana</h3>
+					<p class="ff-card__desc">Ideata da Elisabetta Sgarbi: letteratura, musica, cinema e scienza si intrecciano in un mese di eventi diffusi tra Milano e altre città italiane.</p>
+					<div class="ff-card__meta">
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">calendar_month</span> Giugno–Luglio</span>
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">palette</span> Multidisciplinare</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="ff-card" data-type="festival" data-country="italia" data-month="8">
+				<div class="ff-card__img">
+					<div class="ff-card__img-placeholder" style="background:linear-gradient(135deg,#e07a5f,#5a8aab);">Festival della Mente — Sarzana</div>
+					<span class="ff-card__type-badge ff-badge--festival">Festival</span>
+					<div class="ff-card__date-ribbon"><span class="ff-card__date-day">29–31</span><span class="ff-card__date-month">Ago</span></div>
+				</div>
+				<div class="ff-card__body">
+					<span class="ff-card__location"><span class="material-symbols-outlined">location_on</span> Sarzana</span>
+					<h3 class="ff-card__name">Festival della Mente</h3>
+					<p class="ff-card__desc">Il primo festival europeo sulla creatività. Scrittori, scienziati e artisti raccontano come nascono le idee nelle piazze del borgo ligure di Sarzana.</p>
+					<div class="ff-card__meta">
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">calendar_month</span> 29–31 agosto</span>
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">psychology</span> Creatività</span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FIERE INTERNAZIONALI
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface">
+	<div class="ff-page">
+
+		<div class="ff-section-header">
+			<p class="ff-section-overline">Internazionali</p>
+			<h2 class="ff-section-title"><span class="material-symbols-outlined">public</span> Fiere internazionali</h2>
+			<p class="ff-section-subtitle">Le grandi fiere del libro che muovono l'industria editoriale globale</p>
+		</div>
+
+		<div class="ff-grid">
+
+			<a href="#" class="ff-card" data-type="fiera" data-country="estero" data-month="10">
+				<div class="ff-card__img">
+					<div class="ff-card__img-placeholder" style="background:linear-gradient(135deg,#e07a5f,#9467bd);">Frankfurter Buchmesse</div>
+					<span class="ff-card__type-badge ff-badge--fiera">Fiera</span>
+					<div class="ff-card__date-ribbon"><span class="ff-card__date-day">14–18</span><span class="ff-card__date-month">Ott</span></div>
+				</div>
+				<div class="ff-card__body">
+					<span class="ff-card__location"><span class="material-symbols-outlined">location_on</span> Francoforte, Germania</span>
+					<h3 class="ff-card__name">Frankfurter Buchmesse</h3>
+					<p class="ff-card__desc">La più grande e influente fiera del libro al mondo. Dove si decidono i destini editoriali: diritti di traduzione, accordi internazionali e il Guest of Honour.</p>
+					<div class="ff-card__meta">
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">calendar_month</span> 14–18 ottobre</span>
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">groups</span> 300.000</span>
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">store</span> 7500 editori</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="ff-card" data-type="fiera" data-country="estero" data-month="3">
+				<div class="ff-card__img">
+					<div class="ff-card__img-placeholder" style="background:linear-gradient(135deg,#5a8aab,#1d2d44);">London Book Fair</div>
+					<span class="ff-card__type-badge ff-badge--fiera">Fiera</span>
+					<div class="ff-card__date-ribbon"><span class="ff-card__date-day">10–12</span><span class="ff-card__date-month">Mar</span></div>
+				</div>
+				<div class="ff-card__body">
+					<span class="ff-card__location"><span class="material-symbols-outlined">location_on</span> Londra, UK</span>
+					<h3 class="ff-card__name">London Book Fair</h3>
+					<p class="ff-card__desc">La fiera chiave per il mercato anglofono. Tre giorni di business editoriale, conferenze su publishing digitale e il premio International Excellence Awards.</p>
+					<div class="ff-card__meta">
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">calendar_month</span> 10–12 marzo</span>
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">groups</span> 25.000</span>
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">business</span> B2B</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="ff-card" data-type="fiera" data-country="estero" data-month="2">
+				<div class="ff-card__img">
+					<div class="ff-card__img-placeholder" style="background:linear-gradient(135deg,#9467bd,#5a9a7a);">Salon du Livre — Paris</div>
+					<span class="ff-card__type-badge ff-badge--fiera">Fiera</span>
+					<div class="ff-card__date-ribbon"><span class="ff-card__date-day">20–23</span><span class="ff-card__date-month">Mar</span></div>
+				</div>
+				<div class="ff-card__body">
+					<span class="ff-card__location"><span class="material-symbols-outlined">location_on</span> Parigi, Francia</span>
+					<h3 class="ff-card__name">Salon du Livre de Paris</h3>
+					<p class="ff-card__desc">Festival Livre Paris: la festa del libro francofona. Incontri con autori, dibattiti e la vitalità dell'editoria francese in uno dei più grandi saloni d'Europa.</p>
+					<div class="ff-card__meta">
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">calendar_month</span> 20–23 marzo</span>
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">groups</span> 160.000</span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FESTIVAL INTERNAZIONALI
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="ff-page">
+
+		<div class="ff-section-header">
+			<p class="ff-section-overline">Internazionali</p>
+			<h2 class="ff-section-title"><span class="material-symbols-outlined">auto_awesome</span> Festival internazionali</h2>
+			<p class="ff-section-subtitle">I festival letterari che meritano un viaggio</p>
+		</div>
+
+		<div class="ff-grid">
+
+			<a href="#" class="ff-card" data-type="festival" data-country="estero" data-month="8">
+				<div class="ff-card__img">
+					<div class="ff-card__img-placeholder" style="background:linear-gradient(135deg,#9467bd,#0d1321);">Edinburgh International Book Festival</div>
+					<span class="ff-card__type-badge ff-badge--festival">Festival</span>
+					<div class="ff-card__date-ribbon"><span class="ff-card__date-day">9–25</span><span class="ff-card__date-month">Ago</span></div>
+				</div>
+				<div class="ff-card__body">
+					<span class="ff-card__location"><span class="material-symbols-outlined">location_on</span> Edimburgo, Scozia</span>
+					<h3 class="ff-card__name">Edinburgh International Book Festival</h3>
+					<p class="ff-card__desc">Il più grande festival letterario del mondo. Due settimane di eventi nei giardini di Charlotte Square, dove ogni anno si riunisce il meglio della letteratura globale.</p>
+					<div class="ff-card__meta">
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">calendar_month</span> 9–25 agosto</span>
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">groups</span> 250.000</span>
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">event</span> 800+ eventi</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="ff-card" data-type="festival" data-country="estero" data-month="5">
+				<div class="ff-card__img">
+					<div class="ff-card__img-placeholder" style="background:linear-gradient(135deg,#5a9a7a,#748cab);">Hay Festival</div>
+					<span class="ff-card__type-badge ff-badge--festival">Festival</span>
+					<div class="ff-card__date-ribbon"><span class="ff-card__date-day">22–1</span><span class="ff-card__date-month">Mag-Giu</span></div>
+				</div>
+				<div class="ff-card__body">
+					<span class="ff-card__location"><span class="material-symbols-outlined">location_on</span> Hay-on-Wye, Galles</span>
+					<h3 class="ff-card__name">Hay Festival</h3>
+					<p class="ff-card__desc">Nel villaggio gallese con più librerie che pub. Bill Clinton lo definì un luogo dove le persone cambiano il mondo attraverso le idee.</p>
+					<div class="ff-card__meta">
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">calendar_month</span> 22 mag – 1 giu</span>
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">groups</span> 100.000</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="ff-card" data-type="festival" data-country="estero" data-month="11">
+				<div class="ff-card__img">
+					<div class="ff-card__img-placeholder" style="background:linear-gradient(135deg,#e07a5f,#3e5c76);">Guadalajara Book Fair</div>
+					<span class="ff-card__type-badge ff-badge--festival">Festival</span>
+					<div class="ff-card__date-ribbon"><span class="ff-card__date-day">29–7</span><span class="ff-card__date-month">Nov-Dic</span></div>
+				</div>
+				<div class="ff-card__body">
+					<span class="ff-card__location"><span class="material-symbols-outlined">location_on</span> Guadalajara, Messico</span>
+					<h3 class="ff-card__name">FIL Guadalajara</h3>
+					<p class="ff-card__desc">La più grande fiera del libro in lingua spagnola e la seconda al mondo per pubblico. Punto d'incontro dell'editoria latinoamericana con il resto del mondo.</p>
+					<div class="ff-card__meta">
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">calendar_month</span> 29 nov – 7 dic</span>
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">groups</span> 800.000</span>
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">translate</span> Lingua spagnola</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="ff-card" data-type="festival" data-country="estero" data-month="1">
+				<div class="ff-card__img">
+					<div class="ff-card__img-placeholder" style="background:linear-gradient(135deg,#5a8aab,#9467bd);">Jaipur Literature Festival</div>
+					<span class="ff-card__type-badge ff-badge--festival">Festival</span>
+					<div class="ff-card__date-ribbon"><span class="ff-card__date-day">23–27</span><span class="ff-card__date-month">Gen</span></div>
+				</div>
+				<div class="ff-card__body">
+					<span class="ff-card__location"><span class="material-symbols-outlined">location_on</span> Jaipur, India</span>
+					<h3 class="ff-card__name">Jaipur Literature Festival</h3>
+					<p class="ff-card__desc">Il più grande festival letterario gratuito del mondo, nel cuore del Rajasthan. Cinque giorni di dialoghi tra autori indiani e internazionali nel Diggi Palace.</p>
+					<div class="ff-card__meta">
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">calendar_month</span> 23–27 gennaio</span>
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">groups</span> 400.000</span>
+						<span class="ff-card__meta-item"><span class="material-symbols-outlined">sell</span> Gratuito</span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CTA BANNER
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface">
+	<div class="ff-page">
+		<div class="ff-cta-banner">
+			<div class="ff-cta-banner__text">
+				<h3>Ci sei stato?</h3>
+				<p>Racconta la tua esperienza a un festival letterario nella community. I migliori report saranno pubblicati come articoli.</p>
+			</div>
+			<a href="demo-community.html" class="btn btn--accent">Scrivi un report</a>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ -->
+
+<footer class="site-footer">
+	<div style="max-width:80rem;margin:0 auto;padding:0 2rem;">
+		<div class="footer-main">
+			<div class="footer-brand">
+				<p class="site-title">Not My Cup of Read</p>
+				<p>Esploriamo la letteratura contemporanea attraverso podcast, recensioni e approfondimenti.</p>
+				<div class="footer-social">
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">podcasts</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">play_circle</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">photo_camera</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">send</span></a>
+				</div>
+			</div>
+			<div class="footer-col">
+				<h4>ESPLORA</h4>
+				<ul>
+					<li><a href="demo-recensioni.html">Recensioni</a></li>
+					<li><a href="demo-approfondimenti.html">Approfondimenti</a></li>
+					<li><a href="demo-podcast.html">Podcast</a></li>
+					<li><a href="demo-libri.html">Libri</a></li>
+					<li><a href="demo-autori.html">Autori</a></li>
+					<li><a href="demo-librerie.html">Luoghi</a></li>
+					<li><a href="demo-eventi.html">Timeline</a></li>
+					<li><a href="demo-calendario.html">Calendario</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>PROGETTO</h4>
+				<ul>
+					<li><a href="demo-chi-siamo.html">Chi siamo</a></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Contatti</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>NEWSLETTER</h4>
+				<p style="font-size:0.875rem;margin-bottom:1rem;opacity:0.75;">Ricevi le nostre selezioni editoriali.</p>
+				<div class="newsletter-form">
+					<input type="email" placeholder="La tua email" style="background:rgba(255,255,255,0.05);color:#fff;">
+					<button class="btn btn--teal btn--small">Iscriviti</button>
+				</div>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<span>&copy; 2026 Not My Cup of Read.</span>
+			<div class="footer-bottom-links">
+				<a href="#">Privacy Policy</a>
+				<a href="#">Cookie Policy</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════════ -->
+<script>
+(function() {
+	'use strict';
+
+	/* ── Filter buttons ── */
+	var filters = document.querySelectorAll('.ff-filter');
+	var cards = document.querySelectorAll('.ff-card');
+
+	filters.forEach(function(btn) {
+		btn.addEventListener('click', function() {
+			var filter = this.getAttribute('data-filter');
+
+			filters.forEach(function(f) { f.classList.remove('active'); });
+			this.classList.add('active');
+
+			cards.forEach(function(card) {
+				var type = card.getAttribute('data-type');
+				var country = card.getAttribute('data-country');
+				if (filter === 'tutti' ||
+					filter === type ||
+					filter === country) {
+					card.style.display = '';
+				} else {
+					card.style.display = 'none';
+				}
+			});
+		});
+	});
+
+})();
+</script>
+
+<script>
+(function() {
+	'use strict';
+
+	var EVENTS = [
+		// Fiere italiane
+		{ date: '2026-01-15', type: 'fiera', title: 'Roma Libro', desc: 'Fiera del libro di Roma, Fiera di Roma. Editori, autori e lettori si incontrano nella capitale.' },
+		{ date: '2026-03-30', type: 'fiera', title: 'Bologna Children\'s Book Fair', desc: 'La più importante fiera internazionale dell\'editoria per ragazzi. Bologna, quartiere fieristico.' },
+		{ date: '2026-04-10', type: 'fiera', title: 'Fiera del Libro di Bologna', desc: 'Padiglione dedicato alla narrativa adulta, con autori italiani e internazionali.' },
+		{ date: '2026-05-14', type: 'fiera', title: 'Salone del Libro — Torino', desc: 'Il più grande evento editoriale italiano. Lingotto Fiere, Torino. 5 giorni di incontri, presentazioni e cultura.' },
+		{ date: '2026-05-15', type: 'fiera', title: 'Salone del Libro — Torino', desc: 'Secondo giorno del Salone. Panel, firmacopie e incontri con gli autori.' },
+		{ date: '2026-05-16', type: 'fiera', title: 'Salone del Libro — Torino', desc: 'Terzo giorno del Salone. Workshop e presentazioni editoriali.' },
+		{ date: '2026-12-04', type: 'fiera', title: 'Più Libri Più Liberi — Roma', desc: 'Fiera nazionale della piccola e media editoria. Roma EUR, La Nuvola.' },
+		{ date: '2026-12-05', type: 'fiera', title: 'Più Libri Più Liberi — Roma', desc: 'Secondo giorno della fiera della piccola editoria a Roma.' },
+		// Fiere internazionali
+		{ date: '2026-03-10', type: 'fiera', title: 'London Book Fair', desc: 'Olympia London. Uno dei principali appuntamenti dell\'industria editoriale mondiale.' },
+		{ date: '2026-03-20', type: 'fiera', title: 'Salon du Livre — Paris', desc: 'Il Salone del libro di Parigi, punto di riferimento per l\'editoria francofona.' },
+		{ date: '2026-10-14', type: 'fiera', title: 'Frankfurter Buchmesse', desc: 'La più grande fiera del libro al mondo. Francoforte, 5 giorni di business editoriale internazionale.' },
+		{ date: '2026-10-15', type: 'fiera', title: 'Frankfurter Buchmesse', desc: 'Secondo giorno della Buchmesse. Incontri B2B e presentazioni internazionali.' },
+		// Festival italiani
+		{ date: '2026-06-15', type: 'festival', title: 'La Milanesiana', desc: 'Festival itinerante di letteratura, musica e cinema ideato da Elisabetta Sgarbi. Milano e altre città.' },
+		{ date: '2026-07-03', type: 'festival', title: 'Festival della Mente — Sarzana', desc: 'Il primo festival europeo dedicato alla creatività e alla nascita delle idee.' },
+		{ date: '2026-09-09', type: 'festival', title: 'Festivaletteratura — Mantova', desc: 'Cinque giorni di incontri con autori da tutto il mondo nelle piazze e nei palazzi di Mantova.' },
+		{ date: '2026-09-10', type: 'festival', title: 'Festivaletteratura — Mantova', desc: 'Secondo giorno del Festivaletteratura. Letture, spettacoli e laboratori.' },
+		{ date: '2026-09-17', type: 'festival', title: 'pordenonelegge', desc: 'Festa del libro con gli autori. Pordenone diventa un grande salotto letterario a cielo aperto.' },
+		{ date: '2026-10-29', type: 'festival', title: 'Lucca Comics & Games', desc: 'Il più grande festival europeo del fumetto, gioco e narrativa pop. Lucca, centro storico.' },
+		{ date: '2026-10-30', type: 'festival', title: 'Lucca Comics & Games', desc: 'Secondo giorno di Lucca Comics. Cosplay, incontri e anteprime editoriali.' },
+		// Festival internazionali
+		{ date: '2026-05-21', type: 'festival', title: 'Hay Festival — Wales', desc: 'Il festival letterario più prestigioso del Regno Unito. Hay-on-Wye, Galles.' },
+		{ date: '2026-08-15', type: 'festival', title: 'Edinburgh Book Festival', desc: 'Il più grande festival del libro al mondo. Charlotte Square Gardens, Edimburgo.' },
+		{ date: '2026-08-16', type: 'festival', title: 'Edinburgh Book Festival', desc: 'Secondo giorno del festival di Edimburgo. Readings e panel internazionali.' },
+		{ date: '2026-11-28', type: 'festival', title: 'FIL Guadalajara', desc: 'Feria Internacional del Libro. Il più grande evento editoriale in lingua spagnola.' },
+		{ date: '2026-01-25', type: 'festival', title: 'Jaipur Literature Festival', desc: 'Il più grande festival letterario gratuito al mondo. Jaipur, India.' },
+		{ date: '2026-02-15', type: 'festival', title: 'Festival della Letteratura di Mantova (winter)', desc: 'Anteprima invernale del Festivaletteratura con incontri selezionati.' },
+		{ date: '2026-04-18', type: 'festival', title: 'Tempo di Libri — Milano', desc: 'Fiera del libro di Milano, con focus su editoria indipendente e nuovi autori.' },
+		{ date: '2026-06-20', type: 'festival', title: 'Taobuk — Taormina', desc: 'Festival letterario internazionale nel teatro antico di Taormina.' },
+		{ date: '2026-07-10', type: 'festival', title: 'Letterature — Roma', desc: 'Festival internazionale nella Basilica di Massenzio. Autori leggono brani inediti.' },
+		{ date: '2026-08-28', type: 'festival', title: 'Festival della Mente — Sarzana', desc: 'Seconda edizione autunnale del festival dedicato alla creatività.' },
+		{ date: '2026-11-10', type: 'festival', title: 'BookCity Milano', desc: 'Quattro giorni di eventi diffusi in tutta Milano. Presentazioni, reading e laboratori.' },
+		{ date: '2026-11-11', type: 'festival', title: 'BookCity Milano', desc: 'Secondo giorno di BookCity. Incontri nelle librerie e nelle biblioteche milanesi.' }
+	];
+
+	var currentYear = 2026;
+	var currentMonth = 2;
+	var activeFilters = { fiera: true, festival: true };
+
+	var MONTHS_IT = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+	var DAYS_IT = ['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];
+	var TYPE_LABELS = { fiera: 'Fiera', festival: 'Festival' };
+	var TYPE_ICONS = { fiera: 'store', festival: 'celebration' };
+
+	var grid = document.getElementById('calGrid');
+	var monthLabel = document.getElementById('calMonth');
+	var detailPanel = document.getElementById('calDetail');
+	var detailType = document.getElementById('detailType');
+	var detailTitle = document.getElementById('detailTitle');
+	var detailDate = document.getElementById('detailDate');
+	var detailDesc = document.getElementById('detailDesc');
+
+	function render() {
+		monthLabel.textContent = MONTHS_IT[currentMonth] + ' ' + currentYear;
+		var firstDay = new Date(currentYear, currentMonth, 1).getDay();
+		firstDay = firstDay === 0 ? 6 : firstDay - 1;
+		var daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+		var daysInPrev = new Date(currentYear, currentMonth, 0).getDate();
+		var today = new Date();
+		var todayStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+		var html = '';
+		for (var d = 0; d < 7; d++) { html += '<div class="cal-grid__head">' + DAYS_IT[d] + '</div>'; }
+		for (var p = firstDay - 1; p >= 0; p--) {
+			html += '<div class="cal-day cal-day--outside"><span class="cal-day__number">' + (daysInPrev - p) + '</span><div class="cal-day__events"></div></div>';
+		}
+		for (var i = 1; i <= daysInMonth; i++) {
+			var dateStr = currentYear + '-' + String(currentMonth + 1).padStart(2, '0') + '-' + String(i).padStart(2, '0');
+			var isToday = dateStr === todayStr;
+			var cls = 'cal-day' + (isToday ? ' cal-day--today' : '');
+			var dayEvents = EVENTS.filter(function(ev) { return ev.date === dateStr; });
+			var evHtml = '';
+			for (var e = 0; e < dayEvents.length; e++) {
+				var ev = dayEvents[e];
+				if (!activeFilters[ev.type]) continue;
+				evHtml += '<div class="cal-event cal-event--' + ev.type + '" data-idx="' + EVENTS.indexOf(ev) + '">'
+					+ '<span class="material-symbols-outlined cal-event__icon">' + TYPE_ICONS[ev.type] + '</span>'
+					+ ev.title.substring(0, 25) + '</div>';
+			}
+			html += '<div class="' + cls + '"><span class="cal-day__number">' + i + '</span><div class="cal-day__events">' + evHtml + '</div></div>';
+		}
+		var totalCells = firstDay + daysInMonth;
+		var remaining = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+		for (var n = 1; n <= remaining; n++) {
+			html += '<div class="cal-day cal-day--outside"><span class="cal-day__number">' + n + '</span><div class="cal-day__events"></div></div>';
+		}
+		grid.innerHTML = html;
+		var pills = grid.querySelectorAll('.cal-event');
+		for (var pi = 0; pi < pills.length; pi++) {
+			pills[pi].addEventListener('click', function() {
+				var idx = parseInt(this.getAttribute('data-idx'));
+				showDetail(EVENTS[idx]);
+			});
+		}
+		detailPanel.classList.remove('active');
+	}
+
+	function showDetail(ev) {
+		var parts = ev.date.split('-');
+		var day = parseInt(parts[2]);
+		var monthName = MONTHS_IT[parseInt(parts[1]) - 1];
+		detailType.textContent = TYPE_LABELS[ev.type];
+		detailType.className = 'cal-detail__type cal-detail__type--' + ev.type;
+		detailTitle.textContent = ev.title;
+		detailDate.innerHTML = '<span class="material-symbols-outlined" style="font-size:1rem;vertical-align:middle;margin-right:0.25rem;">calendar_today</span>' + day + ' ' + monthName + ' ' + parts[0];
+		detailDesc.textContent = ev.desc;
+		detailPanel.classList.add('active');
+		detailPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+	}
+
+	document.getElementById('calPrev').addEventListener('click', function() {
+		currentMonth--;
+		if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+		render();
+	});
+	document.getElementById('calNext').addEventListener('click', function() {
+		currentMonth++;
+		if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+		render();
+	});
+	document.getElementById('calToday').addEventListener('click', function() {
+		var today = new Date();
+		currentYear = today.getFullYear();
+		currentMonth = today.getMonth();
+		render();
+	});
+	document.getElementById('detailClose').addEventListener('click', function() {
+		detailPanel.classList.remove('active');
+	});
+	var chips = document.querySelectorAll('.cal-chip');
+	for (var ci = 0; ci < chips.length; ci++) {
+		chips[ci].addEventListener('click', function() {
+			var type = this.getAttribute('data-type');
+			activeFilters[type] = !activeFilters[type];
+			this.classList.toggle('inactive');
+			render();
+		});
+	}
+	render();
+})();
+</script>
+
+</body>
+</html>

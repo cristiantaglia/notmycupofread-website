@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Librerie — Luoghi — Not My Cup of Read</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Newsreader:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<style>
+/* ═══════════════════════════════════════════
+   LIBRERIE — Listing nazionale
+   ═══════════════════════════════════════════ */
+
+.lb-page { max-width: 80rem; margin: 0 auto; padding: 0 2rem; }
+
+/* ── Hero ── */
+.lb-hero {
+	position: relative;
+	min-height: 380px;
+	display: flex;
+	align-items: flex-end;
+	overflow: hidden;
+	border-radius: var(--radius-lg);
+	margin-bottom: 3rem;
+}
+
+.lb-hero__bg {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(135deg, #1d2d44 0%, #3e5c76 40%, #e07a5f 100%);
+}
+
+.lb-hero__bg::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(to top, rgba(13,19,33,0.9) 0%, rgba(13,19,33,0.35) 50%, transparent 100%);
+}
+
+.lb-hero__content {
+	position: relative;
+	z-index: 1;
+	padding: 3rem;
+	width: 100%;
+}
+
+.lb-hero__breadcrumb {
+	font-size: 0.75rem;
+	color: rgba(240,235,216,0.6);
+	margin-bottom: 0.75rem;
+}
+
+.lb-hero__breadcrumb a { color: var(--c-accent); text-decoration: none; }
+.lb-hero__breadcrumb a:hover { text-decoration: underline; }
+
+.lb-hero__title {
+	font-family: var(--font-headline);
+	font-size: clamp(2.5rem, 5vw, 4rem);
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-surface);
+	margin: 0 0 0.5rem;
+	line-height: 1.1;
+}
+
+.lb-hero__subtitle {
+	font-size: 1.0625rem;
+	color: rgba(240,235,216,0.7);
+	margin: 0 0 1.5rem;
+	max-width: 40rem;
+	line-height: 1.6;
+}
+
+.lb-hero__stats {
+	display: flex;
+	gap: 2rem;
+	flex-wrap: wrap;
+}
+
+.lb-hero__stat-value {
+	font-family: var(--font-headline);
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: var(--c-accent);
+	display: block;
+	line-height: 1.2;
+}
+
+.lb-hero__stat-label {
+	font-size: 0.6875rem;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: rgba(240,235,216,0.5);
+}
+
+/* ── Filters ── */
+.lb-filters {
+	display: flex;
+	justify-content: center;
+	gap: 0.5rem;
+	flex-wrap: wrap;
+	padding: 0 0 2.5rem;
+}
+
+.lb-filter {
+	padding: 0.5rem 1.25rem;
+	font-size: 0.8125rem;
+	font-weight: 600;
+	border-radius: var(--radius-full);
+	border: 1px solid var(--c-surface-container-high);
+	background: transparent;
+	color: var(--c-on-surface-variant);
+	cursor: pointer;
+	transition: all 0.2s;
+}
+
+.lb-filter:hover { border-color: var(--c-accent); color: var(--c-accent); }
+.lb-filter.active { background: var(--c-accent); border-color: var(--c-accent); color: #fff; }
+
+/* ── Section header ── */
+.lb-section-header { margin-bottom: 2rem; }
+
+.lb-section-overline {
+	font-size: 0.6875rem;
+	font-weight: 700;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: var(--c-accent);
+	margin-bottom: 0.35rem;
+}
+
+.lb-section-title {
+	font-family: var(--font-headline);
+	font-size: 1.75rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	margin: 0;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.lb-section-title .material-symbols-outlined { color: var(--c-accent); }
+
+.lb-section-subtitle {
+	font-size: 0.9375rem;
+	color: var(--c-on-surface-variant);
+	margin: 0.35rem 0 0;
+	line-height: 1.5;
+}
+
+/* ── Featured libreria ── */
+.lb-featured {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	text-decoration: none;
+	transition: border-color 0.2s, box-shadow 0.2s;
+	margin-bottom: 2.5rem;
+}
+
+.lb-featured:hover {
+	border-color: var(--c-accent);
+	box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+}
+
+.lb-featured__visual {
+	min-height: 320px;
+	position: relative;
+	overflow: hidden;
+}
+
+.lb-featured__visual-placeholder {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.6875rem;
+	color: rgba(255,255,255,0.12);
+}
+
+.lb-featured__badge {
+	position: absolute;
+	top: 1rem;
+	left: 1rem;
+	display: flex;
+	align-items: center;
+	gap: 0.3rem;
+	padding: 0.3rem 0.75rem;
+	border-radius: var(--radius-full);
+	background: var(--c-accent);
+	color: #fff;
+	font-size: 0.625rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.lb-featured__badge .material-symbols-outlined { font-size: 0.85rem; }
+
+.lb-featured__body {
+	padding: 2.5rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.lb-featured__overline {
+	font-size: 0.625rem;
+	font-weight: 700;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: var(--c-accent);
+	margin-bottom: 0.5rem;
+}
+
+.lb-featured__title {
+	font-family: var(--font-headline);
+	font-size: 1.75rem;
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-on-surface);
+	margin: 0 0 0.35rem;
+	line-height: 1.2;
+}
+
+.lb-featured__city {
+	font-size: 0.8125rem;
+	color: var(--c-accent);
+	font-weight: 600;
+	margin: 0 0 0.75rem;
+}
+
+.lb-featured__desc {
+	font-size: 0.9375rem;
+	color: var(--c-on-surface-variant);
+	margin: 0 0 1.25rem;
+	line-height: 1.65;
+}
+
+.lb-featured__tags {
+	display: flex;
+	gap: 0.4rem;
+	flex-wrap: wrap;
+	margin-bottom: 1rem;
+}
+
+.lb-tag {
+	font-size: 0.625rem;
+	font-weight: 600;
+	padding: 0.2rem 0.55rem;
+	border-radius: var(--radius-full);
+	background: var(--c-primary-container);
+	color: var(--c-surface);
+}
+
+.lb-featured__cta {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	font-size: 0.875rem;
+	font-weight: 600;
+	color: var(--c-accent);
+}
+
+.lb-featured__cta .material-symbols-outlined { font-size: 1rem; transition: transform 0.2s; }
+.lb-featured:hover .lb-featured__cta .material-symbols-outlined { transform: translateX(3px); }
+
+/* ── Card grid ── */
+.lb-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	gap: 1.5rem;
+}
+
+.lb-card {
+	display: flex;
+	flex-direction: column;
+	text-decoration: none;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.lb-card:hover {
+	border-color: var(--c-accent);
+	box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+	transform: translateY(-3px);
+}
+
+.lb-card__img {
+	aspect-ratio: 3/2;
+	overflow: hidden;
+	position: relative;
+}
+
+.lb-card__img-placeholder {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.6875rem;
+	color: rgba(255,255,255,0.15);
+}
+
+.lb-card__type-badge {
+	position: absolute;
+	top: 0.75rem;
+	left: 0.75rem;
+	font-size: 0.5625rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	padding: 0.2rem 0.6rem;
+	border-radius: var(--radius-full);
+	color: #fff;
+}
+
+.lb-badge--indipendente { background: var(--c-accent); }
+.lb-badge--antiquaria { background: #9467bd; }
+.lb-badge--specializzata { background: #5a8aab; }
+.lb-badge--catena { background: #5a9a7a; }
+.lb-badge--usato { background: #c4a35a; }
+
+.lb-card__nmcor-pick {
+	position: absolute;
+	top: 0.75rem;
+	right: 0.75rem;
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	background: var(--c-accent);
+	color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+}
+
+.lb-card__nmcor-pick .material-symbols-outlined { font-size: 0.875rem; }
+
+.lb-card__body {
+	padding: 1.25rem;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+.lb-card__city {
+	font-size: 0.625rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--c-accent);
+	margin-bottom: 0.25rem;
+}
+
+.lb-card__name {
+	font-family: var(--font-headline);
+	font-size: 1.0625rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	margin: 0 0 0.35rem;
+	line-height: 1.3;
+}
+
+.lb-card__desc {
+	font-size: 0.8125rem;
+	color: var(--c-on-surface-variant);
+	margin: 0 0 auto;
+	line-height: 1.55;
+	padding-bottom: 0.75rem;
+}
+
+.lb-card__footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+	padding-top: 0.75rem;
+	border-top: 1px solid var(--c-surface-container-high);
+	font-size: 0.6875rem;
+	color: var(--c-on-surface-variant);
+}
+
+.lb-card__address {
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+}
+
+.lb-card__address .material-symbols-outlined { font-size: 0.875rem; color: var(--c-accent); }
+
+.lb-card__tags {
+	display: flex;
+	gap: 0.3rem;
+	flex-wrap: wrap;
+	margin-bottom: 0.75rem;
+}
+
+.lb-card__tag {
+	font-size: 0.5625rem;
+	font-weight: 600;
+	padding: 0.15rem 0.45rem;
+	border-radius: var(--radius-full);
+	background: rgba(224,122,95,0.12);
+	color: var(--c-accent);
+}
+
+/* ── City group header ── */
+.lb-city-header {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	margin-bottom: 1.5rem;
+	padding-bottom: 0.75rem;
+	border-bottom: 1px solid var(--c-surface-container-high);
+}
+
+.lb-city-header__name {
+	font-family: var(--font-headline);
+	font-size: 1.25rem;
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-on-surface);
+	margin: 0;
+}
+
+.lb-city-header__count {
+	font-size: 0.6875rem;
+	font-weight: 600;
+	padding: 0.2rem 0.6rem;
+	border-radius: var(--radius-full);
+	background: var(--c-primary-container);
+	color: var(--c-surface);
+}
+
+.lb-city-header__link {
+	margin-left: auto;
+	font-size: 0.75rem;
+	font-weight: 600;
+	color: var(--c-accent);
+	text-decoration: none;
+	display: flex;
+	align-items: center;
+	gap: 0.2rem;
+}
+
+.lb-city-header__link:hover { text-decoration: underline; }
+.lb-city-header__link .material-symbols-outlined { font-size: 0.875rem; }
+
+/* ── CTA banner ── */
+.lb-cta-banner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 2rem;
+	padding: 2.5rem 3rem;
+	background: linear-gradient(135deg, var(--c-primary-container) 0%, #3e5c76 100%);
+	border-radius: var(--radius-lg);
+}
+
+.lb-cta-banner__text h3 {
+	font-family: var(--font-headline);
+	font-size: 1.375rem;
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-surface);
+	margin: 0 0 0.35rem;
+}
+
+.lb-cta-banner__text p {
+	font-size: 0.875rem;
+	color: rgba(240,235,216,0.7);
+	margin: 0;
+}
+
+.lb-cta-banner .btn { white-space: nowrap; }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+	.lb-featured { grid-template-columns: 1fr; }
+	.lb-featured__visual { min-height: 220px; }
+}
+
+@media (max-width: 600px) {
+	.lb-grid { grid-template-columns: 1fr; }
+	.lb-hero__stats { gap: 1.5rem; }
+	.lb-cta-banner { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header" id="siteHeader">
+	<div class="header-outer">
+		<div class="header-inner">
+			<div class="site-branding">
+				<div class="site-branding__icon">
+					<img src="assets/img/logo-nmcor.png" alt="NMCOR">
+				</div>
+				<h1 class="site-title"><a href="demo.html">Not My Cup of Read</a></h1>
+			</div>
+			<nav class="primary-nav" id="primaryNav">
+				<ul>
+					<li><a href="#">Articoli</a><ul class="sub-menu"><li><a href="demo-recensioni.html">Recensioni</a></li><li><a href="demo-approfondimenti.html">Approfondimenti</a></li><li><a href="demo-classifiche.html">Classifiche</a></li></ul></li>
+					<li><a href="#">Podcast</a><ul class="sub-menu"><li><a href="demo-podcast.html">Episodi</a></li><li><a href="demo-format.html">Format</a></li><li><a href="demo-dietro-le-quinte.html">Dietro le quinte</a></li></ul></li>
+					<li><a href="#">Biblioteca</a><ul class="sub-menu"><li><a href="demo-libri.html">Libri</a></li><li><a href="demo-autori.html">Autori</a></li></ul></li>
+					<li><a href="#">Luoghi</a><ul class="sub-menu"><li><a href="demo-librerie.html">La mappa del Lettore</a></li><li><a href="demo-luoghi-milano.html">Milano</a></li><li><a href="demo-itinerari.html">Itinerari letterari</a></li><li><a href="demo-luoghi-librerie.html">Librerie</a></li><li><a href="demo-luoghi-biblioteche.html">Biblioteche</a></li><li><a href="demo-luoghi-caffe.html">Caffè letterari</a></li><li><a href="demo-luoghi-spazi.html">Spazi culturali</a></li></ul></li>
+					<li><a href="#">Eventi</a><ul class="sub-menu"><li><a href="demo-eventi.html">Timeline</a></li><li><a href="demo-calendario.html">Calendario</a></li><li><a href="demo-fiere-festival.html">Fiere e Festival</a></li><li><a href="demo-premi-letterari.html">Premi letterari</a></li></ul></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Chi siamo</a><ul class="sub-menu"><li><a href="demo-chi-siamo.html">Lo studio &amp; gli host</a></li><li><a href="demo-ospiti-redazione.html">Gli ospiti &amp; la redazione</a></li><li><a href="demo-contatti.html">Contatti &amp; Collaborazioni</a></li></ul></li>
+				</ul>
+			</nav>
+			<div class="header-search">
+				<input type="text" placeholder="Cerca...">
+			</div>
+		</div>
+		<div class="header-extras">
+			<div class="header-social">
+				<a href="#" class="header-social__link" aria-label="YouTube">
+					<svg viewBox="0 0 24 24"><path d="M23.5 6.19a3 3 0 0 0-2.11-2.13C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.39.56A3 3 0 0 0 .5 6.19 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.81 3 3 0 0 0 2.11 2.13c1.89.56 9.39.56 9.39.56s7.5 0 9.39-.56a3 3 0 0 0 2.11-2.13A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.81ZM9.75 15.02V8.98L15.5 12l-5.75 3.02Z"/></svg>
+				</a>
+				<a href="#" class="header-social__link" aria-label="Spotify">
+					<svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.31a.75.75 0 0 1-1.03.25c-2.82-1.72-6.37-2.11-10.55-1.16a.75.75 0 1 1-.34-1.46c4.57-1.05 8.49-.6 11.67 1.34a.75.75 0 0 1 .25 1.03Zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.23-1.98-8.15-2.56-11.97-1.4a.94.94 0 1 1-.54-1.8c4.36-1.32 9.78-.68 13.49 1.6a.94.94 0 0 1 .31 1.29Zm.13-3.4C15.5 8.4 9 8.2 5.24 9.33a1.13 1.13 0 1 1-.65-2.16c4.33-1.3 11.52-1.05 16.07 1.68a1.13 1.13 0 0 1-1.56 1.79Z"/></svg>
+				</a>
+			</div>
+			<div class="header-auth">
+				<a href="demo-profilo.html" class="header-auth__btn"><span class="material-symbols-outlined">person</span> Cristian T.</a>
+			</div>
+			<button class="menu-toggle" id="menuToggle" aria-label="Menu">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</button>
+		</div>
+	</div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════ -->
+
+<div class="lb-page">
+
+	<div class="lb-hero">
+		<div class="lb-hero__bg"></div>
+		<div class="lb-hero__content">
+			<p class="lb-hero__breadcrumb"><a href="demo-librerie.html">Luoghi</a> / Librerie</p>
+			<h1 class="lb-hero__title">Librerie d'Italia</h1>
+			<p class="lb-hero__subtitle">Librerie indipendenti, antiquarie, specializzate e dell'usato: una mappa delle botteghe dove i libri trovano lettori e i lettori trovano casa.</p>
+			<div class="lb-hero__stats">
+				<div><span class="lb-hero__stat-value">42</span><span class="lb-hero__stat-label">Librerie</span></div>
+				<div><span class="lb-hero__stat-value">12</span><span class="lb-hero__stat-label">Città</span></div>
+				<div><span class="lb-hero__stat-value">5</span><span class="lb-hero__stat-label">Tipologie</span></div>
+				<div><span class="lb-hero__stat-value">16</span><span class="lb-hero__stat-label">NMCOR picks</span></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ── Filters ── -->
+	<div class="lb-filters">
+		<button class="lb-filter active" data-filter="tutti">Tutte</button>
+		<button class="lb-filter" data-filter="indipendente">Indipendenti</button>
+		<button class="lb-filter" data-filter="antiquaria">Antiquarie</button>
+		<button class="lb-filter" data-filter="specializzata">Specializzate</button>
+		<button class="lb-filter" data-filter="usato">Usato</button>
+	</div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════
+     FEATURED
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="lb-page">
+
+		<a href="#" class="lb-featured">
+			<div class="lb-featured__visual">
+				<div class="lb-featured__visual-placeholder" style="background:linear-gradient(135deg,#1d2d44 0%,#3e5c76 50%,#e07a5f 100%);">Gogol & Company — interno</div>
+				<span class="lb-featured__badge"><span class="material-symbols-outlined">verified</span> NMCOR Pick</span>
+			</div>
+			<div class="lb-featured__body">
+				<span class="lb-featured__overline">Libreria del mese</span>
+				<h2 class="lb-featured__title">Gogol & Company</h2>
+				<p class="lb-featured__city">Milano — Navigli</p>
+				<p class="lb-featured__desc">Più di una libreria: un laboratorio culturale lungo il Naviglio dove presentazioni, reading e caffè si mescolano tra scaffali curati con passione indipendente. Un punto di riferimento per chi cerca letteratura contemporanea fuori dai circuiti mainstream.</p>
+				<div class="lb-featured__tags">
+					<span class="lb-tag">Indipendente</span>
+					<span class="lb-tag">Caffè letterario</span>
+					<span class="lb-tag">Eventi</span>
+					<span class="lb-tag">Contemporanea</span>
+				</div>
+				<span class="lb-featured__cta">Scopri di più <span class="material-symbols-outlined">arrow_forward</span></span>
+			</div>
+		</a>
+
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     MILANO
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface" data-city="milano">
+	<div class="lb-page">
+
+		<div class="lb-city-header">
+			<h3 class="lb-city-header__name">Milano</h3>
+			<span class="lb-city-header__count">8 librerie</span>
+			<a href="demo-luoghi-milano.html" class="lb-city-header__link">Vedi città <span class="material-symbols-outlined">arrow_forward</span></a>
+		</div>
+
+		<div class="lb-grid">
+
+			<a href="#" class="lb-card" data-type="indipendente">
+				<div class="lb-card__img">
+					<div class="lb-card__img-placeholder" style="background:linear-gradient(135deg,#3e5c76,#748cab);">Gogol & Company</div>
+					<span class="lb-card__type-badge lb-badge--indipendente">Indipendente</span>
+					<span class="lb-card__nmcor-pick"><span class="material-symbols-outlined">verified</span></span>
+				</div>
+				<div class="lb-card__body">
+					<span class="lb-card__city">Milano — Navigli</span>
+					<h4 class="lb-card__name">Gogol & Company</h4>
+					<p class="lb-card__desc">Libreria indipendente con caffè, eventi settimanali e una selezione curata di narrativa contemporanea italiana e internazionale.</p>
+					<div class="lb-card__tags">
+						<span class="lb-card__tag">Contemporanea</span>
+						<span class="lb-card__tag">Caffè</span>
+						<span class="lb-card__tag">Eventi</span>
+					</div>
+					<div class="lb-card__footer">
+						<span class="lb-card__address"><span class="material-symbols-outlined">location_on</span> Via Savona 101</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="lb-card" data-type="indipendente">
+				<div class="lb-card__img">
+					<div class="lb-card__img-placeholder" style="background:linear-gradient(135deg,#1d2d44,#5a8aab);">Libreria Utopia</div>
+					<span class="lb-card__type-badge lb-badge--indipendente">Indipendente</span>
+					<span class="lb-card__nmcor-pick"><span class="material-symbols-outlined">verified</span></span>
+				</div>
+				<div class="lb-card__body">
+					<span class="lb-card__city">Milano — Porta Venezia</span>
+					<h4 class="lb-card__name">Libreria Utopia</h4>
+					<p class="lb-card__desc">Specializzata in narrativa di genere, fumetti d'autore e piccola editoria. Un rifugio per chi cerca titoli introvabili e consigli autentici.</p>
+					<div class="lb-card__tags">
+						<span class="lb-card__tag">Genere</span>
+						<span class="lb-card__tag">Fumetti</span>
+						<span class="lb-card__tag">Indie</span>
+					</div>
+					<div class="lb-card__footer">
+						<span class="lb-card__address"><span class="material-symbols-outlined">location_on</span> Via Lecco 18</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="lb-card" data-type="antiquaria">
+				<div class="lb-card__img">
+					<div class="lb-card__img-placeholder" style="background:linear-gradient(135deg,#748cab,#9467bd);">Libreria del Mondo Offeso</div>
+					<span class="lb-card__type-badge lb-badge--antiquaria">Antiquaria</span>
+				</div>
+				<div class="lb-card__body">
+					<span class="lb-card__city">Milano — Brera</span>
+					<h4 class="lb-card__name">Libreria del Mondo Offeso</h4>
+					<p class="lb-card__desc">Libri antichi e rari nel cuore di Brera. Prime edizioni, manoscritti e una collezione unica di letteratura italiana del Novecento.</p>
+					<div class="lb-card__tags">
+						<span class="lb-card__tag">Prime edizioni</span>
+						<span class="lb-card__tag">Novecento</span>
+					</div>
+					<div class="lb-card__footer">
+						<span class="lb-card__address"><span class="material-symbols-outlined">location_on</span> Via Fiori Chiari 26</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="lb-card" data-type="specializzata">
+				<div class="lb-card__img">
+					<div class="lb-card__img-placeholder" style="background:linear-gradient(135deg,#5a8aab,#3e5c76);">Open Milano</div>
+					<span class="lb-card__type-badge lb-badge--specializzata">Specializzata</span>
+					<span class="lb-card__nmcor-pick"><span class="material-symbols-outlined">verified</span></span>
+				</div>
+				<div class="lb-card__body">
+					<span class="lb-card__city">Milano — Isola</span>
+					<h4 class="lb-card__name">Open Milano</h4>
+					<p class="lb-card__desc">Design, architettura e fotografia: una libreria specializzata con spazio espositivo e workshop creativi nel quartiere Isola.</p>
+					<div class="lb-card__tags">
+						<span class="lb-card__tag">Design</span>
+						<span class="lb-card__tag">Fotografia</span>
+						<span class="lb-card__tag">Workshop</span>
+					</div>
+					<div class="lb-card__footer">
+						<span class="lb-card__address"><span class="material-symbols-outlined">location_on</span> Viale Monte Grappa 12</span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     ROMA
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark" data-city="roma">
+	<div class="lb-page">
+
+		<div class="lb-city-header">
+			<h3 class="lb-city-header__name">Roma</h3>
+			<span class="lb-city-header__count">6 librerie</span>
+		</div>
+
+		<div class="lb-grid">
+
+			<a href="#" class="lb-card" data-type="indipendente">
+				<div class="lb-card__img">
+					<div class="lb-card__img-placeholder" style="background:linear-gradient(135deg,#e07a5f,#3e5c76);">Altroquando</div>
+					<span class="lb-card__type-badge lb-badge--indipendente">Indipendente</span>
+					<span class="lb-card__nmcor-pick"><span class="material-symbols-outlined">verified</span></span>
+				</div>
+				<div class="lb-card__body">
+					<span class="lb-card__city">Roma — Trastevere</span>
+					<h4 class="lb-card__name">Altroquando</h4>
+					<p class="lb-card__desc">Tre piani di libri nel cuore di Trastevere. Narrativa, saggistica, fumetti e una terrazza dove leggere con vista sui tetti romani.</p>
+					<div class="lb-card__tags">
+						<span class="lb-card__tag">Narrativa</span>
+						<span class="lb-card__tag">Terrazza</span>
+					</div>
+					<div class="lb-card__footer">
+						<span class="lb-card__address"><span class="material-symbols-outlined">location_on</span> Via del Governo Vecchio 80</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="lb-card" data-type="indipendente">
+				<div class="lb-card__img">
+					<div class="lb-card__img-placeholder" style="background:linear-gradient(135deg,#1d2d44,#748cab);">Open Door Bookshop</div>
+					<span class="lb-card__type-badge lb-badge--indipendente">Indipendente</span>
+				</div>
+				<div class="lb-card__body">
+					<span class="lb-card__city">Roma — Trastevere</span>
+					<h4 class="lb-card__name">Open Door Bookshop</h4>
+					<p class="lb-card__desc">Libreria anglofona storica di Trastevere. Migliaia di titoli in inglese usati e nuovi, dall'atmosfera intima e accogliente.</p>
+					<div class="lb-card__tags">
+						<span class="lb-card__tag">Inglese</span>
+						<span class="lb-card__tag">Usato</span>
+					</div>
+					<div class="lb-card__footer">
+						<span class="lb-card__address"><span class="material-symbols-outlined">location_on</span> Via della Lungaretta 23</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="lb-card" data-type="antiquaria">
+				<div class="lb-card__img">
+					<div class="lb-card__img-placeholder" style="background:linear-gradient(135deg,#9467bd,#1d2d44);">Libreria Fahrenheit 451</div>
+					<span class="lb-card__type-badge lb-badge--antiquaria">Antiquaria</span>
+					<span class="lb-card__nmcor-pick"><span class="material-symbols-outlined">verified</span></span>
+				</div>
+				<div class="lb-card__body">
+					<span class="lb-card__city">Roma — Campo de' Fiori</span>
+					<h4 class="lb-card__name">Libreria Fahrenheit 451</h4>
+					<p class="lb-card__desc">Volumi rari, stampe d'epoca e mappe antiche a due passi da Campo de' Fiori. Un viaggio nel tempo per bibliofili appassionati.</p>
+					<div class="lb-card__tags">
+						<span class="lb-card__tag">Rari</span>
+						<span class="lb-card__tag">Stampe</span>
+						<span class="lb-card__tag">Mappe</span>
+					</div>
+					<div class="lb-card__footer">
+						<span class="lb-card__address"><span class="material-symbols-outlined">location_on</span> Piazza del Teatro di Pompeo 4</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="lb-card" data-type="specializzata">
+				<div class="lb-card__img">
+					<div class="lb-card__img-placeholder" style="background:linear-gradient(135deg,#5a8aab,#e07a5f);">Giufà</div>
+					<span class="lb-card__type-badge lb-badge--specializzata">Specializzata</span>
+				</div>
+				<div class="lb-card__body">
+					<span class="lb-card__city">Roma — San Lorenzo</span>
+					<h4 class="lb-card__name">Giufà Libreria Caffè</h4>
+					<p class="lb-card__desc">Letteratura mediterranea, poesia e piccola editoria nel quartiere universitario. Readings, caffè e aperitivi letterari ogni giovedì.</p>
+					<div class="lb-card__tags">
+						<span class="lb-card__tag">Poesia</span>
+						<span class="lb-card__tag">Mediterranea</span>
+						<span class="lb-card__tag">Caffè</span>
+					</div>
+					<div class="lb-card__footer">
+						<span class="lb-card__address"><span class="material-symbols-outlined">location_on</span> Via degli Aurunci 38</span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     TORINO
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface" data-city="torino">
+	<div class="lb-page">
+
+		<div class="lb-city-header">
+			<h3 class="lb-city-header__name">Torino</h3>
+			<span class="lb-city-header__count">5 librerie</span>
+		</div>
+
+		<div class="lb-grid">
+
+			<a href="#" class="lb-card" data-type="indipendente">
+				<div class="lb-card__img">
+					<div class="lb-card__img-placeholder" style="background:linear-gradient(135deg,#3e5c76,#5a9a7a);">Libreria Therese</div>
+					<span class="lb-card__type-badge lb-badge--indipendente">Indipendente</span>
+					<span class="lb-card__nmcor-pick"><span class="material-symbols-outlined">verified</span></span>
+				</div>
+				<div class="lb-card__body">
+					<span class="lb-card__city">Torino — San Salvario</span>
+					<h4 class="lb-card__name">Libreria Therese</h4>
+					<p class="lb-card__desc">Curata come il salotto di casa: narrativa contemporanea, illustrati e una sezione dedicata alle autrici che ha fatto scuola in città.</p>
+					<div class="lb-card__tags">
+						<span class="lb-card__tag">Contemporanea</span>
+						<span class="lb-card__tag">Illustrati</span>
+					</div>
+					<div class="lb-card__footer">
+						<span class="lb-card__address"><span class="material-symbols-outlined">location_on</span> Via Principe Tommaso 15</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="lb-card" data-type="usato">
+				<div class="lb-card__img">
+					<div class="lb-card__img-placeholder" style="background:linear-gradient(135deg,#c4a35a,#1d2d44);">Il Ponte sulla Dora</div>
+					<span class="lb-card__type-badge lb-badge--usato">Usato</span>
+					<span class="lb-card__nmcor-pick"><span class="material-symbols-outlined">verified</span></span>
+				</div>
+				<div class="lb-card__body">
+					<span class="lb-card__city">Torino — Aurora</span>
+					<h4 class="lb-card__name">Il Ponte sulla Dora</h4>
+					<p class="lb-card__desc">Cooperativa sociale che dà nuova vita ai libri usati. Migliaia di titoli a prezzi accessibili e un progetto di inclusione che fa bene al quartiere.</p>
+					<div class="lb-card__tags">
+						<span class="lb-card__tag">Usato</span>
+						<span class="lb-card__tag">Sociale</span>
+						<span class="lb-card__tag">Accessibile</span>
+					</div>
+					<div class="lb-card__footer">
+						<span class="lb-card__address"><span class="material-symbols-outlined">location_on</span> Via Pisa 46</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="lb-card" data-type="specializzata">
+				<div class="lb-card__img">
+					<div class="lb-card__img-placeholder" style="background:linear-gradient(135deg,#748cab,#3e5c76);">Libreria del Golem</div>
+					<span class="lb-card__type-badge lb-badge--specializzata">Specializzata</span>
+				</div>
+				<div class="lb-card__body">
+					<span class="lb-card__city">Torino — Quadrilatero</span>
+					<h4 class="lb-card__name">Libreria del Golem</h4>
+					<p class="lb-card__desc">Fantasy, fantascienza, horror e giochi di ruolo nel cuore del Quadrilatero Romano. Punto di ritrovo per la community geek torinese.</p>
+					<div class="lb-card__tags">
+						<span class="lb-card__tag">Fantasy</span>
+						<span class="lb-card__tag">Sci-fi</span>
+						<span class="lb-card__tag">GdR</span>
+					</div>
+					<div class="lb-card__footer">
+						<span class="lb-card__address"><span class="material-symbols-outlined">location_on</span> Via Carlo Alberto 26</span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     NAPOLI
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark" data-city="napoli">
+	<div class="lb-page">
+
+		<div class="lb-city-header">
+			<h3 class="lb-city-header__name">Napoli</h3>
+			<span class="lb-city-header__count">4 librerie</span>
+		</div>
+
+		<div class="lb-grid">
+
+			<a href="#" class="lb-card" data-type="indipendente">
+				<div class="lb-card__img">
+					<div class="lb-card__img-placeholder" style="background:linear-gradient(135deg,#0d1321,#e07a5f);">Libreria Iocisto</div>
+					<span class="lb-card__type-badge lb-badge--indipendente">Indipendente</span>
+					<span class="lb-card__nmcor-pick"><span class="material-symbols-outlined">verified</span></span>
+				</div>
+				<div class="lb-card__body">
+					<span class="lb-card__city">Napoli — Vomero</span>
+					<h4 class="lb-card__name">Libreria Iocisto</h4>
+					<p class="lb-card__desc">Nata dal crowdfunding di 500 cittadini quando la storica Guida del Vomero stava chiudendo. Una libreria che appartiene alla comunità.</p>
+					<div class="lb-card__tags">
+						<span class="lb-card__tag">Community</span>
+						<span class="lb-card__tag">Eventi</span>
+					</div>
+					<div class="lb-card__footer">
+						<span class="lb-card__address"><span class="material-symbols-outlined">location_on</span> Via Cimarosa 20</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="lb-card" data-type="antiquaria">
+				<div class="lb-card__img">
+					<div class="lb-card__img-placeholder" style="background:linear-gradient(135deg,#9467bd,#748cab);">Libreria Colonnese</div>
+					<span class="lb-card__type-badge lb-badge--antiquaria">Antiquaria</span>
+					<span class="lb-card__nmcor-pick"><span class="material-symbols-outlined">verified</span></span>
+				</div>
+				<div class="lb-card__body">
+					<span class="lb-card__city">Napoli — Centro storico</span>
+					<h4 class="lb-card__name">Libreria Colonnese</h4>
+					<p class="lb-card__desc">Dal 1953 a San Pietro a Majella: edizioni napoletane, prime stampe, fotografie d'epoca. Un tempio della memoria culturale partenopea.</p>
+					<div class="lb-card__tags">
+						<span class="lb-card__tag">Napoletana</span>
+						<span class="lb-card__tag">Storica</span>
+					</div>
+					<div class="lb-card__footer">
+						<span class="lb-card__address"><span class="material-symbols-outlined">location_on</span> Via San Pietro a Majella 32</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="lb-card" data-type="indipendente">
+				<div class="lb-card__img">
+					<div class="lb-card__img-placeholder" style="background:linear-gradient(135deg,#5a9a7a,#1d2d44);">Tamu</div>
+					<span class="lb-card__type-badge lb-badge--indipendente">Indipendente</span>
+				</div>
+				<div class="lb-card__body">
+					<span class="lb-card__city">Napoli — Quartieri Spagnoli</span>
+					<h4 class="lb-card__name">Tamu</h4>
+					<p class="lb-card__desc">Libreria indipendente nei Quartieri Spagnoli: postcoloniale, femminismo, narrativa dal Sud del mondo. Un presidio culturale e politico.</p>
+					<div class="lb-card__tags">
+						<span class="lb-card__tag">Postcoloniale</span>
+						<span class="lb-card__tag">Femminismo</span>
+					</div>
+					<div class="lb-card__footer">
+						<span class="lb-card__address"><span class="material-symbols-outlined">location_on</span> Via Santa Chiara 10</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="lb-card" data-type="usato">
+				<div class="lb-card__img">
+					<div class="lb-card__img-placeholder" style="background:linear-gradient(135deg,#c4a35a,#3e5c76);">Dante & Descartes</div>
+					<span class="lb-card__type-badge lb-badge--usato">Usato</span>
+				</div>
+				<div class="lb-card__body">
+					<span class="lb-card__city">Napoli — Porto</span>
+					<h4 class="lb-card__name">Dante & Descartes</h4>
+					<p class="lb-card__desc">Libri usati, fuori catalogo e remainders vicino al porto. Un labirinto di scaffali dove perdersi è il miglior modo per trovare tesori.</p>
+					<div class="lb-card__tags">
+						<span class="lb-card__tag">Usato</span>
+						<span class="lb-card__tag">Fuori catalogo</span>
+					</div>
+					<div class="lb-card__footer">
+						<span class="lb-card__address"><span class="material-symbols-outlined">location_on</span> Via Mezzocannone 75</span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FIRENZE + BOLOGNA
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface" data-city="firenze">
+	<div class="lb-page">
+
+		<div class="lb-city-header">
+			<h3 class="lb-city-header__name">Firenze</h3>
+			<span class="lb-city-header__count">3 librerie</span>
+		</div>
+
+		<div class="lb-grid">
+
+			<a href="#" class="lb-card" data-type="indipendente">
+				<div class="lb-card__img">
+					<div class="lb-card__img-placeholder" style="background:linear-gradient(135deg,#5a9a7a,#748cab);">Todo Modo</div>
+					<span class="lb-card__type-badge lb-badge--indipendente">Indipendente</span>
+					<span class="lb-card__nmcor-pick"><span class="material-symbols-outlined">verified</span></span>
+				</div>
+				<div class="lb-card__body">
+					<span class="lb-card__city">Firenze — Santa Croce</span>
+					<h4 class="lb-card__name">Todo Modo</h4>
+					<p class="lb-card__desc">Libreria, wine bar e spazio eventi nel cuore di Firenze. Festival letterari, degustazioni e un catalogo che privilegia la qualità sulla quantità.</p>
+					<div class="lb-card__tags">
+						<span class="lb-card__tag">Wine bar</span>
+						<span class="lb-card__tag">Eventi</span>
+					</div>
+					<div class="lb-card__footer">
+						<span class="lb-card__address"><span class="material-symbols-outlined">location_on</span> Via dei Fossi 15</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="lb-card" data-type="antiquaria">
+				<div class="lb-card__img">
+					<div class="lb-card__img-placeholder" style="background:linear-gradient(135deg,#9467bd,#0d1321);">Libreria Gonnelli</div>
+					<span class="lb-card__type-badge lb-badge--antiquaria">Antiquaria</span>
+				</div>
+				<div class="lb-card__body">
+					<span class="lb-card__city">Firenze — Centro</span>
+					<h4 class="lb-card__name">Libreria Gonnelli</h4>
+					<p class="lb-card__desc">Fondata nel 1875: aste di libri antichi, autografi e stampe. Tra le più prestigiose librerie antiquarie d'Italia.</p>
+					<div class="lb-card__tags">
+						<span class="lb-card__tag">Aste</span>
+						<span class="lb-card__tag">Autografi</span>
+					</div>
+					<div class="lb-card__footer">
+						<span class="lb-card__address"><span class="material-symbols-outlined">location_on</span> Via Ricasoli 6</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="lb-card" data-type="usato">
+				<div class="lb-card__img">
+					<div class="lb-card__img-placeholder" style="background:linear-gradient(135deg,#c4a35a,#5a8aab);">Libreria Café La Cité</div>
+					<span class="lb-card__type-badge lb-badge--usato">Usato</span>
+					<span class="lb-card__nmcor-pick"><span class="material-symbols-outlined">verified</span></span>
+				</div>
+				<div class="lb-card__body">
+					<span class="lb-card__city">Firenze — Oltrarno</span>
+					<h4 class="lb-card__name">Libreria Café La Cité</h4>
+					<p class="lb-card__desc">Libri usati, concerti jazz, mostre fotografiche e aperitivi nell'Oltrarno. Un incrocio perfetto tra cultura underground e accoglienza fiorentina.</p>
+					<div class="lb-card__tags">
+						<span class="lb-card__tag">Usato</span>
+						<span class="lb-card__tag">Jazz</span>
+						<span class="lb-card__tag">Mostre</span>
+					</div>
+					<div class="lb-card__footer">
+						<span class="lb-card__address"><span class="material-symbols-outlined">location_on</span> Borgo San Frediano 20</span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+
+	</div>
+</section>
+
+<section class="section section--dark" data-city="bologna">
+	<div class="lb-page">
+
+		<div class="lb-city-header">
+			<h3 class="lb-city-header__name">Bologna</h3>
+			<span class="lb-city-header__count">3 librerie</span>
+		</div>
+
+		<div class="lb-grid">
+
+			<a href="#" class="lb-card" data-type="indipendente">
+				<div class="lb-card__img">
+					<div class="lb-card__img-placeholder" style="background:linear-gradient(135deg,#3e5c76,#e07a5f);">Modo Infoshop</div>
+					<span class="lb-card__type-badge lb-badge--indipendente">Indipendente</span>
+					<span class="lb-card__nmcor-pick"><span class="material-symbols-outlined">verified</span></span>
+				</div>
+				<div class="lb-card__body">
+					<span class="lb-card__city">Bologna — Zona universitaria</span>
+					<h4 class="lb-card__name">Modo Infoshop</h4>
+					<p class="lb-card__desc">Libreria, galleria, caffè e spazio per presentazioni nel cuore della zona universitaria. Il punto di riferimento culturale di Bologna.</p>
+					<div class="lb-card__tags">
+						<span class="lb-card__tag">Galleria</span>
+						<span class="lb-card__tag">Caffè</span>
+					</div>
+					<div class="lb-card__footer">
+						<span class="lb-card__address"><span class="material-symbols-outlined">location_on</span> Via Mascarella 24/b</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="lb-card" data-type="specializzata">
+				<div class="lb-card__img">
+					<div class="lb-card__img-placeholder" style="background:linear-gradient(135deg,#5a8aab,#1d2d44);">Libreria delle Donne</div>
+					<span class="lb-card__type-badge lb-badge--specializzata">Specializzata</span>
+					<span class="lb-card__nmcor-pick"><span class="material-symbols-outlined">verified</span></span>
+				</div>
+				<div class="lb-card__body">
+					<span class="lb-card__city">Bologna — Centro</span>
+					<h4 class="lb-card__name">Libreria delle Donne</h4>
+					<p class="lb-card__desc">Letteratura femminile, studi di genere e saggistica femminista. Un presidio culturale che da trent'anni promuove le voci delle autrici.</p>
+					<div class="lb-card__tags">
+						<span class="lb-card__tag">Femminile</span>
+						<span class="lb-card__tag">Genere</span>
+					</div>
+					<div class="lb-card__footer">
+						<span class="lb-card__address"><span class="material-symbols-outlined">location_on</span> Via San Felice 16/a</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="lb-card" data-type="usato">
+				<div class="lb-card__img">
+					<div class="lb-card__img-placeholder" style="background:linear-gradient(135deg,#c4a35a,#748cab);">Nanni</div>
+					<span class="lb-card__type-badge lb-badge--usato">Usato</span>
+				</div>
+				<div class="lb-card__body">
+					<span class="lb-card__city">Bologna — Centro</span>
+					<h4 class="lb-card__name">Libreria Nanni</h4>
+					<p class="lb-card__desc">Dal 1825, la più antica libreria di Bologna. Libri usati e antichi sotto i portici, con un'atmosfera che è già letteratura.</p>
+					<div class="lb-card__tags">
+						<span class="lb-card__tag">Storica</span>
+						<span class="lb-card__tag">Antichi</span>
+					</div>
+					<div class="lb-card__footer">
+						<span class="lb-card__address"><span class="material-symbols-outlined">location_on</span> Via de' Musei 8</span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CTA BANNER
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface">
+	<div class="lb-page">
+		<div class="lb-cta-banner">
+			<div class="lb-cta-banner__text">
+				<h3>Segnala una libreria</h3>
+				<p>Conosci una libreria che dovremmo aggiungere? Raccontacela nella community.</p>
+			</div>
+			<a href="demo-community.html" class="btn btn--accent">Segnala</a>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ -->
+
+<footer class="site-footer">
+	<div style="max-width:80rem;margin:0 auto;padding:0 2rem;">
+		<div class="footer-main">
+			<div class="footer-brand">
+				<p class="site-title">Not My Cup of Read</p>
+				<p>Esploriamo la letteratura contemporanea attraverso podcast, recensioni e approfondimenti.</p>
+				<div class="footer-social">
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">podcasts</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">play_circle</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">photo_camera</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">send</span></a>
+				</div>
+			</div>
+			<div class="footer-col">
+				<h4>ESPLORA</h4>
+				<ul>
+					<li><a href="demo-recensioni.html">Recensioni</a></li>
+					<li><a href="demo-approfondimenti.html">Approfondimenti</a></li>
+					<li><a href="demo-podcast.html">Podcast</a></li>
+					<li><a href="demo-libri.html">Libri</a></li>
+					<li><a href="demo-autori.html">Autori</a></li>
+					<li><a href="demo-librerie.html">Luoghi</a></li>
+					<li><a href="demo-eventi.html">Timeline</a></li>
+					<li><a href="demo-calendario.html">Calendario</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>PROGETTO</h4>
+				<ul>
+					<li><a href="demo-chi-siamo.html">Chi siamo</a></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Contatti</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>NEWSLETTER</h4>
+				<p style="font-size:0.875rem;margin-bottom:1rem;opacity:0.75;">Ricevi le nostre selezioni editoriali.</p>
+				<div class="newsletter-form">
+					<input type="email" placeholder="La tua email" style="background:rgba(255,255,255,0.05);color:#fff;">
+					<button class="btn btn--teal btn--small">Iscriviti</button>
+				</div>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<span>&copy; 2026 Not My Cup of Read.</span>
+			<div class="footer-bottom-links">
+				<a href="#">Privacy Policy</a>
+				<a href="#">Cookie Policy</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════════ -->
+<script>
+(function() {
+	'use strict';
+
+	var filters = document.querySelectorAll('.lb-filter');
+	var cards = document.querySelectorAll('.lb-card');
+
+	filters.forEach(function(btn) {
+		btn.addEventListener('click', function() {
+			var filter = this.getAttribute('data-filter');
+
+			filters.forEach(function(f) { f.classList.remove('active'); });
+			this.classList.add('active');
+
+			cards.forEach(function(card) {
+				if (filter === 'tutti' || card.getAttribute('data-type') === filter) {
+					card.style.display = '';
+				} else {
+					card.style.display = 'none';
+				}
+			});
+		});
+	});
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autori — Not My Cup of Read</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<style>
+/* ═══ DEMO PLACEHOLDERS ═══ */
+.demo-placeholder-avatar {
+	display: flex; align-items: center; justify-content: center;
+	border-radius: 50%; font-weight: 700; font-size: 1.25rem;
+	color: rgba(255,255,255,0.7); flex-shrink: 0;
+}
+
+/* ═══ AUTHORS PAGE STYLES ═══ */
+
+/* Hero */
+.auth-hero {
+	text-align: center;
+	padding: 3.5rem 0 2.5rem;
+	max-width: 44rem;
+	margin: 0 auto;
+}
+
+.auth-hero__overline {
+	font-size: 0.75rem;
+	font-weight: 600;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: var(--c-accent);
+	margin-bottom: 0.5rem;
+}
+
+.auth-hero__title {
+	font-family: var(--font-headline);
+	font-size: clamp(2rem, 5vw, 3.25rem);
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-surface);
+	margin: 0 0 0.75rem;
+}
+
+.auth-hero__subtitle {
+	font-size: 1rem;
+	color: var(--c-on-surface-variant);
+	line-height: 1.7;
+}
+
+/* Search */
+.auth-search {
+	max-width: 36rem;
+	margin: 0 auto 3rem;
+	position: relative;
+}
+
+.auth-search__input {
+	width: 100%;
+	padding: 0.875rem 1.25rem 0.875rem 3rem;
+	font-size: 0.9375rem;
+	font-family: var(--font-body);
+	color: var(--c-on-surface);
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	border-radius: var(--radius-full);
+	outline: none;
+	transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.auth-search__input::placeholder {
+	color: var(--c-on-surface-variant);
+	opacity: 0.6;
+}
+
+.auth-search__input:focus {
+	border-color: var(--c-accent);
+	box-shadow: 0 0 0 3px rgba(224,122,95,0.15);
+}
+
+.auth-search__icon {
+	position: absolute;
+	left: 1rem;
+	top: 50%;
+	transform: translateY(-50%);
+	color: var(--c-on-surface-variant);
+	font-size: 1.25rem;
+	pointer-events: none;
+}
+
+/* ═══ AUTORE DEL MESE ═══ */
+.auth-month {
+	max-width: 80rem;
+	margin: 0 auto 3rem;
+	padding: 0 2rem;
+}
+
+.auth-month__inner {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 0;
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+}
+
+.auth-month__video {
+	position: relative;
+	background: #000;
+	min-height: 320px;
+}
+
+.auth-month__video iframe {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	border: none;
+}
+
+.auth-month__content {
+	padding: 2.5rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.auth-month__label {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	font-size: 0.6875rem;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--c-accent);
+	margin-bottom: 0.75rem;
+}
+
+.auth-month__label .material-symbols-outlined {
+	font-size: 1rem;
+}
+
+.auth-month__name {
+	font-family: var(--font-headline);
+	font-size: 1.75rem;
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-on-surface);
+	margin: 0 0 0.35rem;
+}
+
+.auth-month__meta {
+	font-size: 0.8125rem;
+	color: var(--c-on-surface-variant);
+	margin: 0 0 1rem;
+}
+
+.auth-month__bio {
+	font-size: 0.9375rem;
+	color: var(--c-on-surface-variant);
+	line-height: 1.7;
+	margin: 0 0 1.25rem;
+}
+
+.auth-month__actions {
+	display: flex;
+	gap: 0.75rem;
+	flex-wrap: wrap;
+}
+
+.auth-month__btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	padding: 0.5rem 1.25rem;
+	font-size: 0.8125rem;
+	font-weight: 600;
+	border-radius: var(--radius-full);
+	text-decoration: none;
+	transition: background 0.2s, color 0.2s;
+}
+
+.auth-month__btn--primary {
+	background: var(--c-accent);
+	color: #fff;
+}
+
+.auth-month__btn--primary:hover {
+	background: #c9684d;
+}
+
+.auth-month__btn--secondary {
+	background: transparent;
+	color: var(--c-accent);
+	border: 1px solid var(--c-accent);
+}
+
+.auth-month__btn--secondary:hover {
+	background: rgba(224,122,95,0.1);
+}
+
+.auth-month__btn .material-symbols-outlined {
+	font-size: 1rem;
+}
+
+/* ═══ HALL OF FAME ═══ */
+.auth-fame {
+	max-width: 80rem;
+	margin: 0 auto;
+	padding: 0 2rem 3rem;
+}
+
+.auth-section-header {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	margin-bottom: 1.5rem;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+
+.auth-section-title {
+	font-family: var(--font-headline);
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	margin: 0;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.auth-section-title .material-symbols-outlined {
+	color: var(--c-accent);
+}
+
+.auth-section-subtitle {
+	font-size: 0.8125rem;
+	color: var(--c-on-surface-variant);
+}
+
+.auth-fame__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+	gap: 1.25rem;
+}
+
+/* Fame card */
+.auth-fame-card {
+	position: relative;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	border-radius: var(--radius-lg);
+	padding: 2rem 1.5rem 1.5rem;
+	text-align: center;
+	text-decoration: none;
+	transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+	display: block;
+}
+
+.auth-fame-card:hover {
+	border-color: var(--c-accent);
+	box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+	transform: translateY(-3px);
+}
+
+.auth-fame-card__rank {
+	position: absolute;
+	top: 0.75rem;
+	right: 0.75rem;
+	width: 28px;
+	height: 28px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	font-size: 0.6875rem;
+	font-weight: 800;
+}
+
+.auth-fame-card__rank--1 { background: linear-gradient(135deg, #f0c27f, #e8a849); color: #5a3e0a; }
+.auth-fame-card__rank--2 { background: linear-gradient(135deg, #c0c0c0, #9e9e9e); color: #3a3a3a; }
+.auth-fame-card__rank--3 { background: linear-gradient(135deg, #cd7f32, #a0612b); color: #fff; }
+.auth-fame-card__rank--other { background: var(--c-surface-container); color: var(--c-on-surface-variant); }
+
+.auth-fame-card__avatar {
+	width: 80px;
+	height: 80px;
+	margin: 0 auto 1rem;
+	border-radius: 50%;
+	overflow: hidden;
+}
+
+.auth-fame-card__avatar .demo-placeholder-avatar {
+	width: 80px;
+	height: 80px;
+	font-size: 1.75rem;
+}
+
+.auth-fame-card__name {
+	font-family: var(--font-headline);
+	font-size: 1rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	margin: 0 0 0.15rem;
+}
+
+.auth-fame-card__origin {
+	font-size: 0.75rem;
+	color: var(--c-on-surface-variant);
+	margin: 0 0 0.5rem;
+}
+
+.auth-fame-card__stats {
+	display: flex;
+	justify-content: center;
+	gap: 1rem;
+	font-size: 0.6875rem;
+	color: var(--c-on-surface-variant);
+}
+
+.auth-fame-card__stat strong {
+	display: block;
+	font-size: 1rem;
+	color: var(--c-accent);
+	font-weight: 700;
+}
+
+.auth-fame-card__badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.2rem;
+	margin-top: 0.75rem;
+	padding: 0.2rem 0.6rem;
+	border-radius: var(--radius-full);
+	font-size: 0.625rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	background: rgba(224,122,95,0.1);
+	color: var(--c-accent);
+}
+
+/* ═══ RUBRICA A-Z ═══ */
+.auth-az {
+	max-width: 80rem;
+	margin: 0 auto;
+	padding: 0 2rem 3rem;
+}
+
+.auth-az__letters {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25rem;
+	margin-bottom: 1.5rem;
+	justify-content: center;
+}
+
+.auth-az__letter {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	font-size: 0.8125rem;
+	font-weight: 700;
+	color: var(--c-on-surface-variant);
+	border-radius: var(--radius-sm);
+	border: none;
+	background: transparent;
+	cursor: pointer;
+	transition: background 0.2s, color 0.2s;
+}
+
+.auth-az__letter:hover,
+.auth-az__letter.active {
+	background: var(--c-accent);
+	color: #fff;
+}
+
+.auth-az__letter.disabled {
+	opacity: 0.25;
+	cursor: default;
+}
+
+.auth-az__group {
+	margin-bottom: 2rem;
+}
+
+.auth-az__group-letter {
+	font-family: var(--font-headline);
+	font-size: 2rem;
+	font-weight: 700;
+	color: var(--c-accent);
+	padding-bottom: 0.5rem;
+	border-bottom: 2px solid var(--c-surface-container-high);
+	margin-bottom: 1rem;
+}
+
+.auth-az__list {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	gap: 0.75rem;
+}
+
+.auth-az__item {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 0.6rem 1rem;
+	border-radius: var(--radius-md);
+	text-decoration: none;
+	transition: background 0.15s;
+}
+
+.auth-az__item:hover {
+	background: var(--c-surface-container);
+}
+
+.auth-az__item-avatar {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	flex-shrink: 0;
+	overflow: hidden;
+}
+
+.auth-az__item-avatar .demo-placeholder-avatar {
+	width: 40px;
+	height: 40px;
+	font-size: 0.875rem;
+}
+
+.auth-az__item-name {
+	font-size: 0.9375rem;
+	font-weight: 600;
+	color: var(--c-on-surface);
+}
+
+.auth-az__item-genre {
+	font-size: 0.75rem;
+	color: var(--c-on-surface-variant);
+}
+
+.auth-az__item-arrow {
+	margin-left: auto;
+	font-size: 1rem;
+	color: var(--c-on-surface-variant);
+	opacity: 0;
+	transition: opacity 0.2s;
+}
+
+.auth-az__item:hover .auth-az__item-arrow {
+	opacity: 1;
+}
+
+/* No results */
+.auth-no-results {
+	text-align: center;
+	padding: 3rem 1rem;
+	display: none;
+}
+
+.auth-no-results.active {
+	display: block;
+}
+
+.auth-no-results__icon {
+	font-size: 3rem;
+	color: var(--c-on-surface-variant);
+	opacity: 0.3;
+}
+
+.auth-no-results__text {
+	font-size: 1rem;
+	color: var(--c-on-surface-variant);
+	margin-top: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+	.auth-month__inner { grid-template-columns: 1fr; }
+	.auth-month__video { min-height: 220px; }
+	.auth-fame__grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+	.auth-az__list { grid-template-columns: 1fr; }
+	.auth-fame-card { padding: 1.5rem 1rem 1.25rem; }
+}
+
+@media (max-width: 480px) {
+	.auth-fame__grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     HEADER / NAVIGATION
+     ═══════════════════════════════════════════ -->
+
+<header class="site-header" id="siteHeader">
+	<div class="header-outer">
+		<div class="header-inner">
+			<div class="site-branding">
+				<div class="site-branding__icon">
+					<img src="assets/img/logo-nmcor.png" alt="NMCOR">
+				</div>
+				<h1 class="site-title"><a href="demo.html">Not My Cup of Read</a></h1>
+			</div>
+
+			<nav class="primary-nav" id="primaryNav">
+				<ul>
+					<li><a href="#">Articoli</a><ul class="sub-menu"><li><a href="demo-recensioni.html">Recensioni</a></li><li><a href="demo-approfondimenti.html">Approfondimenti</a></li><li><a href="demo-classifiche.html">Classifiche</a></li></ul></li>
+					<li><a href="#">Podcast</a><ul class="sub-menu"><li><a href="demo-podcast.html">Episodi</a></li><li><a href="demo-format.html">Format</a></li><li><a href="demo-dietro-le-quinte.html">Dietro le quinte</a></li></ul></li>
+					<li><a href="#">Biblioteca</a><ul class="sub-menu"><li><a href="demo-libri.html">Libri</a></li><li><a href="demo-autori.html">Autori</a></li></ul></li>
+					<li><a href="#">Luoghi</a><ul class="sub-menu"><li><a href="demo-librerie.html">La mappa del Lettore</a></li><li><a href="demo-luoghi-milano.html">Milano</a></li><li><a href="demo-itinerari.html">Itinerari letterari</a></li><li><a href="demo-luoghi-librerie.html">Librerie</a></li><li><a href="demo-luoghi-biblioteche.html">Biblioteche</a></li><li><a href="demo-luoghi-caffe.html">Caffè letterari</a></li><li><a href="demo-luoghi-spazi.html">Spazi culturali</a></li></ul></li>
+					<li><a href="#">Eventi</a><ul class="sub-menu"><li><a href="demo-eventi.html">Timeline</a></li><li><a href="demo-calendario.html">Calendario</a></li><li><a href="demo-fiere-festival.html">Fiere e Festival</a></li><li><a href="demo-premi-letterari.html">Premi letterari</a></li></ul></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Chi siamo</a><ul class="sub-menu"><li><a href="demo-chi-siamo.html">Lo studio &amp; gli host</a></li><li><a href="demo-ospiti-redazione.html">Gli ospiti &amp; la redazione</a></li><li><a href="demo-contatti.html">Contatti &amp; Collaborazioni</a></li></ul></li>
+				</ul>
+			</nav>
+
+			<div class="header-search">
+				<input type="text" placeholder="Cerca...">
+			</div>
+		</div>
+
+		<div class="header-extras">
+			<div class="header-social">
+				<a href="#" class="header-social__link" aria-label="YouTube">
+					<svg viewBox="0 0 24 24"><path d="M23.5 6.19a3 3 0 0 0-2.11-2.13C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.39.56A3 3 0 0 0 .5 6.19 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.81 3 3 0 0 0 2.11 2.13c1.89.56 9.39.56 9.39.56s7.5 0 9.39-.56a3 3 0 0 0 2.11-2.13A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.81ZM9.75 15.02V8.98L15.5 12l-5.75 3.02Z"/></svg>
+				</a>
+				<a href="#" class="header-social__link" aria-label="Spotify">
+					<svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.31a.75.75 0 0 1-1.03.25c-2.82-1.72-6.37-2.11-10.55-1.16a.75.75 0 1 1-.34-1.46c4.57-1.05 8.49-.6 11.67 1.34a.75.75 0 0 1 .25 1.03Zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.23-1.98-8.15-2.56-11.97-1.4a.94.94 0 1 1-.54-1.8c4.36-1.32 9.78-.68 13.49 1.6a.94.94 0 0 1 .31 1.29Zm.13-3.4C15.5 8.4 9 8.2 5.24 9.33a1.13 1.13 0 1 1-.65-2.16c4.33-1.3 11.52-1.05 16.07 1.68a1.13 1.13 0 0 1-1.56 1.79Z"/></svg>
+				</a>
+			</div>
+			<div class="header-auth">
+				<a href="demo-profilo.html" class="header-auth__btn"><span class="material-symbols-outlined">person</span> Cristian T.</a>
+			</div>
+			<button class="menu-toggle" id="menuToggle" aria-label="Menu">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</button>
+		</div>
+	</div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     HERO + SEARCH
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div style="max-width:80rem;margin:0 auto;padding:0 2rem;">
+		<div class="auth-hero">
+			<p class="auth-hero__overline">Biblioteca</p>
+			<h2 class="auth-hero__title">Gli autori di Not My Cup of Read</h2>
+			<p class="auth-hero__subtitle">Scrittori, pensatori, visionari. Li abbiamo letti, discussi, amati e qualche volta contestati. Questa è la nostra mappa letteraria.</p>
+		</div>
+
+		<div class="auth-search">
+			<span class="material-symbols-outlined auth-search__icon">search</span>
+			<input type="text" class="auth-search__input" id="authorSearch" placeholder="Cerca un autore per nome, nazionalità o genere...">
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     AUTORE DEL MESE
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface">
+	<div class="auth-month">
+		<div class="auth-section-header">
+			<h3 class="auth-section-title"><span class="material-symbols-outlined">star</span> Autore del Mese — Marzo 2026</h3>
+		</div>
+		<div class="auth-month__inner">
+			<div class="auth-month__video">
+				<iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Intervista ad Ocean Vuong" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+			</div>
+			<div class="auth-month__content">
+				<p class="auth-month__label"><span class="material-symbols-outlined">auto_awesome</span> Autore del Mese</p>
+				<h2 class="auth-month__name">Ocean Vuong</h2>
+				<p class="auth-month__meta">Vietnam / USA · Poesia, Narrativa · Premio T.S. Eliot 2017</p>
+				<p class="auth-month__bio">Poeta e romanziere vietnamita-americano, Ocean Vuong esplora temi di identità, migrazione e linguaggio con una prosa che fonde lirismo e brutale onestà. Il suo romanzo d'esordio lo ha consacrato come una delle voci più potenti della letteratura contemporanea.</p>
+				<div class="auth-month__actions">
+					<a href="demo-autore-premium.html" class="auth-month__btn auth-month__btn--primary"><span class="material-symbols-outlined">person</span> Scheda autore</a>
+					<a href="#" class="auth-month__btn auth-month__btn--secondary"><span class="material-symbols-outlined">podcasts</span> Episodio dedicato</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     HALL OF FAME — Autori più amati dal podcast
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="auth-fame">
+		<div class="auth-section-header">
+			<h3 class="auth-section-title"><span class="material-symbols-outlined">emoji_events</span> Hall of Fame Podcast</h3>
+			<p class="auth-section-subtitle">Gli autori più citati e amati nei nostri episodi</p>
+		</div>
+		<div class="auth-fame__grid">
+
+			<!-- 1 -->
+			<a href="demo-autore-premium.html" class="auth-fame-card">
+				<span class="auth-fame-card__rank auth-fame-card__rank--1">1</span>
+				<div class="auth-fame-card__avatar"><div class="demo-placeholder-avatar" style="background:linear-gradient(135deg,#e07a5f,#c9684d);">GGM</div></div>
+				<h4 class="auth-fame-card__name">Gabriel García Márquez</h4>
+				<p class="auth-fame-card__origin">Colombia · Nobel 1982</p>
+				<div class="auth-fame-card__stats">
+					<span class="auth-fame-card__stat"><strong>12</strong>episodi</span>
+					<span class="auth-fame-card__stat"><strong>8</strong>recensioni</span>
+				</div>
+				<span class="auth-fame-card__badge"><span class="material-symbols-outlined" style="font-size:0.75rem;">verified</span> Premium</span>
+			</a>
+
+			<!-- 2 -->
+			<a href="#" class="auth-fame-card">
+				<span class="auth-fame-card__rank auth-fame-card__rank--2">2</span>
+				<div class="auth-fame-card__avatar"><div class="demo-placeholder-avatar" style="background:linear-gradient(135deg,#3e5c76,#1d2d44);">IC</div></div>
+				<h4 class="auth-fame-card__name">Italo Calvino</h4>
+				<p class="auth-fame-card__origin">Italia · Narrativa, Saggistica</p>
+				<div class="auth-fame-card__stats">
+					<span class="auth-fame-card__stat"><strong>9</strong>episodi</span>
+					<span class="auth-fame-card__stat"><strong>6</strong>recensioni</span>
+				</div>
+				<span class="auth-fame-card__badge"><span class="material-symbols-outlined" style="font-size:0.75rem;">verified</span> Premium</span>
+			</a>
+
+			<!-- 3 -->
+			<a href="#" class="auth-fame-card">
+				<span class="auth-fame-card__rank auth-fame-card__rank--3">3</span>
+				<div class="auth-fame-card__avatar"><div class="demo-placeholder-avatar" style="background:linear-gradient(135deg,#81b29a,#5a9a7a);">CNA</div></div>
+				<h4 class="auth-fame-card__name">Chimamanda Ngozi Adichie</h4>
+				<p class="auth-fame-card__origin">Nigeria · Narrativa, Saggistica</p>
+				<div class="auth-fame-card__stats">
+					<span class="auth-fame-card__stat"><strong>7</strong>episodi</span>
+					<span class="auth-fame-card__stat"><strong>5</strong>recensioni</span>
+				</div>
+				<span class="auth-fame-card__badge"><span class="material-symbols-outlined" style="font-size:0.75rem;">verified</span> Premium</span>
+			</a>
+
+			<!-- 4 -->
+			<a href="#" class="auth-fame-card">
+				<span class="auth-fame-card__rank auth-fame-card__rank--other">4</span>
+				<div class="auth-fame-card__avatar"><div class="demo-placeholder-avatar" style="background:linear-gradient(135deg,#9467bd,#7b4ea0);">RB</div></div>
+				<h4 class="auth-fame-card__name">Roberto Bolaño</h4>
+				<p class="auth-fame-card__origin">Cile · Narrativa</p>
+				<div class="auth-fame-card__stats">
+					<span class="auth-fame-card__stat"><strong>6</strong>episodi</span>
+					<span class="auth-fame-card__stat"><strong>4</strong>recensioni</span>
+				</div>
+				<span class="auth-fame-card__badge"><span class="material-symbols-outlined" style="font-size:0.75rem;">verified</span> Premium</span>
+			</a>
+
+			<!-- 5 -->
+			<a href="#" class="auth-fame-card">
+				<span class="auth-fame-card__rank auth-fame-card__rank--other">5</span>
+				<div class="auth-fame-card__avatar"><div class="demo-placeholder-avatar" style="background:linear-gradient(135deg,#748cab,#3e5c76);">TS</div></div>
+				<h4 class="auth-fame-card__name">Toni Morrison</h4>
+				<p class="auth-fame-card__origin">USA · Nobel 1993</p>
+				<div class="auth-fame-card__stats">
+					<span class="auth-fame-card__stat"><strong>5</strong>episodi</span>
+					<span class="auth-fame-card__stat"><strong>5</strong>recensioni</span>
+				</div>
+				<span class="auth-fame-card__badge"><span class="material-symbols-outlined" style="font-size:0.75rem;">verified</span> Premium</span>
+			</a>
+
+			<!-- 6 -->
+			<a href="demo-autore-standard.html" class="auth-fame-card">
+				<span class="auth-fame-card__rank auth-fame-card__rank--other">6</span>
+				<div class="auth-fame-card__avatar"><div class="demo-placeholder-avatar" style="background:linear-gradient(135deg,#f0ebd8,#c4bfa8);color:#3e5c76;">HM</div></div>
+				<h4 class="auth-fame-card__name">Haruki Murakami</h4>
+				<p class="auth-fame-card__origin">Giappone · Narrativa</p>
+				<div class="auth-fame-card__stats">
+					<span class="auth-fame-card__stat"><strong>5</strong>episodi</span>
+					<span class="auth-fame-card__stat"><strong>3</strong>recensioni</span>
+				</div>
+			</a>
+
+			<!-- 7 -->
+			<a href="#" class="auth-fame-card">
+				<span class="auth-fame-card__rank auth-fame-card__rank--other">7</span>
+				<div class="auth-fame-card__avatar"><div class="demo-placeholder-avatar" style="background:linear-gradient(135deg,#1d2d44,#0d1321);">JLB</div></div>
+				<h4 class="auth-fame-card__name">Jorge Luis Borges</h4>
+				<p class="auth-fame-card__origin">Argentina · Narrativa, Poesia</p>
+				<div class="auth-fame-card__stats">
+					<span class="auth-fame-card__stat"><strong>4</strong>episodi</span>
+					<span class="auth-fame-card__stat"><strong>3</strong>recensioni</span>
+				</div>
+			</a>
+
+			<!-- 8 -->
+			<a href="#" class="auth-fame-card">
+				<span class="auth-fame-card__rank auth-fame-card__rank--other">8</span>
+				<div class="auth-fame-card__avatar"><div class="demo-placeholder-avatar" style="background:linear-gradient(135deg,#e07a5f,#9467bd);">OV</div></div>
+				<h4 class="auth-fame-card__name">Ocean Vuong</h4>
+				<p class="auth-fame-card__origin">Vietnam / USA · Poesia</p>
+				<div class="auth-fame-card__stats">
+					<span class="auth-fame-card__stat"><strong>4</strong>episodi</span>
+					<span class="auth-fame-card__stat"><strong>2</strong>recensioni</span>
+				</div>
+			</a>
+
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     RUBRICA A-Z
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface">
+	<div class="auth-az">
+		<div class="auth-section-header">
+			<h3 class="auth-section-title"><span class="material-symbols-outlined">sort_by_alpha</span> Rubrica Autori</h3>
+			<p class="auth-section-subtitle">Tutti gli autori citati nei nostri contenuti, dalla A alla Z</p>
+		</div>
+
+		<!-- Letter bar -->
+		<div class="auth-az__letters" id="letterBar">
+			<!-- populated by JS -->
+		</div>
+
+		<!-- Author groups -->
+		<div id="authorGroups">
+			<!-- populated by JS -->
+		</div>
+
+		<!-- No results -->
+		<div class="auth-no-results" id="noResults">
+			<span class="material-symbols-outlined auth-no-results__icon">person_search</span>
+			<p class="auth-no-results__text">Nessun autore trovato. Prova con un altro termine.</p>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ -->
+
+<footer class="site-footer">
+	<div style="max-width:80rem;margin:0 auto;padding:0 2rem;">
+		<div class="footer-main">
+			<div class="footer-brand">
+				<p class="site-title">Not My Cup of Read</p>
+				<p>Esploriamo la letteratura contemporanea attraverso podcast, recensioni e approfondimenti.</p>
+				<div class="footer-social">
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">podcasts</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">play_circle</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">photo_camera</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">send</span></a>
+				</div>
+			</div>
+			<div class="footer-col">
+				<h4>ESPLORA</h4>
+				<ul>
+					<li><a href="demo-recensioni.html">Recensioni</a></li>
+					<li><a href="demo-approfondimenti.html">Approfondimenti</a></li>
+					<li><a href="demo-podcast.html">Podcast</a></li>
+					<li><a href="demo-libri.html">Libri</a></li>
+					<li><a href="demo-autori.html">Autori</a></li>
+					<li><a href="demo-librerie.html">Librerie</a></li>
+					<li><a href="demo-eventi.html">Timeline</a></li>
+					<li><a href="demo-calendario.html">Calendario</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>PROGETTO</h4>
+				<ul>
+					<li><a href="demo-chi-siamo.html">Chi siamo</a></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Contatti</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>NEWSLETTER</h4>
+				<p style="font-size:0.875rem;margin-bottom:1rem;opacity:0.75;">Ricevi le nostre selezioni editoriali.</p>
+				<div class="newsletter-form">
+					<input type="email" placeholder="La tua email" style="background:rgba(255,255,255,0.05);color:#fff;">
+					<button class="btn btn--teal btn--small">Iscriviti</button>
+				</div>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<span>&copy; 2026 Not My Cup of Read.</span>
+			<div class="footer-bottom-links">
+				<a href="#">Privacy Policy</a>
+				<a href="#">Cookie Policy</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════════ -->
+<script>
+(function() {
+	'use strict';
+
+	/* ── Author database ── */
+	var AUTHORS = [
+		// Hall of Fame (premium → link to autore-premium template)
+		{ name: 'Gabriel García Márquez', initials: 'GGM', origin: 'Colombia', genre: 'Realismo magico, Narrativa', premium: true, color: '#e07a5f' },
+		{ name: 'Italo Calvino', initials: 'IC', origin: 'Italia', genre: 'Narrativa, Saggistica', premium: true, color: '#3e5c76' },
+		{ name: 'Chimamanda Ngozi Adichie', initials: 'CNA', origin: 'Nigeria', genre: 'Narrativa, Saggistica', premium: true, color: '#81b29a' },
+		{ name: 'Roberto Bolaño', initials: 'RB', origin: 'Cile', genre: 'Narrativa', premium: true, color: '#9467bd' },
+		{ name: 'Toni Morrison', initials: 'TM', origin: 'USA', genre: 'Narrativa', premium: true, color: '#748cab' },
+		{ name: 'Haruki Murakami', initials: 'HM', origin: 'Giappone', genre: 'Narrativa', premium: false, color: '#c4bfa8' },
+		{ name: 'Jorge Luis Borges', initials: 'JLB', origin: 'Argentina', genre: 'Narrativa, Poesia', premium: false, color: '#1d2d44' },
+		{ name: 'Ocean Vuong', initials: 'OV', origin: 'Vietnam / USA', genre: 'Poesia, Narrativa', premium: false, color: '#e07a5f' },
+		// Standard authors (scheda-autore template)
+		{ name: 'Albert Camus', initials: 'AC', origin: 'Francia / Algeria', genre: 'Filosofia, Narrativa', premium: false, color: '#748cab' },
+		{ name: 'Banana Yoshimoto', initials: 'BY', origin: 'Giappone', genre: 'Narrativa', premium: false, color: '#81b29a' },
+		{ name: 'Carmen María Machado', initials: 'CM', origin: 'USA', genre: 'Narrativa, Horror', premium: false, color: '#9467bd' },
+		{ name: 'Clarice Lispector', initials: 'CL', origin: 'Brasile', genre: 'Narrativa, Filosofia', premium: false, color: '#e07a5f' },
+		{ name: 'David Foster Wallace', initials: 'DW', origin: 'USA', genre: 'Narrativa, Saggistica', premium: false, color: '#3e5c76' },
+		{ name: 'Elena Ferrante', initials: 'EF', origin: 'Italia', genre: 'Narrativa', premium: false, color: '#c4bfa8' },
+		{ name: 'Fernanda Melchor', initials: 'FM', origin: 'Messico', genre: 'Narrativa', premium: false, color: '#1d2d44' },
+		{ name: 'Franz Kafka', initials: 'FK', origin: 'Rep. Ceca', genre: 'Narrativa, Racconti', premium: false, color: '#748cab' },
+		{ name: 'Fyodor Dostoevsky', initials: 'FD', origin: 'Russia', genre: 'Narrativa, Filosofia', premium: false, color: '#3e5c76' },
+		{ name: 'Gianni Rodari', initials: 'GR', origin: 'Italia', genre: 'Infanzia, Poesia', premium: false, color: '#81b29a' },
+		{ name: 'Herta Müller', initials: 'HM', origin: 'Romania / Germania', genre: 'Narrativa, Poesia', premium: false, color: '#9467bd' },
+		{ name: 'Isabel Allende', initials: 'IA', origin: 'Cile', genre: 'Narrativa', premium: false, color: '#e07a5f' },
+		{ name: 'Jhumpa Lahiri', initials: 'JL', origin: 'USA / Italia', genre: 'Narrativa, Racconti', premium: false, color: '#c4bfa8' },
+		{ name: 'José Saramago', initials: 'JS', origin: 'Portogallo', genre: 'Narrativa', premium: false, color: '#1d2d44' },
+		{ name: 'Julio Cortázar', initials: 'JC', origin: 'Argentina', genre: 'Narrativa, Racconti', premium: false, color: '#748cab' },
+		{ name: 'Kafka Tamura', initials: 'KT', origin: 'Giappone (fittizio)', genre: 'Narrativa', premium: false, color: '#3e5c76' },
+		{ name: 'Leonardo Sciascia', initials: 'LS', origin: 'Italia', genre: 'Narrativa, Saggistica', premium: false, color: '#81b29a' },
+		{ name: 'Luigi Pirandello', initials: 'LP', origin: 'Italia', genre: 'Teatro, Narrativa', premium: false, color: '#9467bd' },
+		{ name: 'Margaret Atwood', initials: 'MA', origin: 'Canada', genre: 'Narrativa, Poesia', premium: false, color: '#e07a5f' },
+		{ name: 'Mariana Enriquez', initials: 'ME', origin: 'Argentina', genre: 'Horror, Narrativa', premium: false, color: '#1d2d44' },
+		{ name: 'Natalia Ginzburg', initials: 'NG', origin: 'Italia', genre: 'Narrativa, Saggistica', premium: false, color: '#c4bfa8' },
+		{ name: 'Olga Tokarczuk', initials: 'OT', origin: 'Polonia', genre: 'Narrativa', premium: false, color: '#748cab' },
+		{ name: 'Paul Auster', initials: 'PA', origin: 'USA', genre: 'Narrativa', premium: false, color: '#3e5c76' },
+		{ name: 'Pier Paolo Pasolini', initials: 'PP', origin: 'Italia', genre: 'Poesia, Saggistica, Cinema', premium: false, color: '#81b29a' },
+		{ name: 'Samanta Schweblin', initials: 'SS', origin: 'Argentina', genre: 'Narrativa, Racconti', premium: false, color: '#9467bd' },
+		{ name: 'Svetlana Aleksievič', initials: 'SA', origin: 'Bielorussia', genre: 'Non-fiction, Testimonianza', premium: false, color: '#e07a5f' },
+		{ name: 'Umberto Eco', initials: 'UE', origin: 'Italia', genre: 'Narrativa, Saggistica, Semiotica', premium: false, color: '#1d2d44' },
+		{ name: 'Valeria Luiselli', initials: 'VL', origin: 'Messico / USA', genre: 'Narrativa, Saggistica', premium: false, color: '#c4bfa8' },
+		{ name: 'Virginia Woolf', initials: 'VW', origin: 'Regno Unito', genre: 'Narrativa, Saggistica', premium: false, color: '#748cab' },
+		{ name: 'Wisława Szymborska', initials: 'WS', origin: 'Polonia', genre: 'Poesia', premium: false, color: '#3e5c76' },
+		{ name: 'Zadie Smith', initials: 'ZS', origin: 'Regno Unito', genre: 'Narrativa, Saggistica', premium: false, color: '#81b29a' }
+	];
+
+	/* ── DOM refs ── */
+	var letterBar = document.getElementById('letterBar');
+	var authorGroups = document.getElementById('authorGroups');
+	var noResults = document.getElementById('noResults');
+	var searchInput = document.getElementById('authorSearch');
+
+	/* ── Build letter bar ── */
+	var ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+	var usedLetters = {};
+	AUTHORS.forEach(function(a) {
+		var surname = a.name.split(' ').pop();
+		var letter = surname.charAt(0).toUpperCase();
+		usedLetters[letter] = true;
+	});
+
+	function buildLetterBar() {
+		var html = '';
+		ALPHABET.forEach(function(l) {
+			var cls = 'auth-az__letter' + (usedLetters[l] ? '' : ' disabled');
+			html += '<button class="' + cls + '" data-letter="' + l + '">' + l + '</button>';
+		});
+		letterBar.innerHTML = html;
+
+		// Attach click
+		letterBar.querySelectorAll('.auth-az__letter:not(.disabled)').forEach(function(btn) {
+			btn.addEventListener('click', function() {
+				var letter = this.getAttribute('data-letter');
+				var target = document.getElementById('group-' + letter);
+				if (target) {
+					target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+					// Highlight
+					letterBar.querySelectorAll('.auth-az__letter').forEach(function(b) { b.classList.remove('active'); });
+					this.classList.add('active');
+				}
+			});
+		});
+	}
+
+	/* ── Build A-Z groups ── */
+	function renderGroups(filter) {
+		var grouped = {};
+		var filtered = AUTHORS;
+
+		if (filter) {
+			var q = filter.toLowerCase();
+			filtered = AUTHORS.filter(function(a) {
+				return a.name.toLowerCase().indexOf(q) !== -1
+					|| a.origin.toLowerCase().indexOf(q) !== -1
+					|| a.genre.toLowerCase().indexOf(q) !== -1;
+			});
+		}
+
+		filtered.forEach(function(a) {
+			var surname = a.name.split(' ').pop();
+			var letter = surname.charAt(0).toUpperCase();
+			if (!grouped[letter]) grouped[letter] = [];
+			grouped[letter].push(a);
+		});
+
+		var letters = Object.keys(grouped).sort();
+
+		if (letters.length === 0) {
+			authorGroups.innerHTML = '';
+			noResults.classList.add('active');
+			return;
+		}
+
+		noResults.classList.remove('active');
+
+		var html = '';
+		letters.forEach(function(letter) {
+			html += '<div class="auth-az__group" id="group-' + letter + '">';
+			html += '<div class="auth-az__group-letter">' + letter + '</div>';
+			html += '<div class="auth-az__list">';
+
+			grouped[letter].sort(function(a, b) {
+				return a.name.split(' ').pop().localeCompare(b.name.split(' ').pop());
+			});
+
+			grouped[letter].forEach(function(a) {
+				var linkPage = '#';
+				if (a.name === 'Gabriel García Márquez') linkPage = 'demo-autore-premium.html';
+				else if (a.name === 'Haruki Murakami') linkPage = 'demo-autore-standard.html';
+				html += '<a href="' + linkPage + '" class="auth-az__item">'
+					+ '<div class="auth-az__item-avatar"><div class="demo-placeholder-avatar" style="background:' + a.color + ';width:40px;height:40px;font-size:0.75rem;">' + a.initials + '</div></div>'
+					+ '<div>'
+					+ '<div class="auth-az__item-name">' + a.name + (a.premium ? ' <span class="material-symbols-outlined" style="font-size:0.875rem;color:var(--c-accent);vertical-align:middle;">verified</span>' : '') + '</div>'
+					+ '<div class="auth-az__item-genre">' + a.origin + ' · ' + a.genre + '</div>'
+					+ '</div>'
+					+ '<span class="material-symbols-outlined auth-az__item-arrow">chevron_right</span>'
+					+ '</a>';
+			});
+
+			html += '</div></div>';
+		});
+
+		authorGroups.innerHTML = html;
+	}
+
+	/* ── Search ── */
+	var searchTimeout;
+	searchInput.addEventListener('input', function() {
+		clearTimeout(searchTimeout);
+		var val = this.value;
+		searchTimeout = setTimeout(function() {
+			renderGroups(val);
+		}, 200);
+	});
+
+	/* ── Init ── */
+	buildLetterBar();
+	renderGroups();
+})();
+</script>
+
+</body>
+</html>

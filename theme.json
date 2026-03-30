@@ -1,0 +1,249 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"settings": {
+		"appearanceTools": true,
+		"color": {
+			"palette": [
+				{
+					"slug": "primary",
+					"color": "#0d1321",
+					"name": "Primary (Rich Black)"
+				},
+				{
+					"slug": "primary-container",
+					"color": "#1d2d44",
+					"name": "Primary Container (Navy)"
+				},
+				{
+					"slug": "accent",
+					"color": "#3e5c76",
+					"name": "Accent (Slate Blue)"
+				},
+				{
+					"slug": "accent-light",
+					"color": "#748cab",
+					"name": "Accent Light (Steel Blue)"
+				},
+				{
+					"slug": "surface",
+					"color": "#f0ebd8",
+					"name": "Surface (Parchment)"
+				},
+				{
+					"slug": "surface-container",
+					"color": "#e6e1ce",
+					"name": "Surface Container"
+				},
+				{
+					"slug": "surface-container-low",
+					"color": "#ebe6d3",
+					"name": "Surface Container Low"
+				},
+				{
+					"slug": "surface-container-high",
+					"color": "#ddd8c5",
+					"name": "Surface Container High"
+				},
+				{
+					"slug": "surface-container-highest",
+					"color": "#d4cfbd",
+					"name": "Surface Container Highest"
+				},
+				{
+					"slug": "surface-container-lowest",
+					"color": "#faf7ed",
+					"name": "Surface Container Lowest"
+				},
+				{
+					"slug": "surface-dim",
+					"color": "#cbc6b5",
+					"name": "Surface Dim"
+				},
+				{
+					"slug": "on-surface",
+					"color": "#0d1321",
+					"name": "On Surface (Text)"
+				},
+				{
+					"slug": "on-surface-variant",
+					"color": "#4a5568",
+					"name": "On Surface Variant"
+				},
+				{
+					"slug": "outline",
+					"color": "#748cab",
+					"name": "Outline"
+				},
+				{
+					"slug": "outline-variant",
+					"color": "#b8c5d6",
+					"name": "Outline Variant"
+				},
+				{
+					"slug": "white",
+					"color": "#ffffff",
+					"name": "White"
+				},
+				{
+					"slug": "on-primary-container",
+					"color": "#748cab",
+					"name": "On Primary Container"
+				}
+			],
+			"gradients": [
+				{
+					"slug": "editorial-dark",
+					"gradient": "linear-gradient(135deg, #1d2d44 0%, #0d1321 100%)",
+					"name": "Editorial Dark"
+				},
+				{
+					"slug": "warm-fade",
+					"gradient": "linear-gradient(180deg, #e6e1ce 0%, #f0ebd8 100%)",
+					"name": "Warm Fade"
+				}
+			]
+		},
+		"typography": {
+			"fontFamilies": [
+				{
+					"fontFamily": "'Newsreader', Georgia, serif",
+					"slug": "headline",
+					"name": "Headline (Newsreader)",
+					"fontFace": [
+						{
+							"fontFamily": "Newsreader",
+							"fontWeight": "400",
+							"fontStyle": "normal",
+							"src": ["https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,700;1,400;1,700&display=swap"]
+						}
+					]
+				},
+				{
+					"fontFamily": "'Inter', 'Helvetica Neue', Arial, sans-serif",
+					"slug": "body",
+					"name": "Body (Inter)",
+					"fontFace": [
+						{
+							"fontFamily": "Inter",
+							"fontWeight": "400",
+							"fontStyle": "normal",
+							"src": ["https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"]
+						}
+					]
+				}
+			],
+			"fontSizes": [
+				{ "slug": "xs", "size": "0.75rem", "name": "Extra Small" },
+				{ "slug": "small", "size": "0.875rem", "name": "Small" },
+				{ "slug": "medium", "size": "1rem", "name": "Medium" },
+				{ "slug": "large", "size": "1.25rem", "name": "Large" },
+				{ "slug": "x-large", "size": "clamp(1.5rem, 2vw, 2rem)", "name": "Extra Large" },
+				{ "slug": "xx-large", "size": "clamp(2rem, 3vw, 3rem)", "name": "2X Large" },
+				{ "slug": "display", "size": "clamp(2.5rem, 4vw, 3.5rem)", "name": "Display" },
+				{ "slug": "display-lg", "size": "clamp(3rem, 6vw, 5rem)", "name": "Display Large" }
+			]
+		},
+		"spacing": {
+			"spacingScale": { "steps": 0 },
+			"spacingSizes": [
+				{ "slug": "10", "size": "0.25rem", "name": "1" },
+				{ "slug": "20", "size": "0.5rem", "name": "2" },
+				{ "slug": "30", "size": "1rem", "name": "3" },
+				{ "slug": "40", "size": "1.5rem", "name": "4" },
+				{ "slug": "50", "size": "2rem", "name": "5" },
+				{ "slug": "60", "size": "3rem", "name": "6" },
+				{ "slug": "70", "size": "4rem", "name": "7" },
+				{ "slug": "80", "size": "6rem", "name": "8" },
+				{ "slug": "90", "size": "8rem", "name": "9" }
+			],
+			"units": ["px", "em", "rem", "vh", "vw", "%"]
+		},
+		"layout": {
+			"contentSize": "720px",
+			"wideSize": "1200px"
+		},
+		"custom": {
+			"lineHeight": {
+				"tight": 1.15,
+				"normal": 1.6,
+				"loose": 1.8
+			}
+		}
+	},
+	"styles": {
+		"color": {
+			"background": "var(--wp--preset--color--surface)",
+			"text": "var(--wp--preset--color--on-surface)"
+		},
+		"typography": {
+			"fontFamily": "var(--wp--preset--font-family--body)",
+			"fontSize": "var(--wp--preset--font-size--medium)",
+			"lineHeight": "1.6"
+		},
+		"spacing": {
+			"blockGap": "1.5rem"
+		},
+		"elements": {
+			"heading": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--headline)",
+					"lineHeight": "1.15"
+				},
+				"color": {
+					"text": "var(--wp--preset--color--on-surface)"
+				}
+			},
+			"h1": {
+				"typography": {
+					"fontSize": "var(--wp--preset--font-size--display-lg)",
+					"fontWeight": "400"
+				}
+			},
+			"h2": {
+				"typography": {
+					"fontSize": "var(--wp--preset--font-size--display)",
+					"fontWeight": "400"
+				}
+			},
+			"h3": {
+				"typography": {
+					"fontSize": "var(--wp--preset--font-size--x-large)",
+					"fontWeight": "700"
+				}
+			},
+			"link": {
+				"color": {
+					"text": "var(--wp--preset--color--accent)"
+				},
+				":hover": {
+					"color": {
+						"text": "var(--wp--preset--color--primary)"
+					}
+				}
+			}
+		},
+		"blocks": {
+			"core/quote": {
+				"typography": {
+					"fontFamily": "var(--wp--preset--font-family--headline)",
+					"fontStyle": "italic",
+					"fontSize": "var(--wp--preset--font-size--large)"
+				},
+				"color": {
+					"text": "var(--wp--preset--color--primary)"
+				}
+			}
+		}
+	},
+	"templateParts": [
+		{ "name": "header", "title": "Header", "area": "header" },
+		{ "name": "footer", "title": "Footer", "area": "footer" }
+	],
+	"customTemplates": [
+		{ "name": "template-podcast", "title": "Podcast Landing", "postTypes": ["page"] },
+		{ "name": "template-approfondimenti", "title": "Approfondimenti Landing", "postTypes": ["page"] },
+		{ "name": "template-community", "title": "Community", "postTypes": ["page"] },
+		{ "name": "template-contatti", "title": "Contatti", "postTypes": ["page"] }
+	]
+}

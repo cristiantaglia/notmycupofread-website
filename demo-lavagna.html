@@ -1,0 +1,1764 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lavagna — Consigli &amp; Ricerche — Not My Cup of Read</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+	--c-primary: #0d1321;
+	--c-primary-container: #1d2d44;
+	--c-accent: #3e5c76;
+	--c-accent-light: #748cab;
+	--c-surface: #f0ebd8;
+	--c-surface-container: #e6e1ce;
+	--c-on-surface: #0d1321;
+	--c-on-surface-variant: #4a5568;
+	--font-headline: 'Newsreader', Georgia, serif;
+	--font-body: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+
+	/* Pin colors by category */
+	--pin-consiglio: #c0392b;
+	--pin-scambio: #27ae60;
+	--pin-evento: #d4a017;
+	--pin-collab: #8e44ad;
+	--pin-podcast: #e07a5f;
+	--pin-discussione: #3e5c76;
+
+	/* Sticky note backgrounds */
+	--note-consiglio: #fff1e6;
+	--note-scambio: #e8f5e9;
+	--note-evento: #fff8e1;
+	--note-collab: #f3e5f5;
+	--note-podcast: #fce4ec;
+	--note-discussione: #e3f2fd;
+}
+
+html, body {
+	height: 100%;
+	overflow: hidden;
+	font-family: var(--font-body);
+	background: #f5f3ee;
+	color: var(--c-on-surface);
+}
+
+/* ═══════════════════════════════════════
+   TOP BAR
+   ═══════════════════════════════════════ */
+.board-topbar {
+	position: fixed;
+	top: 0; left: 0; right: 0;
+	height: 56px;
+	background: var(--c-primary-container);
+	color: #f0ebd8;
+	display: flex;
+	align-items: center;
+	padding: 0 1.25rem;
+	z-index: 1000;
+	gap: 1rem;
+	box-shadow: 0 2px 12px rgba(13,19,33,0.2);
+}
+.board-topbar__back {
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+	color: #748cab;
+	text-decoration: none;
+	font-size: 0.8125rem;
+	transition: color 0.15s;
+}
+.board-topbar__back:hover { color: #f0ebd8; }
+.board-topbar__title {
+	font-family: var(--font-headline);
+	font-size: 1.125rem;
+	font-weight: 700;
+	flex: 1;
+}
+.board-topbar__title span {
+	font-weight: 400;
+	font-style: italic;
+	opacity: 0.7;
+	font-size: 0.875rem;
+	margin-left: 0.5rem;
+}
+.board-topbar__actions {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+.board-topbar__btn {
+	display: flex;
+	align-items: center;
+	gap: 0.35rem;
+	padding: 0.4rem 0.75rem;
+	border: none;
+	border-radius: 6px;
+	font-family: var(--font-body);
+	font-size: 0.75rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.15s;
+	background: rgba(255,255,255,0.1);
+	color: #f0ebd8;
+}
+.board-topbar__btn:hover { background: rgba(255,255,255,0.2); }
+.board-topbar__btn--add {
+	background: #e07a5f;
+	color: #fff;
+}
+.board-topbar__btn--add:hover { background: #c96b52; }
+
+/* Users online */
+.board-topbar__users {
+	display: flex;
+	align-items: center;
+	gap: 0;
+	margin-left: 0.5rem;
+}
+.board-topbar__avatar {
+	width: 28px; height: 28px;
+	border-radius: 50%;
+	border: 2px solid var(--c-primary-container);
+	margin-left: -8px;
+	font-size: 0.5rem;
+	font-weight: 700;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #fff;
+	cursor: default;
+}
+.board-topbar__avatar:first-child { margin-left: 0; }
+
+/* ═══════════════════════════════════════
+   FILTER BAR
+   ═══════════════════════════════════════ */
+.board-filters {
+	position: fixed;
+	top: 56px; left: 0; right: 0;
+	height: 44px;
+	background: rgba(240,235,216,0.95);
+	backdrop-filter: blur(8px);
+	display: flex;
+	align-items: center;
+	padding: 0 1.25rem;
+	gap: 0.5rem;
+	z-index: 999;
+	border-bottom: 1px solid rgba(13,19,33,0.06);
+}
+.board-filter-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	padding: 0.3rem 0.75rem;
+	border: none;
+	border-radius: 20px;
+	font-family: var(--font-body);
+	font-size: 0.6875rem;
+	font-weight: 600;
+	cursor: pointer;
+	background: rgba(13,19,33,0.06);
+	color: var(--c-on-surface-variant);
+	transition: all 0.15s;
+	letter-spacing: 0.02em;
+}
+.board-filter-pill:hover { background: rgba(13,19,33,0.12); }
+.board-filter-pill.active {
+	background: var(--c-primary-container);
+	color: #f0ebd8;
+}
+.board-filter-dot {
+	width: 8px; height: 8px;
+	border-radius: 50%;
+	display: inline-block;
+}
+.board-filter-count {
+	margin-left: auto;
+	font-size: 0.6875rem;
+	color: var(--c-on-surface-variant);
+	opacity: 0.6;
+}
+
+/* ═══════════════════════════════════════
+   CANVAS / BOARD AREA
+   ═══════════════════════════════════════ */
+.board-canvas {
+	position: absolute;
+	top: 100px;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	overflow: auto;
+	cursor: grab;
+	background:
+		radial-gradient(circle, rgba(13,19,33,0.04) 1px, transparent 1px);
+	background-size: 24px 24px;
+	background-color: #f5f3ee;
+}
+.board-canvas.grabbing { cursor: grabbing; }
+.board-canvas__inner {
+	position: relative;
+	width: 3200px;
+	height: 2200px;
+	min-width: 100%;
+	min-height: 100%;
+}
+
+/* Central topic question */
+.board-topic {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	max-width: 380px;
+	text-align: center;
+	pointer-events: none;
+	z-index: 1;
+}
+.board-topic h2 {
+	font-family: var(--font-headline);
+	font-size: 1.75rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	line-height: 1.3;
+	opacity: 0.18;
+}
+
+/* ═══════════════════════════════════════
+   STICKY NOTE
+   ═══════════════════════════════════════ */
+.sticky-note {
+	position: absolute;
+	width: 200px;
+	min-height: 140px;
+	padding: 2rem 1rem 1rem;
+	border-radius: 3px;
+	cursor: grab;
+	user-select: none;
+	z-index: 10;
+	transition: box-shadow 0.2s, z-index 0s;
+	box-shadow:
+		2px 3px 12px rgba(13,19,33,0.08),
+		1px 1px 3px rgba(13,19,33,0.06);
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+.sticky-note::before {
+	content: '';
+	position: absolute;
+	top: 0; left: 0; right: 0;
+	height: 3px;
+	border-radius: 3px 3px 0 0;
+	opacity: 0.4;
+}
+.sticky-note:hover {
+	box-shadow:
+		4px 6px 20px rgba(13,19,33,0.14),
+		2px 2px 6px rgba(13,19,33,0.08);
+	z-index: 50;
+}
+.sticky-note.dragging {
+	cursor: grabbing;
+	box-shadow:
+		8px 12px 32px rgba(13,19,33,0.18),
+		4px 4px 8px rgba(13,19,33,0.1);
+	z-index: 999;
+	transform: scale(1.04);
+	transition: box-shadow 0.15s, transform 0.15s;
+}
+
+/* Pin */
+.sticky-note__pin {
+	position: absolute;
+	top: -8px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 20px;
+	height: 20px;
+	z-index: 11;
+	filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.2));
+}
+
+/* Emoji badge */
+.sticky-note__emoji {
+	position: absolute;
+	top: 6px;
+	right: 8px;
+	font-size: 1.125rem;
+	line-height: 1;
+}
+
+/* Category label */
+.sticky-note__cat {
+	font-size: 0.5625rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	opacity: 0.6;
+}
+
+/* Title */
+.sticky-note__title {
+	font-family: var(--font-headline);
+	font-size: 0.9375rem;
+	font-weight: 600;
+	line-height: 1.35;
+	color: var(--c-on-surface);
+	flex: 1;
+}
+
+/* Reactions */
+.sticky-note__reactions {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-size: 0.6875rem;
+	color: var(--c-on-surface-variant);
+}
+.sticky-note__reactions span {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.2rem;
+}
+
+/* Author */
+.sticky-note__author {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+	font-size: 0.6875rem;
+	font-weight: 500;
+	color: var(--c-on-surface-variant);
+	margin-top: auto;
+	padding-top: 0.35rem;
+	border-top: 1px solid rgba(13,19,33,0.06);
+}
+.sticky-note__author-avatar {
+	width: 20px; height: 20px;
+	border-radius: 50%;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.4375rem;
+	font-weight: 700;
+	color: #fff;
+	flex-shrink: 0;
+}
+.sticky-note__author-time {
+	margin-left: auto;
+	opacity: 0.6;
+	font-weight: 400;
+}
+
+/* ═══════════════════════════════════════
+   NOTE COLORS BY CATEGORY
+   ═══════════════════════════════════════ */
+.sticky-note--consiglio { background: var(--note-consiglio); }
+.sticky-note--consiglio::before { background: var(--pin-consiglio); }
+
+.sticky-note--scambio { background: var(--note-scambio); }
+.sticky-note--scambio::before { background: var(--pin-scambio); }
+
+.sticky-note--evento { background: var(--note-evento); }
+.sticky-note--evento::before { background: var(--pin-evento); }
+
+.sticky-note--collab { background: var(--note-collab); }
+.sticky-note--collab::before { background: var(--pin-collab); }
+
+.sticky-note--podcast { background: var(--note-podcast); }
+.sticky-note--podcast::before { background: var(--pin-podcast); }
+
+.sticky-note--discussione { background: var(--note-discussione); }
+.sticky-note--discussione::before { background: var(--pin-discussione); }
+
+/* ═══════════════════════════════════════
+   ZOOM CONTROLS
+   ═══════════════════════════════════════ */
+.board-zoom {
+	position: fixed;
+	bottom: 1.5rem;
+	right: 1.5rem;
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+	background: #fff;
+	border-radius: 8px;
+	padding: 0.25rem;
+	box-shadow: 0 4px 20px rgba(13,19,33,0.12);
+	z-index: 1000;
+}
+.board-zoom__btn {
+	width: 36px; height: 36px;
+	border: none;
+	border-radius: 6px;
+	background: transparent;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--c-on-surface);
+	transition: background 0.12s;
+}
+.board-zoom__btn:hover { background: rgba(13,19,33,0.06); }
+.board-zoom__level {
+	font-size: 0.75rem;
+	font-weight: 600;
+	min-width: 40px;
+	text-align: center;
+	color: var(--c-on-surface-variant);
+}
+
+/* ═══════════════════════════════════════
+   MINI-MAP
+   ═══════════════════════════════════════ */
+.board-minimap {
+	position: fixed;
+	bottom: 1.5rem;
+	left: 1.5rem;
+	width: 180px;
+	height: 120px;
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0 4px 20px rgba(13,19,33,0.12);
+	z-index: 1000;
+	overflow: hidden;
+	padding: 6px;
+}
+.board-minimap__inner {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	background: #f5f3ee;
+	border-radius: 4px;
+}
+.board-minimap__dot {
+	position: absolute;
+	width: 4px; height: 4px;
+	border-radius: 50%;
+}
+.board-minimap__viewport {
+	position: absolute;
+	border: 2px solid var(--c-accent);
+	border-radius: 2px;
+	opacity: 0.5;
+}
+
+/* ═══════════════════════════════════════
+   CONNECTOR LINES (decorative)
+   ═══════════════════════════════════════ */
+.board-connectors {
+	position: absolute;
+	top: 0; left: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	z-index: 5;
+}
+
+/* ═══════════════════════════════════════
+   NEW POST MODAL
+   ═══════════════════════════════════════ */
+.modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(13, 19, 33, 0.6);
+	backdrop-filter: blur(4px);
+	z-index: 9999;
+	display: none;
+	align-items: center;
+	justify-content: center;
+}
+.modal-overlay.active {
+	display: flex;
+}
+.modal {
+	background: var(--c-surface);
+	border-radius: 16px;
+	width: 420px;
+	max-width: 92vw;
+	max-height: 90vh;
+	overflow-y: auto;
+	box-shadow: 0 24px 64px rgba(0,0,0,0.25);
+	animation: modalSlideIn 0.25s ease;
+}
+@keyframes modalSlideIn {
+	from { opacity: 0; transform: translateY(20px) scale(0.96); }
+	to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.modal__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 1.25rem 1.5rem;
+	border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+.modal__header h2 {
+	font-family: var(--font-headline);
+	font-size: 1.25rem;
+	font-weight: 700;
+}
+.modal__close {
+	background: none;
+	border: none;
+	cursor: pointer;
+	color: var(--c-on-surface-variant);
+	border-radius: 8px;
+	padding: 4px;
+	display: flex;
+	transition: background 0.15s;
+}
+.modal__close:hover { background: rgba(0,0,0,0.06); }
+.modal__body {
+	padding: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+.modal__field label {
+	display: block;
+	font-size: 0.75rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--c-on-surface-variant);
+	margin-bottom: 0.35rem;
+}
+.modal__field input,
+.modal__field textarea,
+.modal__field select {
+	width: 100%;
+	padding: 0.6rem 0.75rem;
+	font-family: var(--font-body);
+	font-size: 0.9rem;
+	border: 1.5px solid rgba(0,0,0,0.12);
+	border-radius: 10px;
+	background: #fff;
+	color: var(--c-on-surface);
+	transition: border-color 0.15s;
+	outline: none;
+}
+.modal__field input:focus,
+.modal__field textarea:focus,
+.modal__field select:focus {
+	border-color: var(--c-accent);
+}
+.modal__field textarea {
+	resize: vertical;
+	min-height: 72px;
+}
+
+/* Emoji Picker */
+.emoji-picker {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+.emoji-picker__btn {
+	width: 36px;
+	height: 36px;
+	font-size: 1.2rem;
+	border: 2px solid transparent;
+	border-radius: 8px;
+	background: rgba(0,0,0,0.03);
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.15s;
+}
+.emoji-picker__btn:hover { background: rgba(0,0,0,0.08); }
+.emoji-picker__btn.selected {
+	border-color: var(--c-accent);
+	background: rgba(62, 92, 118, 0.12);
+}
+
+/* Category Color Preview */
+.modal__cat-preview {
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	margin-right: 6px;
+	vertical-align: middle;
+}
+
+.modal__footer {
+	padding: 1rem 1.5rem 1.25rem;
+	display: flex;
+	gap: 0.75rem;
+	justify-content: flex-end;
+	border-top: 1px solid rgba(0,0,0,0.06);
+}
+.modal__btn {
+	padding: 0.55rem 1.25rem;
+	font-family: var(--font-body);
+	font-size: 0.875rem;
+	font-weight: 600;
+	border-radius: 10px;
+	cursor: pointer;
+	transition: all 0.15s;
+	border: none;
+}
+.modal__btn--secondary {
+	background: transparent;
+	color: var(--c-on-surface-variant);
+}
+.modal__btn--secondary:hover { background: rgba(0,0,0,0.05); }
+.modal__btn--primary {
+	background: var(--c-accent);
+	color: #fff;
+}
+.modal__btn--primary:hover { background: var(--c-primary-container); }
+.modal__btn--primary:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+/* Detail (read-only) modal */
+.modal--detail .modal__field input,
+.modal--detail .modal__field textarea,
+.modal--detail .modal__field select {
+	background: var(--c-surface-container);
+	border-color: transparent;
+	color: var(--c-on-surface);
+	pointer-events: none;
+}
+.modal--detail .emoji-picker { pointer-events: none; }
+.modal--detail .modal__footer { justify-content: space-between; }
+.modal__detail-header {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 0 1.5rem 0.5rem;
+}
+.modal__detail-avatar {
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #fff;
+	font-size: 0.8rem;
+	font-weight: 700;
+	flex-shrink: 0;
+}
+.modal__detail-meta {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+.modal__detail-name {
+	font-weight: 600;
+	font-size: 0.9rem;
+}
+.modal__detail-time {
+	font-size: 0.75rem;
+	color: var(--c-on-surface-variant);
+}
+.modal__detail-desc {
+	padding: 0 1.5rem;
+	font-size: 0.9rem;
+	line-height: 1.5;
+	color: var(--c-on-surface);
+	white-space: pre-wrap;
+}
+.modal__detail-reactions {
+	display: flex;
+	gap: 0.75rem;
+	padding: 0 1.5rem;
+	font-size: 0.9rem;
+}
+.modal__btn--action {
+	background: var(--c-accent);
+	color: #fff;
+	flex: 1;
+}
+.modal__btn--action:hover { background: var(--c-primary-container); }
+.modal__note-preview {
+	margin: 0 1.5rem;
+	padding: 1rem;
+	border-radius: 12px;
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+}
+.modal__note-emoji { font-size: 1.5rem; }
+.modal__note-info { display: flex; flex-direction: column; gap: 2px; }
+.modal__note-title-preview {
+	font-family: var(--font-headline);
+	font-weight: 700;
+	font-size: 1rem;
+}
+.modal__note-cat-badge {
+	font-size: 0.7rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--c-on-surface-variant);
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════ */
+@media (max-width: 768px) {
+	.sticky-note { width: 160px; min-height: 110px; padding: 1.5rem 0.75rem 0.75rem; }
+	.sticky-note__title { font-size: 0.8125rem; }
+	.board-minimap { display: none; }
+	.modal { width: 100%; max-width: 100vw; border-radius: 16px 16px 0 0; margin-top: auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     TOP BAR
+     ═══════════════════════════════════════ -->
+<div class="board-topbar">
+	<a href="demo-community-dashboard.html" class="board-topbar__back">
+		<span class="material-symbols-outlined" style="font-size:18px;">arrow_back</span>
+		Dashboard
+	</a>
+	<div class="board-topbar__title">
+		Consigli &amp; Ricerche
+		<span>34 post</span>
+	</div>
+	<div class="board-topbar__actions">
+		<button class="board-topbar__btn" id="btnToggleView">
+			<span class="material-symbols-outlined" style="font-size:16px;">view_list</span> Lista
+		</button>
+		<button class="board-topbar__btn--add board-topbar__btn" id="btnNewNote">
+			<span class="material-symbols-outlined" style="font-size:16px;">add</span> Nuovo post
+		</button>
+	</div>
+	<div class="board-topbar__users">
+		<div class="board-topbar__avatar" style="background:#e07a5f;" title="Cristian T.">CT</div>
+		<div class="board-topbar__avatar" style="background:#27ae60;" title="Giulia M.">GM</div>
+		<div class="board-topbar__avatar" style="background:#8e44ad;" title="Marco V.">MV</div>
+		<div class="board-topbar__avatar" style="background:#3e5c76;" title="Sara B.">SB</div>
+		<div class="board-topbar__avatar" style="background:#d4a017;">+5</div>
+	</div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     FILTER BAR
+     ═══════════════════════════════════════ -->
+<div class="board-filters">
+	<button class="board-filter-pill active" data-filter="all">Tutti</button>
+	<button class="board-filter-pill" data-filter="consiglio"><span class="board-filter-dot" style="background:var(--pin-consiglio);"></span> Consigli</button>
+	<button class="board-filter-pill" data-filter="scambio"><span class="board-filter-dot" style="background:var(--pin-scambio);"></span> Scambio</button>
+	<button class="board-filter-pill" data-filter="evento"><span class="board-filter-dot" style="background:var(--pin-evento);"></span> Eventi</button>
+	<button class="board-filter-pill" data-filter="collab"><span class="board-filter-dot" style="background:var(--pin-collab);"></span> Collaborazioni</button>
+	<button class="board-filter-pill" data-filter="podcast"><span class="board-filter-dot" style="background:var(--pin-podcast);"></span> Podcast</button>
+	<span class="board-filter-count" id="noteCount">18 post visibili</span>
+</div>
+
+<!-- ═══════════════════════════════════════
+     BOARD CANVAS
+     ═══════════════════════════════════════ -->
+<div class="board-canvas" id="boardCanvas">
+	<div class="board-canvas__inner" id="boardInner">
+
+		<!-- Central topic -->
+		<div class="board-topic">
+			<h2>Quali libri consigliate questa settimana?</h2>
+		</div>
+
+		<!-- ══════ STICKY NOTES ══════ -->
+
+		<!-- Note 1: Consiglio -->
+		<div class="sticky-note sticky-note--consiglio" data-cat="consiglio" style="left:180px;top:120px;transform:rotate(-2deg);">
+			<svg class="sticky-note__pin" viewBox="0 0 20 20"><circle cx="10" cy="8" r="6" fill="var(--pin-consiglio)"/><circle cx="10" cy="8" r="3" fill="#fff" opacity="0.3"/><line x1="10" y1="14" x2="10" y2="20" stroke="#555" stroke-width="1.5" stroke-linecap="round"/></svg>
+			<span class="sticky-note__emoji">📚</span>
+			<span class="sticky-note__cat">Consiglio</span>
+			<div class="sticky-note__title">Libri simili a "Il deserto dei Tartari" di Buzzati?</div>
+			<div class="sticky-note__reactions">
+				<span>💬 14</span>
+				<span>❤️ 8</span>
+			</div>
+			<div class="sticky-note__author">
+				<span class="sticky-note__author-avatar" style="background:#e07a5f;">GM</span>
+				Giulia M.
+				<span class="sticky-note__author-time">3h fa</span>
+			</div>
+		</div>
+
+		<!-- Note 2: Scambio -->
+		<div class="sticky-note sticky-note--scambio" data-cat="scambio" style="left:460px;top:80px;transform:rotate(1.5deg);">
+			<svg class="sticky-note__pin" viewBox="0 0 20 20"><circle cx="10" cy="8" r="6" fill="var(--pin-scambio)"/><circle cx="10" cy="8" r="3" fill="#fff" opacity="0.3"/><line x1="10" y1="14" x2="10" y2="20" stroke="#555" stroke-width="1.5" stroke-linecap="round"/></svg>
+			<span class="sticky-note__emoji">📦</span>
+			<span class="sticky-note__cat">Scambio</span>
+			<div class="sticky-note__title">Collezione Adelphi — 15 titoli, ottime condizioni</div>
+			<div class="sticky-note__reactions">
+				<span>💬 7</span>
+				<span>❤️ 23</span>
+			</div>
+			<div class="sticky-note__author">
+				<span class="sticky-note__author-avatar" style="background:#27ae60;">AT</span>
+				Alessandro T.
+				<span class="sticky-note__author-time">5h fa</span>
+			</div>
+		</div>
+
+		<!-- Note 3: Evento -->
+		<div class="sticky-note sticky-note--evento" data-cat="evento" style="left:740px;top:150px;transform:rotate(-1deg);">
+			<svg class="sticky-note__pin" viewBox="0 0 20 20"><circle cx="10" cy="8" r="6" fill="var(--pin-evento)"/><circle cx="10" cy="8" r="3" fill="#fff" opacity="0.3"/><line x1="10" y1="14" x2="10" y2="20" stroke="#555" stroke-width="1.5" stroke-linecap="round"/></svg>
+			<span class="sticky-note__emoji">🎪</span>
+			<span class="sticky-note__cat">Evento</span>
+			<div class="sticky-note__title">Ferrante al Salone del Libro — chi viene?</div>
+			<div class="sticky-note__reactions">
+				<span>💬 31</span>
+				<span>❤️ 45</span>
+			</div>
+			<div class="sticky-note__author">
+				<span class="sticky-note__author-avatar" style="background:#d4a017;">SB</span>
+				Sara B.
+				<span class="sticky-note__author-time">1g fa</span>
+			</div>
+		</div>
+
+		<!-- Note 4: Podcast -->
+		<div class="sticky-note sticky-note--podcast" data-cat="podcast" style="left:1020px;top:90px;transform:rotate(2.5deg);">
+			<svg class="sticky-note__pin" viewBox="0 0 20 20"><circle cx="10" cy="8" r="6" fill="var(--pin-podcast)"/><circle cx="10" cy="8" r="3" fill="#fff" opacity="0.3"/><line x1="10" y1="14" x2="10" y2="20" stroke="#555" stroke-width="1.5" stroke-linecap="round"/></svg>
+			<span class="sticky-note__emoji">🎙️</span>
+			<span class="sticky-note__cat">Podcast</span>
+			<div class="sticky-note__title">Ep. 47 — "L'architettura del silenzio"</div>
+			<div class="sticky-note__reactions">
+				<span>💬 22</span>
+				<span>❤️ 19</span>
+			</div>
+			<div class="sticky-note__author">
+				<span class="sticky-note__author-avatar" style="background:#e07a5f;">MV</span>
+				Marco V.
+				<span class="sticky-note__author-time">2g fa</span>
+			</div>
+		</div>
+
+		<!-- Note 5: Consiglio -->
+		<div class="sticky-note sticky-note--consiglio" data-cat="consiglio" style="left:280px;top:380px;transform:rotate(1deg);">
+			<svg class="sticky-note__pin" viewBox="0 0 20 20"><circle cx="10" cy="8" r="6" fill="var(--pin-consiglio)"/><circle cx="10" cy="8" r="3" fill="#fff" opacity="0.3"/><line x1="10" y1="14" x2="10" y2="20" stroke="#555" stroke-width="1.5" stroke-linecap="round"/></svg>
+			<span class="sticky-note__emoji">🔍</span>
+			<span class="sticky-note__cat">Consiglio</span>
+			<div class="sticky-note__title">Migliori saggi di antropologia per neofiti?</div>
+			<div class="sticky-note__reactions">
+				<span>💬 18</span>
+				<span>❤️ 7</span>
+			</div>
+			<div class="sticky-note__author">
+				<span class="sticky-note__author-avatar" style="background:#c0392b;">FL</span>
+				Francesca L.
+				<span class="sticky-note__author-time">4g fa</span>
+			</div>
+		</div>
+
+		<!-- Note 6: Scambio -->
+		<div class="sticky-note sticky-note--scambio" data-cat="scambio" style="left:560px;top:420px;transform:rotate(-2.5deg);">
+			<svg class="sticky-note__pin" viewBox="0 0 20 20"><circle cx="10" cy="8" r="6" fill="var(--pin-scambio)"/><circle cx="10" cy="8" r="3" fill="#fff" opacity="0.3"/><line x1="10" y1="14" x2="10" y2="20" stroke="#555" stroke-width="1.5" stroke-linecap="round"/></svg>
+			<span class="sticky-note__emoji">🎁</span>
+			<span class="sticky-note__cat">Scambio</span>
+			<div class="sticky-note__title">Scatolone di gialli Sellerio — ritiro Milano zona Isola</div>
+			<div class="sticky-note__reactions">
+				<span>💬 5</span>
+				<span>❤️ 12</span>
+			</div>
+			<div class="sticky-note__author">
+				<span class="sticky-note__author-avatar" style="background:#27ae60;">MF</span>
+				Marta F.
+				<span class="sticky-note__author-time">2g fa</span>
+			</div>
+		</div>
+
+		<!-- Note 7: Collaborazione -->
+		<div class="sticky-note sticky-note--collab" data-cat="collab" style="left:850px;top:380px;transform:rotate(1.8deg);">
+			<svg class="sticky-note__pin" viewBox="0 0 20 20"><circle cx="10" cy="8" r="6" fill="var(--pin-collab)"/><circle cx="10" cy="8" r="3" fill="#fff" opacity="0.3"/><line x1="10" y1="14" x2="10" y2="20" stroke="#555" stroke-width="1.5" stroke-linecap="round"/></svg>
+			<span class="sticky-note__emoji">🤝</span>
+			<span class="sticky-note__cat">Collaborazione</span>
+			<div class="sticky-note__title">Cerco co-host per episodio speciale su Ferrante</div>
+			<div class="sticky-note__reactions">
+				<span>💬 9</span>
+				<span>❤️ 16</span>
+			</div>
+			<div class="sticky-note__author">
+				<span class="sticky-note__author-avatar" style="background:#8e44ad;">DC</span>
+				Davide C.
+				<span class="sticky-note__author-time">3g fa</span>
+			</div>
+		</div>
+
+		<!-- Note 8: Consiglio -->
+		<div class="sticky-note sticky-note--consiglio" data-cat="consiglio" style="left:120px;top:600px;transform:rotate(-1.5deg);">
+			<svg class="sticky-note__pin" viewBox="0 0 20 20"><circle cx="10" cy="8" r="6" fill="var(--pin-consiglio)"/><circle cx="10" cy="8" r="3" fill="#fff" opacity="0.3"/><line x1="10" y1="14" x2="10" y2="20" stroke="#555" stroke-width="1.5" stroke-linecap="round"/></svg>
+			<span class="sticky-note__emoji">💡</span>
+			<span class="sticky-note__cat">Consiglio</span>
+			<div class="sticky-note__title">Romanzi brevi da leggere in un weekend?</div>
+			<div class="sticky-note__reactions">
+				<span>💬 26</span>
+				<span>❤️ 31</span>
+			</div>
+			<div class="sticky-note__author">
+				<span class="sticky-note__author-avatar" style="background:#c0392b;">LP</span>
+				Luca P.
+				<span class="sticky-note__author-time">5h fa</span>
+			</div>
+		</div>
+
+		<!-- Note 9: Evento -->
+		<div class="sticky-note sticky-note--evento" data-cat="evento" style="left:400px;top:650px;transform:rotate(2deg);">
+			<svg class="sticky-note__pin" viewBox="0 0 20 20"><circle cx="10" cy="8" r="6" fill="var(--pin-evento)"/><circle cx="10" cy="8" r="3" fill="#fff" opacity="0.3"/><line x1="10" y1="14" x2="10" y2="20" stroke="#555" stroke-width="1.5" stroke-linecap="round"/></svg>
+			<span class="sticky-note__emoji">📖</span>
+			<span class="sticky-note__cat">Evento</span>
+			<div class="sticky-note__title">Reading group dal vivo a Milano — aprile</div>
+			<div class="sticky-note__reactions">
+				<span>💬 19</span>
+				<span>❤️ 28</span>
+			</div>
+			<div class="sticky-note__author">
+				<span class="sticky-note__author-avatar" style="background:#d4a017;">SM</span>
+				Sofia M.
+				<span class="sticky-note__author-time">1g fa</span>
+			</div>
+		</div>
+
+		<!-- Note 10: Podcast -->
+		<div class="sticky-note sticky-note--podcast" data-cat="podcast" style="left:680px;top:620px;transform:rotate(-0.5deg);">
+			<svg class="sticky-note__pin" viewBox="0 0 20 20"><circle cx="10" cy="8" r="6" fill="var(--pin-podcast)"/><circle cx="10" cy="8" r="3" fill="#fff" opacity="0.3"/><line x1="10" y1="14" x2="10" y2="20" stroke="#555" stroke-width="1.5" stroke-linecap="round"/></svg>
+			<span class="sticky-note__emoji">🎧</span>
+			<span class="sticky-note__cat">Podcast</span>
+			<div class="sticky-note__title">Ep. 46 — Sebald e la memoria involontaria</div>
+			<div class="sticky-note__reactions">
+				<span>💬 15</span>
+				<span>❤️ 11</span>
+			</div>
+			<div class="sticky-note__author">
+				<span class="sticky-note__author-avatar" style="background:#e07a5f;">MV</span>
+				Marco V.
+				<span class="sticky-note__author-time">5g fa</span>
+			</div>
+		</div>
+
+		<!-- Note 11: Scambio -->
+		<div class="sticky-note sticky-note--scambio" data-cat="scambio" style="left:960px;top:560px;transform:rotate(1.2deg);">
+			<svg class="sticky-note__pin" viewBox="0 0 20 20"><circle cx="10" cy="8" r="6" fill="var(--pin-scambio)"/><circle cx="10" cy="8" r="3" fill="#fff" opacity="0.3"/><line x1="10" y1="14" x2="10" y2="20" stroke="#555" stroke-width="1.5" stroke-linecap="round"/></svg>
+			<span class="sticky-note__emoji">🔄</span>
+			<span class="sticky-note__cat">Scambio</span>
+			<div class="sticky-note__title">Scambio: offro Saramago, cerco Ferrante</div>
+			<div class="sticky-note__reactions">
+				<span>💬 3</span>
+				<span>❤️ 6</span>
+			</div>
+			<div class="sticky-note__author">
+				<span class="sticky-note__author-avatar" style="background:#27ae60;">ER</span>
+				Elena R.
+				<span class="sticky-note__author-time">6h fa</span>
+			</div>
+		</div>
+
+		<!-- Note 12: Discussione -->
+		<div class="sticky-note sticky-note--discussione" data-cat="discussione" style="left:1200px;top:280px;transform:rotate(-1.8deg);">
+			<svg class="sticky-note__pin" viewBox="0 0 20 20"><circle cx="10" cy="8" r="6" fill="var(--pin-discussione)"/><circle cx="10" cy="8" r="3" fill="#fff" opacity="0.3"/><line x1="10" y1="14" x2="10" y2="20" stroke="#555" stroke-width="1.5" stroke-linecap="round"/></svg>
+			<span class="sticky-note__emoji">🗣️</span>
+			<span class="sticky-note__cat">Discussione</span>
+			<div class="sticky-note__title">Murakami sopravvalutato? Opinione impopolare</div>
+			<div class="sticky-note__reactions">
+				<span>💬 42</span>
+				<span>🔥 67</span>
+			</div>
+			<div class="sticky-note__author">
+				<span class="sticky-note__author-avatar" style="background:#3e5c76;">LP</span>
+				Luca P.
+				<span class="sticky-note__author-time">1h fa</span>
+			</div>
+		</div>
+
+		<!-- Note 13: Consiglio -->
+		<div class="sticky-note sticky-note--consiglio" data-cat="consiglio" style="left:1150px;top:520px;transform:rotate(0.8deg);">
+			<svg class="sticky-note__pin" viewBox="0 0 20 20"><circle cx="10" cy="8" r="6" fill="var(--pin-consiglio)"/><circle cx="10" cy="8" r="3" fill="#fff" opacity="0.3"/><line x1="10" y1="14" x2="10" y2="20" stroke="#555" stroke-width="1.5" stroke-linecap="round"/></svg>
+			<span class="sticky-note__emoji">✨</span>
+			<span class="sticky-note__cat">Consiglio</span>
+			<div class="sticky-note__title">Letteratura giapponese contemporanea: da dove partire?</div>
+			<div class="sticky-note__reactions">
+				<span>💬 21</span>
+				<span>❤️ 14</span>
+			</div>
+			<div class="sticky-note__author">
+				<span class="sticky-note__author-avatar" style="background:#c0392b;">AC</span>
+				Anna C.
+				<span class="sticky-note__author-time">8h fa</span>
+			</div>
+		</div>
+
+		<!-- Note 14: Collab -->
+		<div class="sticky-note sticky-note--collab" data-cat="collab" style="left:200px;top:850px;transform:rotate(-0.7deg);">
+			<svg class="sticky-note__pin" viewBox="0 0 20 20"><circle cx="10" cy="8" r="6" fill="var(--pin-collab)"/><circle cx="10" cy="8" r="3" fill="#fff" opacity="0.3"/><line x1="10" y1="14" x2="10" y2="20" stroke="#555" stroke-width="1.5" stroke-linecap="round"/></svg>
+			<span class="sticky-note__emoji">✍️</span>
+			<span class="sticky-note__cat">Collaborazione</span>
+			<div class="sticky-note__title">Chi vuole scrivere una recensione a quattro mani?</div>
+			<div class="sticky-note__reactions">
+				<span>💬 11</span>
+				<span>❤️ 9</span>
+			</div>
+			<div class="sticky-note__author">
+				<span class="sticky-note__author-avatar" style="background:#8e44ad;">CT</span>
+				Cristian T.
+				<span class="sticky-note__author-time">2g fa</span>
+			</div>
+		</div>
+
+		<!-- Note 15: Scambio -->
+		<div class="sticky-note sticky-note--scambio" data-cat="scambio" style="left:520px;top:880px;transform:rotate(2.2deg);">
+			<svg class="sticky-note__pin" viewBox="0 0 20 20"><circle cx="10" cy="8" r="6" fill="var(--pin-scambio)"/><circle cx="10" cy="8" r="3" fill="#fff" opacity="0.3"/><line x1="10" y1="14" x2="10" y2="20" stroke="#555" stroke-width="1.5" stroke-linecap="round"/></svg>
+			<span class="sticky-note__emoji">📕</span>
+			<span class="sticky-note__cat">Scambio</span>
+			<div class="sticky-note__title">Regalo prima edizione Einaudi di Pavese</div>
+			<div class="sticky-note__reactions">
+				<span>💬 8</span>
+				<span>🤯 34</span>
+			</div>
+			<div class="sticky-note__author">
+				<span class="sticky-note__author-avatar" style="background:#27ae60;">GB</span>
+				Giorgio B.
+				<span class="sticky-note__author-time">12h fa</span>
+			</div>
+		</div>
+
+		<!-- Note 16: Evento -->
+		<div class="sticky-note sticky-note--evento" data-cat="evento" style="left:830px;top:800px;transform:rotate(-1.3deg);">
+			<svg class="sticky-note__pin" viewBox="0 0 20 20"><circle cx="10" cy="8" r="6" fill="var(--pin-evento)"/><circle cx="10" cy="8" r="3" fill="#fff" opacity="0.3"/><line x1="10" y1="14" x2="10" y2="20" stroke="#555" stroke-width="1.5" stroke-linecap="round"/></svg>
+			<span class="sticky-note__emoji">🏛️</span>
+			<span class="sticky-note__cat">Evento</span>
+			<div class="sticky-note__title">Inaugurazione libreria indipendente a Navigli</div>
+			<div class="sticky-note__reactions">
+				<span>💬 14</span>
+				<span>❤️ 22</span>
+			</div>
+			<div class="sticky-note__author">
+				<span class="sticky-note__author-avatar" style="background:#d4a017;">RM</span>
+				Roberto M.
+				<span class="sticky-note__author-time">3g fa</span>
+			</div>
+		</div>
+
+		<!-- Note 17: Podcast -->
+		<div class="sticky-note sticky-note--podcast" data-cat="podcast" style="left:1100px;top:760px;transform:rotate(1.5deg);">
+			<svg class="sticky-note__pin" viewBox="0 0 20 20"><circle cx="10" cy="8" r="6" fill="var(--pin-podcast)"/><circle cx="10" cy="8" r="3" fill="#fff" opacity="0.3"/><line x1="10" y1="14" x2="10" y2="20" stroke="#555" stroke-width="1.5" stroke-linecap="round"/></svg>
+			<span class="sticky-note__emoji">🌍</span>
+			<span class="sticky-note__cat">Podcast</span>
+			<div class="sticky-note__title">Ep. 48 — Premio Nobel: pronostici e polemiche</div>
+			<div class="sticky-note__reactions">
+				<span>💬 38</span>
+				<span>🔥 52</span>
+			</div>
+			<div class="sticky-note__author">
+				<span class="sticky-note__author-avatar" style="background:#e07a5f;">MV</span>
+				Marco V.
+				<span class="sticky-note__author-time">Nuovo!</span>
+			</div>
+		</div>
+
+		<!-- Note 18: Consiglio -->
+		<div class="sticky-note sticky-note--consiglio" data-cat="consiglio" style="left:1350px;top:600px;transform:rotate(-2.2deg);">
+			<svg class="sticky-note__pin" viewBox="0 0 20 20"><circle cx="10" cy="8" r="6" fill="var(--pin-consiglio)"/><circle cx="10" cy="8" r="3" fill="#fff" opacity="0.3"/><line x1="10" y1="14" x2="10" y2="20" stroke="#555" stroke-width="1.5" stroke-linecap="round"/></svg>
+			<span class="sticky-note__emoji">🌙</span>
+			<span class="sticky-note__cat">Consiglio</span>
+			<div class="sticky-note__title">Narrativa sudamericana: i vostri top 5 assoluti</div>
+			<div class="sticky-note__reactions">
+				<span>💬 33</span>
+				<span>❤️ 41</span>
+			</div>
+			<div class="sticky-note__author">
+				<span class="sticky-note__author-avatar" style="background:#c0392b;">VD</span>
+				Valentina D.
+				<span class="sticky-note__author-time">1g fa</span>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     ZOOM CONTROLS
+     ═══════════════════════════════════════ -->
+<div class="board-zoom">
+	<button class="board-zoom__btn" id="zoomOut" title="Zoom out">
+		<span class="material-symbols-outlined" style="font-size:20px;">remove</span>
+	</button>
+	<span class="board-zoom__level" id="zoomLevel">100%</span>
+	<button class="board-zoom__btn" id="zoomIn" title="Zoom in">
+		<span class="material-symbols-outlined" style="font-size:20px;">add</span>
+	</button>
+	<button class="board-zoom__btn" id="zoomFit" title="Adatta alla vista">
+		<span class="material-symbols-outlined" style="font-size:20px;">fit_screen</span>
+	</button>
+</div>
+
+<!-- ═══════════════════════════════════════
+     MINIMAP
+     ═══════════════════════════════════════ -->
+<div class="board-minimap" id="minimap">
+	<div class="board-minimap__inner" id="minimapInner">
+		<div class="board-minimap__viewport" id="minimapViewport"></div>
+	</div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     MODAL: NUOVO POST-IT
+     ═══════════════════════════════════════ -->
+<div class="modal-overlay" id="modalNewNote">
+	<div class="modal" id="modalInner">
+		<div class="modal__header">
+			<h2 id="modalTitle">📌 Nuovo Post-it</h2>
+			<button class="modal__close" id="modalClose" aria-label="Chiudi">
+				<span class="material-symbols-outlined" style="font-size:20px;">close</span>
+			</button>
+		</div>
+
+		<!-- CREATE MODE -->
+		<div id="modalCreateBody">
+			<div class="modal__body">
+				<div class="modal__field">
+					<label for="noteTitle">Titolo</label>
+					<input type="text" id="noteTitle" placeholder="Di cosa vuoi parlare?" maxlength="80">
+				</div>
+				<div class="modal__field">
+					<label for="noteDesc">Descrizione</label>
+					<textarea id="noteDesc" placeholder="Aggiungi qualche dettaglio..." maxlength="200"></textarea>
+				</div>
+				<div class="modal__field">
+					<label for="noteCat">Tipologia</label>
+					<select id="noteCat">
+						<option value="consiglio">📚 Consiglio</option>
+						<option value="scambio">🔄 Scambio</option>
+						<option value="evento">📅 Evento</option>
+						<option value="collab">🤝 Collaborazione</option>
+						<option value="podcast">🎙️ Podcast</option>
+						<option value="discussione">💬 Discussione</option>
+					</select>
+				</div>
+				<div class="modal__field">
+					<label for="noteAuthor">Autore</label>
+					<input type="text" id="noteAuthor" value="Cristian T." readonly style="background:var(--c-surface-container);cursor:default;opacity:0.8;">
+				</div>
+				<div class="modal__field">
+					<label>Emoji</label>
+					<div class="emoji-picker" id="emojiPicker">
+						<button type="button" class="emoji-picker__btn selected" data-emoji="📚">📚</button>
+						<button type="button" class="emoji-picker__btn" data-emoji="💡">💡</button>
+						<button type="button" class="emoji-picker__btn" data-emoji="🔍">🔍</button>
+						<button type="button" class="emoji-picker__btn" data-emoji="✨">✨</button>
+						<button type="button" class="emoji-picker__btn" data-emoji="📖">📖</button>
+						<button type="button" class="emoji-picker__btn" data-emoji="🌙">🌙</button>
+						<button type="button" class="emoji-picker__btn" data-emoji="🎯">🎯</button>
+						<button type="button" class="emoji-picker__btn" data-emoji="💫">💫</button>
+						<button type="button" class="emoji-picker__btn" data-emoji="🎧">🎧</button>
+						<button type="button" class="emoji-picker__btn" data-emoji="☕">☕</button>
+						<button type="button" class="emoji-picker__btn" data-emoji="🌿">🌿</button>
+						<button type="button" class="emoji-picker__btn" data-emoji="🔥">🔥</button>
+						<button type="button" class="emoji-picker__btn" data-emoji="💬">💬</button>
+						<button type="button" class="emoji-picker__btn" data-emoji="📝">📝</button>
+						<button type="button" class="emoji-picker__btn" data-emoji="🎭">🎭</button>
+						<button type="button" class="emoji-picker__btn" data-emoji="🌍">🌍</button>
+					</div>
+				</div>
+			</div>
+			<div class="modal__footer">
+				<button class="modal__btn modal__btn--secondary" id="modalCancel">Annulla</button>
+				<button class="modal__btn modal__btn--primary" id="modalSubmit" disabled>Appendi post-it</button>
+			</div>
+		</div>
+
+		<!-- DETAIL MODE (read-only) -->
+		<div id="modalDetailBody" style="display:none;padding-top:0.75rem;padding-bottom:0;">
+			<div class="modal__note-preview" id="detailPreview">
+				<span class="modal__note-emoji" id="detailEmoji"></span>
+				<div class="modal__note-info">
+					<span class="modal__note-title-preview" id="detailTitle"></span>
+					<span class="modal__note-cat-badge" id="detailCatBadge"></span>
+				</div>
+			</div>
+			<div class="modal__detail-header" id="detailAuthorBlock" style="margin-top:0.75rem;">
+				<div class="modal__detail-avatar" id="detailAvatar"></div>
+				<div class="modal__detail-meta">
+					<span class="modal__detail-name" id="detailAuthor"></span>
+					<span class="modal__detail-time" id="detailTime"></span>
+				</div>
+			</div>
+			<div class="modal__detail-desc" id="detailDesc" style="margin-top:0.5rem;"></div>
+			<div class="modal__detail-reactions" id="detailReactions" style="margin-top:0.75rem;"></div>
+			<div class="modal__footer" style="margin-top:0.75rem;">
+				<button class="modal__btn modal__btn--secondary" id="detailClose">Chiudi</button>
+				<button class="modal__btn modal__btn--primary modal__btn--action" id="detailAction"></button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SCRIPTS
+     ═══════════════════════════════════════ -->
+<script>
+(function() {
+	'use strict';
+
+	// ══════ BOARD CONFIG FROM URL ══════
+	const boardConfigs = {
+		consiglio: {
+			title: 'Consigli & Ricerche',
+			count: '34 post',
+			topic: 'Quali libri consigliate questa settimana?',
+			defaultFilter: 'all'
+		},
+		scambio: {
+			title: 'Scambio Libri',
+			count: '18 post',
+			topic: 'Cosa offri? Cosa cerchi?',
+			defaultFilter: 'scambio'
+		},
+		evento: {
+			title: 'Eventi & Segnalazioni',
+			count: '12 post',
+			topic: 'Quali eventi letterari sono in programma?',
+			defaultFilter: 'evento'
+		},
+		collab: {
+			title: 'Collaborazioni',
+			count: '7 post',
+			topic: 'Cerchi qualcuno con cui collaborare?',
+			defaultFilter: 'collab'
+		},
+		discussione: {
+			title: 'Discussioni',
+			count: '45 post',
+			topic: 'Di cosa vogliamo parlare oggi?',
+			defaultFilter: 'discussione'
+		},
+		podcast: {
+			title: 'Podcast',
+			count: '28 post',
+			topic: 'Commenti e reazioni agli episodi',
+			defaultFilter: 'podcast'
+		}
+	};
+
+	const params = new URLSearchParams(window.location.search);
+	const boardType = params.get('board');
+	const config = boardConfigs[boardType] || boardConfigs.consiglio;
+
+	// Apply board configuration
+	document.title = 'Lavagna — ' + config.title + ' — Not My Cup of Read';
+	const titleEl = document.querySelector('.board-topbar__title');
+	if (titleEl) {
+		titleEl.innerHTML = config.title + '<span>' + config.count + '</span>';
+	}
+	const topicEl = document.querySelector('.board-topic h2');
+	if (topicEl) {
+		topicEl.textContent = config.topic;
+	}
+
+	// Auto-activate the right filter if board type is specific
+	if (boardType && boardType !== 'consiglio' && config.defaultFilter !== 'all') {
+		const targetPill = document.querySelector('[data-filter="' + config.defaultFilter + '"]');
+		if (targetPill) {
+			document.querySelectorAll('.board-filter-pill').forEach(p => p.classList.remove('active'));
+			targetPill.classList.add('active');
+			// Pre-filter notes
+			document.querySelectorAll('.sticky-note').forEach(note => {
+				if (note.dataset.cat === config.defaultFilter) {
+					note.style.opacity = '1';
+				} else {
+					note.style.opacity = '0.15';
+				}
+			});
+		}
+	}
+
+	const canvas = document.getElementById('boardCanvas');
+	const inner = document.getElementById('boardInner');
+	const notes = document.querySelectorAll('.sticky-note');
+	const filters = document.querySelectorAll('.board-filter-pill');
+	const noteCountEl = document.getElementById('noteCount');
+
+	// ══════ CURRENT USER ══════
+	const CURRENT_USER = 'Cristian T.';
+	const CURRENT_INITIALS = 'CT';
+
+	// ══════ DRAG & DROP ══════
+	let dragTarget = null;
+	let dragOffsetX = 0;
+	let dragOffsetY = 0;
+	let isDraggingNote = false;
+	let dragStartX = 0;
+	let dragStartY = 0;
+	let hasDragged = false;
+
+	notes.forEach(note => {
+		note.addEventListener('mousedown', startDrag);
+		note.addEventListener('touchstart', startDragTouch, { passive: false });
+	});
+
+	function startDrag(e) {
+		if (e.button !== 0) return;
+		e.preventDefault();
+		e.stopPropagation();
+		dragTarget = this;
+		isDraggingNote = true;
+		hasDragged = false;
+		dragStartX = e.clientX;
+		dragStartY = e.clientY;
+		const rect = dragTarget.getBoundingClientRect();
+		dragOffsetX = e.clientX - rect.left;
+		dragOffsetY = e.clientY - rect.top;
+		dragTarget.classList.add('dragging');
+		dragTarget.style.transition = 'none';
+
+		document.addEventListener('mousemove', onDrag);
+		document.addEventListener('mouseup', stopDrag);
+	}
+
+	function startDragTouch(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		const touch = e.touches[0];
+		dragTarget = this;
+		isDraggingNote = true;
+		hasDragged = false;
+		dragStartX = touch.clientX;
+		dragStartY = touch.clientY;
+		const rect = dragTarget.getBoundingClientRect();
+		dragOffsetX = touch.clientX - rect.left;
+		dragOffsetY = touch.clientY - rect.top;
+		dragTarget.classList.add('dragging');
+		dragTarget.style.transition = 'none';
+
+		document.addEventListener('touchmove', onDragTouch, { passive: false });
+		document.addEventListener('touchend', stopDragTouch);
+	}
+
+	function onDrag(e) {
+		if (!dragTarget) return;
+		if (Math.abs(e.clientX - dragStartX) > 5 || Math.abs(e.clientY - dragStartY) > 5) hasDragged = true;
+		const newX = e.clientX - dragOffsetX + canvas.scrollLeft - canvas.getBoundingClientRect().left;
+		const newY = e.clientY - dragOffsetY + canvas.scrollTop - canvas.getBoundingClientRect().top;
+		dragTarget.style.left = Math.max(0, newX) + 'px';
+		dragTarget.style.top = Math.max(0, newY) + 'px';
+		dragTarget.style.transform = 'scale(1.04)';
+		updateMinimap();
+	}
+
+	function onDragTouch(e) {
+		e.preventDefault();
+		if (!dragTarget) return;
+		const touch = e.touches[0];
+		if (Math.abs(touch.clientX - dragStartX) > 5 || Math.abs(touch.clientY - dragStartY) > 5) hasDragged = true;
+		const newX = touch.clientX - dragOffsetX + canvas.scrollLeft - canvas.getBoundingClientRect().left;
+		const newY = touch.clientY - dragOffsetY + canvas.scrollTop - canvas.getBoundingClientRect().top;
+		dragTarget.style.left = Math.max(0, newX) + 'px';
+		dragTarget.style.top = Math.max(0, newY) + 'px';
+		dragTarget.style.transform = 'scale(1.04)';
+	}
+
+	function stopDrag() {
+		var clickedNote = dragTarget;
+		if (dragTarget) {
+			dragTarget.classList.remove('dragging');
+			dragTarget.style.transition = '';
+			const rot = dragTarget.dataset.origRot || '0deg';
+			dragTarget.style.transform = 'rotate(' + rot + ')';
+			dragTarget = null;
+		}
+		isDraggingNote = false;
+		document.removeEventListener('mousemove', onDrag);
+		document.removeEventListener('mouseup', stopDrag);
+		if (!hasDragged && clickedNote) openDetailModal(clickedNote);
+	}
+
+	function stopDragTouch() {
+		var clickedNote = dragTarget;
+		if (dragTarget) {
+			dragTarget.classList.remove('dragging');
+			dragTarget.style.transition = '';
+			const rot = dragTarget.dataset.origRot || '0deg';
+			dragTarget.style.transform = 'rotate(' + rot + ')';
+			dragTarget = null;
+		}
+		isDraggingNote = false;
+		document.removeEventListener('touchmove', onDragTouch);
+		document.removeEventListener('touchend', stopDragTouch);
+		if (!hasDragged && clickedNote) openDetailModal(clickedNote);
+	}
+
+	// Save original rotations
+	notes.forEach(note => {
+		const style = note.style.transform;
+		const match = style.match(/rotate\(([^)]+)\)/);
+		note.dataset.origRot = match ? match[1] : '0deg';
+	});
+
+	// ══════ CANVAS PAN ══════
+	let isPanning = false;
+	let panStartX, panStartY, scrollStartX, scrollStartY;
+
+	canvas.addEventListener('mousedown', function(e) {
+		if (isDraggingNote) return;
+		isPanning = true;
+		panStartX = e.clientX;
+		panStartY = e.clientY;
+		scrollStartX = canvas.scrollLeft;
+		scrollStartY = canvas.scrollTop;
+		canvas.classList.add('grabbing');
+	});
+
+	document.addEventListener('mousemove', function(e) {
+		if (!isPanning) return;
+		canvas.scrollLeft = scrollStartX - (e.clientX - panStartX);
+		canvas.scrollTop = scrollStartY - (e.clientY - panStartY);
+		updateMinimap();
+	});
+
+	document.addEventListener('mouseup', function() {
+		isPanning = false;
+		canvas.classList.remove('grabbing');
+	});
+
+	// ══════ ZOOM ══════
+	let zoomLevel = 1;
+	const zoomLevelEl = document.getElementById('zoomLevel');
+
+	function setZoom(level) {
+		zoomLevel = Math.max(0.4, Math.min(2, level));
+		inner.style.transform = 'scale(' + zoomLevel + ')';
+		inner.style.transformOrigin = '0 0';
+		zoomLevelEl.textContent = Math.round(zoomLevel * 100) + '%';
+		updateMinimap();
+	}
+
+	document.getElementById('zoomIn').addEventListener('click', () => setZoom(zoomLevel + 0.1));
+	document.getElementById('zoomOut').addEventListener('click', () => setZoom(zoomLevel - 0.1));
+	document.getElementById('zoomFit').addEventListener('click', () => {
+		setZoom(1);
+		canvas.scrollLeft = 0;
+		canvas.scrollTop = 0;
+	});
+
+	// Mouse wheel zoom
+	canvas.addEventListener('wheel', function(e) {
+		e.preventDefault();
+		const delta = e.deltaY > 0 ? -0.05 : 0.05;
+		setZoom(zoomLevel + delta);
+	}, { passive: false });
+
+	// ══════ FILTERS ══════
+	filters.forEach(pill => {
+		pill.addEventListener('click', function() {
+			filters.forEach(p => p.classList.remove('active'));
+			this.classList.add('active');
+			const cat = this.dataset.filter;
+			let visible = 0;
+			notes.forEach(note => {
+				if (cat === 'all' || note.dataset.cat === cat) {
+					note.style.display = '';
+					note.style.opacity = '1';
+					visible++;
+				} else {
+					note.style.opacity = '0.15';
+					note.style.display = '';
+				}
+			});
+			noteCountEl.textContent = (cat === 'all' ? notes.length : visible) + ' post visibili';
+			updateMinimap();
+		});
+	});
+
+	// ══════ MINIMAP ══════
+	const minimapInner = document.getElementById('minimapInner');
+	const minimapViewport = document.getElementById('minimapViewport');
+
+	function updateMinimap() {
+		const mmW = minimapInner.offsetWidth;
+		const mmH = minimapInner.offsetHeight;
+		const cW = inner.scrollWidth * zoomLevel;
+		const cH = inner.scrollHeight * zoomLevel;
+		const scaleX = mmW / (inner.scrollWidth);
+		const scaleY = mmH / (inner.scrollHeight);
+
+		// Update dots
+		minimapInner.querySelectorAll('.board-minimap__dot').forEach(d => d.remove());
+		notes.forEach(note => {
+			if (note.style.opacity === '0.15') return;
+			const dot = document.createElement('div');
+			dot.className = 'board-minimap__dot';
+			const noteLeft = parseInt(note.style.left) || 0;
+			const noteTop = parseInt(note.style.top) || 0;
+			dot.style.left = (noteLeft * scaleX) + 'px';
+			dot.style.top = (noteTop * scaleY) + 'px';
+			const catColors = {
+				consiglio: 'var(--pin-consiglio)',
+				scambio: 'var(--pin-scambio)',
+				evento: 'var(--pin-evento)',
+				collab: 'var(--pin-collab)',
+				podcast: 'var(--pin-podcast)',
+				discussione: 'var(--pin-discussione)'
+			};
+			dot.style.background = catColors[note.dataset.cat] || '#999';
+			minimapInner.appendChild(dot);
+		});
+
+		// Update viewport rectangle
+		const vw = (canvas.offsetWidth / cW) * mmW;
+		const vh = (canvas.offsetHeight / cH) * mmH;
+		const vl = (canvas.scrollLeft / cW) * mmW;
+		const vt = (canvas.scrollTop / cH) * mmH;
+		minimapViewport.style.width = Math.min(mmW, vw) + 'px';
+		minimapViewport.style.height = Math.min(mmH, vh) + 'px';
+		minimapViewport.style.left = vl + 'px';
+		minimapViewport.style.top = vt + 'px';
+	}
+
+	canvas.addEventListener('scroll', updateMinimap);
+
+	// ══════ SHARED MODAL UTILS ══════
+	const modal = document.getElementById('modalNewNote');
+	const modalInner = document.getElementById('modalInner');
+	const modalTitleEl = document.getElementById('modalTitle');
+	const modalClose = document.getElementById('modalClose');
+	const modalCreateBody = document.getElementById('modalCreateBody');
+	const modalDetailBody = document.getElementById('modalDetailBody');
+
+	// Create mode elements
+	const modalCancel = document.getElementById('modalCancel');
+	const modalSubmit = document.getElementById('modalSubmit');
+	const noteTitle = document.getElementById('noteTitle');
+	const noteDesc = document.getElementById('noteDesc');
+	const noteCat = document.getElementById('noteCat');
+	const noteAuthor = document.getElementById('noteAuthor');
+	const emojiPicker = document.getElementById('emojiPicker');
+	let selectedEmoji = '📚';
+
+	// Detail mode elements
+	const detailClose = document.getElementById('detailClose');
+	const detailAction = document.getElementById('detailAction');
+
+	var pinColors = {
+		consiglio: 'var(--pin-consiglio)', scambio: 'var(--pin-scambio)',
+		evento: 'var(--pin-evento)', collab: 'var(--pin-collab)',
+		podcast: 'var(--pin-podcast)', discussione: 'var(--pin-discussione)'
+	};
+	var avatarColors = {
+		consiglio: '#c0392b', scambio: '#27ae60', evento: '#d4a017',
+		collab: '#8e44ad', podcast: '#e07a5f', discussione: '#3e5c76'
+	};
+	var catLabels = {
+		consiglio: 'Consiglio', scambio: 'Scambio', evento: 'Evento',
+		collab: 'Collaborazione', podcast: 'Podcast', discussione: 'Discussione'
+	};
+	var catActionLabels = {
+		consiglio: 'Consiglia', scambio: 'Scambia', evento: 'Partecipa',
+		collab: 'Collabora', podcast: 'Discuti', discussione: 'Discuti'
+	};
+	var noteBackgrounds = {
+		consiglio: 'var(--note-consiglio)', scambio: 'var(--note-scambio)',
+		evento: 'var(--note-evento)', collab: 'var(--note-collab)',
+		podcast: 'var(--note-podcast)', discussione: 'var(--note-discussione)'
+	};
+
+	function closeModal() {
+		modal.classList.remove('active');
+		modalInner.classList.remove('modal--detail');
+	}
+
+	modalClose.addEventListener('click', closeModal);
+	modal.addEventListener('click', function(e) {
+		if (e.target === modal) closeModal();
+	});
+	document.addEventListener('keydown', function(e) {
+		if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+	});
+
+	// ══════ CREATE MODE ══════
+	function openCreateModal() {
+		modalTitleEl.textContent = '📌 Nuovo Post-it';
+		modalInner.classList.remove('modal--detail');
+		modalCreateBody.style.display = '';
+		modalDetailBody.style.display = 'none';
+		noteTitle.value = '';
+		noteDesc.value = '';
+		noteCat.value = 'consiglio';
+		selectedEmoji = '📚';
+		emojiPicker.querySelectorAll('.emoji-picker__btn').forEach(function(b) {
+			b.classList.toggle('selected', b.dataset.emoji === '📚');
+		});
+		modalSubmit.disabled = true;
+		modal.classList.add('active');
+		setTimeout(function() { noteTitle.focus(); }, 100);
+	}
+
+	function validateForm() {
+		modalSubmit.disabled = !noteTitle.value.trim();
+	}
+
+	document.getElementById('btnNewNote').addEventListener('click', openCreateModal);
+	modalCancel.addEventListener('click', closeModal);
+	noteTitle.addEventListener('input', validateForm);
+
+	emojiPicker.addEventListener('click', function(e) {
+		var btn = e.target.closest('.emoji-picker__btn');
+		if (!btn) return;
+		selectedEmoji = btn.dataset.emoji;
+		emojiPicker.querySelectorAll('.emoji-picker__btn').forEach(function(b) {
+			b.classList.toggle('selected', b === btn);
+		});
+	});
+
+	modalSubmit.addEventListener('click', function() {
+		var title = noteTitle.value.trim();
+		var desc = noteDesc.value.trim();
+		var cat = noteCat.value;
+		var author = CURRENT_USER;
+		if (!title) return;
+
+		var initials = CURRENT_INITIALS;
+		var rotation = (Math.random() * 5 - 2.5).toFixed(1);
+		var x = canvas.scrollLeft + 200 + Math.random() * 400;
+		var y = canvas.scrollTop + 150 + Math.random() * 300;
+
+		var note = document.createElement('div');
+		note.className = 'sticky-note sticky-note--' + cat;
+		note.dataset.cat = cat;
+		note.dataset.author = author;
+		note.dataset.desc = desc;
+		note.dataset.origRot = rotation + 'deg';
+		note.style.cssText = 'left:' + x + 'px;top:' + y + 'px;transform:rotate(' + rotation + 'deg);animation:noteAppear 0.3s ease;';
+		note.innerHTML = '<svg class="sticky-note__pin" viewBox="0 0 20 20"><circle cx="10" cy="8" r="6" fill="' + pinColors[cat] + '"/><circle cx="10" cy="8" r="3" fill="#fff" opacity="0.3"/><line x1="10" y1="14" x2="10" y2="20" stroke="#555" stroke-width="1.5" stroke-linecap="round"/></svg>'
+			+ '<span class="sticky-note__emoji">' + selectedEmoji + '</span>'
+			+ '<span class="sticky-note__cat">' + catLabels[cat] + '</span>'
+			+ '<div class="sticky-note__title">' + title.replace(/</g, '&lt;') + '</div>'
+			+ '<div class="sticky-note__reactions"><span>💬 0</span><span>❤️ 0</span></div>'
+			+ '<div class="sticky-note__author"><span class="sticky-note__author-avatar" style="background:' + avatarColors[cat] + ';">' + initials + '</span>' + author.replace(/</g, '&lt;') + '<span class="sticky-note__author-time">Ora</span></div>';
+
+		inner.appendChild(note);
+		note.addEventListener('mousedown', startDrag);
+		note.addEventListener('touchstart', startDragTouch, { passive: false });
+
+		// Apply current filter
+		var activeFilter = document.querySelector('.board-filter-pill.active');
+		if (activeFilter) {
+			var filterCat = activeFilter.dataset.filter;
+			if (filterCat && filterCat !== 'all' && filterCat !== cat) {
+				note.style.opacity = '0.15';
+			}
+		}
+
+		updateMinimap();
+		closeModal();
+
+		// Update visible count
+		var allNotes = inner.querySelectorAll('.sticky-note');
+		var visible = [...allNotes].filter(function(n) { return n.style.opacity !== '0.15'; });
+		noteCountEl.textContent = visible.length + ' post visibili';
+	});
+
+	// ══════ DETAIL MODE (read-only) ══════
+	function extractNoteData(noteEl) {
+		var cat = noteEl.dataset.cat || 'consiglio';
+		var emoji = noteEl.querySelector('.sticky-note__emoji').textContent.trim();
+		var title = noteEl.querySelector('.sticky-note__title').textContent.trim();
+		var authorEl = noteEl.querySelector('.sticky-note__author');
+		var avatarEl = noteEl.querySelector('.sticky-note__author-avatar');
+		var timeEl = noteEl.querySelector('.sticky-note__author-time');
+		var initials = avatarEl ? avatarEl.textContent.trim() : '';
+		var avatarBg = avatarEl ? avatarEl.style.background : avatarColors[cat];
+		var time = timeEl ? timeEl.textContent.trim() : '';
+		// Extract author name (text between avatar and time)
+		var authorName = noteEl.dataset.author || '';
+		if (!authorName && authorEl) {
+			authorName = authorEl.textContent.replace(initials, '').replace(time, '').trim();
+		}
+		var desc = noteEl.dataset.desc || '';
+		var reactions = noteEl.querySelector('.sticky-note__reactions').innerHTML;
+		return { cat: cat, emoji: emoji, title: title, authorName: authorName, initials: initials, avatarBg: avatarBg, time: time, desc: desc, reactions: reactions };
+	}
+
+	function openDetailModal(noteEl) {
+		var data = extractNoteData(noteEl);
+		var isOwn = data.authorName === CURRENT_USER;
+
+		modalTitleEl.textContent = data.emoji + ' Dettaglio Post-it';
+		modalInner.classList.add('modal--detail');
+		modalCreateBody.style.display = 'none';
+		modalDetailBody.style.display = '';
+
+		// Preview card
+		var preview = document.getElementById('detailPreview');
+		preview.style.background = noteBackgrounds[data.cat];
+		document.getElementById('detailEmoji').textContent = data.emoji;
+		document.getElementById('detailTitle').textContent = data.title;
+		document.getElementById('detailCatBadge').textContent = catLabels[data.cat] || data.cat;
+
+		// Author
+		var avatarEl = document.getElementById('detailAvatar');
+		avatarEl.style.background = data.avatarBg;
+		avatarEl.textContent = data.initials;
+		document.getElementById('detailAuthor').textContent = data.authorName;
+		document.getElementById('detailTime').textContent = data.time;
+
+		// Description
+		var descEl = document.getElementById('detailDesc');
+		descEl.textContent = data.desc || 'Nessuna descrizione aggiuntiva.';
+		descEl.style.fontStyle = data.desc ? 'normal' : 'italic';
+		descEl.style.opacity = data.desc ? '1' : '0.6';
+
+		// Reactions
+		document.getElementById('detailReactions').innerHTML = data.reactions;
+
+		// Action button
+		var actionBtn = document.getElementById('detailAction');
+		actionBtn.textContent = catActionLabels[data.cat] || 'Discuti';
+		actionBtn.onclick = function() {
+			var discussionUrl = 'demo-discussione.html?title=' + encodeURIComponent(data.title)
+				+ '&cat=' + encodeURIComponent(data.cat)
+				+ '&author=' + encodeURIComponent(data.authorName)
+				+ '&emoji=' + encodeURIComponent(data.emoji)
+				+ '&from=' + encodeURIComponent(boardType || 'consiglio');
+			if (data.desc) {
+				discussionUrl += '&desc=' + encodeURIComponent(data.desc);
+			}
+			window.location.href = discussionUrl;
+		};
+
+		modal.classList.add('active');
+	}
+
+	detailClose.addEventListener('click', closeModal);
+
+	// Update initial count based on pre-filter
+	const visibleNotes = [...notes].filter(n => n.style.opacity !== '0.15');
+	noteCountEl.textContent = visibleNotes.length + ' post visibili';
+
+	// Init minimap
+	setTimeout(updateMinimap, 100);
+
+	// Center board initially
+	canvas.scrollLeft = (inner.scrollWidth - canvas.offsetWidth) / 4;
+	canvas.scrollTop = (inner.scrollHeight - canvas.offsetHeight) / 4;
+})();
+</script>
+
+<style>
+@keyframes noteAppear {
+	from { opacity: 0; transform: scale(0.8); }
+	to { opacity: 1; transform: scale(1); }
+}
+</style>
+
+</body>
+</html>

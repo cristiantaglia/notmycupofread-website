@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gabriel García Márquez — Not My Cup of Read</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<style>
+/* ═══════════════════════════════════════════
+   AUTORE PREMIUM — Template
+   ═══════════════════════════════════════════ */
+
+/* ── HERO — Minimalist 3-column ── */
+.ap-hero {
+	position: relative;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	overflow: hidden;
+	background: var(--c-surface);
+	padding: 2rem 3rem;
+}
+
+/* Top bar */
+.ap-hero__top {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	animation: apFadeInUp 0.6s ease both;
+}
+
+.ap-hero__label {
+	font-family: var(--font-body);
+	font-size: 0.6875rem;
+	font-weight: 700;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: var(--c-on-surface-variant);
+}
+
+.ap-hero__origin {
+	font-family: var(--font-body);
+	font-size: 0.8125rem;
+	color: var(--c-on-surface-variant);
+	letter-spacing: 0.02em;
+}
+
+/* 3-column body */
+.ap-hero__body {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	align-items: center;
+	gap: 2rem;
+	flex: 1;
+}
+
+/* Left: quote */
+.ap-hero__quote-col {
+	animation: apFadeInLeft 0.6s ease 0.6s both;
+}
+
+.ap-hero__quote {
+	font-family: var(--font-headline);
+	font-size: clamp(1rem, 1.6vw, 1.25rem);
+	font-style: italic;
+	font-weight: 400;
+	line-height: 1.85;
+	color: var(--c-on-surface-variant);
+	margin: 0;
+	max-width: 22rem;
+}
+
+/* Center: portrait + circle */
+.ap-hero__portrait-col {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+}
+
+.ap-hero__circle {
+	position: absolute;
+	z-index: 0;
+	width: clamp(280px, 30vw, 480px);
+	height: clamp(280px, 30vw, 480px);
+	border-radius: 50%;
+	background: var(--c-accent);
+	opacity: 0.9;
+	animation: apScaleIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+.ap-hero__portrait-img {
+	position: relative;
+	z-index: 1;
+	width: clamp(200px, 22vw, 320px);
+	height: auto;
+	object-fit: cover;
+	filter: grayscale(0.85) contrast(1.1);
+	transform: scale(1.4);
+	transform-origin: center bottom;
+	animation: apImgUp 1s cubic-bezier(0.22, 1, 0.36, 1) 0.4s both;
+}
+
+/* Right: big name */
+.ap-hero__name-col {
+	animation: apFadeInUp 0.6s ease 0.8s both;
+}
+
+.ap-hero__name {
+	font-family: var(--font-headline);
+	font-size: clamp(3.5rem, 7vw, 7rem);
+	font-weight: 900;
+	line-height: 0.95;
+	color: var(--c-on-surface);
+	margin: 0;
+	letter-spacing: -0.03em;
+}
+
+/* Bottom bar */
+.ap-hero__bottom {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	animation: apFadeInUp 0.5s ease 1s both;
+}
+
+.ap-hero__social {
+	display: flex;
+	gap: 1rem;
+}
+
+.ap-hero__social a {
+	color: var(--c-on-surface-variant);
+	transition: color 0.2s;
+}
+
+.ap-hero__social a:hover {
+	color: var(--c-on-surface);
+}
+
+.ap-hero__social .material-symbols-outlined {
+	font-size: 22px;
+}
+
+.ap-hero__info {
+	font-family: var(--font-body);
+	font-size: 0.8125rem;
+	font-weight: 500;
+	color: var(--c-on-surface-variant);
+}
+
+/* Keyframes */
+@keyframes apFadeInUp {
+	from { opacity: 0; transform: translateY(20px); }
+	to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes apFadeInLeft {
+	from { opacity: 0; transform: translateX(-20px); }
+	to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes apScaleIn {
+	from { opacity: 0; transform: scale(0.8); }
+	to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes apImgUp {
+	from { opacity: 0; transform: scale(1.4) translateY(50px); }
+	to   { opacity: 1; transform: scale(1.4) translateY(0); }
+}
+
+/* ── SECTION COMMON ── */
+.ap-section {
+	max-width: 80rem;
+	margin: 0 auto;
+	padding: 3.5rem 2rem;
+}
+
+.ap-section__header {
+	margin-bottom: 2rem;
+}
+
+.ap-section__overline {
+	font-size: 0.6875rem;
+	font-weight: 700;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: var(--c-accent);
+	margin-bottom: 0.35rem;
+}
+
+.ap-section__title {
+	font-family: var(--font-headline);
+	font-size: 1.75rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	margin: 0;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.ap-section__title .material-symbols-outlined {
+	color: var(--c-accent);
+}
+
+/* ── BIOGRAFIA ── */
+.ap-bio {
+	display: grid;
+	grid-template-columns: 3fr 2fr;
+	gap: 2.5rem;
+	align-items: start;
+}
+
+.ap-bio__main {
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	min-width: 0;
+	overflow: hidden;
+}
+
+.ap-bio__block {
+	font-size: 1.0625rem;
+	line-height: 1.85;
+	color: var(--c-on-surface-variant);
+}
+
+.ap-bio__block p {
+	margin: 0 0 1.25rem;
+}
+
+.ap-bio__block:first-child p:first-child::first-letter {
+	font-family: var(--font-headline);
+	font-size: 3.5rem;
+	font-weight: 700;
+	float: left;
+	line-height: 0.8;
+	margin: 0.1rem 0.6rem 0 0;
+	color: var(--c-accent);
+}
+
+.ap-bio__block-title {
+	font-family: var(--font-headline);
+	font-size: 1.125rem;
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-on-surface);
+	margin: 0.5rem 0 0.75rem;
+}
+
+/* Photo gallery strip */
+.ap-bio__gallery {
+	margin: 1.5rem 0 2rem;
+	overflow-x: auto;
+	overflow-y: hidden;
+	display: flex;
+	gap: 0.75rem;
+	padding: 0.5rem 0;
+	scroll-snap-type: x mandatory;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: thin;
+	scrollbar-color: var(--c-accent) transparent;
+}
+
+.ap-bio__gallery::-webkit-scrollbar {
+	height: 4px;
+}
+
+.ap-bio__gallery::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.ap-bio__gallery::-webkit-scrollbar-thumb {
+	background: var(--c-accent);
+	border-radius: 2px;
+}
+
+.ap-bio__gallery-item {
+	flex-shrink: 0;
+	width: 240px;
+	border-radius: var(--radius-md);
+	overflow: hidden;
+	scroll-snap-align: start;
+	position: relative;
+	box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+	transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.ap-bio__gallery-item:hover {
+	transform: scale(1.03);
+	box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+}
+
+.ap-bio__gallery-img {
+	width: 100%;
+	height: 160px;
+	object-fit: cover;
+	display: block;
+}
+
+/* Demo placeholder for gallery */
+.ap-bio__gallery-placeholder {
+	width: 100%;
+	height: 160px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.6875rem;
+	color: rgba(255,255,255,0.3);
+}
+
+.ap-bio__gallery-caption {
+	padding: 0.5rem 0.75rem;
+	background: var(--c-primary-container);
+	font-size: 0.6875rem;
+	color: rgba(255,255,255,0.65);
+	line-height: 1.35;
+}
+
+.ap-bio__sidebar {
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	border-radius: var(--radius-lg);
+	padding: 1.75rem;
+}
+
+.ap-bio__sidebar-title {
+	font-family: var(--font-headline);
+	font-size: 0.875rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	color: var(--c-on-surface);
+	margin: 0 0 1.25rem;
+	padding-bottom: 0.75rem;
+	border-bottom: 2px solid var(--c-accent);
+}
+
+.ap-bio__detail {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.6rem;
+	margin-bottom: 1rem;
+	font-size: 0.875rem;
+	color: var(--c-on-surface-variant);
+}
+
+.ap-bio__detail .material-symbols-outlined {
+	font-size: 1.125rem;
+	color: var(--c-accent);
+	flex-shrink: 0;
+	margin-top: 0.1rem;
+}
+
+.ap-bio__detail strong {
+	color: var(--c-on-surface);
+}
+
+.ap-bio__tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.4rem;
+	margin-top: 1.25rem;
+	padding-top: 1rem;
+	border-top: 1px solid var(--c-surface-container-high);
+}
+
+.ap-bio__tag {
+	display: inline-block;
+	font-size: 0.6875rem;
+	font-weight: 600;
+	padding: 0.25rem 0.65rem;
+	border-radius: var(--radius-full);
+	background: rgba(224,122,95,0.1);
+	color: var(--c-accent);
+}
+
+/* ── BIBLIOGRAFIA (Book grid) ── */
+.ap-books__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+	gap: 1.5rem;
+}
+
+.ap-book {
+	text-decoration: none;
+	display: block;
+	transition: transform 0.2s;
+}
+
+.ap-book:hover {
+	transform: translateY(-4px);
+}
+
+.ap-book__cover {
+	aspect-ratio: 2/3;
+	border-radius: var(--radius-md);
+	overflow: hidden;
+	margin-bottom: 0.75rem;
+	box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+	transition: box-shadow 0.2s;
+}
+
+.ap-book:hover .ap-book__cover {
+	box-shadow: 0 8px 28px rgba(0,0,0,0.3);
+}
+
+/* Demo placeholder covers */
+.ap-book__cover-placeholder {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 1rem;
+	text-align: center;
+	color: rgba(255,255,255,0.85);
+	font-family: var(--font-headline);
+}
+
+.ap-book__cover-year {
+	font-size: 0.625rem;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	opacity: 0.5;
+	margin-bottom: 0.5rem;
+}
+
+.ap-book__cover-title {
+	font-size: 0.9375rem;
+	font-weight: 700;
+	font-style: italic;
+	line-height: 1.3;
+}
+
+.ap-book__title {
+	font-size: 0.8125rem;
+	font-weight: 600;
+	color: var(--c-on-surface);
+	margin: 0 0 0.15rem;
+	line-height: 1.3;
+}
+
+.ap-book__year {
+	font-size: 0.6875rem;
+	color: var(--c-on-surface-variant);
+}
+
+/* ── EPISODI CORRELATI ── */
+.ap-episodes__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+	gap: 1.25rem;
+}
+
+.ap-episode {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	padding: 1.25rem;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	border-radius: var(--radius-lg);
+	text-decoration: none;
+	transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.ap-episode:hover {
+	border-color: var(--c-accent);
+	box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+.ap-episode__number {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 48px;
+	height: 48px;
+	border-radius: var(--radius-md);
+	background: var(--c-primary-container);
+	flex-shrink: 0;
+}
+
+.ap-episode__number span {
+	font-size: 0.75rem;
+	font-weight: 700;
+	color: rgba(255,255,255,0.7);
+	text-align: center;
+	line-height: 1.2;
+}
+
+.ap-episode__info h4 {
+	font-family: var(--font-headline);
+	font-size: 0.9375rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	margin: 0 0 0.25rem;
+	line-height: 1.3;
+}
+
+.ap-episode__info p {
+	font-size: 0.75rem;
+	color: var(--c-on-surface-variant);
+	margin: 0;
+	line-height: 1.4;
+}
+
+.ap-episode__play {
+	margin-left: auto;
+	font-size: 1.5rem;
+	color: var(--c-accent);
+	opacity: 0;
+	transition: opacity 0.2s;
+	flex-shrink: 0;
+}
+
+.ap-episode:hover .ap-episode__play {
+	opacity: 1;
+}
+
+/* ── ARTICOLI ── */
+.ap-articles__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+	gap: 1.25rem;
+}
+
+.ap-article {
+	display: block;
+	text-decoration: none;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.ap-article:hover {
+	border-color: var(--c-accent);
+	box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+	transform: translateY(-2px);
+}
+
+.ap-article__img {
+	aspect-ratio: 16/9;
+	overflow: hidden;
+}
+
+.ap-article__img-placeholder {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: rgba(255,255,255,0.2);
+	font-size: 0.6875rem;
+}
+
+.ap-article__body {
+	padding: 1.25rem;
+}
+
+.ap-article__type {
+	display: inline-block;
+	font-size: 0.625rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	padding: 0.2rem 0.6rem;
+	border-radius: var(--radius-full);
+	margin-bottom: 0.5rem;
+}
+
+.ap-article__type--recensione {
+	background: rgba(129,178,154,0.15);
+	color: #5a9a7a;
+}
+
+.ap-article__type--approfondimento {
+	background: rgba(62,92,118,0.15);
+	color: #5a8aab;
+}
+
+.ap-article__type--intervista {
+	background: rgba(148,103,189,0.15);
+	color: #9467bd;
+}
+
+.ap-article__title {
+	font-family: var(--font-headline);
+	font-size: 1rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	margin: 0 0 0.35rem;
+	line-height: 1.3;
+}
+
+.ap-article__excerpt {
+	font-size: 0.8125rem;
+	color: var(--c-on-surface-variant);
+	margin: 0 0 0.5rem;
+	line-height: 1.5;
+}
+
+.ap-article__date {
+	font-size: 0.6875rem;
+	color: var(--c-on-surface-variant);
+	opacity: 0.65;
+}
+
+/* ── CTA BACK ── */
+.ap-back {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	padding: 0.5rem 1.25rem;
+	font-size: 0.8125rem;
+	font-weight: 600;
+	color: var(--c-accent);
+	text-decoration: none;
+	border: 1px solid var(--c-accent);
+	border-radius: var(--radius-full);
+	transition: background 0.2s, color 0.2s;
+	margin-top: 1rem;
+}
+
+.ap-back:hover {
+	background: var(--c-accent);
+	color: #fff;
+}
+
+.ap-back .material-symbols-outlined {
+	font-size: 1rem;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+	.ap-hero {
+		min-height: auto;
+		padding: 2rem 1.5rem;
+	}
+	.ap-hero__body {
+		grid-template-columns: 1fr;
+		text-align: center;
+		gap: 2rem;
+		padding: 2rem 0;
+	}
+	.ap-hero__quote-col { order: 2; }
+	.ap-hero__quote { margin: 0 auto; }
+	.ap-hero__portrait-col { order: 1; }
+	.ap-hero__name-col { order: 3; }
+	.ap-hero__name { font-size: clamp(3rem, 12vw, 5rem); }
+	.ap-hero__circle { width: 260px; height: 260px; }
+	.ap-hero__portrait-img { width: 180px; }
+	.ap-hero__top, .ap-hero__bottom { flex-direction: column; gap: 0.75rem; text-align: center; }
+	.ap-bio { grid-template-columns: 1fr; gap: 2rem; }
+	.ap-bio__gallery { margin-left: -1rem; margin-right: -1rem; padding: 0.5rem 1rem; }
+	.ap-bio__gallery-item { width: 200px; }
+}
+
+@media (max-width: 600px) {
+	.ap-hero__name { font-size: 2.5rem; }
+	.ap-books__grid { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+	.ap-episodes__grid { grid-template-columns: 1fr; }
+	.ap-articles__grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     HEADER / NAVIGATION
+     ═══════════════════════════════════════════ -->
+
+<header class="site-header" id="siteHeader">
+	<div class="header-outer">
+		<div class="header-inner">
+			<div class="site-branding">
+				<div class="site-branding__icon">
+					<img src="assets/img/logo-nmcor.png" alt="NMCOR">
+				</div>
+				<h1 class="site-title"><a href="demo.html">Not My Cup of Read</a></h1>
+			</div>
+
+			<nav class="primary-nav" id="primaryNav">
+				<ul>
+					<li><a href="#">Articoli</a><ul class="sub-menu"><li><a href="demo-recensioni.html">Recensioni</a></li><li><a href="demo-approfondimenti.html">Approfondimenti</a></li><li><a href="demo-classifiche.html">Classifiche</a></li></ul></li>
+					<li><a href="#">Podcast</a><ul class="sub-menu"><li><a href="demo-podcast.html">Episodi</a></li><li><a href="demo-format.html">Format</a></li><li><a href="demo-dietro-le-quinte.html">Dietro le quinte</a></li></ul></li>
+					<li><a href="#">Biblioteca</a><ul class="sub-menu"><li><a href="demo-libri.html">Libri</a></li><li><a href="demo-autori.html">Autori</a></li></ul></li>
+					<li><a href="#">Luoghi</a><ul class="sub-menu"><li><a href="demo-librerie.html">La mappa del Lettore</a></li><li><a href="demo-luoghi-milano.html">Milano</a></li><li><a href="demo-itinerari.html">Itinerari letterari</a></li><li><a href="demo-luoghi-librerie.html">Librerie</a></li><li><a href="demo-luoghi-biblioteche.html">Biblioteche</a></li><li><a href="demo-luoghi-caffe.html">Caffè letterari</a></li><li><a href="demo-luoghi-spazi.html">Spazi culturali</a></li></ul></li>
+					<li><a href="#">Eventi</a><ul class="sub-menu"><li><a href="demo-eventi.html">Timeline</a></li><li><a href="demo-calendario.html">Calendario</a></li><li><a href="demo-fiere-festival.html">Fiere e Festival</a></li><li><a href="demo-premi-letterari.html">Premi letterari</a></li></ul></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Chi siamo</a><ul class="sub-menu"><li><a href="demo-chi-siamo.html">Lo studio &amp; gli host</a></li><li><a href="demo-ospiti-redazione.html">Gli ospiti &amp; la redazione</a></li><li><a href="demo-contatti.html">Contatti &amp; Collaborazioni</a></li></ul></li>
+				</ul>
+			</nav>
+
+			<div class="header-search">
+				<input type="text" placeholder="Cerca...">
+			</div>
+		</div>
+
+		<div class="header-extras">
+			<div class="header-social">
+				<a href="#" class="header-social__link" aria-label="YouTube">
+					<svg viewBox="0 0 24 24"><path d="M23.5 6.19a3 3 0 0 0-2.11-2.13C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.39.56A3 3 0 0 0 .5 6.19 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.81 3 3 0 0 0 2.11 2.13c1.89.56 9.39.56 9.39.56s7.5 0 9.39-.56a3 3 0 0 0 2.11-2.13A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.81ZM9.75 15.02V8.98L15.5 12l-5.75 3.02Z"/></svg>
+				</a>
+				<a href="#" class="header-social__link" aria-label="Spotify">
+					<svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.31a.75.75 0 0 1-1.03.25c-2.82-1.72-6.37-2.11-10.55-1.16a.75.75 0 1 1-.34-1.46c4.57-1.05 8.49-.6 11.67 1.34a.75.75 0 0 1 .25 1.03Zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.23-1.98-8.15-2.56-11.97-1.4a.94.94 0 1 1-.54-1.8c4.36-1.32 9.78-.68 13.49 1.6a.94.94 0 0 1 .31 1.29Zm.13-3.4C15.5 8.4 9 8.2 5.24 9.33a1.13 1.13 0 1 1-.65-2.16c4.33-1.3 11.52-1.05 16.07 1.68a1.13 1.13 0 0 1-1.56 1.79Z"/></svg>
+				</a>
+			</div>
+			<div class="header-auth">
+				<a href="demo-profilo.html" class="header-auth__btn"><span class="material-symbols-outlined">person</span> Cristian T.</a>
+			</div>
+			<button class="menu-toggle" id="menuToggle" aria-label="Menu">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</button>
+		</div>
+	</div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     HERO — Full viewport, portrait + text
+     ═══════════════════════════════════════════ -->
+
+<section class="ap-hero">
+	<!-- Top bar -->
+	<div class="ap-hero__top">
+		<span class="ap-hero__label">Hall of Fame</span>
+		<span class="ap-hero__origin">Aracataca, Colombia &middot; 1927 &ndash; 2014</span>
+	</div>
+
+	<!-- 3-column body -->
+	<div class="ap-hero__body">
+		<!-- Left: Quote -->
+		<div class="ap-hero__quote-col">
+			<p class="ap-hero__quote">&laquo;La vita non &egrave; quella che si &egrave; vissuta, ma quella che si ricorda e come la si ricorda per raccontarla.&raquo;</p>
+		</div>
+
+		<!-- Center: Portrait + circle -->
+		<div class="ap-hero__portrait-col">
+			<div class="ap-hero__circle"></div>
+			<img class="ap-hero__portrait-img" src="assets/img/gabriel-garcia-marquez.jpeg" alt="Gabriel Garc&iacute;a M&aacute;rquez">
+		</div>
+
+		<!-- Right: Big name -->
+		<div class="ap-hero__name-col">
+			<h1 class="ap-hero__name">Gabriel<br>Garc&iacute;a<br>M&aacute;rquez</h1>
+		</div>
+	</div>
+
+	<!-- Bottom bar -->
+	<div class="ap-hero__bottom">
+		<div class="ap-hero__social">
+			<a href="#" aria-label="Wikipedia"><span class="material-symbols-outlined">language</span></a>
+			<a href="#" aria-label="Libri"><span class="material-symbols-outlined">menu_book</span></a>
+		</div>
+		<span class="ap-hero__info">Premio Nobel per la Letteratura 1982</span>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     BIOGRAFIA
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface">
+	<div class="ap-section">
+		<div class="ap-section__header">
+			<p class="ap-section__overline">Biografia</p>
+			<h2 class="ap-section__title"><span class="material-symbols-outlined">history_edu</span> L'architetto di Macondo</h2>
+		</div>
+
+		<div class="ap-bio">
+			<div class="ap-bio__main">
+
+				<!-- Block 1: Le origini -->
+				<div class="ap-bio__block">
+					<h3 class="ap-bio__block-title">Le origini — Aracataca e le storie della nonna</h3>
+					<p>Gabriel José de la Concordia García Márquez, universalmente conosciuto come Gabo, è stato il padre del realismo magico nella letteratura mondiale. Nato il 6 marzo 1927 nella piccola cittadina caraibica di Aracataca, crebbe nella casa dei nonni materni ascoltando le storie fantastiche della nonna Tranquilina — racconti in cui il soprannaturale conviveva con il quotidiano come la cosa più naturale del mondo.</p>
+					<p>Quella casa piena di fantasmi benevoli, presagi e superstizioni caraibiche diventerà il seme da cui germoglierà l'intero universo di Macondo. Il nonno, colonnello in pensione, gli raccontava della guerra civile con la stessa naturalezza con cui la nonna parlava dei morti che tornavano a sedersi a tavola.</p>
+				</div>
+
+				<!-- Gallery 1: Origini e gioventù -->
+				<div class="ap-bio__gallery">
+					<div class="ap-bio__gallery-item">
+						<div class="ap-bio__gallery-placeholder" style="background:linear-gradient(135deg,#1d2d44,#3e5c76);">240 × 160</div>
+						<div class="ap-bio__gallery-caption">Aracataca, Colombia — la casa natale di García Márquez</div>
+					</div>
+					<div class="ap-bio__gallery-item">
+						<div class="ap-bio__gallery-placeholder" style="background:linear-gradient(135deg,#3e5c76,#748cab);">240 × 160</div>
+						<div class="ap-bio__gallery-caption">Il giovane Gabo durante gli anni universitari a Bogotá</div>
+					</div>
+					<div class="ap-bio__gallery-item">
+						<div class="ap-bio__gallery-placeholder" style="background:linear-gradient(135deg,#748cab,#c4bfa8);">240 × 160</div>
+						<div class="ap-bio__gallery-caption">La redazione de El Espectador, dove iniziò la carriera giornalistica</div>
+					</div>
+					<div class="ap-bio__gallery-item">
+						<div class="ap-bio__gallery-placeholder" style="background:linear-gradient(135deg,#0d1321,#1d2d44);">240 × 160</div>
+						<div class="ap-bio__gallery-caption">Barranquilla, il Grupo de Barranquilla — circolo letterario fondamentale</div>
+					</div>
+					<div class="ap-bio__gallery-item">
+						<div class="ap-bio__gallery-placeholder" style="background:linear-gradient(135deg,#e07a5f,#c9684d);">240 × 160</div>
+						<div class="ap-bio__gallery-caption">Cartagena de Indias — sfondo di molte sue opere</div>
+					</div>
+				</div>
+
+				<!-- Block 2: Il capolavoro -->
+				<div class="ap-bio__block">
+					<h3 class="ap-bio__block-title">Il giornalista che divenne romanziere</h3>
+					<p>Giornalista prima che romanziere, García Márquez affinò la sua prosa nelle redazioni di Bogotá, Barranquilla e Cartagena. Il suo apprendistato nel reportage gli insegnò a osservare la realtà con l'occhio del cronista, per poi trasfigurarla con l'immaginazione del poeta.</p>
+					<p>Il capolavoro arrivò dopo anni di gestazione. Scritto in diciotto mesi di furore creativo nella Città del Messico — mentre la moglie Mercedes impegnava gli elettrodomestici per pagare le bollette — esplose nel 1967 come un fenomeno senza precedenti nella letteratura in lingua spagnola, vendendo oltre 50 milioni di copie e venendo tradotto in 46 lingue. L'editore argentino lo stampò con una tiratura iniziale di 8.000 copie. Si esaurì in pochi giorni.</p>
+				</div>
+
+				<!-- Gallery 2: Il successo -->
+				<div class="ap-bio__gallery">
+					<div class="ap-bio__gallery-item">
+						<div class="ap-bio__gallery-placeholder" style="background:linear-gradient(135deg,#e07a5f,#9467bd);">240 × 160</div>
+						<div class="ap-bio__gallery-caption">Prima edizione di Cent'anni di solitudine, Editorial Sudamericana, 1967</div>
+					</div>
+					<div class="ap-bio__gallery-item">
+						<div class="ap-bio__gallery-placeholder" style="background:linear-gradient(135deg,#81b29a,#3e5c76);">240 × 160</div>
+						<div class="ap-bio__gallery-caption">García Márquez con la macchina da scrivere nello studio di Città del Messico</div>
+					</div>
+					<div class="ap-bio__gallery-item">
+						<div class="ap-bio__gallery-placeholder" style="background:linear-gradient(135deg,#9467bd,#1d2d44);">240 × 160</div>
+						<div class="ap-bio__gallery-caption">Con Pablo Neruda a Parigi, 1970</div>
+					</div>
+					<div class="ap-bio__gallery-item">
+						<div class="ap-bio__gallery-placeholder" style="background:linear-gradient(135deg,#c4bfa8,#748cab);">240 × 160</div>
+						<div class="ap-bio__gallery-caption">Mercedes Barcha, «la mia complice di tutta la vita»</div>
+					</div>
+				</div>
+
+				<!-- Block 3: Il Nobel e l'eredità -->
+				<div class="ap-bio__block">
+					<h3 class="ap-bio__block-title">Il Nobel e l'eredità universale</h3>
+					<p>La sua opera ha ridefinito i confini tra realtà e fantasia, dimostrando che la letteratura latinoamericana non solo poteva competere con quella europea, ma offrire una visione del mondo radicalmente nuova. Nel 1982, l'Accademia svedese gli conferì il Nobel per la Letteratura. Si presentò alla cerimonia con un liqui-liqui bianco — l'abito tradizionale caraibico — rifiutando il frac europeo. Un gesto politico, oltre che estetico.</p>
+					<p>Oltre alla narrativa, Gabo fu un instancabile attivista per la pace, amico controverso di Fidel Castro e fondatore della Fundación Nuevo Periodismo Iberoamericano, dedicata alla formazione dei giornalisti latinoamericani. Morì il 17 aprile 2014 a Città del Messico, lasciando un universo letterario che continua a crescere e germogliare nelle generazioni successive.</p>
+				</div>
+
+				<!-- Gallery 3: Nobel e eredità -->
+				<div class="ap-bio__gallery">
+					<div class="ap-bio__gallery-item">
+						<div class="ap-bio__gallery-placeholder" style="background:linear-gradient(135deg,#f0c27f,#e8a849);">240 × 160</div>
+						<div class="ap-bio__gallery-caption">Stoccolma, 1982 — Cerimonia del Premio Nobel con il liqui-liqui bianco</div>
+					</div>
+					<div class="ap-bio__gallery-item">
+						<div class="ap-bio__gallery-placeholder" style="background:linear-gradient(135deg,#1d2d44,#e07a5f);">240 × 160</div>
+						<div class="ap-bio__gallery-caption">Il discorso «La soledad de América Latina»</div>
+					</div>
+					<div class="ap-bio__gallery-item">
+						<div class="ap-bio__gallery-placeholder" style="background:linear-gradient(135deg,#3e5c76,#81b29a);">240 × 160</div>
+						<div class="ap-bio__gallery-caption">Fondazione del Nuevo Periodismo Iberoamericano a Cartagena</div>
+					</div>
+					<div class="ap-bio__gallery-item">
+						<div class="ap-bio__gallery-placeholder" style="background:linear-gradient(135deg,#748cab,#0d1321);">240 × 160</div>
+						<div class="ap-bio__gallery-caption">Gli ultimi anni — nel giardino della casa di Città del Messico</div>
+					</div>
+					<div class="ap-bio__gallery-item">
+						<div class="ap-bio__gallery-placeholder" style="background:linear-gradient(135deg,#0d1321,#3e5c76);">240 × 160</div>
+						<div class="ap-bio__gallery-caption">Murale ad Aracataca in suo onore</div>
+					</div>
+				</div>
+
+			</div>
+
+			<aside class="ap-bio__sidebar">
+				<h4 class="ap-bio__sidebar-title">Scheda autore</h4>
+
+				<div class="ap-bio__detail">
+					<span class="material-symbols-outlined">cake</span>
+					<div><strong>Nascita</strong><br>6 marzo 1927, Aracataca</div>
+				</div>
+				<div class="ap-bio__detail">
+					<span class="material-symbols-outlined">event</span>
+					<div><strong>Morte</strong><br>17 aprile 2014, Città del Messico</div>
+				</div>
+				<div class="ap-bio__detail">
+					<span class="material-symbols-outlined">public</span>
+					<div><strong>Nazionalità</strong><br>Colombiana</div>
+				</div>
+				<div class="ap-bio__detail">
+					<span class="material-symbols-outlined">translate</span>
+					<div><strong>Lingua</strong><br>Spagnolo</div>
+				</div>
+				<div class="ap-bio__detail">
+					<span class="material-symbols-outlined">emoji_events</span>
+					<div><strong>Premi</strong><br>Nobel 1982, Rómulo Gallegos 1972</div>
+				</div>
+				<div class="ap-bio__detail">
+					<span class="material-symbols-outlined">work</span>
+					<div><strong>Opere principali</strong><br>17 romanzi, 5 raccolte, 3 memoir</div>
+				</div>
+
+				<div class="ap-bio__tags">
+					<span class="ap-bio__tag">Realismo magico</span>
+					<span class="ap-bio__tag">Narrativa</span>
+					<span class="ap-bio__tag">Giornalismo</span>
+					<span class="ap-bio__tag">America Latina</span>
+					<span class="ap-bio__tag">Nobel</span>
+				</div>
+			</aside>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     BIBLIOGRAFIA — Griglia copertine
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="ap-section">
+		<div class="ap-section__header">
+			<p class="ap-section__overline">Bibliografia</p>
+			<h2 class="ap-section__title"><span class="material-symbols-outlined">auto_stories</span> Le opere</h2>
+		</div>
+
+		<div class="ap-books__grid">
+
+			<a href="#" class="ap-book">
+				<div class="ap-book__cover">
+					<div class="ap-book__cover-placeholder" style="background:linear-gradient(160deg,#e07a5f 0%,#c9684d 50%,#8b3a2a 100%);">
+						<span class="ap-book__cover-year">1967</span>
+						<span class="ap-book__cover-title">Cent'anni di solitudine</span>
+					</div>
+				</div>
+				<h4 class="ap-book__title">Cent'anni di solitudine</h4>
+				<p class="ap-book__year">1967 · Romanzo</p>
+			</a>
+
+			<a href="#" class="ap-book">
+				<div class="ap-book__cover">
+					<div class="ap-book__cover-placeholder" style="background:linear-gradient(160deg,#3e5c76 0%,#1d2d44 50%,#0d1321 100%);">
+						<span class="ap-book__cover-year">1985</span>
+						<span class="ap-book__cover-title">L'amore ai tempi del colera</span>
+					</div>
+				</div>
+				<h4 class="ap-book__title">L'amore ai tempi del colera</h4>
+				<p class="ap-book__year">1985 · Romanzo</p>
+			</a>
+
+			<a href="#" class="ap-book">
+				<div class="ap-book__cover">
+					<div class="ap-book__cover-placeholder" style="background:linear-gradient(160deg,#748cab 0%,#3e5c76 50%,#1d2d44 100%);">
+						<span class="ap-book__cover-year">1981</span>
+						<span class="ap-book__cover-title">Cronaca di una morte annunciata</span>
+					</div>
+				</div>
+				<h4 class="ap-book__title">Cronaca di una morte annunciata</h4>
+				<p class="ap-book__year">1981 · Romanzo breve</p>
+			</a>
+
+			<a href="#" class="ap-book">
+				<div class="ap-book__cover">
+					<div class="ap-book__cover-placeholder" style="background:linear-gradient(160deg,#81b29a 0%,#5a9a7a 50%,#3d6b55 100%);">
+						<span class="ap-book__cover-year">1975</span>
+						<span class="ap-book__cover-title">L'autunno del patriarca</span>
+					</div>
+				</div>
+				<h4 class="ap-book__title">L'autunno del patriarca</h4>
+				<p class="ap-book__year">1975 · Romanzo</p>
+			</a>
+
+			<a href="#" class="ap-book">
+				<div class="ap-book__cover">
+					<div class="ap-book__cover-placeholder" style="background:linear-gradient(160deg,#9467bd 0%,#7b4ea0 50%,#5a3478 100%);">
+						<span class="ap-book__cover-year">1994</span>
+						<span class="ap-book__cover-title">Dell'amore e di altri demoni</span>
+					</div>
+				</div>
+				<h4 class="ap-book__title">Dell'amore e di altri demoni</h4>
+				<p class="ap-book__year">1994 · Romanzo</p>
+			</a>
+
+			<a href="#" class="ap-book">
+				<div class="ap-book__cover">
+					<div class="ap-book__cover-placeholder" style="background:linear-gradient(160deg,#1d2d44 0%,#0d1321 50%,#000 100%);">
+						<span class="ap-book__cover-year">1989</span>
+						<span class="ap-book__cover-title">Il generale nel suo labirinto</span>
+					</div>
+				</div>
+				<h4 class="ap-book__title">Il generale nel suo labirinto</h4>
+				<p class="ap-book__year">1989 · Romanzo storico</p>
+			</a>
+
+			<a href="#" class="ap-book">
+				<div class="ap-book__cover">
+					<div class="ap-book__cover-placeholder" style="background:linear-gradient(160deg,#c4bfa8 0%,#a09a82 50%,#6b6650 100%);color:rgba(0,0,0,0.6);">
+						<span class="ap-book__cover-year">1955</span>
+						<span class="ap-book__cover-title">Foglie morte</span>
+					</div>
+				</div>
+				<h4 class="ap-book__title">Foglie morte</h4>
+				<p class="ap-book__year">1955 · Romanzo</p>
+			</a>
+
+			<a href="#" class="ap-book">
+				<div class="ap-book__cover">
+					<div class="ap-book__cover-placeholder" style="background:linear-gradient(160deg,#e07a5f 0%,#748cab 50%,#3e5c76 100%);">
+						<span class="ap-book__cover-year">2002</span>
+						<span class="ap-book__cover-title">Vivere per raccontarla</span>
+					</div>
+				</div>
+				<h4 class="ap-book__title">Vivere per raccontarla</h4>
+				<p class="ap-book__year">2002 · Autobiografia</p>
+			</a>
+
+			<a href="#" class="ap-book">
+				<div class="ap-book__cover">
+					<div class="ap-book__cover-placeholder" style="background:linear-gradient(160deg,#f0ebd8 0%,#c4bfa8 50%,#8a8470 100%);color:rgba(0,0,0,0.6);">
+						<span class="ap-book__cover-year">1970</span>
+						<span class="ap-book__cover-title">Racconto di un naufrago</span>
+					</div>
+				</div>
+				<h4 class="ap-book__title">Racconto di un naufrago</h4>
+				<p class="ap-book__year">1970 · Reportage narrativo</p>
+			</a>
+
+			<a href="#" class="ap-book">
+				<div class="ap-book__cover">
+					<div class="ap-book__cover-placeholder" style="background:linear-gradient(160deg,#3e5c76 0%,#81b29a 50%,#1d2d44 100%);">
+						<span class="ap-book__cover-year">1962</span>
+						<span class="ap-book__cover-title">La mala ora</span>
+					</div>
+				</div>
+				<h4 class="ap-book__title">La mala ora</h4>
+				<p class="ap-book__year">1962 · Romanzo</p>
+			</a>
+
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     EPISODI CORRELATI — "Ne abbiamo parlato qui"
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface">
+	<div class="ap-section">
+		<div class="ap-section__header">
+			<p class="ap-section__overline">Podcast</p>
+			<h2 class="ap-section__title"><span class="material-symbols-outlined">podcasts</span> Ne abbiamo parlato qui</h2>
+		</div>
+
+		<div class="ap-episodes__grid">
+
+			<a href="demo-episodio-singolo.html" class="ap-episode">
+				<div class="ap-episode__number"><span>EP<br>42</span></div>
+				<div class="ap-episode__info">
+					<h4>Il Realismo Magico: da Márquez al nuovo millennio</h4>
+					<p>Viaggio nel genere che ha ridefinito la narrativa latinoamericana. 1h 24min</p>
+				</div>
+				<span class="material-symbols-outlined ap-episode__play">play_circle</span>
+			</a>
+
+			<a href="#" class="ap-episode">
+				<div class="ap-episode__number"><span>EP<br>18</span></div>
+				<div class="ap-episode__info">
+					<h4>Cent'anni di solitudine: perché leggerlo nel 2026</h4>
+					<p>Rileggere il capolavoro con occhi contemporanei. 58min</p>
+				</div>
+				<span class="material-symbols-outlined ap-episode__play">play_circle</span>
+			</a>
+
+			<a href="#" class="ap-episode">
+				<div class="ap-episode__number"><span>EP<br>07</span></div>
+				<div class="ap-episode__info">
+					<h4>Nobel controversi: quando il premio divide</h4>
+					<p>Da García Márquez a Bob Dylan, i Nobel che hanno fatto discutere. 1h 12min</p>
+				</div>
+				<span class="material-symbols-outlined ap-episode__play">play_circle</span>
+			</a>
+
+			<a href="#" class="ap-episode">
+				<div class="ap-episode__number"><span>EP<br>31</span></div>
+				<div class="ap-episode__info">
+					<h4>L'America Latina tra le righe</h4>
+					<p>Bolaño, Márquez, Allende: tre visioni di un continente in fermento. 1h 05min</p>
+				</div>
+				<span class="material-symbols-outlined ap-episode__play">play_circle</span>
+			</a>
+
+			<a href="#" class="ap-episode">
+				<div class="ap-episode__number"><span>EP<br>49</span></div>
+				<div class="ap-episode__info">
+					<h4>L'amore ai tempi del colera: una storia d'amore universale</h4>
+					<p>Anatomia del romanzo d'amore più letto del XX secolo. 1h 18min</p>
+				</div>
+				<span class="material-symbols-outlined ap-episode__play">play_circle</span>
+			</a>
+
+			<a href="#" class="ap-episode">
+				<div class="ap-episode__number"><span>EP<br>53</span></div>
+				<div class="ap-episode__info">
+					<h4>Speciale: I migliori debutti — da Foglie morte a oggi</h4>
+					<p>Come un debutto può segnare il destino di un autore. 52min</p>
+				</div>
+				<span class="material-symbols-outlined ap-episode__play">play_circle</span>
+			</a>
+
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     ARTICOLI — "Articoli che ne parlano"
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="ap-section">
+		<div class="ap-section__header">
+			<p class="ap-section__overline">Approfondimenti</p>
+			<h2 class="ap-section__title"><span class="material-symbols-outlined">article</span> Articoli che ne parlano</h2>
+		</div>
+
+		<div class="ap-articles__grid">
+
+			<a href="#" class="ap-article">
+				<div class="ap-article__img">
+					<div class="ap-article__img-placeholder" style="background:linear-gradient(135deg,#1d2d44,#3e5c76,#748cab);">480 × 270</div>
+				</div>
+				<div class="ap-article__body">
+					<span class="ap-article__type ap-article__type--recensione">Recensione</span>
+					<h4 class="ap-article__title">Cent'anni di solitudine: il romanzo che ha inventato un continente</h4>
+					<p class="ap-article__excerpt">Perché il capolavoro di Gabo resta il punto di riferimento ineludibile della letteratura mondiale.</p>
+					<span class="ap-article__date">12 Gennaio 2026 · 8 min lettura</span>
+				</div>
+			</a>
+
+			<a href="#" class="ap-article">
+				<div class="ap-article__img">
+					<div class="ap-article__img-placeholder" style="background:linear-gradient(135deg,#3e5c76,#748cab,#f0ebd8);">480 × 270</div>
+				</div>
+				<div class="ap-article__body">
+					<span class="ap-article__type ap-article__type--approfondimento">Approfondimento</span>
+					<h4 class="ap-article__title">Il realismo magico dopo García Márquez: chi raccoglie l'eredità?</h4>
+					<p class="ap-article__excerpt">Da Samanta Schweblin a Mariana Enriquez, le nuove voci del fantastico latinoamericano.</p>
+					<span class="ap-article__date">28 Febbraio 2026 · 12 min lettura</span>
+				</div>
+			</a>
+
+			<a href="#" class="ap-article">
+				<div class="ap-article__img">
+					<div class="ap-article__img-placeholder" style="background:linear-gradient(135deg,#0d1321,#1d2d44,#e07a5f);">480 × 270</div>
+				</div>
+				<div class="ap-article__body">
+					<span class="ap-article__type ap-article__type--intervista">Intervista</span>
+					<h4 class="ap-article__title">Il traduttore di Gabo: «Ogni frase era un enigma musicale»</h4>
+					<p class="ap-article__excerpt">Conversazione con il traduttore italiano sulle sfide di rendere la prosa di Macondo in un'altra lingua.</p>
+					<span class="ap-article__date">5 Marzo 2026 · 6 min lettura</span>
+				</div>
+			</a>
+
+			<a href="#" class="ap-article">
+				<div class="ap-article__img">
+					<div class="ap-article__img-placeholder" style="background:linear-gradient(135deg,#81b29a,#3e5c76,#1d2d44);">480 × 270</div>
+				</div>
+				<div class="ap-article__body">
+					<span class="ap-article__type ap-article__type--approfondimento">Approfondimento</span>
+					<h4 class="ap-article__title">Aracataca-Macondo: quando la geografia diventa mito</h4>
+					<p class="ap-article__excerpt">Viaggio nei luoghi reali che hanno ispirato l'universo narrativo di García Márquez.</p>
+					<span class="ap-article__date">18 Marzo 2026 · 10 min lettura</span>
+				</div>
+			</a>
+
+		</div>
+
+		<div style="text-align:center;margin-top:2rem;">
+			<a href="demo-autori.html" class="ap-back"><span class="material-symbols-outlined">arrow_back</span> Torna alla Biblioteca Autori</a>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ -->
+
+<footer class="site-footer">
+	<div style="max-width:80rem;margin:0 auto;padding:0 2rem;">
+		<div class="footer-main">
+			<div class="footer-brand">
+				<p class="site-title">Not My Cup of Read</p>
+				<p>Esploriamo la letteratura contemporanea attraverso podcast, recensioni e approfondimenti.</p>
+				<div class="footer-social">
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">podcasts</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">play_circle</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">photo_camera</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">send</span></a>
+				</div>
+			</div>
+			<div class="footer-col">
+				<h4>ESPLORA</h4>
+				<ul>
+					<li><a href="demo-recensioni.html">Recensioni</a></li>
+					<li><a href="demo-approfondimenti.html">Approfondimenti</a></li>
+					<li><a href="demo-podcast.html">Podcast</a></li>
+					<li><a href="demo-libri.html">Libri</a></li>
+					<li><a href="demo-autori.html">Autori</a></li>
+					<li><a href="demo-librerie.html">Librerie</a></li>
+					<li><a href="demo-eventi.html">Timeline</a></li>
+					<li><a href="demo-calendario.html">Calendario</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>PROGETTO</h4>
+				<ul>
+					<li><a href="demo-chi-siamo.html">Chi siamo</a></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Contatti</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>NEWSLETTER</h4>
+				<p style="font-size:0.875rem;margin-bottom:1rem;opacity:0.75;">Ricevi le nostre selezioni editoriali.</p>
+				<div class="newsletter-form">
+					<input type="email" placeholder="La tua email" style="background:rgba(255,255,255,0.05);color:#fff;">
+					<button class="btn btn--teal btn--small">Iscriviti</button>
+				</div>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<span>&copy; 2026 Not My Cup of Read.</span>
+			<div class="footer-bottom-links">
+				<a href="#">Privacy Policy</a>
+				<a href="#">Cookie Policy</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+</body>
+</html>

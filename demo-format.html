@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Format — Podcast — Not My Cup of Read</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Newsreader:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<style>
+/* ═══════════════════════════════════════════
+   FORMAT PAGE
+   ═══════════════════════════════════════════ */
+
+.fmt-page { max-width: 80rem; margin: 0 auto; padding: 0 2rem; }
+
+/* ── Hero ── */
+.fmt-hero { text-align: center; padding: 3.5rem 0 2.5rem; }
+.fmt-hero__overline { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--c-accent); margin-bottom: 0.5rem; }
+.fmt-hero__title { font-family: var(--font-headline); font-size: clamp(2rem, 5vw, 3.25rem); font-weight: 700; font-style: italic; color: var(--c-surface); margin: 0 0 0.75rem; }
+.fmt-hero__subtitle { font-size: 1.0625rem; color: var(--c-on-surface-variant); max-width: 38rem; margin: 0 auto; line-height: 1.6; }
+
+/* ── Stats bar ── */
+.fmt-stats {
+	display: flex;
+	justify-content: center;
+	gap: 3rem;
+	padding: 1.5rem 0 0;
+}
+
+.fmt-stat { text-align: center; }
+
+.fmt-stat__value {
+	display: block;
+	font-family: var(--font-headline);
+	font-size: 1.75rem;
+	font-weight: 700;
+	color: var(--c-accent);
+	line-height: 1.2;
+}
+
+.fmt-stat__label {
+	font-size: 0.6875rem;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--c-on-surface-variant);
+}
+
+/* ── Format showcase card ── */
+.fmt-showcase {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 0;
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	margin-bottom: 3rem;
+}
+
+.fmt-showcase--reverse { direction: rtl; }
+.fmt-showcase--reverse > * { direction: ltr; }
+
+.fmt-showcase__visual {
+	position: relative;
+	min-height: 380px;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.fmt-showcase__visual-bg {
+	position: absolute;
+	inset: 0;
+	opacity: 0.15;
+}
+
+.fmt-showcase__visual-icon {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1rem;
+}
+
+.fmt-showcase__visual-icon .material-symbols-outlined {
+	font-size: 5rem;
+	color: var(--c-accent);
+	opacity: 0.8;
+}
+
+.fmt-showcase__visual-label {
+	font-family: var(--font-headline);
+	font-size: 1.5rem;
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-surface);
+	text-align: center;
+}
+
+.fmt-showcase__visual-count {
+	font-size: 0.75rem;
+	font-weight: 600;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--c-on-surface-variant);
+}
+
+.fmt-showcase__body {
+	padding: 3rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.fmt-showcase__overline {
+	font-size: 0.625rem;
+	font-weight: 700;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	margin-bottom: 0.5rem;
+}
+
+.fmt-showcase__title {
+	font-family: var(--font-headline);
+	font-size: clamp(1.5rem, 3vw, 2rem);
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-on-surface);
+	margin: 0 0 0.75rem;
+	line-height: 1.2;
+}
+
+.fmt-showcase__desc {
+	font-size: 0.9375rem;
+	color: var(--c-on-surface-variant);
+	margin: 0 0 1.5rem;
+	line-height: 1.7;
+}
+
+.fmt-showcase__details {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+	margin-bottom: 1.5rem;
+}
+
+.fmt-showcase__detail {
+	display: flex;
+	align-items: center;
+	gap: 0.35rem;
+	font-size: 0.75rem;
+	color: var(--c-on-surface-variant);
+}
+
+.fmt-showcase__detail .material-symbols-outlined {
+	font-size: 1rem;
+	color: var(--c-accent);
+}
+
+.fmt-showcase__cta {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	font-size: 0.8125rem;
+	font-weight: 600;
+	color: var(--c-accent);
+	text-decoration: none;
+	align-self: flex-start;
+	transition: gap 0.2s;
+}
+
+.fmt-showcase__cta:hover { gap: 0.6rem; }
+.fmt-showcase__cta .material-symbols-outlined { font-size: 1rem; }
+
+/* ── Episode mini-cards (per format) ── */
+.fmt-episodes {
+	margin-top: 1.5rem;
+	padding-top: 1.5rem;
+	border-top: 1px solid var(--c-surface-container-high);
+}
+
+.fmt-episodes__label {
+	font-size: 0.625rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--c-on-surface-variant);
+	margin-bottom: 0.75rem;
+}
+
+.fmt-episodes__list {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.fmt-ep {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 0.6rem 0.75rem;
+	border-radius: var(--radius-md);
+	text-decoration: none;
+	transition: background 0.2s;
+}
+
+.fmt-ep:hover {
+	background: rgba(224,122,95,0.06);
+}
+
+.fmt-ep__num {
+	font-size: 0.6875rem;
+	font-weight: 700;
+	color: var(--c-accent);
+	white-space: nowrap;
+	min-width: 2rem;
+}
+
+.fmt-ep__title {
+	font-size: 0.8125rem;
+	font-weight: 600;
+	color: var(--c-on-surface);
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.fmt-ep__dur {
+	font-size: 0.6875rem;
+	color: var(--c-on-surface-variant);
+	white-space: nowrap;
+}
+
+.fmt-ep__play {
+	font-size: 1.125rem;
+	color: var(--c-accent);
+	opacity: 0;
+	transition: opacity 0.2s;
+}
+
+.fmt-ep:hover .fmt-ep__play { opacity: 1; }
+
+/* ── Host section ── */
+.fmt-hosts {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 1.5rem;
+}
+
+.fmt-host {
+	text-align: center;
+	text-decoration: none;
+	padding: 2rem 1.5rem;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	border-radius: var(--radius-lg);
+	transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.fmt-host:hover {
+	border-color: var(--c-accent);
+	box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+	transform: translateY(-3px);
+}
+
+.fmt-host__avatar {
+	width: 96px;
+	height: 96px;
+	border-radius: 50%;
+	margin: 0 auto 1rem;
+	overflow: hidden;
+}
+
+.fmt-host__avatar-placeholder {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: var(--font-headline);
+	font-size: 1.75rem;
+	font-weight: 700;
+	color: rgba(255,255,255,0.1);
+}
+
+.fmt-host__name {
+	font-family: var(--font-headline);
+	font-size: 1.0625rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	margin: 0 0 0.15rem;
+}
+
+.fmt-host__role {
+	font-size: 0.75rem;
+	color: var(--c-accent);
+	font-weight: 600;
+	margin: 0 0 0.75rem;
+}
+
+.fmt-host__bio {
+	font-size: 0.8125rem;
+	color: var(--c-on-surface-variant);
+	line-height: 1.55;
+	margin: 0;
+}
+
+/* ── Subscribe strip ── */
+.fmt-subscribe {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 2rem;
+	flex-wrap: wrap;
+	padding: 2.5rem 2rem;
+	text-align: center;
+}
+
+.fmt-subscribe__text {
+	font-family: var(--font-headline);
+	font-size: 1.125rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+}
+
+.fmt-subscribe__platforms {
+	display: flex;
+	gap: 0.75rem;
+}
+
+.fmt-subscribe__btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	padding: 0.55rem 1.25rem;
+	font-size: 0.8125rem;
+	font-weight: 600;
+	border-radius: var(--radius-full);
+	text-decoration: none;
+	transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.fmt-subscribe__btn:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.fmt-subscribe__btn--spotify {
+	background: #1DB954;
+	color: #fff;
+}
+
+.fmt-subscribe__btn--apple {
+	background: #fc3c44;
+	color: #fff;
+}
+
+.fmt-subscribe__btn--youtube {
+	background: #FF0000;
+	color: #fff;
+}
+
+.fmt-subscribe__btn svg {
+	width: 16px;
+	height: 16px;
+	fill: currentColor;
+}
+
+/* ── Section common ── */
+.fmt-section-header { margin-bottom: 2rem; }
+
+.fmt-section-overline {
+	font-size: 0.6875rem;
+	font-weight: 700;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: var(--c-accent);
+	margin-bottom: 0.35rem;
+}
+
+.fmt-section-title {
+	font-family: var(--font-headline);
+	font-size: 1.75rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	margin: 0;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.fmt-section-title .material-symbols-outlined { color: var(--c-accent); }
+
+.fmt-section-subtitle {
+	font-size: 0.9375rem;
+	color: var(--c-on-surface-variant);
+	margin: 0.35rem 0 0;
+	line-height: 1.5;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+	.fmt-showcase { grid-template-columns: 1fr; }
+	.fmt-showcase--reverse { direction: ltr; }
+	.fmt-showcase__visual { min-height: 220px; }
+	.fmt-hosts { grid-template-columns: repeat(2, 1fr); }
+	.fmt-stats { gap: 2rem; }
+}
+
+@media (max-width: 600px) {
+	.fmt-hosts { grid-template-columns: 1fr; }
+	.fmt-stats { flex-wrap: wrap; gap: 1.5rem; }
+	.fmt-subscribe { flex-direction: column; gap: 1rem; }
+	.fmt-subscribe__platforms { flex-wrap: wrap; justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     HEADER / NAVIGATION
+     ═══════════════════════════════════════════ -->
+
+<header class="site-header" id="siteHeader">
+	<div class="header-outer">
+		<div class="header-inner">
+			<div class="site-branding">
+				<div class="site-branding__icon">
+					<img src="assets/img/logo-nmcor.png" alt="NMCOR">
+				</div>
+				<h1 class="site-title"><a href="demo.html">Not My Cup of Read</a></h1>
+			</div>
+
+			<nav class="primary-nav" id="primaryNav">
+				<ul>
+					<li><a href="#">Articoli</a><ul class="sub-menu"><li><a href="demo-recensioni.html">Recensioni</a></li><li><a href="demo-approfondimenti.html">Approfondimenti</a></li><li><a href="demo-classifiche.html">Classifiche</a></li></ul></li>
+					<li><a href="#">Podcast</a><ul class="sub-menu"><li><a href="demo-podcast.html">Episodi</a></li><li><a href="demo-format.html">Format</a></li><li><a href="demo-dietro-le-quinte.html">Dietro le quinte</a></li></ul></li>
+					<li><a href="#">Biblioteca</a><ul class="sub-menu"><li><a href="demo-libri.html">Libri</a></li><li><a href="demo-autori.html">Autori</a></li></ul></li>
+					<li><a href="#">Luoghi</a><ul class="sub-menu"><li><a href="demo-librerie.html">La mappa del Lettore</a></li><li><a href="demo-luoghi-milano.html">Milano</a></li><li><a href="demo-itinerari.html">Itinerari letterari</a></li><li><a href="demo-luoghi-librerie.html">Librerie</a></li><li><a href="demo-luoghi-biblioteche.html">Biblioteche</a></li><li><a href="demo-luoghi-caffe.html">Caffè letterari</a></li><li><a href="demo-luoghi-spazi.html">Spazi culturali</a></li></ul></li>
+					<li><a href="#">Eventi</a><ul class="sub-menu"><li><a href="demo-eventi.html">Timeline</a></li><li><a href="demo-calendario.html">Calendario</a></li><li><a href="demo-fiere-festival.html">Fiere e Festival</a></li><li><a href="demo-premi-letterari.html">Premi letterari</a></li></ul></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Chi siamo</a><ul class="sub-menu"><li><a href="demo-chi-siamo.html">Lo studio &amp; gli host</a></li><li><a href="demo-ospiti-redazione.html">Gli ospiti &amp; la redazione</a></li><li><a href="demo-contatti.html">Contatti &amp; Collaborazioni</a></li></ul></li>
+				</ul>
+			</nav>
+
+			<div class="header-search">
+				<input type="text" placeholder="Cerca...">
+			</div>
+		</div>
+
+		<div class="header-extras">
+			<div class="header-social">
+				<a href="#" class="header-social__link" aria-label="YouTube">
+					<svg viewBox="0 0 24 24"><path d="M23.5 6.19a3 3 0 0 0-2.11-2.13C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.39.56A3 3 0 0 0 .5 6.19 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.81 3 3 0 0 0 2.11 2.13c1.89.56 9.39.56 9.39.56s7.5 0 9.39-.56a3 3 0 0 0 2.11-2.13A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.81ZM9.75 15.02V8.98L15.5 12l-5.75 3.02Z"/></svg>
+				</a>
+				<a href="#" class="header-social__link" aria-label="Spotify">
+					<svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.31a.75.75 0 0 1-1.03.25c-2.82-1.72-6.37-2.11-10.55-1.16a.75.75 0 1 1-.34-1.46c4.57-1.05 8.49-.6 11.67 1.34a.75.75 0 0 1 .25 1.03Zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.23-1.98-8.15-2.56-11.97-1.4a.94.94 0 1 1-.54-1.8c4.36-1.32 9.78-.68 13.49 1.6a.94.94 0 0 1 .31 1.29Zm.13-3.4C15.5 8.4 9 8.2 5.24 9.33a1.13 1.13 0 1 1-.65-2.16c4.33-1.3 11.52-1.05 16.07 1.68a1.13 1.13 0 0 1-1.56 1.79Z"/></svg>
+				</a>
+			</div>
+			<div class="header-auth">
+				<a href="demo-profilo.html" class="header-auth__btn"><span class="material-symbols-outlined">person</span> Cristian T.</a>
+			</div>
+			<button class="menu-toggle" id="menuToggle" aria-label="Menu">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</button>
+		</div>
+	</div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="fmt-page">
+		<div class="fmt-hero">
+			<p class="fmt-hero__overline">Voci tra le Righe</p>
+			<h1 class="fmt-hero__title">I nostri Format</h1>
+			<p class="fmt-hero__subtitle">Ogni storia merita il suo ritmo. Tre format, quattro voci, un unico obiettivo: portare i libri dove non te li aspetti.</p>
+
+			<div class="fmt-stats">
+				<div class="fmt-stat">
+					<span class="fmt-stat__value">48</span>
+					<span class="fmt-stat__label">Episodi</span>
+				</div>
+				<div class="fmt-stat">
+					<span class="fmt-stat__value">3</span>
+					<span class="fmt-stat__label">Format</span>
+				</div>
+				<div class="fmt-stat">
+					<span class="fmt-stat__value">62h</span>
+					<span class="fmt-stat__label">Di ascolto</span>
+				</div>
+				<div class="fmt-stat">
+					<span class="fmt-stat__value">2</span>
+					<span class="fmt-stat__label">Stagioni</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FORMAT 1 — Interviste
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface">
+	<div class="fmt-page">
+		<div class="fmt-showcase">
+			<div class="fmt-showcase__visual" style="background:linear-gradient(135deg,#1d2d44,#3e5c76);">
+				<div class="fmt-showcase__visual-bg" style="background:radial-gradient(circle at 30% 50%, rgba(224,122,95,0.3), transparent 60%);"></div>
+				<div class="fmt-showcase__visual-icon">
+					<span class="material-symbols-outlined">groups</span>
+					<span class="fmt-showcase__visual-label">Interviste</span>
+					<span class="fmt-showcase__visual-count">18 episodi</span>
+				</div>
+			</div>
+			<div class="fmt-showcase__body">
+				<p class="fmt-showcase__overline" style="color:#5a9a7a;">Format 01</p>
+				<h2 class="fmt-showcase__title">Interviste</h2>
+				<p class="fmt-showcase__desc">Dialoghi a tu per tu con chi i libri li scrive, li traduce, li pubblica e li vende. Niente domande preparate, niente risposte di cortesia. Solo conversazioni vere, dove ogni ospite porta un libro che gli ha cambiato la vita.</p>
+				<div class="fmt-showcase__details">
+					<span class="fmt-showcase__detail"><span class="material-symbols-outlined">schedule</span> 45–75 min</span>
+					<span class="fmt-showcase__detail"><span class="material-symbols-outlined">mic</span> Cristian + ospite</span>
+					<span class="fmt-showcase__detail"><span class="material-symbols-outlined">calendar_month</span> Bisettimanale</span>
+				</div>
+				<div class="fmt-episodes">
+					<p class="fmt-episodes__label">Ultimi episodi</p>
+					<div class="fmt-episodes__list">
+						<a href="demo-episodio-singolo.html" class="fmt-ep">
+							<span class="fmt-ep__num">#45</span>
+							<span class="fmt-ep__title">Paolo Giordano: la solitudine del primo romanzo</span>
+							<span class="fmt-ep__dur">1h 02min</span>
+							<span class="material-symbols-outlined fmt-ep__play">play_circle</span>
+						</a>
+						<a href="#" class="fmt-ep">
+							<span class="fmt-ep__num">#38</span>
+							<span class="fmt-ep__title">Sandra Ferrara (Adelphi): scegliere i libri per mestiere</span>
+							<span class="fmt-ep__dur">54min</span>
+							<span class="material-symbols-outlined fmt-ep__play">play_circle</span>
+						</a>
+						<a href="#" class="fmt-ep">
+							<span class="fmt-ep__num">#31</span>
+							<span class="fmt-ep__title">Marco Rossari: tradurre Wallace senza impazzire</span>
+							<span class="fmt-ep__dur">1h 12min</span>
+							<span class="material-symbols-outlined fmt-ep__play">play_circle</span>
+						</a>
+					</div>
+				</div>
+				<a href="demo-podcast.html" class="fmt-showcase__cta" style="margin-top:1.25rem;">Tutti gli episodi <span class="material-symbols-outlined">arrow_forward</span></a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FORMAT 2 — Monografie
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="fmt-page">
+		<div class="fmt-showcase fmt-showcase--reverse">
+			<div class="fmt-showcase__body">
+				<p class="fmt-showcase__overline" style="color:#5a8aab;">Format 02</p>
+				<h2 class="fmt-showcase__title">Monografie</h2>
+				<p class="fmt-showcase__desc">Un autore. Un'opera. Un'ora di immersione totale. Le monografie sono il nostro formato pi&ugrave; denso: quattro voci che sviscerano un singolo capolavoro o attraversano l'intera produzione di un autore, dalla prima pagina all'ultima riga.</p>
+				<div class="fmt-showcase__details">
+					<span class="fmt-showcase__detail"><span class="material-symbols-outlined">schedule</span> 60–90 min</span>
+					<span class="fmt-showcase__detail"><span class="material-symbols-outlined">mic</span> Tutta la redazione</span>
+					<span class="fmt-showcase__detail"><span class="material-symbols-outlined">calendar_month</span> Mensile</span>
+				</div>
+				<div class="fmt-episodes">
+					<p class="fmt-episodes__label">Ultimi episodi</p>
+					<div class="fmt-episodes__list">
+						<a href="#" class="fmt-ep">
+							<span class="fmt-ep__num">#42</span>
+							<span class="fmt-ep__title">Il Realismo Magico: da M&aacute;rquez al nuovo millennio</span>
+							<span class="fmt-ep__dur">1h 24min</span>
+							<span class="material-symbols-outlined fmt-ep__play">play_circle</span>
+						</a>
+						<a href="#" class="fmt-ep">
+							<span class="fmt-ep__num">#33</span>
+							<span class="fmt-ep__title">Cent'anni di solitudine: perch&eacute; leggerlo nel 2026</span>
+							<span class="fmt-ep__dur">58min</span>
+							<span class="material-symbols-outlined fmt-ep__play">play_circle</span>
+						</a>
+						<a href="#" class="fmt-ep">
+							<span class="fmt-ep__num">#25</span>
+							<span class="fmt-ep__title">Olga Tokarczuk: la narratrice che vede tutto</span>
+							<span class="fmt-ep__dur">1h 05min</span>
+							<span class="material-symbols-outlined fmt-ep__play">play_circle</span>
+						</a>
+					</div>
+				</div>
+				<a href="demo-podcast.html" class="fmt-showcase__cta" style="margin-top:1.25rem;">Tutti gli episodi <span class="material-symbols-outlined">arrow_forward</span></a>
+			</div>
+			<div class="fmt-showcase__visual" style="background:linear-gradient(135deg,#0d1321,#1d2d44);">
+				<div class="fmt-showcase__visual-bg" style="background:radial-gradient(circle at 70% 50%, rgba(62,92,118,0.4), transparent 60%);"></div>
+				<div class="fmt-showcase__visual-icon">
+					<span class="material-symbols-outlined">auto_stories</span>
+					<span class="fmt-showcase__visual-label">Monografie</span>
+					<span class="fmt-showcase__visual-count">20 episodi</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FORMAT 3 — Live Recordings
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface">
+	<div class="fmt-page">
+		<div class="fmt-showcase">
+			<div class="fmt-showcase__visual" style="background:linear-gradient(135deg,#3e5c76,#748cab);">
+				<div class="fmt-showcase__visual-bg" style="background:radial-gradient(circle at 40% 60%, rgba(148,103,189,0.3), transparent 60%);"></div>
+				<div class="fmt-showcase__visual-icon">
+					<span class="material-symbols-outlined">mic</span>
+					<span class="fmt-showcase__visual-label">Live Recordings</span>
+					<span class="fmt-showcase__visual-count">10 episodi</span>
+				</div>
+			</div>
+			<div class="fmt-showcase__body">
+				<p class="fmt-showcase__overline" style="color:#9467bd;">Format 03</p>
+				<h2 class="fmt-showcase__title">Live Recordings</h2>
+				<p class="fmt-showcase__desc">L'energia degli eventi dal vivo catturata al microfono. Registrazioni nelle librerie indipendenti, ai festival letterari, nelle aule universitarie. Con il pubblico che ride, applaude, interviene. Perch&eacute; i libri non si leggono solo da soli.</p>
+				<div class="fmt-showcase__details">
+					<span class="fmt-showcase__detail"><span class="material-symbols-outlined">schedule</span> 30–50 min</span>
+					<span class="fmt-showcase__detail"><span class="material-symbols-outlined">mic</span> Redazione + pubblico</span>
+					<span class="fmt-showcase__detail"><span class="material-symbols-outlined">calendar_month</span> In occasione di eventi</span>
+				</div>
+				<div class="fmt-episodes">
+					<p class="fmt-episodes__label">Ultimi episodi</p>
+					<div class="fmt-episodes__list">
+						<a href="#" class="fmt-ep">
+							<span class="fmt-ep__num">#47</span>
+							<span class="fmt-ep__title">Live @ Libreria del Mondo Offeso, Milano</span>
+							<span class="fmt-ep__dur">48min</span>
+							<span class="material-symbols-outlined fmt-ep__play">play_circle</span>
+						</a>
+						<a href="#" class="fmt-ep">
+							<span class="fmt-ep__num">#39</span>
+							<span class="fmt-ep__title">Salone del Libro 2025: voci dal padiglione</span>
+							<span class="fmt-ep__dur">42min</span>
+							<span class="material-symbols-outlined fmt-ep__play">play_circle</span>
+						</a>
+						<a href="#" class="fmt-ep">
+							<span class="fmt-ep__num">#28</span>
+							<span class="fmt-ep__title">Notte Bianca delle Librerie, Roma</span>
+							<span class="fmt-ep__dur">35min</span>
+							<span class="material-symbols-outlined fmt-ep__play">play_circle</span>
+						</a>
+					</div>
+				</div>
+				<a href="demo-podcast.html" class="fmt-showcase__cta" style="margin-top:1.25rem;">Tutti gli episodi <span class="material-symbols-outlined">arrow_forward</span></a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     LE VOCI — Host cards
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="fmt-page">
+		<div class="fmt-section-header">
+			<p class="fmt-section-overline">La redazione</p>
+			<h2 class="fmt-section-title"><span class="material-symbols-outlined">record_voice_over</span> Le voci</h2>
+			<p class="fmt-section-subtitle">Quattro personalit&agrave;, quattro librerie molto diverse, un microfono in comune</p>
+		</div>
+
+		<div class="fmt-hosts">
+
+			<div class="fmt-host">
+				<div class="fmt-host__avatar">
+					<div class="fmt-host__avatar-placeholder" style="background:linear-gradient(135deg,#e07a5f,#c9684d);">CT</div>
+				</div>
+				<h3 class="fmt-host__name">Cristian T.</h3>
+				<p class="fmt-host__role">Fondatore &middot; Host principale</p>
+				<p class="fmt-host__bio">Coordina il progetto e conduce le interviste. Legge troppo, dorme poco. Il suo scaffale ideale ha pi&ugrave; M&aacute;rquez che Murakami.</p>
+			</div>
+
+			<div class="fmt-host">
+				<div class="fmt-host__avatar">
+					<div class="fmt-host__avatar-placeholder" style="background:linear-gradient(135deg,#81b29a,#3d6b55);">ER</div>
+				</div>
+				<h3 class="fmt-host__name">Emma R.</h3>
+				<p class="fmt-host__role">Co-host &middot; Critica letteraria</p>
+				<p class="fmt-host__bio">La voce che non ha paura di dire che un classico &egrave; sopravvalutato. Specializzata in narrativa contemporanea e letteratura femminile.</p>
+			</div>
+
+			<div class="fmt-host">
+				<div class="fmt-host__avatar">
+					<div class="fmt-host__avatar-placeholder" style="background:linear-gradient(135deg,#9467bd,#5a3478);">CF</div>
+				</div>
+				<h3 class="fmt-host__name">Claudia F.</h3>
+				<p class="fmt-host__role">Co-host &middot; Traduttrice</p>
+				<p class="fmt-host__bio">Traduttrice dal tedesco e dal francese. Porta sempre il punto di vista di chi legge nella lingua originale e di chi la reinventa.</p>
+			</div>
+
+			<div class="fmt-host">
+				<div class="fmt-host__avatar">
+					<div class="fmt-host__avatar-placeholder" style="background:linear-gradient(135deg,#748cab,#1d2d44);">ML</div>
+				</div>
+				<h3 class="fmt-host__name">Mattia L.</h3>
+				<p class="fmt-host__role">Co-host &middot; Saggista</p>
+				<p class="fmt-host__bio">Il lettore onnivoro del gruppo. Dalla saggistica alla poesia, dal fumetto al reportage. Se &egrave; stampato, lo ha gi&agrave; letto.</p>
+			</div>
+
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SUBSCRIBE STRIP
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface">
+	<div class="fmt-page">
+		<div class="fmt-subscribe">
+			<span class="fmt-subscribe__text">Ascolta Voci tra le Righe su:</span>
+			<div class="fmt-subscribe__platforms">
+				<a href="#" class="fmt-subscribe__btn fmt-subscribe__btn--spotify">
+					<svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.31a.75.75 0 0 1-1.03.25c-2.82-1.72-6.37-2.11-10.55-1.16a.75.75 0 1 1-.34-1.46c4.57-1.05 8.49-.6 11.67 1.34a.75.75 0 0 1 .25 1.03Zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.23-1.98-8.15-2.56-11.97-1.4a.94.94 0 1 1-.54-1.8c4.36-1.32 9.78-.68 13.49 1.6a.94.94 0 0 1 .31 1.29Zm.13-3.4C15.5 8.4 9 8.2 5.24 9.33a1.13 1.13 0 1 1-.65-2.16c4.33-1.3 11.52-1.05 16.07 1.68a1.13 1.13 0 0 1-1.56 1.79Z"/></svg>
+					Spotify
+				</a>
+				<a href="#" class="fmt-subscribe__btn fmt-subscribe__btn--apple">
+					<svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83Z"/><path d="M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11Z"/></svg>
+					Apple Podcasts
+				</a>
+				<a href="#" class="fmt-subscribe__btn fmt-subscribe__btn--youtube">
+					<svg viewBox="0 0 24 24"><path d="M23.5 6.19a3 3 0 0 0-2.11-2.13C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.39.56A3 3 0 0 0 .5 6.19 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.81 3 3 0 0 0 2.11 2.13c1.89.56 9.39.56 9.39.56s7.5 0 9.39-.56a3 3 0 0 0 2.11-2.13A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.81ZM9.75 15.02V8.98L15.5 12l-5.75 3.02Z"/></svg>
+					YouTube
+				</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ -->
+
+<footer class="site-footer">
+	<div style="max-width:80rem;margin:0 auto;padding:0 2rem;">
+		<div class="footer-main">
+			<div class="footer-brand">
+				<p class="site-title">Not My Cup of Read</p>
+				<p>Esploriamo la letteratura contemporanea attraverso podcast, recensioni e approfondimenti.</p>
+				<div class="footer-social">
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">podcasts</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">play_circle</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">photo_camera</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">send</span></a>
+				</div>
+			</div>
+			<div class="footer-col">
+				<h4>ESPLORA</h4>
+				<ul>
+					<li><a href="demo-recensioni.html">Recensioni</a></li>
+					<li><a href="demo-approfondimenti.html">Approfondimenti</a></li>
+					<li><a href="demo-podcast.html">Podcast</a></li>
+					<li><a href="demo-libri.html">Libri</a></li>
+					<li><a href="demo-autori.html">Autori</a></li>
+					<li><a href="demo-librerie.html">Librerie</a></li>
+					<li><a href="demo-eventi.html">Timeline</a></li>
+					<li><a href="demo-calendario.html">Calendario</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>PROGETTO</h4>
+				<ul>
+					<li><a href="demo-chi-siamo.html">Chi siamo</a></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Contatti</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>NEWSLETTER</h4>
+				<p style="font-size:0.875rem;margin-bottom:1rem;opacity:0.75;">Ricevi le nostre selezioni editoriali.</p>
+				<div class="newsletter-form">
+					<input type="email" placeholder="La tua email" style="background:rgba(255,255,255,0.05);color:#fff;">
+					<button class="btn btn--teal btn--small">Iscriviti</button>
+				</div>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<span>&copy; 2026 Not My Cup of Read.</span>
+			<div class="footer-bottom-links">
+				<a href="#">Privacy Policy</a>
+				<a href="#">Cookie Policy</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+</body>
+</html>

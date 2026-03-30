@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profilo — Cristian T. — Not My Cup of Read</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<style>
+	.demo-placeholder-img {
+		background: linear-gradient(135deg, #1d2d44 0%, #3e5c76 50%, #748cab 100%);
+		display: flex; align-items: center; justify-content: center;
+		color: rgba(255,255,255,0.3); font-size: 0.75rem; font-family: var(--font-body);
+	}
+	.demo-placeholder-img.warm {
+		background: linear-gradient(135deg, #3e5c76 0%, #748cab 50%, #b8c5d6 100%);
+	}
+	.demo-placeholder-img.neutral {
+		background: linear-gradient(135deg, #0d1321 0%, #1d2d44 50%, #3e5c76 100%);
+	}
+	.demo-placeholder-img.book-cover {
+		background: linear-gradient(180deg, #0d1321 0%, #1d2d44 100%);
+		aspect-ratio: 2/3;
+	}
+
+	/* ═══════════════════════════════════════════
+	   PROFILE PAGE
+	   ═══════════════════════════════════════════ */
+
+	/* Cover banner */
+	.profile-cover {
+		height: 220px;
+		background: linear-gradient(135deg, var(--c-primary) 0%, var(--c-primary-container) 60%, var(--c-accent) 100%);
+		position: relative;
+	}
+	.profile-cover__edit {
+		position: absolute;
+		bottom: 1rem;
+		right: 1.5rem;
+		background: rgba(0,0,0,0.35);
+		backdrop-filter: blur(8px);
+		color: #fff;
+		border: none;
+		border-radius: var(--radius-full);
+		padding: 0.4rem 1rem;
+		font-size: 0.75rem;
+		font-weight: 600;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		gap: 0.35rem;
+		transition: background 0.2s;
+	}
+	.profile-cover__edit:hover { background: rgba(0,0,0,0.5); }
+
+	/* Profile header card */
+	.profile-header {
+		max-width: 80rem;
+		margin: -5rem auto 0;
+		padding: 0 2rem;
+		position: relative;
+		z-index: 2;
+	}
+	.profile-header__card {
+		background: var(--c-surface);
+		border-radius: var(--radius-lg);
+		padding: 2rem 2.5rem 2rem;
+		display: grid;
+		grid-template-columns: auto 1fr auto;
+		gap: 2rem;
+		align-items: end;
+		box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+	}
+	.profile-header__avatar-wrapper {
+		position: relative;
+		margin-top: -4rem;
+	}
+	.profile-header__avatar {
+		width: 120px;
+		height: 120px;
+		border-radius: 50%;
+		overflow: hidden;
+		border: 4px solid var(--c-surface);
+		box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+	}
+	.profile-header__avatar-edit {
+		position: absolute;
+		bottom: 4px;
+		right: 4px;
+		width: 32px;
+		height: 32px;
+		border-radius: 50%;
+		background: var(--c-accent);
+		color: #fff;
+		border: 2px solid var(--c-surface);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		font-size: 16px;
+	}
+	.profile-header__info {
+		padding-bottom: 0.25rem;
+	}
+	.profile-header__name {
+		font-family: var(--font-headline);
+		font-size: 1.75rem;
+		font-weight: 700;
+		margin: 0 0 0.15rem;
+		color: var(--c-on-surface);
+	}
+	.profile-header__handle {
+		font-size: 0.8125rem;
+		color: var(--c-on-surface-variant);
+		margin-bottom: 0.5rem;
+	}
+	.profile-header__stats {
+		display: flex;
+		gap: 1.5rem;
+		font-size: 0.8125rem;
+		color: var(--c-on-surface-variant);
+	}
+	.profile-header__stat strong {
+		color: var(--c-on-surface);
+		font-weight: 700;
+	}
+	.profile-header__actions {
+		display: flex;
+		gap: 0.5rem;
+		align-self: center;
+	}
+
+	/* Tab navigation */
+	.profile-tabs {
+		max-width: 80rem;
+		margin: 0 auto;
+		padding: 1.5rem 2rem 0;
+		display: flex;
+		gap: 0;
+		border-bottom: 2px solid var(--c-surface-container);
+		overflow-x: auto;
+	}
+	.profile-tab {
+		padding: 0.75rem 1.5rem;
+		font-size: 0.8125rem;
+		font-weight: 600;
+		color: var(--c-on-surface-variant);
+		text-decoration: none;
+		border-bottom: 2px solid transparent;
+		margin-bottom: -2px;
+		white-space: nowrap;
+		cursor: pointer;
+		background: none;
+		border-top: none;
+		border-left: none;
+		border-right: none;
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+		transition: color 0.2s;
+	}
+	.profile-tab:hover { color: var(--c-on-surface); }
+	.profile-tab.active {
+		color: var(--c-accent);
+		border-bottom-color: var(--c-accent);
+	}
+	.profile-tab .material-symbols-outlined { font-size: 1.125rem; }
+
+	/* Content area */
+	.profile-content {
+		max-width: 80rem;
+		margin: 0 auto;
+		padding: 2rem;
+	}
+	.profile-view { display: none; }
+	.profile-view.active { display: block; }
+
+	/* About me */
+	.profile-about {
+		display: grid;
+		grid-template-columns: 2fr 1fr;
+		gap: 3rem;
+	}
+	.profile-about__bio h3 {
+		font-size: 1.25rem;
+		margin-bottom: 1rem;
+	}
+	.profile-about__bio p {
+		font-size: 0.9375rem;
+		line-height: 1.8;
+		color: var(--c-on-surface-variant);
+	}
+	.profile-about__details {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		margin-top: 1.5rem;
+	}
+	.profile-detail {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		font-size: 0.8125rem;
+		color: var(--c-on-surface-variant);
+	}
+	.profile-detail .material-symbols-outlined {
+		font-size: 1.125rem;
+		color: var(--c-accent);
+	}
+	/* Reading stats sidebar */
+	.profile-stats-card {
+		background: var(--c-primary);
+		color: #fff;
+		border-radius: var(--radius-lg);
+		padding: 2rem;
+	}
+	.profile-stats-card h4 {
+		font-size: 0.75rem;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		color: var(--c-accent);
+		margin-bottom: 1.5rem;
+		font-family: var(--font-body);
+		font-weight: 700;
+	}
+	.profile-stat-row {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 0.75rem 0;
+		border-bottom: 1px solid rgba(255,255,255,0.08);
+	}
+	.profile-stat-row:last-child { border-bottom: none; }
+	.profile-stat-row__label {
+		font-size: 0.8125rem;
+		color: rgba(255,255,255,0.6);
+	}
+	.profile-stat-row__value {
+		font-size: 1.25rem;
+		font-weight: 700;
+		font-family: var(--font-headline);
+	}
+
+	/* Section blocks */
+	.profile-section {
+		margin-bottom: 3rem;
+	}
+	.profile-section__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 1.5rem;
+	}
+	.profile-section__title {
+		font-size: 1.25rem;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+	.profile-section__title .material-symbols-outlined {
+		color: var(--c-accent);
+		font-size: 1.25rem;
+	}
+
+	/* Horizontal scroll shelf */
+	.profile-shelf {
+		display: flex;
+		gap: 1.25rem;
+		overflow-x: auto;
+		padding-bottom: 0.5rem;
+		scroll-snap-type: x mandatory;
+	}
+	.profile-shelf::-webkit-scrollbar { height: 4px; }
+	.profile-shelf::-webkit-scrollbar-thumb { background: var(--c-surface-container-high); border-radius: 2px; }
+
+	/* Episode mini cards */
+	.profile-ep-card {
+		flex-shrink: 0;
+		width: 280px;
+		scroll-snap-align: start;
+		background: var(--c-surface-container-lowest);
+		border-radius: var(--radius-lg);
+		overflow: hidden;
+		transition: transform 0.2s;
+	}
+	.profile-ep-card:hover { transform: translateY(-3px); }
+	.profile-ep-card__thumb {
+		aspect-ratio: 16/9;
+		position: relative;
+	}
+	.profile-ep-card__thumb .demo-placeholder-img { width: 100%; height: 100%; }
+	.profile-ep-card__badge {
+		position: absolute;
+		top: 0.5rem;
+		left: 0.5rem;
+		background: var(--c-accent);
+		color: #fff;
+		font-size: 0.5625rem;
+		font-weight: 800;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		padding: 0.2rem 0.5rem;
+		border-radius: var(--radius-full);
+	}
+	.profile-ep-card__body {
+		padding: 1rem;
+	}
+	.profile-ep-card__label {
+		font-size: 0.6875rem;
+		color: var(--c-accent);
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+	.profile-ep-card__title {
+		font-family: var(--font-headline);
+		font-size: 0.9375rem;
+		font-weight: 700;
+		margin: 0.25rem 0 0;
+		line-height: 1.3;
+	}
+	.profile-ep-card__title a {
+		color: var(--c-on-surface);
+		text-decoration: none;
+	}
+	.profile-ep-card__title a:hover { color: var(--c-accent); }
+
+	/* Book mini cards (vertical cover) */
+	.profile-book-card {
+		flex-shrink: 0;
+		width: 140px;
+		scroll-snap-align: start;
+		text-align: center;
+	}
+	.profile-book-card__cover {
+		border-radius: var(--radius-sm);
+		overflow: hidden;
+		margin-bottom: 0.5rem;
+		transition: transform 0.2s;
+	}
+	.profile-book-card:hover .profile-book-card__cover { transform: translateY(-4px); }
+	.profile-book-card__title {
+		font-family: var(--font-headline);
+		font-size: 0.8125rem;
+		font-weight: 700;
+		line-height: 1.3;
+		margin: 0 0 0.15rem;
+	}
+	.profile-book-card__title a { color: var(--c-on-surface); text-decoration: none; }
+	.profile-book-card__title a:hover { color: var(--c-accent); }
+	.profile-book-card__author {
+		font-size: 0.6875rem;
+		color: var(--c-on-surface-variant);
+	}
+
+	/* Author cards */
+	.profile-author-card {
+		flex-shrink: 0;
+		width: 160px;
+		scroll-snap-align: start;
+		text-align: center;
+	}
+	.profile-author-card__avatar {
+		width: 96px;
+		height: 96px;
+		border-radius: 50%;
+		overflow: hidden;
+		margin: 0 auto 0.75rem;
+	}
+	.profile-author-card__name {
+		font-family: var(--font-headline);
+		font-size: 0.9375rem;
+		font-weight: 700;
+		margin: 0 0 0.15rem;
+	}
+	.profile-author-card__genre {
+		font-size: 0.6875rem;
+		color: var(--c-on-surface-variant);
+	}
+
+	/* Wishlist cards */
+	.profile-wishlist {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+		gap: 1rem;
+	}
+	.profile-wish-card {
+		display: flex;
+		gap: 1rem;
+		padding: 1rem;
+		background: var(--c-surface-container-lowest);
+		border-radius: var(--radius-md);
+		align-items: center;
+	}
+	.profile-wish-card__cover {
+		width: 56px;
+		flex-shrink: 0;
+		border-radius: var(--radius-sm);
+		overflow: hidden;
+	}
+	.profile-wish-card__title {
+		font-family: var(--font-headline);
+		font-size: 0.875rem;
+		font-weight: 700;
+		margin: 0 0 0.15rem;
+	}
+	.profile-wish-card__author {
+		font-size: 0.75rem;
+		color: var(--c-on-surface-variant);
+		margin: 0 0 0.35rem;
+	}
+	.profile-wish-card__note {
+		font-size: 0.6875rem;
+		color: var(--c-accent);
+		font-style: italic;
+	}
+	.profile-wish-card__remove {
+		margin-left: auto;
+		background: none;
+		border: none;
+		color: var(--c-on-surface-variant);
+		cursor: pointer;
+		opacity: 0;
+		transition: opacity 0.2s;
+	}
+	.profile-wish-card:hover .profile-wish-card__remove { opacity: 1; }
+
+	/* Badges */
+	.profile-badges {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1.25rem;
+	}
+	.profile-badge {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		width: 100px;
+	}
+	.profile-badge__icon {
+		width: 64px;
+		height: 64px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-bottom: 0.5rem;
+		font-size: 1.75rem;
+	}
+	.profile-badge__icon--gold { background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); }
+	.profile-badge__icon--teal { background: linear-gradient(135deg, #3e5c76 0%, #748cab 100%); color: #fff; }
+	.profile-badge__icon--purple { background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%); }
+	.profile-badge__icon--green { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+	.profile-badge__icon--dark { background: linear-gradient(135deg, #0d1321 0%, #1d2d44 100%); color: #fff; }
+	.profile-badge__icon--locked {
+		background: var(--c-surface-container);
+		color: var(--c-on-surface-variant);
+		opacity: 0.4;
+	}
+	.profile-badge__name {
+		font-size: 0.6875rem;
+		font-weight: 700;
+		color: var(--c-on-surface);
+		line-height: 1.3;
+	}
+	.profile-badge__date {
+		font-size: 0.5625rem;
+		color: var(--c-on-surface-variant);
+	}
+
+	/* Responsive */
+	@media (max-width: 768px) {
+		.profile-header__card { grid-template-columns: 1fr; text-align: center; justify-items: center; }
+		.profile-header__stats { justify-content: center; }
+		.profile-header__actions { justify-content: center; }
+		.profile-about { grid-template-columns: 1fr; }
+		.profile-tabs { gap: 0; }
+		.profile-tab { padding: 0.75rem 1rem; font-size: 0.75rem; }
+	}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     HEADER / NAVIGATION
+     ═══════════════════════════════════════════ -->
+
+<header class="site-header" id="siteHeader">
+	<div class="header-outer">
+		<div class="header-inner">
+			<div class="site-branding">
+				<div class="site-branding__icon">
+					<img src="assets/img/logo-nmcor.png" alt="NMCOR">
+				</div>
+				<h1 class="site-title"><a href="demo.html">Not My Cup of Read</a></h1>
+			</div>
+			<nav class="primary-nav" id="primaryNav">
+				<ul>
+					<li><a href="#">Articoli</a><ul class="sub-menu"><li><a href="demo-recensioni.html">Recensioni</a></li><li><a href="demo-approfondimenti.html">Approfondimenti</a></li><li><a href="demo-classifiche.html">Classifiche</a></li></ul></li>
+					<li><a href="#">Podcast</a><ul class="sub-menu"><li><a href="demo-podcast.html">Episodi</a></li><li><a href="demo-format.html">Format</a></li><li><a href="demo-dietro-le-quinte.html">Dietro le quinte</a></li></ul></li>
+					<li><a href="#">Biblioteca</a><ul class="sub-menu"><li><a href="demo-libri.html">Libri</a></li><li><a href="demo-autori.html">Autori</a></li></ul></li>
+					<li><a href="#">Luoghi</a><ul class="sub-menu"><li><a href="demo-librerie.html">La mappa del Lettore</a></li><li><a href="demo-luoghi-milano.html">Milano</a></li><li><a href="demo-itinerari.html">Itinerari letterari</a></li><li><a href="demo-luoghi-librerie.html">Librerie</a></li><li><a href="demo-luoghi-biblioteche.html">Biblioteche</a></li><li><a href="demo-luoghi-caffe.html">Caffè letterari</a></li><li><a href="demo-luoghi-spazi.html">Spazi culturali</a></li></ul></li>
+					<li><a href="#">Eventi</a><ul class="sub-menu"><li><a href="demo-eventi.html">Timeline</a></li><li><a href="demo-calendario.html">Calendario</a></li><li><a href="demo-fiere-festival.html">Fiere e Festival</a></li><li><a href="demo-premi-letterari.html">Premi letterari</a></li></ul></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Chi siamo</a><ul class="sub-menu"><li><a href="demo-chi-siamo.html">Lo studio &amp; gli host</a></li><li><a href="demo-ospiti-redazione.html">Gli ospiti &amp; la redazione</a></li><li><a href="demo-contatti.html">Contatti &amp; Collaborazioni</a></li></ul></li>
+				</ul>
+			</nav>
+			<div class="header-search">
+				<input type="text" placeholder="Cerca...">
+			</div>
+		</div>
+		<div class="header-extras">
+			<div class="header-social">
+				<a href="#" class="header-social__link" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23.5 6.19a3 3 0 0 0-2.11-2.13C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.39.56A3 3 0 0 0 .5 6.19 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.81 3 3 0 0 0 2.11 2.13c1.89.56 9.39.56 9.39.56s7.5 0 9.39-.56a3 3 0 0 0 2.11-2.13A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.81ZM9.75 15.02V8.98L15.5 12l-5.75 3.02Z"/></svg></a>
+				<a href="#" class="header-social__link" aria-label="Spotify"><svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.31a.75.75 0 0 1-1.03.25c-2.82-1.72-6.37-2.11-10.55-1.16a.75.75 0 1 1-.34-1.46c4.57-1.05 8.49-.6 11.67 1.34a.75.75 0 0 1 .25 1.03Zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.23-1.98-8.15-2.56-11.97-1.4a.94.94 0 1 1-.54-1.8c4.36-1.32 9.78-.68 13.49 1.6a.94.94 0 0 1 .31 1.29Zm.13-3.4C15.5 8.4 9 8.2 5.24 9.33a1.13 1.13 0 1 1-.65-2.16c4.33-1.3 11.52-1.05 16.07 1.68a1.13 1.13 0 0 1-1.56 1.79Z"/></svg></a>
+			</div>
+			<div class="header-auth">
+				<a href="demo-profilo.html" class="header-auth__btn">
+					<span class="material-symbols-outlined">person</span>
+					Cristian T.
+				</a>
+			</div>
+			<button class="menu-toggle" id="menuToggle" aria-label="Menu">
+				<span class="bar"></span><span class="bar"></span><span class="bar"></span>
+			</button>
+		</div>
+	</div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     COVER BANNER
+     ═══════════════════════════════════════════ -->
+
+<div class="profile-cover">
+	<button class="profile-cover__edit">
+		<span class="material-symbols-outlined" style="font-size:1rem;">photo_camera</span>
+		Cambia copertina
+	</button>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PROFILE HEADER
+     ═══════════════════════════════════════════ -->
+
+<div class="profile-header">
+	<div class="profile-header__card">
+		<div class="profile-header__avatar-wrapper">
+			<div class="profile-header__avatar">
+				<div class="demo-placeholder-img" style="width:100%;height:100%;border-radius:50%;">
+					<span class="material-symbols-outlined" style="font-size:2.5rem;opacity:0.5;">person</span>
+				</div>
+			</div>
+			<button class="profile-header__avatar-edit">
+				<span class="material-symbols-outlined" style="font-size:16px;">edit</span>
+			</button>
+		</div>
+		<div class="profile-header__info">
+			<h1 class="profile-header__name">Cristian T.</h1>
+			<p class="profile-header__handle">@cristian · Membro dal Gennaio 2024</p>
+			<div class="profile-header__stats">
+				<span class="profile-header__stat"><strong>127</strong> libri letti</span>
+				<span class="profile-header__stat"><strong>42</strong> episodi ascoltati</span>
+				<span class="profile-header__stat"><strong>18</strong> discussioni</span>
+				<span class="profile-header__stat"><strong>8</strong> badge</span>
+			</div>
+		</div>
+		<div class="profile-header__actions">
+			<a href="#" class="btn btn--teal btn--small">
+				<span class="material-symbols-outlined" style="font-size:1rem;">edit</span> Modifica profilo
+			</a>
+			<a href="#" class="btn btn--outline btn--small">
+				<span class="material-symbols-outlined" style="font-size:1rem;">settings</span>
+			</a>
+		</div>
+	</div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     TABS
+     ═══════════════════════════════════════════ -->
+
+<div class="profile-tabs" id="profileTabs">
+	<button class="profile-tab active" data-tab="tab-about">
+		<span class="material-symbols-outlined">person</span> Raccontaci di te
+	</button>
+	<button class="profile-tab" data-tab="tab-episodes">
+		<span class="material-symbols-outlined">podcasts</span> I miei episodi
+	</button>
+	<button class="profile-tab" data-tab="tab-books">
+		<span class="material-symbols-outlined">auto_stories</span> I miei libri
+	</button>
+	<button class="profile-tab" data-tab="tab-authors">
+		<span class="material-symbols-outlined">edit_note</span> Autori del cuore
+	</button>
+	<button class="profile-tab" data-tab="tab-wishlist">
+		<span class="material-symbols-outlined">bookmark</span> Wishlist
+	</button>
+	<button class="profile-tab" data-tab="tab-badges">
+		<span class="material-symbols-outlined">military_tech</span> Badge
+	</button>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     TAB CONTENT
+     ═══════════════════════════════════════════ -->
+
+<div class="profile-content">
+
+	<!-- ——— TAB: Raccontaci di te ——— -->
+	<div class="profile-view active" id="tab-about">
+		<div class="profile-about">
+			<div class="profile-about__bio">
+				<h3><em>Chi sono</em></h3>
+				<p>Lettore compulsivo, fondatore di Not My Cup of Read. Credo che i libri siano conversazioni silenziose con sconosciuti straordinari. Passo le serate tra saggi di antropologia, narrativa latinoamericana e qualche graphic novel che non confesso a nessuno.</p>
+				<p>Mi trovate sempre con un libro in mano, un caffè nell'altra e un'opinione pronta su qualsiasi romanzo pubblicato dopo il 1950. Il mio guilty pleasure? I thriller scandinavi, tutti, nessuno escluso.</p>
+
+				<div class="profile-about__details">
+					<div class="profile-detail">
+						<span class="material-symbols-outlined">location_on</span>
+						Roma, Italia
+					</div>
+					<div class="profile-detail">
+						<span class="material-symbols-outlined">auto_stories</span>
+						Generi preferiti: Narrativa, Saggistica, Poesia
+					</div>
+					<div class="profile-detail">
+						<span class="material-symbols-outlined">favorite</span>
+						Libro del cuore: Cent'anni di solitudine
+					</div>
+					<div class="profile-detail">
+						<span class="material-symbols-outlined">format_quote</span>
+						<em>"Chi non legge, a 70 anni avrà vissuto una sola vita."</em>
+					</div>
+				</div>
+			</div>
+
+			<div>
+				<div class="profile-stats-card">
+					<h4>Le mie statistiche</h4>
+					<div class="profile-stat-row">
+						<span class="profile-stat-row__label">Libri letti nel 2026</span>
+						<span class="profile-stat-row__value">23</span>
+					</div>
+					<div class="profile-stat-row">
+						<span class="profile-stat-row__label">Pagine totali</span>
+						<span class="profile-stat-row__value">7.840</span>
+					</div>
+					<div class="profile-stat-row">
+						<span class="profile-stat-row__label">Ore di ascolto</span>
+						<span class="profile-stat-row__value">56h</span>
+					</div>
+					<div class="profile-stat-row">
+						<span class="profile-stat-row__label">Recensioni scritte</span>
+						<span class="profile-stat-row__value">14</span>
+					</div>
+					<div class="profile-stat-row">
+						<span class="profile-stat-row__label">Streak di lettura</span>
+						<span class="profile-stat-row__value">🔥 12g</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ——— TAB: I miei episodi preferiti ——— -->
+	<div class="profile-view" id="tab-episodes">
+		<div class="profile-section">
+			<div class="profile-section__header">
+				<h3 class="profile-section__title"><span class="material-symbols-outlined">podcasts</span> I miei episodi preferiti</h3>
+			</div>
+			<div class="profile-shelf">
+				<div class="profile-ep-card">
+					<div class="profile-ep-card__thumb">
+						<div class="demo-placeholder-img"><span class="material-symbols-outlined" style="font-size:1.5rem;opacity:0.3;">podcasts</span></div>
+						<span class="profile-ep-card__badge">Preferito</span>
+					</div>
+					<div class="profile-ep-card__body">
+						<span class="profile-ep-card__label">Episodio 42</span>
+						<h4 class="profile-ep-card__title"><a href="demo-episodio-singolo.html">Il Realismo Magico: da Márquez al nuovo millennio</a></h4>
+					</div>
+				</div>
+				<div class="profile-ep-card">
+					<div class="profile-ep-card__thumb">
+						<div class="demo-placeholder-img warm"><span class="material-symbols-outlined" style="font-size:1.5rem;opacity:0.3;">podcasts</span></div>
+					</div>
+					<div class="profile-ep-card__body">
+						<span class="profile-ep-card__label">Episodio 38</span>
+						<h4 class="profile-ep-card__title"><a href="#">Kafka e l'angoscia moderna</a></h4>
+					</div>
+				</div>
+				<div class="profile-ep-card">
+					<div class="profile-ep-card__thumb">
+						<div class="demo-placeholder-img neutral"><span class="material-symbols-outlined" style="font-size:1.5rem;opacity:0.3;">podcasts</span></div>
+					</div>
+					<div class="profile-ep-card__body">
+						<span class="profile-ep-card__label">Episodio 35</span>
+						<h4 class="profile-ep-card__title"><a href="#">Borges: labirinti e biblioteche infinite</a></h4>
+					</div>
+				</div>
+				<div class="profile-ep-card">
+					<div class="profile-ep-card__thumb">
+						<div class="demo-placeholder-img"><span class="material-symbols-outlined" style="font-size:1.5rem;opacity:0.3;">podcasts</span></div>
+					</div>
+					<div class="profile-ep-card__body">
+						<span class="profile-ep-card__label">Episodio 27</span>
+						<h4 class="profile-ep-card__title"><a href="#">Speciale: intervista a Paolo Giordano</a></h4>
+					</div>
+				</div>
+				<div class="profile-ep-card">
+					<div class="profile-ep-card__thumb">
+						<div class="demo-placeholder-img warm"><span class="material-symbols-outlined" style="font-size:1.5rem;opacity:0.3;">podcasts</span></div>
+					</div>
+					<div class="profile-ep-card__body">
+						<span class="profile-ep-card__label">Episodio 12</span>
+						<h4 class="profile-ep-card__title"><a href="#">Le voci della Beat Generation</a></h4>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ——— TAB: I miei libri preferiti ——— -->
+	<div class="profile-view" id="tab-books">
+		<div class="profile-section">
+			<div class="profile-section__header">
+				<h3 class="profile-section__title"><span class="material-symbols-outlined">auto_stories</span> I miei libri preferiti</h3>
+			</div>
+			<div class="profile-shelf">
+				<div class="profile-book-card">
+					<div class="profile-book-card__cover"><div class="demo-placeholder-img book-cover" style="width:100%;"><span style="font-size:0.8rem;opacity:0.5;font-family:var(--font-headline);font-weight:700;color:rgba(255,255,255,0.6);padding:0.5rem;text-align:center;line-height:1.2;">Cent'anni<br>di solitudine</span></div></div>
+					<h4 class="profile-book-card__title"><a href="#">Cent'anni di solitudine</a></h4>
+					<p class="profile-book-card__author">G. García Márquez</p>
+				</div>
+				<div class="profile-book-card">
+					<div class="profile-book-card__cover"><div class="demo-placeholder-img book-cover warm" style="width:100%;"><span style="font-size:0.8rem;opacity:0.5;font-family:var(--font-headline);font-weight:700;color:rgba(255,255,255,0.6);padding:0.5rem;text-align:center;line-height:1.2;">L'ombra<br>del vento</span></div></div>
+					<h4 class="profile-book-card__title"><a href="#">L'ombra del vento</a></h4>
+					<p class="profile-book-card__author">C. Ruiz Zafón</p>
+				</div>
+				<div class="profile-book-card">
+					<div class="profile-book-card__cover"><div class="demo-placeholder-img book-cover neutral" style="width:100%;"><span style="font-size:0.8rem;opacity:0.5;font-family:var(--font-headline);font-weight:700;color:rgba(255,255,255,0.6);padding:0.5rem;text-align:center;line-height:1.2;">Sapiens</span></div></div>
+					<h4 class="profile-book-card__title"><a href="#">Sapiens</a></h4>
+					<p class="profile-book-card__author">Y. N. Harari</p>
+				</div>
+				<div class="profile-book-card">
+					<div class="profile-book-card__cover"><div class="demo-placeholder-img book-cover" style="width:100%;"><span style="font-size:0.8rem;opacity:0.5;font-family:var(--font-headline);font-weight:700;color:rgba(255,255,255,0.6);padding:0.5rem;text-align:center;line-height:1.2;">Stoner</span></div></div>
+					<h4 class="profile-book-card__title"><a href="#">Stoner</a></h4>
+					<p class="profile-book-card__author">John Williams</p>
+				</div>
+				<div class="profile-book-card">
+					<div class="profile-book-card__cover"><div class="demo-placeholder-img book-cover warm" style="width:100%;"><span style="font-size:0.8rem;opacity:0.5;font-family:var(--font-headline);font-weight:700;color:rgba(255,255,255,0.6);padding:0.5rem;text-align:center;line-height:1.2;">Circe</span></div></div>
+					<h4 class="profile-book-card__title"><a href="#">Circe</a></h4>
+					<p class="profile-book-card__author">Madeline Miller</p>
+				</div>
+				<div class="profile-book-card">
+					<div class="profile-book-card__cover"><div class="demo-placeholder-img book-cover neutral" style="width:100%;"><span style="font-size:0.8rem;opacity:0.5;font-family:var(--font-headline);font-weight:700;color:rgba(255,255,255,0.6);padding:0.5rem;text-align:center;line-height:1.2;">Norwegian<br>Wood</span></div></div>
+					<h4 class="profile-book-card__title"><a href="#">Norwegian Wood</a></h4>
+					<p class="profile-book-card__author">H. Murakami</p>
+				</div>
+				<div class="profile-book-card">
+					<div class="profile-book-card__cover"><div class="demo-placeholder-img book-cover" style="width:100%;"><span style="font-size:0.8rem;opacity:0.5;font-family:var(--font-headline);font-weight:700;color:rgba(255,255,255,0.6);padding:0.5rem;text-align:center;line-height:1.2;">Il nome<br>della rosa</span></div></div>
+					<h4 class="profile-book-card__title"><a href="#">Il nome della rosa</a></h4>
+					<p class="profile-book-card__author">Umberto Eco</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ——— TAB: Autori del cuore ——— -->
+	<div class="profile-view" id="tab-authors">
+		<div class="profile-section">
+			<div class="profile-section__header">
+				<h3 class="profile-section__title"><span class="material-symbols-outlined">edit_note</span> I miei autori del cuore</h3>
+			</div>
+			<div class="profile-shelf">
+				<div class="profile-author-card">
+					<div class="profile-author-card__avatar">
+						<div class="demo-placeholder-img" style="width:100%;height:100%;border-radius:50%;"></div>
+					</div>
+					<h4 class="profile-author-card__name">Gabriel García Márquez</h4>
+					<p class="profile-author-card__genre">Realismo Magico</p>
+				</div>
+				<div class="profile-author-card">
+					<div class="profile-author-card__avatar">
+						<div class="demo-placeholder-img warm" style="width:100%;height:100%;border-radius:50%;"></div>
+					</div>
+					<h4 class="profile-author-card__name">Haruki Murakami</h4>
+					<p class="profile-author-card__genre">Narrativa Contemporanea</p>
+				</div>
+				<div class="profile-author-card">
+					<div class="profile-author-card__avatar">
+						<div class="demo-placeholder-img neutral" style="width:100%;height:100%;border-radius:50%;"></div>
+					</div>
+					<h4 class="profile-author-card__name">Umberto Eco</h4>
+					<p class="profile-author-card__genre">Saggistica · Narrativa</p>
+				</div>
+				<div class="profile-author-card">
+					<div class="profile-author-card__avatar">
+						<div class="demo-placeholder-img" style="width:100%;height:100%;border-radius:50%;"></div>
+					</div>
+					<h4 class="profile-author-card__name">Elena Ferrante</h4>
+					<p class="profile-author-card__genre">Narrativa Italiana</p>
+				</div>
+				<div class="profile-author-card">
+					<div class="profile-author-card__avatar">
+						<div class="demo-placeholder-img warm" style="width:100%;height:100%;border-radius:50%;"></div>
+					</div>
+					<h4 class="profile-author-card__name">Jorge Luis Borges</h4>
+					<p class="profile-author-card__genre">Fantastico · Poesia</p>
+				</div>
+				<div class="profile-author-card">
+					<div class="profile-author-card__avatar">
+						<div class="demo-placeholder-img neutral" style="width:100%;height:100%;border-radius:50%;"></div>
+					</div>
+					<h4 class="profile-author-card__name">Roberto Bolaño</h4>
+					<p class="profile-author-card__genre">Narrativa Latina</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ——— TAB: Wishlist ——— -->
+	<div class="profile-view" id="tab-wishlist">
+		<div class="profile-section">
+			<div class="profile-section__header">
+				<h3 class="profile-section__title"><span class="material-symbols-outlined">bookmark</span> La mia wishlist</h3>
+				<span style="font-size:0.8125rem;color:var(--c-on-surface-variant);">6 libri</span>
+			</div>
+			<div class="profile-wishlist">
+				<div class="profile-wish-card">
+					<div class="profile-wish-card__cover"><div class="demo-placeholder-img book-cover" style="width:56px;aspect-ratio:2/3;"></div></div>
+					<div>
+						<h4 class="profile-wish-card__title">Austerlitz</h4>
+						<p class="profile-wish-card__author">W.G. Sebald</p>
+						<span class="profile-wish-card__note">Consigliato da Elena R.</span>
+					</div>
+					<button class="profile-wish-card__remove"><span class="material-symbols-outlined" style="font-size:1.125rem;">close</span></button>
+				</div>
+				<div class="profile-wish-card">
+					<div class="profile-wish-card__cover"><div class="demo-placeholder-img book-cover warm" style="width:56px;aspect-ratio:2/3;"></div></div>
+					<div>
+						<h4 class="profile-wish-card__title">2666</h4>
+						<p class="profile-wish-card__author">Roberto Bolaño</p>
+						<span class="profile-wish-card__note">Citato nell'ep. 42</span>
+					</div>
+					<button class="profile-wish-card__remove"><span class="material-symbols-outlined" style="font-size:1.125rem;">close</span></button>
+				</div>
+				<div class="profile-wish-card">
+					<div class="profile-wish-card__cover"><div class="demo-placeholder-img book-cover neutral" style="width:56px;aspect-ratio:2/3;"></div></div>
+					<div>
+						<h4 class="profile-wish-card__title">Tropico del Cancro</h4>
+						<p class="profile-wish-card__author">Henry Miller</p>
+						<span class="profile-wish-card__note">Nella lista da mesi</span>
+					</div>
+					<button class="profile-wish-card__remove"><span class="material-symbols-outlined" style="font-size:1.125rem;">close</span></button>
+				</div>
+				<div class="profile-wish-card">
+					<div class="profile-wish-card__cover"><div class="demo-placeholder-img book-cover" style="width:56px;aspect-ratio:2/3;"></div></div>
+					<div>
+						<h4 class="profile-wish-card__title">La vegetariana</h4>
+						<p class="profile-wish-card__author">Han Kang</p>
+						<span class="profile-wish-card__note">Premio Nobel 2024</span>
+					</div>
+					<button class="profile-wish-card__remove"><span class="material-symbols-outlined" style="font-size:1.125rem;">close</span></button>
+				</div>
+				<div class="profile-wish-card">
+					<div class="profile-wish-card__cover"><div class="demo-placeholder-img book-cover warm" style="width:56px;aspect-ratio:2/3;"></div></div>
+					<div>
+						<h4 class="profile-wish-card__title">Finzioni</h4>
+						<p class="profile-wish-card__author">J. L. Borges</p>
+						<span class="profile-wish-card__note">Da rileggere</span>
+					</div>
+					<button class="profile-wish-card__remove"><span class="material-symbols-outlined" style="font-size:1.125rem;">close</span></button>
+				</div>
+				<div class="profile-wish-card">
+					<div class="profile-wish-card__cover"><div class="demo-placeholder-img book-cover neutral" style="width:56px;aspect-ratio:2/3;"></div></div>
+					<div>
+						<h4 class="profile-wish-card__title">I fratelli Karamazov</h4>
+						<p class="profile-wish-card__author">F. Dostoevskij</p>
+						<span class="profile-wish-card__note">Il classico che manca</span>
+					</div>
+					<button class="profile-wish-card__remove"><span class="material-symbols-outlined" style="font-size:1.125rem;">close</span></button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ——— TAB: Badge ——— -->
+	<div class="profile-view" id="tab-badges">
+		<div class="profile-section">
+			<div class="profile-section__header">
+				<h3 class="profile-section__title"><span class="material-symbols-outlined">military_tech</span> I miei badge</h3>
+				<span style="font-size:0.8125rem;color:var(--c-on-surface-variant);">8 di 15 sbloccati</span>
+			</div>
+			<div class="profile-badges">
+				<div class="profile-badge">
+					<div class="profile-badge__icon profile-badge__icon--gold">📚</div>
+					<span class="profile-badge__name">Primo Libro</span>
+					<span class="profile-badge__date">Gen 2024</span>
+				</div>
+				<div class="profile-badge">
+					<div class="profile-badge__icon profile-badge__icon--teal">
+						<span class="material-symbols-outlined" style="font-size:1.5rem;">forum</span>
+					</div>
+					<span class="profile-badge__name">Prima Discussione</span>
+					<span class="profile-badge__date">Gen 2024</span>
+				</div>
+				<div class="profile-badge">
+					<div class="profile-badge__icon profile-badge__icon--purple">🎧</div>
+					<span class="profile-badge__name">10 Episodi Ascoltati</span>
+					<span class="profile-badge__date">Mar 2024</span>
+				</div>
+				<div class="profile-badge">
+					<div class="profile-badge__icon profile-badge__icon--green">🔥</div>
+					<span class="profile-badge__name">Streak 7 Giorni</span>
+					<span class="profile-badge__date">Apr 2024</span>
+				</div>
+				<div class="profile-badge">
+					<div class="profile-badge__icon profile-badge__icon--gold">⭐</div>
+					<span class="profile-badge__name">50 Libri Letti</span>
+					<span class="profile-badge__date">Set 2024</span>
+				</div>
+				<div class="profile-badge">
+					<div class="profile-badge__icon profile-badge__icon--dark">
+						<span class="material-symbols-outlined" style="font-size:1.5rem;">nights_stay</span>
+					</div>
+					<span class="profile-badge__name">Lettore Notturno</span>
+					<span class="profile-badge__date">Nov 2024</span>
+				</div>
+				<div class="profile-badge">
+					<div class="profile-badge__icon profile-badge__icon--teal">
+						<span class="material-symbols-outlined" style="font-size:1.5rem;">diversity_3</span>
+					</div>
+					<span class="profile-badge__name">Animatore Community</span>
+					<span class="profile-badge__date">Gen 2025</span>
+				</div>
+				<div class="profile-badge">
+					<div class="profile-badge__icon profile-badge__icon--purple">💯</div>
+					<span class="profile-badge__name">100 Libri!</span>
+					<span class="profile-badge__date">Feb 2026</span>
+				</div>
+				<!-- Locked badges -->
+				<div class="profile-badge">
+					<div class="profile-badge__icon profile-badge__icon--locked">
+						<span class="material-symbols-outlined" style="font-size:1.5rem;">lock</span>
+					</div>
+					<span class="profile-badge__name" style="opacity:0.4;">Maratoneta</span>
+					<span class="profile-badge__date" style="opacity:0.4;">200 libri</span>
+				</div>
+				<div class="profile-badge">
+					<div class="profile-badge__icon profile-badge__icon--locked">
+						<span class="material-symbols-outlined" style="font-size:1.5rem;">lock</span>
+					</div>
+					<span class="profile-badge__name" style="opacity:0.4;">Streak 30 Giorni</span>
+					<span class="profile-badge__date" style="opacity:0.4;">???</span>
+				</div>
+				<div class="profile-badge">
+					<div class="profile-badge__icon profile-badge__icon--locked">
+						<span class="material-symbols-outlined" style="font-size:1.5rem;">lock</span>
+					</div>
+					<span class="profile-badge__name" style="opacity:0.4;">Tutti gli Episodi</span>
+					<span class="profile-badge__date" style="opacity:0.4;">???</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ -->
+
+<footer class="site-footer">
+	<div style="max-width:80rem;margin:0 auto;padding:0 2rem;">
+		<div class="footer-main">
+			<div class="footer-brand">
+				<p class="site-title">Not My Cup of Read</p>
+				<p>Esploriamo la letteratura contemporanea attraverso podcast, recensioni e approfondimenti.</p>
+			</div>
+			<div class="footer-col">
+				<h4>Esplora</h4>
+				<ul><li><a href="demo-recensioni.html">Recensioni</a></li><li><a href="demo-approfondimenti.html">Approfondimenti</a></li><li><a href="demo-podcast.html">Podcast</a></li><li><a href="demo-librerie.html">Librerie</a></li><li><a href="demo-eventi.html">Timeline</a></li><li><a href="demo-calendario.html">Calendario</a></li><li><a href="demo-libri.html">Libri</a></li></ul>
+			</div>
+			<div class="footer-col">
+				<h4>Progetto</h4>
+				<ul><li><a href="demo-chi-siamo.html">Chi siamo</a></li><li><a href="demo-community.html">Community</a></li><li><a href="#">Contatti</a></li></ul>
+			</div>
+			<div class="footer-col">
+				<h4>Newsletter</h4>
+				<p style="font-size:0.875rem;margin-bottom:1rem;opacity:0.75;">Ricevi le nostre selezioni editoriali.</p>
+				<div class="newsletter-form">
+					<input type="email" placeholder="La tua email" style="background:rgba(255,255,255,0.05);color:#fff;">
+					<button class="btn btn--teal btn--small">Iscriviti</button>
+				</div>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<span>&copy; 2026 Not My Cup of Read.</span>
+			<div class="footer-bottom-links">
+				<a href="#">Privacy Policy</a>
+				<a href="#">Cookie Policy</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<script src="assets/js/navigation.js"></script>
+<script>
+// Tab switching
+(function() {
+	var tabs = document.querySelectorAll('.profile-tab');
+	var views = document.querySelectorAll('.profile-view');
+	tabs.forEach(function(tab) {
+		tab.addEventListener('click', function() {
+			tabs.forEach(function(t) { t.classList.remove('active'); });
+			views.forEach(function(v) { v.classList.remove('active'); });
+			tab.classList.add('active');
+			var target = document.getElementById(tab.dataset.tab);
+			if (target) target.classList.add('active');
+		});
+	});
+})();
+</script>
+</body>
+</html>

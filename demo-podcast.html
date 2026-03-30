@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Podcast — Voci tra le Righe — Not My Cup of Read</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<style>
+	.demo-placeholder-img {
+		background: linear-gradient(135deg, #1d2d44 0%, #3e5c76 50%, #748cab 100%);
+		display: flex; align-items: center; justify-content: center;
+		color: rgba(255,255,255,0.3); font-size: 0.75rem; font-family: var(--font-body);
+	}
+	.demo-placeholder-img.warm {
+		background: linear-gradient(135deg, #3e5c76 0%, #748cab 50%, #b8c5d6 100%);
+	}
+	.demo-placeholder-img.neutral {
+		background: linear-gradient(135deg, #0d1321 0%, #1d2d44 50%, #3e5c76 100%);
+	}
+	.demo-placeholder-img.book-cover {
+		background: linear-gradient(180deg, #0d1321 0%, #1d2d44 100%);
+		aspect-ratio: 2/3;
+	}
+	.demo-placeholder-img.book-cover.warm {
+		background: linear-gradient(180deg, #3e5c76 0%, #748cab 100%);
+	}
+	.demo-placeholder-img.book-cover.neutral {
+		background: linear-gradient(180deg, #1d2d44 0%, #3e5c76 100%);
+	}
+	.demo-placeholder-img.hero-library {
+		background: linear-gradient(180deg, #0d1321 0%, #1d2d44 30%, #3e5c76 70%, #748cab 100%);
+	}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header" id="siteHeader">
+	<div class="header-outer">
+		<div class="header-inner">
+			<div class="site-branding">
+				<div class="site-branding__icon">
+					<img src="assets/img/logo-nmcor.png" alt="NMCOR">
+				</div>
+				<h1 class="site-title"><a href="demo.html">Not My Cup of Read</a></h1>
+			</div>
+			<nav class="primary-nav" id="primaryNav">
+				<ul>
+					<li><a href="#">Articoli</a><ul class="sub-menu"><li><a href="demo-recensioni.html">Recensioni</a></li><li><a href="demo-approfondimenti.html">Approfondimenti</a></li><li><a href="demo-classifiche.html">Classifiche</a></li></ul></li>
+					<li><a href="#">Podcast</a><ul class="sub-menu"><li><a href="demo-podcast.html">Episodi</a></li><li><a href="demo-format.html">Format</a></li><li><a href="demo-dietro-le-quinte.html">Dietro le quinte</a></li></ul></li>
+					<li><a href="#">Biblioteca</a><ul class="sub-menu"><li><a href="demo-libri.html">Libri</a></li><li><a href="demo-autori.html">Autori</a></li></ul></li>
+					<li><a href="#">Luoghi</a><ul class="sub-menu"><li><a href="demo-librerie.html">La mappa del Lettore</a></li><li><a href="demo-luoghi-milano.html">Milano</a></li><li><a href="demo-itinerari.html">Itinerari letterari</a></li><li><a href="demo-luoghi-librerie.html">Librerie</a></li><li><a href="demo-luoghi-biblioteche.html">Biblioteche</a></li><li><a href="demo-luoghi-caffe.html">Caffè letterari</a></li><li><a href="demo-luoghi-spazi.html">Spazi culturali</a></li></ul></li>
+					<li><a href="#">Eventi</a><ul class="sub-menu"><li><a href="demo-eventi.html">Timeline</a></li><li><a href="demo-calendario.html">Calendario</a></li><li><a href="demo-fiere-festival.html">Fiere e Festival</a></li><li><a href="demo-premi-letterari.html">Premi letterari</a></li></ul></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Chi siamo</a><ul class="sub-menu"><li><a href="demo-chi-siamo.html">Lo studio &amp; gli host</a></li><li><a href="demo-ospiti-redazione.html">Gli ospiti &amp; la redazione</a></li><li><a href="demo-contatti.html">Contatti &amp; Collaborazioni</a></li></ul></li>
+				</ul>
+			</nav>
+			<div class="header-search">
+				<input type="text" placeholder="Cerca...">
+			</div>
+		</div>
+		<div class="header-extras">
+			<div class="header-social">
+				<a href="#" class="header-social__link" aria-label="YouTube">
+					<svg viewBox="0 0 24 24"><path d="M23.5 6.19a3 3 0 0 0-2.11-2.13C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.39.56A3 3 0 0 0 .5 6.19 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.81 3 3 0 0 0 2.11 2.13c1.89.56 9.39.56 9.39.56s7.5 0 9.39-.56a3 3 0 0 0 2.11-2.13A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.81ZM9.75 15.02V8.98L15.5 12l-5.75 3.02Z"/></svg>
+				</a>
+				<a href="#" class="header-social__link" aria-label="Instagram">
+					<svg viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.97.24 2.44.41.61.24 1.05.52 1.51.98.46.46.74.9.98 1.51.17.47.36 1.27.41 2.44.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.24 1.97-.41 2.44a4.07 4.07 0 0 1-.98 1.51c-.46.46-.9.74-1.51.98-.47.17-1.27.36-2.44.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.97-.24-2.44-.41a4.07 4.07 0 0 1-1.51-.98 4.07 4.07 0 0 1-.98-1.51c-.17-.47-.36-1.27-.41-2.44C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.24-1.97.41-2.44.24-.61.52-1.05.98-1.51a4.07 4.07 0 0 1 1.51-.98c.47-.17 1.27-.36 2.44-.41C8.42 2.17 8.8 2.16 12 2.16ZM12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63a5.85 5.85 0 0 0-2.13 1.38A5.85 5.85 0 0 0 .63 4.14C.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13a5.85 5.85 0 0 0 2.13 1.38c.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56a5.85 5.85 0 0 0 2.13-1.38 5.85 5.85 0 0 0 1.38-2.13c.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.85 5.85 0 0 0-1.38-2.13A5.85 5.85 0 0 0 19.86.63C19.1.33 18.22.13 16.95.07 15.67.01 15.26 0 12 0Zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32ZM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm6.41-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88Z"/></svg>
+				</a>
+				<a href="#" class="header-social__link" aria-label="Spotify">
+					<svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.31a.75.75 0 0 1-1.03.25c-2.82-1.72-6.37-2.11-10.55-1.16a.75.75 0 1 1-.34-1.46c4.57-1.05 8.49-.6 11.67 1.34a.75.75 0 0 1 .25 1.03Zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.23-1.98-8.15-2.56-11.97-1.4a.94.94 0 1 1-.54-1.8c4.36-1.32 9.78-.68 13.49 1.6a.94.94 0 0 1 .31 1.29Zm.13-3.4C15.5 8.4 9 8.2 5.24 9.33a1.13 1.13 0 1 1-.65-2.16c4.33-1.3 11.52-1.05 16.07 1.68a1.13 1.13 0 0 1-1.56 1.79Z"/></svg>
+				</a>
+				<a href="#" class="header-social__link" aria-label="X">
+					<svg viewBox="0 0 24 24"><path d="M18.9 1.15h3.68l-8.04 9.19L24 22.85h-7.4l-5.8-7.58-6.63 7.58H.49l8.6-9.83L0 1.15h7.59l5.24 6.93 6.07-6.93Zm-1.29 19.5h2.04L6.48 3.24H4.3L17.61 20.65Z"/></svg>
+				</a>
+			</div>
+			<div class="header-auth">
+				<a href="demo-profilo.html" class="header-auth__btn"><span class="material-symbols-outlined">person</span> Cristian T.</a>
+				<div class="header-auth__dropdown">
+					<a href="#"><span class="material-symbols-outlined">login</span> Area Personale</a>
+					<a href="#"><span class="material-symbols-outlined">person_add</span> Registrati</a>
+				</div>
+			</div>
+			<button class="menu-toggle" id="menuToggle" aria-label="Menu">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</button>
+		</div>
+	</div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     HERO — Podcast
+     ═══════════════════════════════════════════ -->
+
+<section class="hero hero--podcast-landing">
+	<div class="hero__bg">
+		<div class="demo-placeholder-img hero-library" style="width:100%;height:100%;"></div>
+	</div>
+	<div class="hero__overlay"></div>
+	<div class="podcast-hero__content">
+		<span class="overline overline--teal">Serie Originale</span>
+		<h1 class="podcast-hero__title">Voci tra le Righe</h1>
+		<p class="podcast-hero__claim">Un viaggio sonoro attraverso i testi che definiscono il nostro tempo. Conversazioni, letture e silenzi curati per l'ascoltatore contemporaneo.</p>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     ULTIMO EPISODIO — Player card
+     ═══════════════════════════════════════════ -->
+
+<section class="podcast-latest">
+	<div class="container" style="max-width:750px;">
+		<div class="podcast-player-card">
+			<div class="podcast-player-card__cover">
+				<div class="demo-placeholder-img warm" style="width:100%;height:100%;border-radius:var(--radius-md);">
+					<span class="material-symbols-outlined" style="font-size:2rem;opacity:0.4;">auto_stories</span>
+				</div>
+			</div>
+			<div class="podcast-player-card__info">
+				<span class="podcast-player-card__badge">Ultimo episodio</span>
+				<span class="podcast-player-card__meta">49 min · 12 Maggio 2024</span>
+			</div>
+			<h3 class="podcast-player-card__title"><a href="demo-episodio-singolo.html" style="color:inherit;text-decoration:none;">Episodio 42: L'architettura del silenzio in Italo Calvino</a></h3>
+			<!-- Fake progress bar -->
+			<div class="podcast-player-card__progress">
+				<div class="podcast-player-card__progress-bar" style="width:35%;"></div>
+			</div>
+			<div class="podcast-player-card__times">
+				<span>15:20</span>
+				<span>-33:43</span>
+			</div>
+			<div class="podcast-player-card__actions">
+				<a href="#" class="btn btn--teal btn--small">
+					<span class="material-symbols-outlined" style="font-size:1rem;font-variation-settings:'FILL' 1;">play_arrow</span>
+					Ascolta ora
+				</a>
+				<a href="#" class="btn btn--outline btn--small">
+					<span class="material-symbols-outlined" style="font-size:1rem;">share</span>
+					Condividi
+				</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     IN QUESTO EPISODIO — Show notes
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface">
+	<div class="container" style="max-width:900px;">
+		<div class="podcast-shownotes">
+			<div class="podcast-shownotes__left">
+				<h3 class="podcast-shownotes__heading">In questo episodio</h3>
+				<ul class="podcast-shownotes__list">
+					<li><span class="material-symbols-outlined" style="font-size:1rem;color:var(--c-accent);">radio_button_checked</span> La poetica degli spazi vuoti</li>
+					<li><span class="material-symbols-outlined" style="font-size:1rem;color:var(--c-accent);">radio_button_checked</span> Le Città Invisibili come labirinto sonoro</li>
+					<li><span class="material-symbols-outlined" style="font-size:1rem;color:var(--c-accent);">radio_button_checked</span> Intervista esclusiva con il curatore dell'archivio Calvino</li>
+				</ul>
+			</div>
+			<div class="podcast-shownotes__right">
+				<p>In questa puntata speciale, esploriamo come il silenzio non sia un'assenza, ma un elemento strutturale fondamentale nella scrittura di Calvino. Analizziamo i ritmi delle frasi e come la scelta delle pause influenzi la percezione spaziale del lettore.</p>
+				<blockquote class="podcast-shownotes__quote">
+					"Scrivere è sempre nascondere qualcosa in modo che venga poi scoperto." Attraverso questa serie, riscopriamo i classici sotto una luce inedita, accompagnati dalle musiche originali composte per questa serie.
+				</blockquote>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     I NOSTRI FORMATI
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--container-low">
+	<div class="container--wide" style="max-width:80rem;margin:0 auto;padding:0 2rem;">
+		<div class="section-header">
+			<div>
+				<h2>I nostri formati</h2>
+				<p class="section-header__sub">Ogni storia richiede un respiro diverso. Abbiamo creato tre modi per ascoltare il mondo dei libri.</p>
+			</div>
+		</div>
+
+		<div class="grid grid--3">
+			<div class="format-card format-card--podcast">
+				<div class="format-card__icon">
+					<span class="material-symbols-outlined">groups</span>
+				</div>
+				<p class="format-card__title">Interviste</p>
+				<p class="format-card__desc">Dialoghi aperti con autori, traduttori ed editori per scoprire cosa succede oltre le quinte della pagina stampata.</p>
+			</div>
+			<div class="format-card format-card--podcast">
+				<div class="format-card__icon">
+					<span class="material-symbols-outlined">auto_stories</span>
+				</div>
+				<p class="format-card__title">Monografie</p>
+				<p class="format-card__desc">Analisi verticali su singoli capolavori o correnti letterarie che hanno cambiato la nostra prospettiva sul mondo.</p>
+			</div>
+			<div class="format-card format-card--podcast">
+				<div class="format-card__icon">
+					<span class="material-symbols-outlined">mic</span>
+				</div>
+				<p class="format-card__title">Live Recordings</p>
+				<p class="format-card__desc">L'energia degli eventi dal vivo catturata nelle librerie e nei festival letterari più suggestivi d'Italia.</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     ARCHIVIO EPISODI
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface">
+	<div class="container--wide" style="max-width:80rem;margin:0 auto;padding:0 2rem;">
+		<div class="section-header">
+			<div>
+				<h2>Archivio Episodi</h2>
+			</div>
+			<div style="display:flex;align-items:center;gap:0.75rem;">
+				<div class="term-pills" style="margin-bottom:0;">
+					<button class="term-pill active">Tutti</button>
+					<button class="term-pill">Novità</button>
+					<button class="term-pill">I Più Ascoltati</button>
+				</div>
+				<button style="background:var(--c-surface-container);border:none;padding:0.5rem;border-radius:var(--radius-sm);cursor:pointer;color:var(--c-on-surface-variant);">
+					<span class="material-symbols-outlined" style="font-size:1.25rem;">grid_view</span>
+				</button>
+			</div>
+		</div>
+
+		<div class="grid grid--3">
+			<!-- Episode 1 -->
+			<article class="card card--podcast-ep">
+				<div class="card__image">
+					<div class="demo-placeholder-img" style="width:100%;height:100%;aspect-ratio:16/10;">
+						<span class="material-symbols-outlined" style="font-size:2rem;opacity:0.3;">podcasts</span>
+					</div>
+				</div>
+				<div class="card__body">
+					<span class="card__episode-label">Episodio #41</span>
+					<h3 class="card__title"><a href="demo-episodio-singolo.html">La riscoperta dei classici russi nel XXI secolo</a></h3>
+					<p class="card__excerpt">Perché Dostoevskij parla ancora alle nostre ansie digitali? Un'indagine sul sottosuolo dell'anima moderna.</p>
+				</div>
+			</article>
+			<!-- Episode 2 -->
+			<article class="card card--podcast-ep">
+				<div class="card__image">
+					<div class="demo-placeholder-img warm" style="width:100%;height:100%;aspect-ratio:16/10;">
+						<span class="material-symbols-outlined" style="font-size:2rem;opacity:0.3;">podcasts</span>
+					</div>
+				</div>
+				<div class="card__body">
+					<span class="card__episode-label">Episodio #40</span>
+					<h3 class="card__title"><a href="demo-episodio-singolo.html">Donne che scrivono il futuro: il nuovo memoir</a></h3>
+					<p class="card__excerpt">Le nuove voci della letteratura confessionale tra vulnerabilità e attivismo politico.</p>
+				</div>
+			</article>
+			<!-- Episode 3 -->
+			<article class="card card--podcast-ep">
+				<div class="card__image">
+					<div class="demo-placeholder-img neutral" style="width:100%;height:100%;aspect-ratio:16/10;">
+						<span class="material-symbols-outlined" style="font-size:2rem;opacity:0.3;">podcasts</span>
+					</div>
+				</div>
+				<div class="card__body">
+					<span class="card__episode-label">Episodio #39</span>
+					<h3 class="card__title"><a href="demo-episodio-singolo.html">Speciale Notturno: Poesia e solitudine</a></h3>
+					<p class="card__excerpt">Sette letture tratte da sei poeti di Li, acquarelli accompagnate da field recordings naturali.</p>
+				</div>
+			</article>
+		</div>
+
+		<div style="text-align:center;margin-top:2rem;">
+			<a href="#" class="view-all">Vedi tutti gli episodi <span class="material-symbols-outlined">arrow_forward</span></a>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     I NOSTRI OSPITI
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--container">
+	<div class="container" style="max-width:900px;text-align:center;">
+		<h2 style="font-style:italic;margin-bottom:2.5rem;">I nostri Ospiti</h2>
+
+		<div class="podcast-hosts-grid">
+			<div class="podcast-host">
+				<div class="podcast-host__avatar">
+					<div class="demo-placeholder-img" style="width:100%;height:100%;border-radius:50%;filter:grayscale(1);"></div>
+				</div>
+				<p class="podcast-host__name">Marco Rossi</p>
+				<p class="podcast-host__role">Critico Letterario</p>
+			</div>
+			<div class="podcast-host">
+				<div class="podcast-host__avatar">
+					<div class="demo-placeholder-img warm" style="width:100%;height:100%;border-radius:50%;filter:grayscale(1);"></div>
+				</div>
+				<p class="podcast-host__name">Elena Bianchi</p>
+				<p class="podcast-host__role">Autrice & Podcaster</p>
+			</div>
+			<div class="podcast-host">
+				<div class="podcast-host__avatar">
+					<div class="demo-placeholder-img neutral" style="width:100%;height:100%;border-radius:50%;filter:grayscale(1);"></div>
+				</div>
+				<p class="podcast-host__name">Luca Verdi</p>
+				<p class="podcast-host__role">Traduttore</p>
+			</div>
+			<div class="podcast-host">
+				<div class="podcast-host__avatar">
+					<div class="demo-placeholder-img" style="width:100%;height:100%;border-radius:50%;filter:grayscale(1);"></div>
+				</div>
+				<p class="podcast-host__name">Sara Neri</p>
+				<p class="podcast-host__role">Direttrice Editoriale</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     BEHIND THE SCENES — Video CTA
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="container--wide" style="max-width:80rem;margin:0 auto;padding:0 2rem;">
+		<div class="podcast-bts">
+			<div class="podcast-bts__text">
+				<span class="overline overline--teal">Behind the Scenes</span>
+				<h2 class="podcast-bts__title">Vivi lo studio di registrazione</h2>
+				<p class="podcast-bts__desc">Non solo audio. Scopri i momenti più intensi delle registrazioni attraverso i nostri video esclusivi. Sguardi, gesti e la magia del microfono acceso.</p>
+				<a href="#" class="btn btn--outline btn--small">
+					<span class="material-symbols-outlined" style="font-size:1rem;">play_circle</span>
+					Guarda su YouTube
+				</a>
+			</div>
+			<div class="podcast-bts__video">
+				<div class="demo-placeholder-img warm" style="width:100%;aspect-ratio:16/10;border-radius:var(--radius-lg);">
+					<span class="material-symbols-outlined" style="font-size:4rem;opacity:0.5;">play_circle</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     LIBRERIA DEL PODCAST
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--container-low">
+	<div class="container--wide" style="max-width:80rem;margin:0 auto;padding:0 2rem;">
+		<div class="section-header">
+			<div>
+				<h2>La libreria del Podcast</h2>
+			</div>
+			<a href="#" class="view-all">Scopri tutti i titoli <span class="material-symbols-outlined">arrow_forward</span></a>
+		</div>
+
+		<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:2rem;">
+			<div class="podcast-book-card">
+				<div class="podcast-book-card__cover">
+					<div class="demo-placeholder-img book-cover" style="width:100%;height:100%;">
+						<span style="font-size:0.875rem;opacity:0.5;font-family:var(--font-headline);color:rgba(255,255,255,0.6);">Le Città Invisibili</span>
+					</div>
+				</div>
+				<p class="podcast-book-card__title">Le Città Invisibili</p>
+				<p class="podcast-book-card__author">Italo Calvino</p>
+				<a href="#" class="podcast-book-card__link">Leggi Recensione</a>
+			</div>
+			<div class="podcast-book-card">
+				<div class="podcast-book-card__cover">
+					<div class="demo-placeholder-img book-cover warm" style="width:100%;height:100%;">
+						<span style="font-size:0.875rem;opacity:0.5;font-family:var(--font-headline);color:rgba(255,255,255,0.6);">L'Idiota</span>
+					</div>
+				</div>
+				<p class="podcast-book-card__title">L'Idiota</p>
+				<p class="podcast-book-card__author">Dostoevskij</p>
+				<a href="#" class="podcast-book-card__link">Leggi Recensione</a>
+			</div>
+			<div class="podcast-book-card">
+				<div class="podcast-book-card__cover">
+					<div class="demo-placeholder-img book-cover neutral" style="width:100%;height:100%;">
+						<span style="font-size:0.875rem;opacity:0.5;font-family:var(--font-headline);color:rgba(255,255,255,0.6);">Cuori</span>
+					</div>
+				</div>
+				<p class="podcast-book-card__title">Cuori</p>
+				<p class="podcast-book-card__author">Edmondo De Amicis</p>
+				<a href="#" class="podcast-book-card__link">Leggi Recensione</a>
+			</div>
+			<div class="podcast-book-card">
+				<div class="podcast-book-card__cover">
+					<div class="demo-placeholder-img book-cover" style="width:100%;height:100%;">
+						<span style="font-size:0.875rem;opacity:0.5;font-family:var(--font-headline);color:rgba(255,255,255,0.6);">Il nome della rosa</span>
+					</div>
+				</div>
+				<p class="podcast-book-card__title">Il nome della rosa</p>
+				<p class="podcast-book-card__author">Umberto Eco</p>
+				<a href="#" class="podcast-book-card__link">Leggi Recensione</a>
+			</div>
+			<div class="podcast-book-card">
+				<div class="podcast-book-card__cover">
+					<div class="demo-placeholder-img book-cover warm" style="width:100%;height:100%;">
+						<span style="font-size:0.875rem;opacity:0.5;font-family:var(--font-headline);color:rgba(255,255,255,0.6);">Amat Luce</span>
+					</div>
+				</div>
+				<p class="podcast-book-card__title">Amat Luce</p>
+				<p class="podcast-book-card__author">Elena Ferrante</p>
+				<a href="#" class="podcast-book-card__link">Leggi Recensione</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+	<div style="max-width:80rem;margin:0 auto;padding:0 2rem;">
+		<div class="footer-main">
+			<div class="footer-brand">
+				<p class="site-title">Not My Cup of Read</p>
+				<p>A digital curated framework for the modern bibliophile.</p>
+			</div>
+			<div class="footer-col">
+				<h4>Esplora</h4>
+				<ul><li><a href="demo-recensioni.html">Recensioni</a></li><li><a href="demo-approfondimenti.html">Approfondimenti</a></li><li><a href="demo-podcast.html">Podcast</a></li><li><a href="demo-librerie.html">Librerie</a></li><li><a href="demo-eventi.html">Timeline</a></li><li><a href="demo-calendario.html">Calendario</a></li><li><a href="demo-libri.html">Libri</a></li></ul>
+			</div>
+			<div class="footer-col">
+				<h4>Progetto</h4>
+				<ul><li><a href="demo-chi-siamo.html">Chi siamo</a></li><li><a href="demo-community.html">Community</a></li></ul>
+			</div>
+			<div class="footer-col">
+				<h4>Legal</h4>
+				<ul><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms</a></li></ul>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<span>&copy; 2024 Not My Cup of Read. Editorial Framework.</span>
+			<div class="footer-bottom-links">
+				<a href="#">Instagram</a>
+				<a href="#">YouTube</a>
+				<a href="#">Spotify</a>
+				<a href="#">Privacy Policy</a>
+				<a href="#">Terms</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<script src="assets/js/navigation.js"></script>
+</body>
+</html>

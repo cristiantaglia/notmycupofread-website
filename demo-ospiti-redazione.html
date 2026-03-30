@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gli ospiti & la redazione — Chi siamo — Not My Cup of Read</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Newsreader:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<style>
+/* ═══════════════════════════════════════════
+   OSPITI & REDAZIONE
+   ═══════════════════════════════════════════ */
+
+.or-page { max-width: 80rem; margin: 0 auto; padding: 0 2rem; }
+
+/* ── Hero ── */
+.or-hero {
+	position: relative;
+	min-height: 380px;
+	display: flex;
+	align-items: flex-end;
+	overflow: hidden;
+	border-radius: var(--radius-lg);
+	margin-bottom: 3rem;
+}
+
+.or-hero__bg {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(135deg, #1d2d44 0%, #3e5c76 40%, #e07a5f 100%);
+}
+
+.or-hero__bg::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(to top, rgba(13,19,33,0.9) 0%, rgba(13,19,33,0.35) 50%, transparent 100%);
+}
+
+.or-hero__content {
+	position: relative;
+	z-index: 1;
+	padding: 3rem;
+	width: 100%;
+}
+
+.or-hero__breadcrumb {
+	font-size: 0.75rem;
+	color: rgba(240,235,216,0.6);
+	margin-bottom: 0.75rem;
+}
+
+.or-hero__breadcrumb a { color: var(--c-accent); text-decoration: none; }
+.or-hero__breadcrumb a:hover { text-decoration: underline; }
+
+.or-hero__title {
+	font-family: var(--font-headline);
+	font-size: clamp(2.5rem, 5vw, 4rem);
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-surface);
+	margin: 0 0 0.5rem;
+	line-height: 1.1;
+}
+
+.or-hero__subtitle {
+	font-size: 1.0625rem;
+	color: rgba(240,235,216,0.7);
+	margin: 0 0 1.5rem;
+	max-width: 40rem;
+	line-height: 1.6;
+}
+
+.or-hero__stats {
+	display: flex;
+	gap: 2rem;
+	flex-wrap: wrap;
+}
+
+.or-hero__stat-value {
+	font-family: var(--font-headline);
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: var(--c-accent);
+	display: block;
+	line-height: 1.2;
+}
+
+.or-hero__stat-label {
+	font-size: 0.6875rem;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: rgba(240,235,216,0.5);
+}
+
+/* ── Filters ── */
+.or-filters {
+	display: flex;
+	justify-content: center;
+	gap: 0.5rem;
+	flex-wrap: wrap;
+	padding: 0 0 2.5rem;
+}
+
+.or-filter {
+	padding: 0.5rem 1.25rem;
+	font-size: 0.8125rem;
+	font-weight: 600;
+	font-family: var(--font-body);
+	border-radius: var(--radius-full);
+	border: 1px solid var(--c-surface-container-high);
+	background: transparent;
+	color: var(--c-on-surface-variant);
+	cursor: pointer;
+	transition: all 0.2s;
+}
+
+.or-filter:hover { border-color: var(--c-accent); color: var(--c-accent); }
+.or-filter.active { background: var(--c-accent); border-color: var(--c-accent); color: #fff; }
+
+/* ── Section headers ── */
+.or-section { padding: 3.5rem 0; }
+.or-section--dark { background: var(--c-primary-container); }
+.or-section--surface { background: var(--c-surface-container); }
+
+.or-section-header { margin-bottom: 2rem; }
+
+.or-section-overline {
+	font-size: 0.6875rem;
+	font-weight: 700;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: var(--c-accent);
+	margin-bottom: 0.35rem;
+}
+
+.or-section-title {
+	font-family: var(--font-headline);
+	font-size: 1.75rem;
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-on-surface);
+	margin: 0;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.or-section-title .material-symbols-outlined { color: var(--c-accent); }
+
+.or-section-subtitle {
+	font-size: 0.9375rem;
+	color: var(--c-on-surface-variant);
+	margin: 0.35rem 0 0;
+	line-height: 1.5;
+}
+
+/* ── Card grid ── */
+.or-grid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 1.5rem;
+}
+
+@media (max-width: 960px) { .or-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .or-grid { grid-template-columns: 1fr; } }
+
+/* ── Person card ── */
+.or-card {
+	background: var(--c-surface-container-lowest);
+	border-radius: var(--radius-lg);
+	padding: 1.75rem 1.5rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.or-card:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 12px 32px rgba(0,0,0,0.35);
+}
+
+.or-card__avatar {
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 1rem;
+	flex-shrink: 0;
+}
+
+.or-card__avatar .material-symbols-outlined {
+	font-size: 32px;
+	color: rgba(255,255,255,0.5);
+}
+
+.or-card__avatar--1 { background: linear-gradient(135deg, #3e5c76, #748cab); }
+.or-card__avatar--2 { background: linear-gradient(135deg, #e07a5f, #f2a488); }
+.or-card__avatar--3 { background: linear-gradient(135deg, #5a9a7a, #82c9a5); }
+.or-card__avatar--4 { background: linear-gradient(135deg, #9467bd, #b794d6); }
+.or-card__avatar--5 { background: linear-gradient(135deg, #748cab, #3e5c76); }
+.or-card__avatar--6 { background: linear-gradient(135deg, #e07a5f, #c96b52); }
+.or-card__avatar--7 { background: linear-gradient(135deg, #5a9a7a, #3e7a5c); }
+.or-card__avatar--8 { background: linear-gradient(135deg, #9467bd, #7a4fa8); }
+
+.or-card__name {
+	font-family: var(--font-headline);
+	font-size: 1.0625rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	margin: 0 0 0.375rem;
+}
+
+.or-card__role {
+	font-size: 0.8125rem;
+	color: var(--c-on-surface-variant);
+	margin: 0 0 0.75rem;
+	line-height: 1.5;
+}
+
+/* ── Badges ── */
+.or-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.3rem;
+	padding: 0.25rem 0.75rem;
+	border-radius: var(--radius-full);
+	font-size: 0.6875rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	margin-bottom: 0.75rem;
+}
+
+.or-badge--ospite { background: rgba(224,122,95,0.15); color: #e07a5f; }
+.or-badge--redazione { background: rgba(90,154,122,0.15); color: #5a9a7a; }
+.or-badge--collaboratore { background: rgba(148,103,189,0.15); color: #9467bd; }
+
+/* ── Episode pill ── */
+.or-episodes {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	padding: 0.3rem 0.75rem;
+	border-radius: var(--radius-full);
+	background: rgba(224,122,95,0.12);
+	color: var(--c-accent);
+	font-size: 0.75rem;
+	font-weight: 600;
+	text-decoration: none;
+	transition: background 0.2s;
+	margin-top: auto;
+}
+
+.or-episodes:hover { background: rgba(224,122,95,0.25); }
+
+.or-episodes .material-symbols-outlined { font-size: 14px; }
+
+/* ── Bio text ── */
+.or-card__bio {
+	font-size: 0.8125rem;
+	color: var(--c-on-surface-variant);
+	line-height: 1.55;
+	margin: 0 0 0.75rem;
+	opacity: 0.85;
+}
+
+/* ── CTA Banner ── */
+.or-cta {
+	text-align: center;
+	padding: 4rem 2rem;
+	background: var(--c-primary-container);
+}
+
+.or-cta__title {
+	font-family: var(--font-headline);
+	font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-on-surface);
+	margin: 0 0 0.5rem;
+}
+
+.or-cta__text {
+	font-size: 1rem;
+	color: var(--c-on-surface-variant);
+	margin: 0 0 1.5rem;
+	max-width: 32rem;
+	margin-inline: auto;
+	line-height: 1.6;
+}
+
+.or-cta__btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.75rem 2rem;
+	background: var(--c-accent);
+	color: #fff;
+	border: none;
+	border-radius: var(--radius-full);
+	font-size: 0.9375rem;
+	font-weight: 600;
+	font-family: var(--font-body);
+	text-decoration: none;
+	cursor: pointer;
+	transition: background 0.2s, transform 0.2s;
+}
+
+.or-cta__btn:hover { background: #c96b52; transform: translateY(-2px); }
+.or-cta__btn .material-symbols-outlined { font-size: 18px; }
+
+/* ── Hidden state for filter ── */
+.or-card--hidden {
+	display: none !important;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     HEADER / NAVIGATION
+     ═══════════════════════════════════════════ -->
+
+<header class="site-header" id="siteHeader">
+	<div class="header-outer">
+		<div class="header-inner">
+			<div class="site-branding">
+				<div class="site-branding__icon">
+					<img src="assets/img/logo-nmcor.png" alt="NMCOR">
+				</div>
+				<h1 class="site-title"><a href="demo.html">Not My Cup of Read</a></h1>
+			</div>
+
+			<nav class="primary-nav" id="primaryNav">
+				<ul>
+					<li><a href="#">Articoli</a><ul class="sub-menu"><li><a href="demo-recensioni.html">Recensioni</a></li><li><a href="demo-approfondimenti.html">Approfondimenti</a></li><li><a href="demo-classifiche.html">Classifiche</a></li></ul></li>
+					<li><a href="#">Podcast</a><ul class="sub-menu"><li><a href="demo-podcast.html">Episodi</a></li><li><a href="demo-format.html">Format</a></li><li><a href="demo-dietro-le-quinte.html">Dietro le quinte</a></li></ul></li>
+					<li><a href="#">Biblioteca</a><ul class="sub-menu"><li><a href="demo-libri.html">Libri</a></li><li><a href="demo-autori.html">Autori</a></li></ul></li>
+					<li><a href="#">Luoghi</a><ul class="sub-menu"><li><a href="demo-librerie.html">La mappa del Lettore</a></li><li><a href="demo-luoghi-milano.html">Milano</a></li><li><a href="demo-itinerari.html">Itinerari letterari</a></li><li><a href="demo-luoghi-librerie.html">Librerie</a></li><li><a href="demo-luoghi-biblioteche.html">Biblioteche</a></li><li><a href="demo-luoghi-caffe.html">Caffè letterari</a></li><li><a href="demo-luoghi-spazi.html">Spazi culturali</a></li></ul></li>
+					<li><a href="#">Eventi</a><ul class="sub-menu"><li><a href="demo-eventi.html">Timeline</a></li><li><a href="demo-calendario.html">Calendario</a></li><li><a href="demo-fiere-festival.html">Fiere e Festival</a></li><li><a href="demo-premi-letterari.html">Premi letterari</a></li></ul></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Chi siamo</a><ul class="sub-menu"><li><a href="demo-chi-siamo.html">Lo studio &amp; gli host</a></li><li><a href="demo-ospiti-redazione.html">Gli ospiti &amp; la redazione</a></li><li><a href="demo-contatti.html">Contatti &amp; Collaborazioni</a></li></ul></li>
+				</ul>
+			</nav>
+
+			<div class="header-search">
+				<input type="text" placeholder="Cerca...">
+			</div>
+		</div>
+
+		<div class="header-extras">
+			<div class="header-social">
+				<a href="#" class="header-social__link" aria-label="YouTube">
+					<svg viewBox="0 0 24 24"><path d="M23.5 6.19a3 3 0 0 0-2.11-2.13C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.39.56A3 3 0 0 0 .5 6.19 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.81 3 3 0 0 0 2.11 2.13c1.89.56 9.39.56 9.39.56s7.5 0 9.39-.56a3 3 0 0 0 2.11-2.13A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.81ZM9.75 15.02V8.98L15.5 12l-5.75 3.02Z"/></svg>
+				</a>
+				<a href="#" class="header-social__link" aria-label="Spotify">
+					<svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.31a.75.75 0 0 1-1.03.25c-2.82-1.72-6.37-2.11-10.55-1.16a.75.75 0 1 1-.34-1.46c4.57-1.05 8.49-.6 11.67 1.34a.75.75 0 0 1 .25 1.03Zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.23-1.98-8.15-2.56-11.97-1.4a.94.94 0 1 1-.54-1.8c4.36-1.32 9.78-.68 13.49 1.6a.94.94 0 0 1 .31 1.29Zm.13-3.4C15.5 8.4 9 8.2 5.24 9.33a1.13 1.13 0 1 1-.65-2.16c4.33-1.3 11.52-1.05 16.07 1.68a1.13 1.13 0 0 1-1.56 1.79Z"/></svg>
+				</a>
+			</div>
+			<div class="header-auth">
+				<a href="demo-profilo.html" class="header-auth__btn"><span class="material-symbols-outlined">person</span> Cristian T.</a>
+			</div>
+			<button class="menu-toggle" id="menuToggle" aria-label="Menu">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</button>
+		</div>
+	</div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════ -->
+
+<section class="or-section or-section--dark">
+	<div class="or-page">
+		<div class="or-hero">
+			<div class="or-hero__bg"></div>
+			<div class="or-hero__content">
+				<div class="or-hero__breadcrumb">
+					<a href="demo-chi-siamo.html">Chi siamo</a> / Gli ospiti &amp; la redazione
+				</div>
+				<h1 class="or-hero__title">Gli ospiti &amp; la redazione</h1>
+				<p class="or-hero__subtitle">Le voci che animano il nostro podcast e i professionisti che curano ogni contenuto editoriale: critici, editori, traduttori, librai e tanti altri protagonisti del mondo letterario.</p>
+				<div class="or-hero__stats">
+					<div>
+						<span class="or-hero__stat-value">45+</span>
+						<span class="or-hero__stat-label">Ospiti</span>
+					</div>
+					<div>
+						<span class="or-hero__stat-value">12</span>
+						<span class="or-hero__stat-label">Collaboratori</span>
+					</div>
+					<div>
+						<span class="or-hero__stat-value">8</span>
+						<span class="or-hero__stat-label">Rubriche</span>
+					</div>
+					<div>
+						<span class="or-hero__stat-value">3</span>
+						<span class="or-hero__stat-label">Stagioni</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- ── Filters ── -->
+		<div class="or-filters">
+			<button class="or-filter active" data-filter="tutti">Tutti</button>
+			<button class="or-filter" data-filter="ospite">Ospiti ricorrenti</button>
+			<button class="or-filter" data-filter="redazione">Redazione</button>
+			<button class="or-filter" data-filter="collaboratore">Collaboratori esterni</button>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     OSPITI RICORRENTI
+     ═══════════════════════════════════════════ -->
+
+<section class="or-section or-section--surface" id="sectionOspiti">
+	<div class="or-page">
+		<div class="or-section-header">
+			<div class="or-section-overline">Podcast</div>
+			<h2 class="or-section-title"><span class="material-symbols-outlined">mic</span> Ospiti ricorrenti</h2>
+			<p class="or-section-subtitle">Critici, editori, traduttori e librai che tornano regolarmente ai nostri microfoni.</p>
+		</div>
+
+		<div class="or-grid">
+
+			<!-- Alessandra Ferro -->
+			<div class="or-card" data-type="ospite">
+				<div class="or-card__avatar or-card__avatar--1">
+					<span class="material-symbols-outlined">school</span>
+				</div>
+				<span class="or-badge or-badge--ospite">Ospite</span>
+				<h3 class="or-card__name">Prof. Alessandra Ferro</h3>
+				<p class="or-card__role">Critica letteraria, Universit&agrave; di Bologna</p>
+				<p class="or-card__bio">Specializzata in narrativa italiana contemporanea e teoria della ricezione letteraria.</p>
+				<a href="#" class="or-episodes">
+					<span class="material-symbols-outlined">podcasts</span> 12 episodi
+				</a>
+			</div>
+
+			<!-- Luca Ferrante -->
+			<div class="or-card" data-type="ospite">
+				<div class="or-card__avatar or-card__avatar--2">
+					<span class="material-symbols-outlined">auto_stories</span>
+				</div>
+				<span class="or-badge or-badge--ospite">Ospite</span>
+				<h3 class="or-card__name">Luca Ferrante</h3>
+				<p class="or-card__role">Editore indipendente, Minimum Fax</p>
+				<p class="or-card__bio">Racconta il dietro le quinte dell'editoria indipendente italiana e le sfide del mercato.</p>
+				<a href="#" class="or-episodes">
+					<span class="material-symbols-outlined">podcasts</span> 8 episodi
+				</a>
+			</div>
+
+			<!-- Giulia De Santis -->
+			<div class="or-card" data-type="ospite">
+				<div class="or-card__avatar or-card__avatar--3">
+					<span class="material-symbols-outlined">translate</span>
+				</div>
+				<span class="or-badge or-badge--ospite">Ospite</span>
+				<h3 class="or-card__name">Giulia De Santis</h3>
+				<p class="or-card__role">Traduttrice (inglese/francese)</p>
+				<p class="or-card__bio">Esplora l'arte della traduzione letteraria e il ponte tra culture attraverso i libri.</p>
+				<a href="#" class="or-episodes">
+					<span class="material-symbols-outlined">podcasts</span> 6 episodi
+				</a>
+			</div>
+
+			<!-- Roberto Marchetti -->
+			<div class="or-card" data-type="ospite">
+				<div class="or-card__avatar or-card__avatar--4">
+					<span class="material-symbols-outlined">storefront</span>
+				</div>
+				<span class="or-badge or-badge--ospite">Ospite</span>
+				<h3 class="or-card__name">Roberto Marchetti</h3>
+				<p class="or-card__role">Libraio, Gogol &amp; Company Milano</p>
+				<p class="or-card__bio">Porta la voce delle librerie indipendenti milanesi e il rapporto diretto con i lettori.</p>
+				<a href="#" class="or-episodes">
+					<span class="material-symbols-outlined">podcasts</span> 5 episodi
+				</a>
+			</div>
+
+			<!-- Chiara Bianchi -->
+			<div class="or-card" data-type="ospite">
+				<div class="or-card__avatar or-card__avatar--5">
+					<span class="material-symbols-outlined">lyrics</span>
+				</div>
+				<span class="or-badge or-badge--ospite">Ospite</span>
+				<h3 class="or-card__name">Chiara Bianchi</h3>
+				<p class="or-card__role">Poetessa e performer</p>
+				<p class="or-card__bio">Unisce poesia e performance dal vivo, portando la parola scritta su nuovi palcoscenici.</p>
+				<a href="#" class="or-episodes">
+					<span class="material-symbols-outlined">podcasts</span> 7 episodi
+				</a>
+			</div>
+
+			<!-- Andrea Ferraris -->
+			<div class="or-card" data-type="ospite">
+				<div class="or-card__avatar or-card__avatar--6">
+					<span class="material-symbols-outlined">brush</span>
+				</div>
+				<span class="or-badge or-badge--ospite">Ospite</span>
+				<h3 class="or-card__name">Andrea Ferraris</h3>
+				<p class="or-card__role">Illustratore e graphic novelist</p>
+				<p class="or-card__bio">Racconta il mondo del fumetto d'autore e della narrazione per immagini in Italia.</p>
+				<a href="#" class="or-episodes">
+					<span class="material-symbols-outlined">podcasts</span> 4 episodi
+				</a>
+			</div>
+
+			<!-- Francesca Leone -->
+			<div class="or-card" data-type="ospite">
+				<div class="or-card__avatar or-card__avatar--7">
+					<span class="material-symbols-outlined">handshake</span>
+				</div>
+				<span class="or-badge or-badge--ospite">Ospite</span>
+				<h3 class="or-card__name">Francesca Leone</h3>
+				<p class="or-card__role">Agente letteraria</p>
+				<p class="or-card__bio">Svela i meccanismi del mercato editoriale e il percorso dal manoscritto alla pubblicazione.</p>
+				<a href="#" class="or-episodes">
+					<span class="material-symbols-outlined">podcasts</span> 5 episodi
+				</a>
+			</div>
+
+			<!-- Tommaso Rinaldi -->
+			<div class="or-card" data-type="ospite">
+				<div class="or-card__avatar or-card__avatar--8">
+					<span class="material-symbols-outlined">newspaper</span>
+				</div>
+				<span class="or-badge or-badge--ospite">Ospite</span>
+				<h3 class="or-card__name">Tommaso Rinaldi</h3>
+				<p class="or-card__role">Giornalista culturale, Il Post</p>
+				<p class="or-card__bio">Analizza tendenze culturali e fenomeni editoriali con uno sguardo critico e accessibile.</p>
+				<a href="#" class="or-episodes">
+					<span class="material-symbols-outlined">podcasts</span> 9 episodi
+				</a>
+			</div>
+
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     REDAZIONE
+     ═══════════════════════════════════════════ -->
+
+<section class="or-section or-section--dark" id="sectionRedazione">
+	<div class="or-page">
+		<div class="or-section-header">
+			<div class="or-section-overline">Il team</div>
+			<h2 class="or-section-title"><span class="material-symbols-outlined">edit_note</span> Redazione</h2>
+			<p class="or-section-subtitle">Il team che cura quotidianamente i contenuti editoriali, le classifiche e i canali digitali.</p>
+		</div>
+
+		<div class="or-grid">
+
+			<!-- Sara Colombo -->
+			<div class="or-card" data-type="redazione">
+				<div class="or-card__avatar or-card__avatar--3">
+					<span class="material-symbols-outlined">assignment_ind</span>
+				</div>
+				<span class="or-badge or-badge--redazione">Redazione</span>
+				<h3 class="or-card__name">Sara Colombo</h3>
+				<p class="or-card__role">Caporedattrice</p>
+				<p class="or-card__bio">Coordina i contenuti editoriali e definisce la linea del progetto.</p>
+			</div>
+
+			<!-- Matteo Ricci -->
+			<div class="or-card" data-type="redazione">
+				<div class="or-card__avatar or-card__avatar--1">
+					<span class="material-symbols-outlined">rate_review</span>
+				</div>
+				<span class="or-badge or-badge--redazione">Redazione</span>
+				<h3 class="or-card__name">Matteo Ricci</h3>
+				<p class="or-card__role">Redattore recensioni</p>
+				<p class="or-card__bio">Specializzato in narrativa contemporanea italiana e internazionale.</p>
+			</div>
+
+			<!-- Valentina Greco -->
+			<div class="or-card" data-type="redazione">
+				<div class="or-card__avatar or-card__avatar--7">
+					<span class="material-symbols-outlined">menu_book</span>
+				</div>
+				<span class="or-badge or-badge--redazione">Redazione</span>
+				<h3 class="or-card__name">Valentina Greco</h3>
+				<p class="or-card__role">Redattrice approfondimenti</p>
+				<p class="or-card__bio">Focus su saggistica e non-fiction, cura le analisi tematiche.</p>
+			</div>
+
+			<!-- Alessandro Morandi -->
+			<div class="or-card" data-type="redazione">
+				<div class="or-card__avatar or-card__avatar--2">
+					<span class="material-symbols-outlined">forum</span>
+				</div>
+				<span class="or-badge or-badge--redazione">Redazione</span>
+				<h3 class="or-card__name">Alessandro Morandi</h3>
+				<p class="or-card__role">Social media &amp; community</p>
+				<p class="or-card__bio">Gestisce i canali digitali e l'interazione con la community dei lettori.</p>
+			</div>
+
+			<!-- Irene Vitale -->
+			<div class="or-card" data-type="redazione">
+				<div class="or-card__avatar or-card__avatar--5">
+					<span class="material-symbols-outlined">leaderboard</span>
+				</div>
+				<span class="or-badge or-badge--redazione">Redazione</span>
+				<h3 class="or-card__name">Irene Vitale</h3>
+				<p class="or-card__role">Curatrice classifiche</p>
+				<p class="or-card__bio">Analisi dati editoriali e cura delle classifiche settimanali.</p>
+			</div>
+
+			<!-- Paolo Santini -->
+			<div class="or-card" data-type="redazione">
+				<div class="or-card__avatar or-card__avatar--8">
+					<span class="material-symbols-outlined">headphones</span>
+				</div>
+				<span class="or-badge or-badge--redazione">Redazione</span>
+				<h3 class="or-card__name">Paolo Santini</h3>
+				<p class="or-card__role">Podcast editor</p>
+				<p class="or-card__bio">Montaggio e post-produzione audio di tutti gli episodi del podcast.</p>
+			</div>
+
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     COLLABORATORI ESTERNI
+     ═══════════════════════════════════════════ -->
+
+<section class="or-section or-section--surface" id="sectionCollaboratori">
+	<div class="or-page">
+		<div class="or-section-header">
+			<div class="or-section-overline">Network</div>
+			<h2 class="or-section-title"><span class="material-symbols-outlined">group_add</span> Collaboratori esterni</h2>
+			<p class="or-section-subtitle">Professionisti che contribuiscono al progetto con le loro competenze specifiche.</p>
+		</div>
+
+		<div class="or-grid">
+
+			<!-- Marta Bellini -->
+			<div class="or-card" data-type="collaboratore">
+				<div class="or-card__avatar or-card__avatar--6">
+					<span class="material-symbols-outlined">photo_camera</span>
+				</div>
+				<span class="or-badge or-badge--collaboratore">Collaboratore</span>
+				<h3 class="or-card__name">Marta Bellini</h3>
+				<p class="or-card__role">Fotografa</p>
+				<p class="or-card__bio">Documentazione eventi e ritratti autori per il sito e i social.</p>
+			</div>
+
+			<!-- Simone Trevisan -->
+			<div class="or-card" data-type="collaboratore">
+				<div class="or-card__avatar or-card__avatar--4">
+					<span class="material-symbols-outlined">code</span>
+				</div>
+				<span class="or-badge or-badge--collaboratore">Collaboratore</span>
+				<h3 class="or-card__name">Simone Trevisan</h3>
+				<p class="or-card__role">Sviluppatore web</p>
+				<p class="or-card__bio">Piattaforma e strumenti digitali, sviluppo e manutenzione del sito.</p>
+			</div>
+
+			<!-- Laura Fontana -->
+			<div class="or-card" data-type="collaboratore">
+				<div class="or-card__avatar or-card__avatar--3">
+					<span class="material-symbols-outlined">search</span>
+				</div>
+				<span class="or-badge or-badge--collaboratore">Collaboratore</span>
+				<h3 class="or-card__name">Laura Fontana</h3>
+				<p class="or-card__role">Consulente editoriale</p>
+				<p class="or-card__bio">Scouting nuovi titoli e consulenza sulle linee editoriali del progetto.</p>
+			</div>
+
+			<!-- Giacomo Ruggeri -->
+			<div class="or-card" data-type="collaboratore">
+				<div class="or-card__avatar or-card__avatar--2">
+					<span class="material-symbols-outlined">palette</span>
+				</div>
+				<span class="or-badge or-badge--collaboratore">Collaboratore</span>
+				<h3 class="or-card__name">Giacomo Ruggeri</h3>
+				<p class="or-card__role">Illustratore copertine rubriche</p>
+				<p class="or-card__bio">Crea le illustrazioni originali per le copertine delle rubriche del podcast.</p>
+			</div>
+
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CTA BANNER
+     ═══════════════════════════════════════════ -->
+
+<section class="or-cta">
+	<h2 class="or-cta__title">Vuoi collaborare con noi?</h2>
+	<p class="or-cta__text">Cerchiamo sempre nuove voci e competenze per arricchire il progetto. Scrittori, critici, traduttori, librai: raccontaci chi sei.</p>
+	<a href="demo-contatti.html" class="or-cta__btn">
+		<span class="material-symbols-outlined">mail</span> Scrivici
+	</a>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ -->
+
+<footer class="site-footer">
+	<div style="max-width:80rem;margin:0 auto;padding:0 2rem;">
+		<div class="footer-main">
+			<div class="footer-brand">
+				<p class="site-title">Not My Cup of Read</p>
+				<p>Esploriamo la letteratura contemporanea attraverso podcast, recensioni e approfondimenti.</p>
+				<div class="footer-social">
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">podcasts</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">play_circle</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">photo_camera</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">send</span></a>
+				</div>
+			</div>
+			<div class="footer-col">
+				<h4>ESPLORA</h4>
+				<ul>
+					<li><a href="demo-recensioni.html">Recensioni</a></li>
+					<li><a href="demo-approfondimenti.html">Approfondimenti</a></li>
+					<li><a href="demo-podcast.html">Podcast</a></li>
+					<li><a href="demo-libri.html">Libri</a></li>
+					<li><a href="demo-autori.html">Autori</a></li>
+					<li><a href="demo-librerie.html">Luoghi</a></li>
+					<li><a href="demo-eventi.html">Timeline</a></li>
+					<li><a href="demo-calendario.html">Calendario</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>PROGETTO</h4>
+				<ul>
+					<li><a href="demo-chi-siamo.html">Chi siamo</a></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="demo-contatti.html">Contatti</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>NEWSLETTER</h4>
+				<p style="font-size:0.875rem;margin-bottom:1rem;opacity:0.75;">Ricevi le nostre selezioni editoriali.</p>
+				<div class="newsletter-form">
+					<input type="email" placeholder="La tua email" style="background:rgba(255,255,255,0.05);color:#fff;">
+					<button class="btn btn--teal btn--small">Iscriviti</button>
+				</div>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<span>&copy; 2026 Not My Cup of Read.</span>
+			<div class="footer-bottom-links">
+				<a href="#">Privacy Policy</a>
+				<a href="#">Cookie Policy</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     JS
+     ═══════════════════════════════════════════ -->
+<script>
+(function() {
+	/* ── Filter tabs ── */
+	const filters = document.querySelectorAll('.or-filter');
+	const cards = document.querySelectorAll('.or-card');
+	const sections = {
+		ospite: document.getElementById('sectionOspiti'),
+		redazione: document.getElementById('sectionRedazione'),
+		collaboratore: document.getElementById('sectionCollaboratori')
+	};
+
+	filters.forEach(function(btn) {
+		btn.addEventListener('click', function() {
+			filters.forEach(function(b) { b.classList.remove('active'); });
+			btn.classList.add('active');
+
+			var filter = btn.getAttribute('data-filter');
+
+			if (filter === 'tutti') {
+				cards.forEach(function(c) { c.classList.remove('or-card--hidden'); });
+				Object.values(sections).forEach(function(s) { if (s) s.style.display = ''; });
+			} else {
+				cards.forEach(function(c) {
+					if (c.getAttribute('data-type') === filter) {
+						c.classList.remove('or-card--hidden');
+					} else {
+						c.classList.add('or-card--hidden');
+					}
+				});
+				Object.keys(sections).forEach(function(key) {
+					if (sections[key]) {
+						sections[key].style.display = (key === filter) ? '' : 'none';
+					}
+				});
+			}
+		});
+	});
+
+	/* ── Mobile menu toggle ── */
+	var menuToggle = document.getElementById('menuToggle');
+	var primaryNav = document.getElementById('primaryNav');
+	if (menuToggle && primaryNav) {
+		menuToggle.addEventListener('click', function() {
+			primaryNav.classList.toggle('open');
+			menuToggle.classList.toggle('active');
+		});
+	}
+})();
+</script>
+
+</body>
+</html>

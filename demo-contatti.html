@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contatti & Collaborazioni — Chi siamo — Not My Cup of Read</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Newsreader:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<style>
+
+/* ═══════════════════════════════════════════
+   CONTATTI PAGE — ct- prefix
+   ═══════════════════════════════════════════ */
+
+/* Hero */
+.ct-hero {
+	padding: var(--sp-24) 0 var(--sp-16);
+}
+.ct-hero__inner {
+	max-width: 80rem;
+	margin: 0 auto;
+	padding: 0 2rem;
+}
+.ct-breadcrumb {
+	font-family: var(--font-body);
+	font-size: 0.8125rem;
+	color: var(--c-accent-light);
+	margin-bottom: 1.5rem;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+.ct-breadcrumb a {
+	color: var(--c-accent-light);
+	text-decoration: none;
+	transition: color 0.2s;
+}
+.ct-breadcrumb a:hover {
+	color: #fff;
+}
+.ct-breadcrumb .ct-breadcrumb__sep {
+	opacity: 0.4;
+	font-size: 0.75rem;
+}
+.ct-hero__title {
+	font-family: var(--font-headline);
+	font-size: clamp(2.5rem, 5vw, 4rem);
+	font-weight: 400;
+	line-height: 1.1;
+	margin: 0 0 1rem;
+}
+.ct-hero__subtitle {
+	font-family: var(--font-body);
+	font-size: 1.25rem;
+	line-height: 1.7;
+	color: var(--c-accent-light);
+	max-width: 640px;
+	margin: 0;
+}
+
+/* Section layout */
+.ct-section {
+	padding: var(--sp-16) 0;
+}
+.ct-section__inner {
+	max-width: 80rem;
+	margin: 0 auto;
+	padding: 0 2rem;
+}
+.ct-section__title {
+	font-family: var(--font-headline);
+	font-size: clamp(1.75rem, 3vw, 2.5rem);
+	font-weight: 400;
+	margin: 0 0 0.75rem;
+}
+.ct-section__lead {
+	font-size: 1.1rem;
+	line-height: 1.7;
+	max-width: 680px;
+	margin-bottom: 2.5rem;
+}
+.section--dark .ct-section__lead {
+	color: var(--c-accent-light);
+}
+.section--surface .ct-section__lead {
+	color: var(--c-on-surface-variant);
+}
+
+/* Contact method cards */
+.ct-contact-grid {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 1.5rem;
+}
+.ct-contact-card {
+	background: var(--c-surface-container-low);
+	border-radius: var(--radius-lg);
+	padding: 2rem 1.5rem;
+	box-shadow: var(--shadow-md);
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.ct-contact-card:hover {
+	transform: translateY(-3px);
+	box-shadow: var(--shadow-lg);
+}
+.ct-contact-card__icon {
+	width: 48px;
+	height: 48px;
+	border-radius: var(--radius-full);
+	background: var(--c-accent);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 1.25rem;
+}
+.ct-contact-card__icon .material-symbols-outlined {
+	font-size: 22px;
+	color: #fff;
+}
+.ct-contact-card__icon svg {
+	width: 22px;
+	height: 22px;
+	fill: #fff;
+}
+.ct-contact-card__title {
+	font-family: var(--font-headline);
+	font-size: 1.125rem;
+	font-weight: 700;
+	margin: 0 0 0.375rem;
+	color: var(--c-on-surface);
+}
+.ct-contact-card__email {
+	font-family: var(--font-body);
+	font-size: 0.9375rem;
+	font-weight: 600;
+	color: var(--c-accent);
+	margin: 0 0 0.625rem;
+	word-break: break-all;
+}
+.ct-contact-card__desc {
+	font-size: 0.875rem;
+	line-height: 1.6;
+	color: var(--c-on-surface-variant);
+	margin: 0;
+}
+
+/* Collaboration cards */
+.ct-collab-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 1.5rem;
+}
+.ct-collab-card {
+	background: rgba(255, 255, 255, 0.04);
+	border-radius: var(--radius-lg);
+	padding: 2rem;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+	transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.ct-collab-card:hover {
+	transform: translateY(-3px);
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+.ct-collab-card__icon {
+	font-size: 36px;
+	color: var(--c-accent-light);
+	margin-bottom: 1rem;
+	display: block;
+}
+.ct-collab-card__title {
+	font-family: var(--font-headline);
+	font-size: 1.25rem;
+	font-weight: 700;
+	margin: 0 0 0.5rem;
+}
+.ct-collab-card__desc {
+	font-size: 0.9375rem;
+	line-height: 1.65;
+	color: var(--c-accent-light);
+	margin: 0;
+}
+
+/* Form section */
+.ct-form-layout {
+	display: grid;
+	grid-template-columns: 1fr 320px;
+	gap: 3rem;
+	align-items: start;
+}
+.ct-form {
+	display: flex;
+	flex-direction: column;
+	gap: 1.25rem;
+}
+.ct-form__group {
+	display: flex;
+	flex-direction: column;
+	gap: 0.375rem;
+}
+.ct-form__label {
+	font-family: var(--font-body);
+	font-size: 0.8125rem;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--c-on-surface-variant);
+}
+.ct-form__input,
+.ct-form__select,
+.ct-form__textarea {
+	font-family: var(--font-body);
+	font-size: 1rem;
+	color: var(--c-on-surface);
+	background: var(--c-surface-container-low);
+	padding: 0.875rem 1rem;
+	border-radius: var(--radius-md);
+	border: 1px solid var(--c-surface-container-high);
+	outline: none;
+	transition: border-color 0.2s, box-shadow 0.2s;
+}
+.ct-form__input:focus,
+.ct-form__select:focus,
+.ct-form__textarea:focus {
+	border-color: var(--c-accent);
+	box-shadow: 0 0 0 3px rgba(62, 92, 118, 0.15);
+}
+.ct-form__select {
+	appearance: none;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23748cab' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 1rem center;
+	padding-right: 2.5rem;
+	cursor: pointer;
+}
+.ct-form__textarea {
+	min-height: 160px;
+	resize: vertical;
+}
+.ct-form__submit {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	font-family: var(--font-body);
+	font-size: 0.9375rem;
+	font-weight: 600;
+	color: #fff;
+	background: var(--c-accent);
+	padding: 0.875rem 2rem;
+	border-radius: var(--radius-md);
+	border: none;
+	cursor: pointer;
+	transition: background 0.2s, transform 0.1s;
+	box-shadow: 0 4px 16px rgba(62, 92, 118, 0.3);
+	align-self: flex-start;
+}
+.ct-form__submit:hover {
+	background: var(--c-accent-hover);
+}
+.ct-form__submit:active {
+	transform: scale(0.97);
+}
+.ct-form__success {
+	display: none;
+	align-items: center;
+	gap: 0.5rem;
+	font-family: var(--font-body);
+	font-size: 0.9375rem;
+	font-weight: 600;
+	color: var(--c-accent);
+	padding: 1rem;
+	background: var(--c-surface-container-low);
+	border-radius: var(--radius-md);
+	box-shadow: var(--shadow-sm);
+}
+.ct-form__success.is-visible {
+	display: flex;
+}
+.ct-form-side {
+	background: var(--c-surface-container);
+	border-radius: var(--radius-lg);
+	padding: 2rem;
+	box-shadow: var(--shadow-md);
+}
+.ct-form-side__title {
+	font-family: var(--font-headline);
+	font-size: 1.125rem;
+	font-weight: 700;
+	margin: 0 0 1rem;
+	color: var(--c-on-surface);
+}
+.ct-form-side__text {
+	font-size: 0.9375rem;
+	line-height: 1.65;
+	color: var(--c-on-surface-variant);
+	margin: 0 0 1.5rem;
+}
+.ct-form-side__item {
+	display: flex;
+	align-items: center;
+	gap: 0.625rem;
+	font-size: 0.875rem;
+	color: var(--c-on-surface-variant);
+	margin-bottom: 0.75rem;
+}
+.ct-form-side__item .material-symbols-outlined {
+	font-size: 18px;
+	color: var(--c-accent);
+}
+
+/* Location section */
+.ct-location-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 2rem;
+	align-items: start;
+}
+.ct-location-info {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+.ct-location-item {
+	display: flex;
+	align-items: flex-start;
+	gap: 1rem;
+}
+.ct-location-item__icon {
+	width: 40px;
+	height: 40px;
+	border-radius: var(--radius-full);
+	background: rgba(255, 255, 255, 0.06);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+}
+.ct-location-item__icon .material-symbols-outlined {
+	font-size: 20px;
+	color: var(--c-accent-light);
+}
+.ct-location-item__label {
+	font-family: var(--font-body);
+	font-size: 0.75rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--c-accent-light);
+	margin: 0 0 0.25rem;
+}
+.ct-location-item__value {
+	font-size: 1rem;
+	color: #fff;
+	margin: 0;
+}
+.ct-location-note {
+	font-size: 0.875rem;
+	line-height: 1.6;
+	color: var(--c-accent-light);
+	background: rgba(255, 255, 255, 0.04);
+	border-radius: var(--radius-md);
+	padding: 1rem 1.25rem;
+	margin: 0;
+}
+.ct-map-placeholder {
+	width: 100%;
+	min-height: 320px;
+	border-radius: var(--radius-lg);
+	background: linear-gradient(135deg, #0d1321 0%, #1d2d44 50%, #3e5c76 100%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: rgba(255, 255, 255, 0.25);
+	font-size: 0.8125rem;
+	font-family: var(--font-body);
+}
+
+/* FAQ accordion */
+.ct-faq-list {
+	max-width: 800px;
+}
+.ct-faq-item {
+	background: var(--c-surface-container-low);
+	border-radius: var(--radius-lg);
+	margin-bottom: 0.75rem;
+	box-shadow: var(--shadow-sm);
+	overflow: hidden;
+}
+.ct-faq-question {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	padding: 1.25rem 1.5rem;
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-family: var(--font-headline);
+	font-size: 1.0625rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	text-align: left;
+	line-height: 1.4;
+	gap: 1rem;
+	transition: background 0.2s;
+}
+.ct-faq-question:hover {
+	background: var(--c-surface-container);
+}
+.ct-faq-question__chevron {
+	font-size: 20px;
+	color: var(--c-accent);
+	transition: transform 0.25s ease;
+	flex-shrink: 0;
+}
+.ct-faq-item.is-open .ct-faq-question__chevron {
+	transform: rotate(180deg);
+}
+.ct-faq-answer {
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.3s ease, padding 0.3s ease;
+}
+.ct-faq-answer__inner {
+	padding: 0 1.5rem 1.25rem;
+	font-size: 0.9375rem;
+	line-height: 1.7;
+	color: var(--c-on-surface-variant);
+}
+.ct-faq-answer__inner p {
+	margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+	.ct-contact-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+	.ct-collab-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+	.ct-form-layout {
+		grid-template-columns: 1fr;
+	}
+	.ct-location-grid {
+		grid-template-columns: 1fr;
+	}
+}
+@media (max-width: 640px) {
+	.ct-hero {
+		padding: var(--sp-16) 0 var(--sp-8);
+	}
+	.ct-section {
+		padding: var(--sp-8) 0;
+	}
+	.ct-contact-grid {
+		grid-template-columns: 1fr;
+	}
+	.ct-collab-grid {
+		grid-template-columns: 1fr;
+	}
+	.ct-form__submit {
+		width: 100%;
+		justify-content: center;
+	}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     HEADER / NAVIGATION
+     ═══════════════════════════════════════════ -->
+
+<header class="site-header" id="siteHeader">
+	<div class="header-outer">
+		<div class="header-inner">
+			<div class="site-branding">
+				<div class="site-branding__icon">
+					<img src="assets/img/logo-nmcor.png" alt="NMCOR">
+				</div>
+				<h1 class="site-title"><a href="demo.html">Not My Cup of Read</a></h1>
+			</div>
+
+			<nav class="primary-nav" id="primaryNav">
+				<ul>
+					<li><a href="#">Articoli</a><ul class="sub-menu"><li><a href="demo-recensioni.html">Recensioni</a></li><li><a href="demo-approfondimenti.html">Approfondimenti</a></li><li><a href="demo-classifiche.html">Classifiche</a></li></ul></li>
+					<li><a href="#">Podcast</a><ul class="sub-menu"><li><a href="demo-podcast.html">Episodi</a></li><li><a href="demo-format.html">Format</a></li><li><a href="demo-dietro-le-quinte.html">Dietro le quinte</a></li></ul></li>
+					<li><a href="#">Biblioteca</a><ul class="sub-menu"><li><a href="demo-libri.html">Libri</a></li><li><a href="demo-autori.html">Autori</a></li></ul></li>
+					<li><a href="#">Luoghi</a><ul class="sub-menu"><li><a href="demo-librerie.html">La mappa del Lettore</a></li><li><a href="demo-luoghi-milano.html">Milano</a></li><li><a href="demo-itinerari.html">Itinerari letterari</a></li><li><a href="demo-luoghi-librerie.html">Librerie</a></li><li><a href="demo-luoghi-biblioteche.html">Biblioteche</a></li><li><a href="demo-luoghi-caffe.html">Caffè letterari</a></li><li><a href="demo-luoghi-spazi.html">Spazi culturali</a></li></ul></li>
+					<li><a href="#">Eventi</a><ul class="sub-menu"><li><a href="demo-eventi.html">Timeline</a></li><li><a href="demo-calendario.html">Calendario</a></li><li><a href="demo-fiere-festival.html">Fiere e Festival</a></li><li><a href="demo-premi-letterari.html">Premi letterari</a></li></ul></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Chi siamo</a><ul class="sub-menu"><li><a href="demo-chi-siamo.html">Lo studio &amp; gli host</a></li><li><a href="demo-ospiti-redazione.html">Gli ospiti &amp; la redazione</a></li><li><a href="demo-contatti.html">Contatti &amp; Collaborazioni</a></li></ul></li>
+				</ul>
+			</nav>
+
+			<div class="header-search">
+				<input type="text" placeholder="Cerca...">
+			</div>
+		</div>
+
+		<div class="header-extras">
+			<div class="header-social">
+				<a href="#" class="header-social__link" aria-label="YouTube">
+					<svg viewBox="0 0 24 24"><path d="M23.5 6.19a3 3 0 0 0-2.11-2.13C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.39.56A3 3 0 0 0 .5 6.19 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.81 3 3 0 0 0 2.11 2.13c1.89.56 9.39.56 9.39.56s7.5 0 9.39-.56a3 3 0 0 0 2.11-2.13A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.81ZM9.75 15.02V8.98L15.5 12l-5.75 3.02Z"/></svg>
+				</a>
+				<a href="#" class="header-social__link" aria-label="Spotify">
+					<svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.31a.75.75 0 0 1-1.03.25c-2.82-1.72-6.37-2.11-10.55-1.16a.75.75 0 1 1-.34-1.46c4.57-1.05 8.49-.6 11.67 1.34a.75.75 0 0 1 .25 1.03Zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.23-1.98-8.15-2.56-11.97-1.4a.94.94 0 1 1-.54-1.8c4.36-1.32 9.78-.68 13.49 1.6a.94.94 0 0 1 .31 1.29Zm.13-3.4C15.5 8.4 9 8.2 5.24 9.33a1.13 1.13 0 1 1-.65-2.16c4.33-1.3 11.52-1.05 16.07 1.68a1.13 1.13 0 0 1-1.56 1.79Z"/></svg>
+				</a>
+			</div>
+			<div class="header-auth">
+				<a href="demo-profilo.html" class="header-auth__btn"><span class="material-symbols-outlined">person</span> Cristian T.</a>
+			</div>
+			<button class="menu-toggle" id="menuToggle" aria-label="Menu">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</button>
+		</div>
+	</div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     1. HERO
+     ═══════════════════════════════════════════ -->
+
+<section class="ct-hero section--dark">
+	<div class="ct-hero__inner">
+		<nav class="ct-breadcrumb" aria-label="Breadcrumb">
+			<a href="demo-chi-siamo.html">Chi siamo</a>
+			<span class="ct-breadcrumb__sep">/</span>
+			<span>Contatti &amp; Collaborazioni</span>
+		</nav>
+		<h2 class="ct-hero__title">Contatti &amp; Collaborazioni</h2>
+		<p class="ct-hero__subtitle">Hai un'idea, una proposta o vuoi semplicemente dirci ciao? Siamo sempre felici di ascoltare.</p>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     2. COME CONTATTARCI
+     ═══════════════════════════════════════════ -->
+
+<section class="ct-section section--surface">
+	<div class="ct-section__inner">
+		<span class="overline overline--teal">Contatti</span>
+		<h2 class="ct-section__title">Come contattarci</h2>
+		<p class="ct-section__lead">Scegli il canale più adatto alla tua richiesta. Cerchiamo di rispondere sempre in tempi rapidi.</p>
+
+		<div class="ct-contact-grid">
+			<div class="ct-contact-card">
+				<div class="ct-contact-card__icon">
+					<span class="material-symbols-outlined">mail</span>
+				</div>
+				<h3 class="ct-contact-card__title">Email</h3>
+				<p class="ct-contact-card__email">notmycupofread@gmail.com</p>
+				<p class="ct-contact-card__desc">Per qualsiasi richiesta, proposta o collaborazione.</p>
+			</div>
+
+			<div class="ct-contact-card">
+				<div class="ct-contact-card__icon">
+					<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M23.5 6.19a3 3 0 0 0-2.11-2.13C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.39.56A3 3 0 0 0 .5 6.19 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.81 3 3 0 0 0 2.11 2.13c1.89.56 9.39.56 9.39.56s7.5 0 9.39-.56a3 3 0 0 0 2.11-2.13A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.81ZM9.75 15.02V8.98L15.5 12l-5.75 3.02Z"/></svg>
+				</div>
+				<h3 class="ct-contact-card__title">YouTube</h3>
+				<p class="ct-contact-card__email">@notmycupofread</p>
+				<p class="ct-contact-card__desc">Video-podcast, interviste e contenuti esclusivi.</p>
+			</div>
+
+			<div class="ct-contact-card">
+				<div class="ct-contact-card__icon">
+					<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.31a.75.75 0 0 1-1.03.25c-2.82-1.72-6.37-2.11-10.55-1.16a.75.75 0 1 1-.34-1.46c4.57-1.05 8.49-.6 11.67 1.34a.75.75 0 0 1 .25 1.03Zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.23-1.98-8.15-2.56-11.97-1.4a.94.94 0 1 1-.54-1.8c4.36-1.32 9.78-.68 13.49 1.6a.94.94 0 0 1 .31 1.29Zm.13-3.4C15.5 8.4 9 8.2 5.24 9.33a1.13 1.13 0 1 1-.65-2.16c4.33-1.3 11.52-1.05 16.07 1.68a1.13 1.13 0 0 1-1.56 1.79Z"/></svg>
+				</div>
+				<h3 class="ct-contact-card__title">Spotify</h3>
+				<p class="ct-contact-card__email">@notmycupofread</p>
+				<p class="ct-contact-card__desc">Tutti gli episodi del podcast in streaming.</p>
+			</div>
+
+			<div class="ct-contact-card">
+				<div class="ct-contact-card__icon">
+					<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.97.24 2.44.41.61.24 1.05.52 1.51.98.46.46.74.9.98 1.51.17.47.36 1.27.41 2.44.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.24 1.97-.41 2.44a4.07 4.07 0 0 1-.98 1.51c-.46.46-.9.74-1.51.98-.47.17-1.27.36-2.44.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.97-.24-2.44-.41a4.07 4.07 0 0 1-1.51-.98 4.07 4.07 0 0 1-.98-1.51c-.17-.47-.36-1.27-.41-2.44C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.24-1.97.41-2.44.24-.61.52-1.05.98-1.51a4.07 4.07 0 0 1 1.51-.98c.47-.17 1.27-.36 2.44-.41C8.42 2.17 8.8 2.16 12 2.16ZM12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63a5.85 5.85 0 0 0-2.13 1.38A5.85 5.85 0 0 0 .63 4.14C.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13a5.85 5.85 0 0 0 2.13 1.38c.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56a5.85 5.85 0 0 0 2.13-1.38 5.85 5.85 0 0 0 1.38-2.13c.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.85 5.85 0 0 0-1.38-2.13A5.85 5.85 0 0 0 19.86.63C19.1.33 18.22.13 16.95.07 15.67.01 15.26 0 12 0Zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32ZM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm6.41-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88Z"/></svg>
+				</div>
+				<h3 class="ct-contact-card__title">Instagram</h3>
+				<p class="ct-contact-card__email">@notmycupofread</p>
+				<p class="ct-contact-card__desc">Dietro le quinte, stories e consigli di lettura.</p>
+			</div>
+
+			<div class="ct-contact-card">
+				<div class="ct-contact-card__icon">
+					<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M18.9 1.15h3.68l-8.04 9.19L24 22.85h-7.4l-5.8-7.58-6.63 7.58H.49l8.6-9.83L0 1.15h7.59l5.24 6.93 6.07-6.93Zm-1.29 19.5h2.04L6.48 3.24H4.3L17.61 20.65Z"/></svg>
+				</div>
+				<h3 class="ct-contact-card__title">X (Twitter)</h3>
+				<p class="ct-contact-card__email">@notmycupofread</p>
+				<p class="ct-contact-card__desc">Aggiornamenti, thread letterari e discussioni.</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     3. COLLABORA CON NOI
+     ═══════════════════════════════════════════ -->
+
+<section class="ct-section section--dark">
+	<div class="ct-section__inner">
+		<span class="overline">Opportunità</span>
+		<h2 class="ct-section__title">Collabora con noi</h2>
+		<p class="ct-section__lead">Not My Cup of Read &egrave; un progetto aperto e in continua evoluzione. Crediamo nella bibliodiversit&agrave; e nella forza delle voci plurali: il nostro obiettivo &egrave; costruire una redazione fatta di prospettive diverse, capace di coprire generi e sensibilit&agrave; che vadano oltre i nostri gusti personali.</p>
+
+		<div class="ct-collab-grid">
+			<div class="ct-collab-card">
+				<span class="material-symbols-outlined ct-collab-card__icon">headphones</span>
+				<h3 class="ct-collab-card__title">Per gli ascoltatori</h3>
+				<p class="ct-collab-card__desc">Vuoi contribuire al progetto? Siamo sempre alla ricerca di lettori appassionati che vogliano scrivere recensioni, curare rubriche tematiche o proporre approfondimenti. Che tu sia un divoratore di romance, un esperto di fantasy o un appassionato di saggistica, c'&egrave; spazio per la tua voce. Scrivici raccontando i tuoi interessi letterari e come vorresti collaborare.</p>
+			</div>
+
+			<div class="ct-collab-card">
+				<span class="material-symbols-outlined ct-collab-card__icon">auto_stories</span>
+				<h3 class="ct-collab-card__title">Per gli autori &mdash; Libri pubblicati</h3>
+				<p class="ct-collab-card__desc">Se il tuo libro &egrave; pubblicato da una casa editrice (grande, media o indipendente), saremo felici di valutarlo per una recensione o un'intervista nel podcast. Inviaci una copia digitale o cartacea con una breve presentazione. Crediamo nel ruolo importante dell'editore nel processo di selezione e affinamento di un testo.</p>
+			</div>
+
+			<div class="ct-collab-card">
+				<span class="material-symbols-outlined ct-collab-card__icon">edit_note</span>
+				<h3 class="ct-collab-card__title">Per gli autori &mdash; Self-publishing</h3>
+				<p class="ct-collab-card__desc">Per scelta editoriale, non recensiamo libri autopubblicati: il tempo di lettura &egrave; limitato, i nostri gusti sono definiti e la lista d'attesa &egrave; lunga. Tuttavia, se sei un autore emergente autopubblicato, siamo aperti a ospitare racconti brevi e inediti nella nostra sezione dedicata. Scrivici con il tuo testo.</p>
+			</div>
+
+			<div class="ct-collab-card">
+				<span class="material-symbols-outlined ct-collab-card__icon">mic</span>
+				<h3 class="ct-collab-card__title">Diventa ospite del podcast</h3>
+				<p class="ct-collab-card__desc">Sei un autore, un editore, un libraio, un critico o un operatore culturale con qualcosa da raccontare? Proponi la tua partecipazione a un episodio. Le registrazioni avvengono nel nostro studio o da remoto. Inviaci una breve presentazione e l'argomento che vorresti trattare.</p>
+			</div>
+
+			<div class="ct-collab-card">
+				<span class="material-symbols-outlined ct-collab-card__icon">handshake</span>
+				<h3 class="ct-collab-card__title">Case editrici &amp; Partnership</h3>
+				<p class="ct-collab-card__desc">Sei una casa editrice, una libreria, un festival o un brand culturale? Esploriamo insieme opportunit&agrave; di collaborazione: dalle copie omaggio per le recensioni, alle sponsorship di episodi, fino a eventi congiunti e contenuti speciali.</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     4. MODULO DI CONTATTO
+     ═══════════════════════════════════════════ -->
+
+<section class="ct-section section--surface">
+	<div class="ct-section__inner">
+		<span class="overline overline--teal">Scrivici</span>
+		<h2 class="ct-section__title">Modulo di contatto</h2>
+		<p class="ct-section__lead">Compila il modulo e ti risponderemo il prima possibile.</p>
+
+		<div class="ct-form-layout">
+			<form class="ct-form" id="ctContactForm" novalidate>
+				<div class="ct-form__group">
+					<label class="ct-form__label" for="ctName">Nome e cognome</label>
+					<input class="ct-form__input" type="text" id="ctName" name="name" placeholder="Il tuo nome" required>
+				</div>
+
+				<div class="ct-form__group">
+					<label class="ct-form__label" for="ctEmail">Email</label>
+					<input class="ct-form__input" type="email" id="ctEmail" name="email" placeholder="la.tua@email.it" required>
+				</div>
+
+				<div class="ct-form__group">
+					<label class="ct-form__label" for="ctSubject">Oggetto</label>
+					<select class="ct-form__select" id="ctSubject" name="subject" required>
+						<option value="" disabled selected>Seleziona un argomento</option>
+						<option value="editoriale">Proposta editoriale</option>
+						<option value="podcast">Ospitata podcast</option>
+						<option value="collaborazione">Collaborazione</option>
+						<option value="stampa">Ufficio stampa</option>
+						<option value="altro">Altro</option>
+					</select>
+				</div>
+
+				<div class="ct-form__group">
+					<label class="ct-form__label" for="ctMessage">Messaggio</label>
+					<textarea class="ct-form__textarea" id="ctMessage" name="message" placeholder="Raccontaci la tua idea..." required></textarea>
+				</div>
+
+				<button class="ct-form__submit" type="submit">
+					<span class="material-symbols-outlined" style="font-size:18px;">send</span>
+					Invia messaggio
+				</button>
+
+				<div class="ct-form__success" id="ctFormSuccess">
+					<span class="material-symbols-outlined" style="font-size:20px;">check_circle</span>
+					Grazie! Il tuo messaggio è stato inviato. Ti risponderemo al più presto.
+				</div>
+			</form>
+
+			<aside class="ct-form-side">
+				<h3 class="ct-form-side__title">Informazioni utili</h3>
+				<p class="ct-form-side__text">Rispondiamo entro 48 ore lavorative. Per richieste urgenti, scrivi direttamente all'indirizzo email più appropriato.</p>
+
+				<div class="ct-form-side__item">
+					<span class="material-symbols-outlined">schedule</span>
+					<span>Risposta entro 48h lavorative</span>
+				</div>
+				<div class="ct-form-side__item">
+					<span class="material-symbols-outlined">translate</span>
+					<span>Scriviamo in italiano e inglese</span>
+				</div>
+				<div class="ct-form-side__item">
+					<span class="material-symbols-outlined">attach_file</span>
+					<span>Puoi allegare PDF o link nel messaggio</span>
+				</div>
+			</aside>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     5. DOVE TROVARCI
+     ═══════════════════════════════════════════ -->
+
+<section class="ct-section section--dark">
+	<div class="ct-section__inner">
+		<span class="overline">Studio</span>
+		<h2 class="ct-section__title">Dove trovarci</h2>
+		<p class="ct-section__lead">Il nostro studio si trova nel cuore di Milano, lungo i Navigli.</p>
+
+		<div class="ct-location-grid">
+			<div class="ct-location-info">
+				<div class="ct-location-item">
+					<div class="ct-location-item__icon">
+						<span class="material-symbols-outlined">location_on</span>
+					</div>
+					<div>
+						<p class="ct-location-item__label">Indirizzo</p>
+						<p class="ct-location-item__value">Via dei Navigli 42, 20143 Milano</p>
+					</div>
+				</div>
+
+				<div class="ct-location-item">
+					<div class="ct-location-item__icon">
+						<span class="material-symbols-outlined">schedule</span>
+					</div>
+					<div>
+						<p class="ct-location-item__label">Orari studio</p>
+						<p class="ct-location-item__value">Lun — Ven, 10:00 — 18:00</p>
+					</div>
+				</div>
+
+				<div class="ct-location-item">
+					<div class="ct-location-item__icon">
+						<span class="material-symbols-outlined">info</span>
+					</div>
+					<div>
+						<p class="ct-location-item__label">Nota</p>
+						<p class="ct-location-item__value">Lo studio non è aperto al pubblico. Per visite e collaborazioni, scrivici prima.</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="ct-map-placeholder">
+				Mappa interattiva — demo placeholder
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     6. FAQ COLLABORAZIONI
+     ═══════════════════════════════════════════ -->
+
+<section class="ct-section section--surface">
+	<div class="ct-section__inner">
+		<span class="overline overline--teal">Domande frequenti</span>
+		<h2 class="ct-section__title">FAQ Collaborazioni</h2>
+		<p class="ct-section__lead">Risposte alle domande più comuni su come collaborare con noi.</p>
+
+		<div class="ct-faq-list">
+			<div class="ct-faq-item">
+				<button class="ct-faq-question" type="button" aria-expanded="false">
+					<span>Come posso proporre un libro per la recensione?</span>
+					<span class="material-symbols-outlined ct-faq-question__chevron">expand_more</span>
+				</button>
+				<div class="ct-faq-answer">
+					<div class="ct-faq-answer__inner">
+						<p>Inviaci una mail a notmycupofread@gmail.com con titolo, autore, casa editrice, una breve sinossi e, se possibile, una copia digitale o cartacea. Valutiamo tutte le segnalazioni ma, data la mole di proposte, non possiamo garantire una recensione per ogni titolo ricevuto.</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="ct-faq-item">
+				<button class="ct-faq-question" type="button" aria-expanded="false">
+					<span>Perch&eacute; non recensite libri autopubblicati?</span>
+					<span class="material-symbols-outlined ct-faq-question__chevron">expand_more</span>
+				</button>
+				<div class="ct-faq-answer">
+					<div class="ct-faq-answer__inner">
+						<p>Crediamo nel ruolo importante che le case editrici svolgono nel filtrare, selezionare e affinare un testo. Il tempo di lettura &egrave; limitato, i nostri gusti sono definiti e la lista d'attesa &egrave; lunga. Tuttavia, siamo aperti a pubblicare racconti brevi di autori emergenti, anche autopubblicati, nella nostra sezione dedicata.</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="ct-faq-item">
+				<button class="ct-faq-question" type="button" aria-expanded="false">
+					<span>Come funziona l'ospitata nel podcast?</span>
+					<span class="material-symbols-outlined ct-faq-question__chevron">expand_more</span>
+				</button>
+				<div class="ct-faq-answer">
+					<div class="ct-faq-answer__inner">
+						<p>Scrivici a notmycupofread@gmail.com con una breve presentazione e l'argomento che vorresti trattare. Le registrazioni avvengono nel nostro studio o da remoto via Riverside/Zoom. Ogni episodio dura circa 45-60 minuti e viene pubblicato dopo un lavoro di post-produzione.</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="ct-faq-item">
+				<button class="ct-faq-question" type="button" aria-expanded="false">
+					<span>Posso collaborare scrivendo recensioni o rubriche?</span>
+					<span class="material-symbols-outlined ct-faq-question__chevron">expand_more</span>
+				</button>
+				<div class="ct-faq-answer">
+					<div class="ct-faq-answer__inner">
+						<p>Assolutamente s&igrave;! Cerchiamo lettori appassionati che vogliano contribuire con recensioni, rubriche tematiche o approfondimenti. Ogni genere &egrave; benvenuto: dalla narrativa contemporanea al fantasy, dalla saggistica al romance. Scrivici raccontando i tuoi interessi e allegando un esempio di testo.</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="ct-faq-item">
+				<button class="ct-faq-question" type="button" aria-expanded="false">
+					<span>Posso ripubblicare i vostri contenuti?</span>
+					<span class="material-symbols-outlined ct-faq-question__chevron">expand_more</span>
+				</button>
+				<div class="ct-faq-answer">
+					<div class="ct-faq-answer__inner">
+						<p>I contenuti di Not My Cup of Read sono protetti da copyright. Per richieste di ripubblicazione, citazione estesa o syndication, scrivici a notmycupofread@gmail.com specificando il contenuto e il contesto di utilizzo. Brevi citazioni con attribuzione e link sono sempre consentite.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ -->
+
+<footer class="site-footer">
+	<div style="max-width:80rem;margin:0 auto;padding:0 2rem;">
+		<div class="footer-main">
+			<div class="footer-brand">
+				<p class="site-title">Not My Cup of Read</p>
+				<p>Esploriamo la letteratura contemporanea attraverso podcast, recensioni e approfondimenti.</p>
+				<div class="footer-social">
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">podcasts</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">play_circle</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">photo_camera</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">send</span></a>
+				</div>
+			</div>
+			<div class="footer-col">
+				<h4>ESPLORA</h4>
+				<ul>
+					<li><a href="demo-recensioni.html">Recensioni</a></li>
+					<li><a href="demo-approfondimenti.html">Approfondimenti</a></li>
+					<li><a href="demo-podcast.html">Podcast</a></li>
+					<li><a href="demo-libri.html">Libri</a></li>
+					<li><a href="demo-autori.html">Autori</a></li>
+					<li><a href="demo-librerie.html">Luoghi</a></li>
+					<li><a href="demo-eventi.html">Timeline</a></li>
+					<li><a href="demo-calendario.html">Calendario</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>PROGETTO</h4>
+				<ul>
+					<li><a href="demo-chi-siamo.html">Chi siamo</a></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="demo-contatti.html">Contatti</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>NEWSLETTER</h4>
+				<p style="font-size:0.875rem;margin-bottom:1rem;opacity:0.75;">Ricevi le nostre selezioni editoriali.</p>
+				<div class="newsletter-form">
+					<input type="email" placeholder="La tua email" style="background:rgba(255,255,255,0.05);color:#fff;">
+					<button class="btn btn--teal btn--small">Iscriviti</button>
+				</div>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<span>&copy; 2026 Not My Cup of Read.</span>
+			<div class="footer-bottom-links">
+				<a href="#">Privacy Policy</a>
+				<a href="#">Cookie Policy</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════════ -->
+
+<script>
+/* FAQ Accordion */
+document.querySelectorAll('.ct-faq-question').forEach(function(btn) {
+	btn.addEventListener('click', function() {
+		var item = this.closest('.ct-faq-item');
+		var answer = item.querySelector('.ct-faq-answer');
+		var isOpen = item.classList.contains('is-open');
+
+		/* Close all other items */
+		document.querySelectorAll('.ct-faq-item.is-open').forEach(function(openItem) {
+			if (openItem !== item) {
+				openItem.classList.remove('is-open');
+				openItem.querySelector('.ct-faq-question').setAttribute('aria-expanded', 'false');
+				openItem.querySelector('.ct-faq-answer').style.maxHeight = null;
+			}
+		});
+
+		/* Toggle current */
+		if (isOpen) {
+			item.classList.remove('is-open');
+			this.setAttribute('aria-expanded', 'false');
+			answer.style.maxHeight = null;
+		} else {
+			item.classList.add('is-open');
+			this.setAttribute('aria-expanded', 'true');
+			answer.style.maxHeight = answer.scrollHeight + 'px';
+		}
+	});
+});
+
+/* Contact Form — demo submit prevention */
+var form = document.getElementById('ctContactForm');
+var successMsg = document.getElementById('ctFormSuccess');
+
+if (form) {
+	form.addEventListener('submit', function(e) {
+		e.preventDefault();
+		/* Hide the submit button and show success */
+		var submitBtn = form.querySelector('.ct-form__submit');
+		if (submitBtn) submitBtn.style.display = 'none';
+		if (successMsg) successMsg.classList.add('is-visible');
+		/* Reset after 4 seconds */
+		setTimeout(function() {
+			form.reset();
+			if (submitBtn) submitBtn.style.display = '';
+			if (successMsg) successMsg.classList.remove('is-visible');
+		}, 4000);
+	});
+}
+
+/* Mobile menu toggle (reuse site pattern) */
+var menuToggle = document.getElementById('menuToggle');
+var primaryNav = document.getElementById('primaryNav');
+if (menuToggle && primaryNav) {
+	menuToggle.addEventListener('click', function() {
+		primaryNav.classList.toggle('is-open');
+		menuToggle.classList.toggle('is-active');
+	});
+}
+</script>
+</body>
+</html>

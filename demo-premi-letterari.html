@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premi Letterari — Eventi — Not My Cup of Read</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Newsreader:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<style>
+/* ═══════════════════════════════════════════
+   PREMI LETTERARI
+   ═══════════════════════════════════════════ */
+
+.pl-page { max-width: 80rem; margin: 0 auto; padding: 0 2rem; }
+
+/* ── Hero ── */
+.pl-hero {
+	position: relative;
+	min-height: 380px;
+	display: flex;
+	align-items: flex-end;
+	overflow: hidden;
+	border-radius: var(--radius-lg);
+	margin-bottom: 3rem;
+}
+
+.pl-hero__bg {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(135deg, #0d1321 0%, #1d2d44 25%, #c4a35a 60%, #9467bd 100%);
+}
+
+.pl-hero__bg::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(to top, rgba(13,19,33,0.9) 0%, rgba(13,19,33,0.35) 50%, transparent 100%);
+}
+
+.pl-hero__content {
+	position: relative;
+	z-index: 1;
+	padding: 3rem;
+	width: 100%;
+}
+
+.pl-hero__breadcrumb {
+	font-size: 0.75rem;
+	color: rgba(240,235,216,0.6);
+	margin-bottom: 0.75rem;
+}
+
+.pl-hero__breadcrumb a { color: var(--c-accent); text-decoration: none; }
+.pl-hero__breadcrumb a:hover { text-decoration: underline; }
+
+.pl-hero__title {
+	font-family: var(--font-headline);
+	font-size: clamp(2.5rem, 5vw, 4rem);
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-surface);
+	margin: 0 0 0.5rem;
+	line-height: 1.1;
+}
+
+.pl-hero__subtitle {
+	font-size: 1.0625rem;
+	color: rgba(240,235,216,0.7);
+	margin: 0 0 1.5rem;
+	max-width: 40rem;
+	line-height: 1.6;
+}
+
+.pl-hero__stats {
+	display: flex;
+	gap: 2rem;
+	flex-wrap: wrap;
+}
+
+.pl-hero__stat-value {
+	font-family: var(--font-headline);
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: #c4a35a;
+	display: block;
+	line-height: 1.2;
+}
+
+.pl-hero__stat-label {
+	font-size: 0.6875rem;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: rgba(240,235,216,0.5);
+}
+
+/* ── Filters ── */
+.pl-filters {
+	display: flex;
+	justify-content: center;
+	gap: 0.5rem;
+	flex-wrap: wrap;
+	padding: 0 0 2.5rem;
+}
+
+.pl-filter {
+	padding: 0.5rem 1.25rem;
+	font-size: 0.8125rem;
+	font-weight: 600;
+	border-radius: var(--radius-full);
+	border: 1px solid var(--c-surface-container-high);
+	background: transparent;
+	color: var(--c-on-surface-variant);
+	cursor: pointer;
+	transition: all 0.2s;
+}
+
+.pl-filter:hover { border-color: #c4a35a; color: #c4a35a; }
+.pl-filter.active { background: #c4a35a; border-color: #c4a35a; color: #0d1321; }
+
+/* ── Section header ── */
+.pl-section-header { margin-bottom: 2rem; }
+
+.pl-section-overline {
+	font-size: 0.6875rem;
+	font-weight: 700;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: #c4a35a;
+	margin-bottom: 0.35rem;
+}
+
+.pl-section-title {
+	font-family: var(--font-headline);
+	font-size: 1.75rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	margin: 0;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.pl-section-title .material-symbols-outlined { color: #c4a35a; }
+
+.pl-section-subtitle {
+	font-size: 0.9375rem;
+	color: var(--c-on-surface-variant);
+	margin: 0.35rem 0 0;
+	line-height: 1.5;
+}
+
+/* ── Calendar strip ── */
+.pl-calendar {
+	display: flex;
+	gap: 0;
+	overflow-x: auto;
+	padding-bottom: 0.5rem;
+	margin-bottom: 2rem;
+	scrollbar-width: thin;
+}
+
+.pl-month {
+	flex: 0 0 auto;
+	min-width: 90px;
+	text-align: center;
+	padding: 0.75rem 0.5rem;
+	border-bottom: 3px solid transparent;
+	cursor: pointer;
+	transition: all 0.2s;
+}
+
+.pl-month:hover { border-bottom-color: rgba(196,163,90,0.3); }
+.pl-month.active { border-bottom-color: #c4a35a; }
+
+.pl-month__name {
+	font-size: 0.6875rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--c-on-surface-variant);
+	margin-bottom: 0.15rem;
+}
+
+.pl-month.active .pl-month__name { color: #c4a35a; }
+
+.pl-month__count {
+	font-family: var(--font-headline);
+	font-size: 1.125rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+}
+
+.pl-month.active .pl-month__count { color: #c4a35a; }
+
+.pl-month__dots {
+	display: flex;
+	justify-content: center;
+	gap: 3px;
+	margin-top: 0.35rem;
+}
+
+.pl-month__dot {
+	width: 5px;
+	height: 5px;
+	border-radius: 50%;
+}
+
+.pl-month__dot--it { background: var(--c-accent); }
+.pl-month__dot--int { background: #c4a35a; }
+
+/* ── Card grid ── */
+.pl-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+	gap: 1.5rem;
+}
+
+.pl-card {
+	display: flex;
+	flex-direction: column;
+	text-decoration: none;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.pl-card:hover {
+	border-color: #c4a35a;
+	box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+	transform: translateY(-3px);
+}
+
+.pl-card__header {
+	padding: 1.5rem 1.5rem 0;
+	display: flex;
+	align-items: flex-start;
+	gap: 1rem;
+}
+
+.pl-card__icon {
+	width: 52px;
+	height: 52px;
+	border-radius: var(--radius-md);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	font-size: 1.5rem;
+}
+
+.pl-card__icon--gold { background: linear-gradient(135deg, #c4a35a, #dbc078); color: #0d1321; }
+.pl-card__icon--silver { background: linear-gradient(135deg, #748cab, #a0b4c8); color: #0d1321; }
+
+.pl-card__icon .material-symbols-outlined { font-size: 1.5rem; }
+
+.pl-card__header-text { flex: 1; }
+
+.pl-card__country {
+	font-size: 0.5625rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	padding: 0.15rem 0.45rem;
+	border-radius: var(--radius-full);
+	display: inline-block;
+	margin-bottom: 0.25rem;
+}
+
+.pl-card__country--it { background: rgba(224,122,95,0.15); color: var(--c-accent); }
+.pl-card__country--int { background: rgba(196,163,90,0.15); color: #c4a35a; }
+
+.pl-card__name {
+	font-family: var(--font-headline);
+	font-size: 1.125rem;
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-on-surface);
+	margin: 0;
+	line-height: 1.3;
+}
+
+.pl-card__body {
+	padding: 1rem 1.5rem 1.25rem;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+.pl-card__desc {
+	font-size: 0.8125rem;
+	color: var(--c-on-surface-variant);
+	margin: 0 0 0.75rem;
+	line-height: 1.55;
+}
+
+.pl-card__winner {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 0.75rem;
+	background: rgba(196,163,90,0.06);
+	border-radius: var(--radius-md);
+	margin-bottom: 0.75rem;
+}
+
+.pl-card__winner-year {
+	font-family: var(--font-headline);
+	font-size: 1.25rem;
+	font-weight: 700;
+	color: #c4a35a;
+	line-height: 1;
+}
+
+.pl-card__winner-info {
+	flex: 1;
+}
+
+.pl-card__winner-name {
+	font-size: 0.8125rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	line-height: 1.3;
+}
+
+.pl-card__winner-book {
+	font-size: 0.6875rem;
+	color: var(--c-on-surface-variant);
+	font-style: italic;
+}
+
+.pl-card__meta {
+	display: flex;
+	gap: 1rem;
+	padding-top: 0.75rem;
+	border-top: 1px solid var(--c-surface-container-high);
+	font-size: 0.6875rem;
+	color: var(--c-on-surface-variant);
+	flex-wrap: wrap;
+	margin-top: auto;
+}
+
+.pl-card__meta-item {
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+}
+
+.pl-card__meta-item .material-symbols-outlined { font-size: 0.875rem; color: #c4a35a; }
+
+/* ── CTA banner ── */
+.pl-cta-banner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 2rem;
+	padding: 2.5rem 3rem;
+	background: linear-gradient(135deg, #1d2d44 0%, #c4a35a 100%);
+	border-radius: var(--radius-lg);
+}
+
+.pl-cta-banner__text h3 {
+	font-family: var(--font-headline);
+	font-size: 1.375rem;
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-surface);
+	margin: 0 0 0.35rem;
+}
+
+.pl-cta-banner__text p {
+	font-size: 0.875rem;
+	color: rgba(240,235,216,0.7);
+	margin: 0;
+}
+
+.pl-cta-banner .btn { white-space: nowrap; }
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+	.pl-grid { grid-template-columns: 1fr; }
+	.pl-hero__stats { gap: 1.5rem; }
+	.pl-cta-banner { flex-direction: column; text-align: center; }
+}
+
+/* ═══ CALENDAR WIDGET ═══ */
+.cal-container { margin-bottom: 3rem; }
+
+.cal-toolbar {
+	display: flex; align-items: center; justify-content: space-between;
+	flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;
+}
+.cal-toolbar__nav { display: flex; align-items: center; gap: 0.75rem; }
+.cal-toolbar__btn {
+	display: inline-flex; align-items: center; justify-content: center;
+	width: 36px; height: 36px; border-radius: var(--radius-sm);
+	border: 1px solid var(--c-surface-container-high);
+	background: var(--c-surface-container-lowest); color: var(--c-on-surface);
+	cursor: pointer; transition: background 0.2s, border-color 0.2s;
+}
+.cal-toolbar__btn:hover { background: var(--c-surface-container); border-color: #c4a35a; }
+.cal-toolbar__month {
+	font-family: var(--font-headline); font-size: 1.375rem; font-weight: 700;
+	color: var(--c-on-surface); min-width: 200px; text-align: center;
+}
+.cal-toolbar__today {
+	display: inline-flex; align-items: center; gap: 0.35rem;
+	padding: 0.4rem 1rem; font-size: 0.8125rem; font-weight: 600;
+	border-radius: var(--radius-full); border: 1px solid #c4a35a;
+	color: #c4a35a; background: transparent; cursor: pointer;
+	transition: background 0.2s, color 0.2s;
+}
+.cal-toolbar__today:hover { background: #c4a35a; color: #0d1321; }
+
+.cal-filters { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.cal-chip {
+	display: inline-flex; align-items: center; gap: 0.35rem;
+	padding: 0.35rem 0.85rem; font-size: 0.75rem; font-weight: 600;
+	border-radius: var(--radius-full); border: 1px solid transparent;
+	cursor: pointer; transition: opacity 0.2s; opacity: 1;
+}
+.cal-chip.inactive { opacity: 0.35; }
+.cal-chip__dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+.cal-chip--italia { background: rgba(196,163,90,0.15); color: #c4a35a; }
+.cal-chip--italia .cal-chip__dot { background: #c4a35a; }
+.cal-chip--internazionale { background: rgba(90,138,171,0.15); color: #5a8aab; }
+.cal-chip--internazionale .cal-chip__dot { background: #5a8aab; }
+
+.cal-grid {
+	display: grid; grid-template-columns: repeat(7, 1fr);
+	border: 1px solid var(--c-surface-container-high);
+	border-radius: var(--radius-lg); overflow: hidden;
+	background: var(--c-surface-container-lowest);
+}
+.cal-grid__head {
+	background: var(--c-primary-container); padding: 0.625rem 0.5rem;
+	text-align: center; font-size: 0.6875rem; font-weight: 700;
+	letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.6);
+}
+.cal-day {
+	min-height: 110px; padding: 0.35rem;
+	border-right: 1px solid var(--c-surface-container-high);
+	border-bottom: 1px solid var(--c-surface-container-high);
+	display: flex; flex-direction: column; cursor: default; transition: background 0.15s;
+}
+.cal-day:nth-child(7n) { border-right: none; }
+.cal-day:hover { background: var(--c-surface-container); }
+.cal-day--outside { opacity: 0.3; }
+.cal-day--today { background: rgba(196,163,90,0.06); }
+.cal-day__number {
+	font-size: 0.8125rem; font-weight: 600; color: var(--c-on-surface);
+	padding: 0.15rem 0.35rem; line-height: 1; margin-bottom: 0.25rem;
+}
+.cal-day--today .cal-day__number {
+	background: #c4a35a; color: #0d1321; border-radius: 50%;
+	width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
+}
+.cal-day__events { display: flex; flex-direction: column; gap: 2px; flex: 1; overflow: hidden; }
+
+.cal-event {
+	display: flex; align-items: center; gap: 0.25rem;
+	padding: 2px 6px; border-radius: 3px; font-size: 0.625rem;
+	font-weight: 600; line-height: 1.3; white-space: nowrap;
+	overflow: hidden; text-overflow: ellipsis; cursor: pointer; transition: filter 0.15s;
+}
+.cal-event:hover { filter: brightness(1.15); }
+.cal-event--italia { background: rgba(196,163,90,0.2); color: #c4a35a; }
+.cal-event--internazionale { background: rgba(90,138,171,0.2); color: #5a8aab; }
+.cal-event__icon { font-size: 0.75rem; flex-shrink: 0; }
+
+.cal-detail {
+	display: none; margin-top: 1.5rem; background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high); border-radius: var(--radius-lg);
+	padding: 1.5rem 2rem; animation: calDetailIn 0.25s ease;
+}
+.cal-detail.active { display: block; }
+@keyframes calDetailIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+.cal-detail__header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+.cal-detail__type {
+	display: inline-flex; align-items: center; gap: 0.35rem;
+	font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.08em;
+	text-transform: uppercase; padding: 0.25rem 0.75rem; border-radius: var(--radius-full);
+}
+.cal-detail__type--italia { background: rgba(196,163,90,0.2); color: #c4a35a; }
+.cal-detail__type--internazionale { background: rgba(90,138,171,0.2); color: #5a8aab; }
+.cal-detail__title { font-family: var(--font-headline); font-size: 1.25rem; font-weight: 700; color: var(--c-on-surface); margin: 0.5rem 0 0.25rem; }
+.cal-detail__date { font-size: 0.8125rem; color: var(--c-on-surface-variant); }
+.cal-detail__desc { font-size: 0.9rem; color: var(--c-on-surface-variant); line-height: 1.6; margin: 0; }
+.cal-detail__close {
+	width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+	border-radius: var(--radius-sm); border: none; background: transparent;
+	color: var(--c-on-surface-variant); cursor: pointer; transition: background 0.2s;
+}
+.cal-detail__close:hover { background: var(--c-surface-container); }
+
+.cal-legend {
+	display: flex; flex-wrap: wrap; gap: 1.25rem; margin-bottom: 2rem;
+	padding: 1rem 1.5rem; background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high); border-radius: var(--radius-md);
+}
+.cal-legend__item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; color: var(--c-on-surface-variant); }
+.cal-legend__dot { width: 10px; height: 10px; border-radius: 50%; }
+
+@media (max-width: 768px) {
+	.cal-day { min-height: 70px; }
+	.cal-event { font-size: 0.5625rem; padding: 1px 4px; }
+	.cal-toolbar { flex-direction: column; align-items: stretch; }
+	.cal-toolbar__nav { justify-content: center; }
+	.cal-filters { justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header" id="siteHeader">
+	<div class="header-outer">
+		<div class="header-inner">
+			<div class="site-branding">
+				<div class="site-branding__icon">
+					<img src="assets/img/logo-nmcor.png" alt="NMCOR">
+				</div>
+				<h1 class="site-title"><a href="demo.html">Not My Cup of Read</a></h1>
+			</div>
+			<nav class="primary-nav" id="primaryNav">
+				<ul>
+					<li><a href="#">Articoli</a><ul class="sub-menu"><li><a href="demo-recensioni.html">Recensioni</a></li><li><a href="demo-approfondimenti.html">Approfondimenti</a></li><li><a href="demo-classifiche.html">Classifiche</a></li></ul></li>
+					<li><a href="#">Podcast</a><ul class="sub-menu"><li><a href="demo-podcast.html">Episodi</a></li><li><a href="demo-format.html">Format</a></li><li><a href="demo-dietro-le-quinte.html">Dietro le quinte</a></li></ul></li>
+					<li><a href="#">Biblioteca</a><ul class="sub-menu"><li><a href="demo-libri.html">Libri</a></li><li><a href="demo-autori.html">Autori</a></li></ul></li>
+					<li><a href="#">Luoghi</a><ul class="sub-menu"><li><a href="demo-librerie.html">La mappa del Lettore</a></li><li><a href="demo-luoghi-milano.html">Milano</a></li><li><a href="demo-itinerari.html">Itinerari letterari</a></li><li><a href="demo-luoghi-librerie.html">Librerie</a></li><li><a href="demo-luoghi-biblioteche.html">Biblioteche</a></li><li><a href="demo-luoghi-caffe.html">Caffè letterari</a></li><li><a href="demo-luoghi-spazi.html">Spazi culturali</a></li></ul></li>
+					<li><a href="#">Eventi</a><ul class="sub-menu"><li><a href="demo-eventi.html">Timeline</a></li><li><a href="demo-calendario.html">Calendario</a></li><li><a href="demo-fiere-festival.html">Fiere e Festival</a></li><li><a href="demo-premi-letterari.html">Premi letterari</a></li></ul></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Chi siamo</a><ul class="sub-menu"><li><a href="demo-chi-siamo.html">Lo studio &amp; gli host</a></li><li><a href="demo-ospiti-redazione.html">Gli ospiti &amp; la redazione</a></li><li><a href="demo-contatti.html">Contatti &amp; Collaborazioni</a></li></ul></li>
+				</ul>
+			</nav>
+			<div class="header-search">
+				<input type="text" placeholder="Cerca...">
+			</div>
+		</div>
+		<div class="header-extras">
+			<div class="header-social">
+				<a href="#" class="header-social__link" aria-label="YouTube">
+					<svg viewBox="0 0 24 24"><path d="M23.5 6.19a3 3 0 0 0-2.11-2.13C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.39.56A3 3 0 0 0 .5 6.19 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.81 3 3 0 0 0 2.11 2.13c1.89.56 9.39.56 9.39.56s7.5 0 9.39-.56a3 3 0 0 0 2.11-2.13A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.81ZM9.75 15.02V8.98L15.5 12l-5.75 3.02Z"/></svg>
+				</a>
+				<a href="#" class="header-social__link" aria-label="Spotify">
+					<svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.31a.75.75 0 0 1-1.03.25c-2.82-1.72-6.37-2.11-10.55-1.16a.75.75 0 1 1-.34-1.46c4.57-1.05 8.49-.6 11.67 1.34a.75.75 0 0 1 .25 1.03Zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.23-1.98-8.15-2.56-11.97-1.4a.94.94 0 1 1-.54-1.8c4.36-1.32 9.78-.68 13.49 1.6a.94.94 0 0 1 .31 1.29Zm.13-3.4C15.5 8.4 9 8.2 5.24 9.33a1.13 1.13 0 1 1-.65-2.16c4.33-1.3 11.52-1.05 16.07 1.68a1.13 1.13 0 0 1-1.56 1.79Z"/></svg>
+				</a>
+			</div>
+			<div class="header-auth">
+				<a href="demo-profilo.html" class="header-auth__btn"><span class="material-symbols-outlined">person</span> Cristian T.</a>
+			</div>
+			<button class="menu-toggle" id="menuToggle" aria-label="Menu">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</button>
+		</div>
+	</div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════ -->
+
+<div class="pl-page">
+
+	<div class="pl-hero">
+		<div class="pl-hero__bg"></div>
+		<div class="pl-hero__content">
+			<p class="pl-hero__breadcrumb"><a href="demo-eventi.html">Eventi</a> / Premi letterari</p>
+			<h1 class="pl-hero__title">Premi Letterari</h1>
+			<p class="pl-hero__subtitle">Dallo Strega al Nobel, dal Campiello al Booker: il calendario dei premi che consacrano autori e romanzi nell'olimpo della letteratura.</p>
+			<div class="pl-hero__stats">
+				<div><span class="pl-hero__stat-value">22</span><span class="pl-hero__stat-label">Premi</span></div>
+				<div><span class="pl-hero__stat-value">12</span><span class="pl-hero__stat-label">Italiani</span></div>
+				<div><span class="pl-hero__stat-value">10</span><span class="pl-hero__stat-label">Internazionali</span></div>
+				<div><span class="pl-hero__stat-value">12</span><span class="pl-hero__stat-label">Mesi</span></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ── Filters ── -->
+	<div class="pl-filters">
+		<button class="pl-filter active" data-filter="tutti">Tutti</button>
+		<button class="pl-filter" data-filter="italia">Italiani</button>
+		<button class="pl-filter" data-filter="estero">Internazionali</button>
+	</div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════
+     CALENDARIO
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="pl-page">
+
+		<div class="pl-section-header">
+			<p class="pl-section-overline">2026</p>
+			<h2 class="pl-section-title"><span class="material-symbols-outlined">emoji_events</span> Calendario premi</h2>
+			<p class="pl-section-subtitle">Quando vengono assegnati i principali premi letterari</p>
+		</div>
+
+		<!-- Calendar toolbar -->
+		<div class="cal-toolbar">
+			<div class="cal-toolbar__nav">
+				<button class="cal-toolbar__btn" id="calPrev" title="Mese precedente"><span class="material-symbols-outlined" style="font-size:1.125rem;">chevron_left</span></button>
+				<span class="cal-toolbar__month" id="calMonth"></span>
+				<button class="cal-toolbar__btn" id="calNext" title="Mese successivo"><span class="material-symbols-outlined" style="font-size:1.125rem;">chevron_right</span></button>
+				<button class="cal-toolbar__today" id="calToday"><span class="material-symbols-outlined" style="font-size:0.875rem;">today</span> Oggi</button>
+			</div>
+			<div class="cal-filters" id="calFilters">
+				<button class="cal-chip cal-chip--italia" data-type="italia"><span class="cal-chip__dot"></span>Italiani</button>
+				<button class="cal-chip cal-chip--internazionale" data-type="internazionale"><span class="cal-chip__dot"></span>Internazionali</button>
+			</div>
+		</div>
+
+		<!-- Calendar grid -->
+		<div class="cal-container">
+			<div class="cal-grid" id="calGrid">
+				<!-- populated by JS -->
+			</div>
+
+			<!-- Event detail panel -->
+			<div class="cal-detail" id="calDetail">
+				<div class="cal-detail__header">
+					<div>
+						<span class="cal-detail__type" id="detailType"></span>
+						<h3 class="cal-detail__title" id="detailTitle"></h3>
+						<p class="cal-detail__date" id="detailDate"></p>
+					</div>
+					<button class="cal-detail__close" id="detailClose" title="Chiudi"><span class="material-symbols-outlined">close</span></button>
+				</div>
+				<p class="cal-detail__desc" id="detailDesc"></p>
+			</div>
+		</div>
+
+		<!-- Legend -->
+		<div class="cal-legend">
+			<div class="cal-legend__item"><div class="cal-legend__dot" style="background:#c4a35a;"></div> Premi italiani</div>
+			<div class="cal-legend__item"><div class="cal-legend__dot" style="background:#5a8aab;"></div> Premi internazionali</div>
+		</div>
+
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     PREMI ITALIANI
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface">
+	<div class="pl-page">
+
+		<div class="pl-section-header">
+			<p class="pl-section-overline">Italia</p>
+			<h2 class="pl-section-title"><span class="material-symbols-outlined">flag</span> Premi italiani</h2>
+			<p class="pl-section-subtitle">I premi che segnano la stagione letteraria italiana</p>
+		</div>
+
+		<div class="pl-grid">
+
+			<a href="#" class="pl-card" data-country="italia">
+				<div class="pl-card__header">
+					<div class="pl-card__icon pl-card__icon--gold"><span class="material-symbols-outlined">emoji_events</span></div>
+					<div class="pl-card__header-text">
+						<span class="pl-card__country pl-card__country--it">Italia</span>
+						<h3 class="pl-card__name">Premio Strega</h3>
+					</div>
+				</div>
+				<div class="pl-card__body">
+					<p class="pl-card__desc">Il più prestigioso premio letterario italiano, assegnato dal 1947. La cinquina e la finale al Ninfeo di Villa Giulia sono un rito dell'estate letteraria.</p>
+					<div class="pl-card__winner">
+						<span class="pl-card__winner-year">2025</span>
+						<div class="pl-card__winner-info">
+							<span class="pl-card__winner-name">Tommaso Giagni</span>
+							<span class="pl-card__winner-book">Il Nero e il Bianco</span>
+						</div>
+					</div>
+					<div class="pl-card__meta">
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">calendar_month</span> Luglio</span>
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">history</span> Dal 1947</span>
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">workspace_premium</span> Narrativa</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="pl-card" data-country="italia">
+				<div class="pl-card__header">
+					<div class="pl-card__icon pl-card__icon--gold"><span class="material-symbols-outlined">emoji_events</span></div>
+					<div class="pl-card__header-text">
+						<span class="pl-card__country pl-card__country--it">Italia</span>
+						<h3 class="pl-card__name">Premio Campiello</h3>
+					</div>
+				</div>
+				<div class="pl-card__body">
+					<p class="pl-card__desc">Fondato nel 1962 dagli industriali veneti. La giuria popolare di 300 lettori vota in diretta televisiva dal Teatro La Fenice di Venezia ogni settembre.</p>
+					<div class="pl-card__winner">
+						<span class="pl-card__winner-year">2025</span>
+						<div class="pl-card__winner-info">
+							<span class="pl-card__winner-name">Federica Manzon</span>
+							<span class="pl-card__winner-book">Alma</span>
+						</div>
+					</div>
+					<div class="pl-card__meta">
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">calendar_month</span> Settembre</span>
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">history</span> Dal 1962</span>
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">groups</span> 300 giurati</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="pl-card" data-country="italia">
+				<div class="pl-card__header">
+					<div class="pl-card__icon pl-card__icon--gold"><span class="material-symbols-outlined">emoji_events</span></div>
+					<div class="pl-card__header-text">
+						<span class="pl-card__country pl-card__country--it">Italia</span>
+						<h3 class="pl-card__name">Premio Bancarella</h3>
+					</div>
+				</div>
+				<div class="pl-card__body">
+					<p class="pl-card__desc">Il premio dei librai, assegnato a Pontremoli dal 1953. La giuria è composta esclusivamente da librai: il riconoscimento più vicino ai lettori reali.</p>
+					<div class="pl-card__winner">
+						<span class="pl-card__winner-year">2025</span>
+						<div class="pl-card__winner-info">
+							<span class="pl-card__winner-name">Antonio Ferrara</span>
+							<span class="pl-card__winner-book">La Casa dei Cento Passi</span>
+						</div>
+					</div>
+					<div class="pl-card__meta">
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">calendar_month</span> Luglio</span>
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">history</span> Dal 1953</span>
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">store</span> Giuria librai</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="pl-card" data-country="italia">
+				<div class="pl-card__header">
+					<div class="pl-card__icon pl-card__icon--silver"><span class="material-symbols-outlined">emoji_events</span></div>
+					<div class="pl-card__header-text">
+						<span class="pl-card__country pl-card__country--it">Italia</span>
+						<h3 class="pl-card__name">Premio Viareggio-Rèpaci</h3>
+					</div>
+				</div>
+				<div class="pl-card__body">
+					<p class="pl-card__desc">Dal 1929, uno dei più antichi premi letterari italiani. Tre sezioni: narrativa, poesia e saggistica. La cerimonia si tiene ogni estate sul lungomare di Viareggio.</p>
+					<div class="pl-card__winner">
+						<span class="pl-card__winner-year">2025</span>
+						<div class="pl-card__winner-info">
+							<span class="pl-card__winner-name">Silvia Ferreri</span>
+							<span class="pl-card__winner-book">Ogni mattina a Jenin</span>
+						</div>
+					</div>
+					<div class="pl-card__meta">
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">calendar_month</span> Giugno</span>
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">history</span> Dal 1929</span>
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">category</span> 3 sezioni</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="pl-card" data-country="italia">
+				<div class="pl-card__header">
+					<div class="pl-card__icon pl-card__icon--silver"><span class="material-symbols-outlined">emoji_events</span></div>
+					<div class="pl-card__header-text">
+						<span class="pl-card__country pl-card__country--it">Italia</span>
+						<h3 class="pl-card__name">Premio Napoli</h3>
+					</div>
+				</div>
+				<div class="pl-card__body">
+					<p class="pl-card__desc">Fondato nel 1954 con il patrocinio della Fondazione Banco di Napoli. Sezioni narrativa, saggistica e poesia, con una giuria di giovani lettori dal 2010.</p>
+					<div class="pl-card__winner">
+						<span class="pl-card__winner-year">2025</span>
+						<div class="pl-card__winner-info">
+							<span class="pl-card__winner-name">Paolo Di Paolo</span>
+							<span class="pl-card__winner-book">Romanzo senza umani</span>
+						</div>
+					</div>
+					<div class="pl-card__meta">
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">calendar_month</span> Novembre</span>
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">history</span> Dal 1954</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="pl-card" data-country="italia">
+				<div class="pl-card__header">
+					<div class="pl-card__icon pl-card__icon--silver"><span class="material-symbols-outlined">emoji_events</span></div>
+					<div class="pl-card__header-text">
+						<span class="pl-card__country pl-card__country--it">Italia</span>
+						<h3 class="pl-card__name">Premio Bagutta</h3>
+					</div>
+				</div>
+				<div class="pl-card__body">
+					<p class="pl-card__desc">Il più antico premio letterario italiano (1927), nato al ristorante Bagutta di Milano. Assegnato per la miglior opera narrativa dell'anno, con cerimonia intima.</p>
+					<div class="pl-card__winner">
+						<span class="pl-card__winner-year">2025</span>
+						<div class="pl-card__winner-info">
+							<span class="pl-card__winner-name">Claudia Durastanti</span>
+							<span class="pl-card__winner-book">Missitalia</span>
+						</div>
+					</div>
+					<div class="pl-card__meta">
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">calendar_month</span> Febbraio</span>
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">history</span> Dal 1927</span>
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">restaurant</span> Milano</span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     PREMI INTERNAZIONALI
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="pl-page">
+
+		<div class="pl-section-header">
+			<p class="pl-section-overline">Internazionali</p>
+			<h2 class="pl-section-title"><span class="material-symbols-outlined">public</span> Premi internazionali</h2>
+			<p class="pl-section-subtitle">I premi che definiscono il canone letterario mondiale</p>
+		</div>
+
+		<div class="pl-grid">
+
+			<a href="#" class="pl-card" data-country="estero">
+				<div class="pl-card__header">
+					<div class="pl-card__icon pl-card__icon--gold"><span class="material-symbols-outlined">emoji_events</span></div>
+					<div class="pl-card__header-text">
+						<span class="pl-card__country pl-card__country--int">Internazionale</span>
+						<h3 class="pl-card__name">Premio Nobel per la Letteratura</h3>
+					</div>
+				</div>
+				<div class="pl-card__body">
+					<p class="pl-card__desc">Il più prestigioso riconoscimento letterario al mondo, assegnato dall'Accademia svedese dal 1901. La cerimonia di Stoccolma a dicembre è un evento globale.</p>
+					<div class="pl-card__winner">
+						<span class="pl-card__winner-year">2025</span>
+						<div class="pl-card__winner-info">
+							<span class="pl-card__winner-name">In attesa</span>
+							<span class="pl-card__winner-book">Annuncio ottobre 2025</span>
+						</div>
+					</div>
+					<div class="pl-card__meta">
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">calendar_month</span> Ottobre (annuncio)</span>
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">history</span> Dal 1901</span>
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">payments</span> ~1M €</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="pl-card" data-country="estero">
+				<div class="pl-card__header">
+					<div class="pl-card__icon pl-card__icon--gold"><span class="material-symbols-outlined">emoji_events</span></div>
+					<div class="pl-card__header-text">
+						<span class="pl-card__country pl-card__country--int">Internazionale</span>
+						<h3 class="pl-card__name">Booker Prize</h3>
+					</div>
+				</div>
+				<div class="pl-card__body">
+					<p class="pl-card__desc">Il premio più influente per la letteratura in lingua inglese. Dal 1969, consacra romanzi che ridefiniscono la narrativa contemporanea anglofona.</p>
+					<div class="pl-card__winner">
+						<span class="pl-card__winner-year">2025</span>
+						<div class="pl-card__winner-info">
+							<span class="pl-card__winner-name">Percival Everett</span>
+							<span class="pl-card__winner-book">James</span>
+						</div>
+					</div>
+					<div class="pl-card__meta">
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">calendar_month</span> Novembre</span>
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">history</span> Dal 1969</span>
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">payments</span> £50.000</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="pl-card" data-country="estero">
+				<div class="pl-card__header">
+					<div class="pl-card__icon pl-card__icon--gold"><span class="material-symbols-outlined">emoji_events</span></div>
+					<div class="pl-card__header-text">
+						<span class="pl-card__country pl-card__country--int">Internazionale</span>
+						<h3 class="pl-card__name">Prix Goncourt</h3>
+					</div>
+				</div>
+				<div class="pl-card__body">
+					<p class="pl-card__desc">Il premio letterario più importante di Francia, assegnato dal 1903 al ristorante Drouant di Parigi. Il vincitore vende in media 400.000 copie extra.</p>
+					<div class="pl-card__winner">
+						<span class="pl-card__winner-year">2025</span>
+						<div class="pl-card__winner-info">
+							<span class="pl-card__winner-name">Kamel Daoud</span>
+							<span class="pl-card__winner-book">Houris</span>
+						</div>
+					</div>
+					<div class="pl-card__meta">
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">calendar_month</span> Novembre</span>
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">history</span> Dal 1903</span>
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">payments</span> 10 €</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="pl-card" data-country="estero">
+				<div class="pl-card__header">
+					<div class="pl-card__icon pl-card__icon--gold"><span class="material-symbols-outlined">emoji_events</span></div>
+					<div class="pl-card__header-text">
+						<span class="pl-card__country pl-card__country--int">Internazionale</span>
+						<h3 class="pl-card__name">Pulitzer Prize — Fiction</h3>
+					</div>
+				</div>
+				<div class="pl-card__body">
+					<p class="pl-card__desc">Il premio più importante per la letteratura americana, assegnato dalla Columbia University dal 1918. Un termometro della narrativa statunitense contemporanea.</p>
+					<div class="pl-card__winner">
+						<span class="pl-card__winner-year">2025</span>
+						<div class="pl-card__winner-info">
+							<span class="pl-card__winner-name">In attesa</span>
+							<span class="pl-card__winner-book">Annuncio maggio 2025</span>
+						</div>
+					</div>
+					<div class="pl-card__meta">
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">calendar_month</span> Maggio</span>
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">history</span> Dal 1918</span>
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">payments</span> $15.000</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="pl-card" data-country="estero">
+				<div class="pl-card__header">
+					<div class="pl-card__icon pl-card__icon--silver"><span class="material-symbols-outlined">emoji_events</span></div>
+					<div class="pl-card__header-text">
+						<span class="pl-card__country pl-card__country--int">Internazionale</span>
+						<h3 class="pl-card__name">International Booker Prize</h3>
+					</div>
+				</div>
+				<div class="pl-card__body">
+					<p class="pl-card__desc">Premia il miglior romanzo tradotto in inglese. Il premio è diviso equamente tra autore e traduttore, riconoscendo il valore della traduzione letteraria.</p>
+					<div class="pl-card__winner">
+						<span class="pl-card__winner-year">2025</span>
+						<div class="pl-card__winner-info">
+							<span class="pl-card__winner-name">Jenny Erpenbeck</span>
+							<span class="pl-card__winner-book">Kairos</span>
+						</div>
+					</div>
+					<div class="pl-card__meta">
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">calendar_month</span> Maggio</span>
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">translate</span> Traduzione</span>
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">payments</span> £50.000</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="pl-card" data-country="estero">
+				<div class="pl-card__header">
+					<div class="pl-card__icon pl-card__icon--silver"><span class="material-symbols-outlined">emoji_events</span></div>
+					<div class="pl-card__header-text">
+						<span class="pl-card__country pl-card__country--int">Internazionale</span>
+						<h3 class="pl-card__name">National Book Award</h3>
+					</div>
+				</div>
+				<div class="pl-card__body">
+					<p class="pl-card__desc">Il premio letterario americano con la cerimonia più glamour: la cena di gala a New York ogni novembre. Cinque categorie tra cui fiction, nonfiction e poesia.</p>
+					<div class="pl-card__winner">
+						<span class="pl-card__winner-year">2025</span>
+						<div class="pl-card__winner-info">
+							<span class="pl-card__winner-name">In attesa</span>
+							<span class="pl-card__winner-book">Annuncio novembre 2025</span>
+						</div>
+					</div>
+					<div class="pl-card__meta">
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">calendar_month</span> Novembre</span>
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">history</span> Dal 1950</span>
+						<span class="pl-card__meta-item"><span class="material-symbols-outlined">category</span> 5 categorie</span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CTA BANNER
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface">
+	<div class="pl-page">
+		<div class="pl-cta-banner">
+			<div class="pl-cta-banner__text">
+				<h3>Segui i premi con noi</h3>
+				<p>Cinquine, shortlist, pronostici e analisi: iscriviti alla newsletter per non perdere nessun annuncio.</p>
+			</div>
+			<a href="#" class="btn btn--accent">Iscriviti alla newsletter</a>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ -->
+
+<footer class="site-footer">
+	<div style="max-width:80rem;margin:0 auto;padding:0 2rem;">
+		<div class="footer-main">
+			<div class="footer-brand">
+				<p class="site-title">Not My Cup of Read</p>
+				<p>Esploriamo la letteratura contemporanea attraverso podcast, recensioni e approfondimenti.</p>
+				<div class="footer-social">
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">podcasts</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">play_circle</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">photo_camera</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">send</span></a>
+				</div>
+			</div>
+			<div class="footer-col">
+				<h4>ESPLORA</h4>
+				<ul>
+					<li><a href="demo-recensioni.html">Recensioni</a></li>
+					<li><a href="demo-approfondimenti.html">Approfondimenti</a></li>
+					<li><a href="demo-podcast.html">Podcast</a></li>
+					<li><a href="demo-libri.html">Libri</a></li>
+					<li><a href="demo-autori.html">Autori</a></li>
+					<li><a href="demo-librerie.html">Luoghi</a></li>
+					<li><a href="demo-eventi.html">Timeline</a></li>
+					<li><a href="demo-calendario.html">Calendario</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>PROGETTO</h4>
+				<ul>
+					<li><a href="demo-chi-siamo.html">Chi siamo</a></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Contatti</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>NEWSLETTER</h4>
+				<p style="font-size:0.875rem;margin-bottom:1rem;opacity:0.75;">Ricevi le nostre selezioni editoriali.</p>
+				<div class="newsletter-form">
+					<input type="email" placeholder="La tua email" style="background:rgba(255,255,255,0.05);color:#fff;">
+					<button class="btn btn--teal btn--small">Iscriviti</button>
+				</div>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<span>&copy; 2026 Not My Cup of Read.</span>
+			<div class="footer-bottom-links">
+				<a href="#">Privacy Policy</a>
+				<a href="#">Cookie Policy</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════════ -->
+<script>
+(function() {
+	'use strict';
+
+	/* ── Filter buttons ── */
+	var filters = document.querySelectorAll('.pl-filter');
+	var cards = document.querySelectorAll('.pl-card');
+
+	filters.forEach(function(btn) {
+		btn.addEventListener('click', function() {
+			var filter = this.getAttribute('data-filter');
+
+			filters.forEach(function(f) { f.classList.remove('active'); });
+			this.classList.add('active');
+
+			cards.forEach(function(card) {
+				var country = card.getAttribute('data-country');
+				if (filter === 'tutti' || filter === country) {
+					card.style.display = '';
+				} else {
+					card.style.display = 'none';
+				}
+			});
+		});
+	});
+})();
+</script>
+
+<script>
+(function() {
+	'use strict';
+
+	var EVENTS = [
+		// Premi italiani
+		{ date: '2026-02-15', type: 'italia', title: 'Premio Bagutta', desc: 'Il più antico premio letterario italiano, fondato nel 1927. Assegnato al miglior libro dell\'anno da una giuria di scrittori e intellettuali.' },
+		{ date: '2026-04-20', type: 'italia', title: 'Premio Strega — Dozzina', desc: 'Annuncio della dozzina finalista del Premio Strega. I dodici libri selezionati dalla giuria degli Amici della domenica.' },
+		{ date: '2026-06-10', type: 'italia', title: 'Premio Strega — Cinquina', desc: 'Selezione della cinquina finalista del Premio Strega. Votazione pubblica al Ninfeo di Villa Giulia.' },
+		{ date: '2026-06-25', type: 'italia', title: 'Premio Viareggio-Rèpaci', desc: 'Uno dei più antichi premi letterari italiani (dal 1929). Categorie: narrativa, poesia e saggistica.' },
+		{ date: '2026-07-02', type: 'italia', title: 'Premio Strega — Finale', desc: 'Cerimonia finale del Premio Strega al Ninfeo di Villa Giulia, Roma. Il premio letterario più prestigioso d\'Italia.' },
+		{ date: '2026-07-10', type: 'italia', title: 'Premio Bancarella', desc: 'Premio assegnato dai librai a Pontremoli dal 1953. Celebra il libro più venduto e amato dal pubblico.' },
+		{ date: '2026-09-12', type: 'italia', title: 'Premio Campiello', desc: 'Assegnato a Venezia dal 1962. Una giuria di 300 lettori comuni sceglie il vincitore tra i cinque finalisti.' },
+		{ date: '2026-10-15', type: 'italia', title: 'Premio Napoli', desc: 'Premio letterario partenopeo fondato nel 1954. Sezioni: narrativa, poesia, saggistica.' },
+		{ date: '2026-11-20', type: 'italia', title: 'Premio Napoli — Cerimonia', desc: 'Cerimonia di premiazione del Premio Napoli al Teatro Mercadante.' },
+		// Premi internazionali
+		{ date: '2026-01-10', type: 'internazionale', title: 'National Book Critics Circle Award', desc: 'Annuncio dei finalisti. Premio assegnato dai critici letterari americani.' },
+		{ date: '2026-03-15', type: 'internazionale', title: 'National Book Critics Circle — Vincitori', desc: 'Cerimonia di premiazione a New York. Categorie: fiction, nonfiction, poetry, biography, criticism.' },
+		{ date: '2026-04-12', type: 'internazionale', title: 'International Booker Prize — Longlist', desc: 'Annuncio della longlist dell\'International Booker Prize per la narrativa tradotta in inglese.' },
+		{ date: '2026-05-05', type: 'internazionale', title: 'Pulitzer Prize — Fiction', desc: 'Annuncio dei vincitori del Pulitzer. Il più prestigioso premio giornalistico e letterario americano, dal 1918.' },
+		{ date: '2026-05-20', type: 'internazionale', title: 'International Booker Prize — Finale', desc: 'Cerimonia finale dell\'International Booker Prize. £50.000 divisi tra autore e traduttore.' },
+		{ date: '2026-07-15', type: 'internazionale', title: 'Prix Goncourt — Selezione estiva', desc: 'Prima selezione estiva del Prix Goncourt. Il premio simbolico (10€) più ambito della letteratura francese.' },
+		{ date: '2026-08-05', type: 'internazionale', title: 'Hugo Award — Finale', desc: 'Cerimonia di premiazione degli Hugo Award per la fantascienza e il fantasy, al WorldCon.' },
+		{ date: '2026-09-15', type: 'internazionale', title: 'Booker Prize — Longlist', desc: 'Annuncio della longlist del Booker Prize. 13 romanzi in lingua inglese in corsa per il premio.' },
+		{ date: '2026-10-08', type: 'internazionale', title: 'Premio Nobel per la Letteratura', desc: 'L\'Accademia svedese annuncia il vincitore del Nobel per la Letteratura. Il più prestigioso riconoscimento mondiale, dal 1901.' },
+		{ date: '2026-10-20', type: 'internazionale', title: 'Booker Prize — Shortlist', desc: 'Annuncio della shortlist del Booker Prize. I sei finalisti in attesa della cerimonia.' },
+		{ date: '2026-11-03', type: 'internazionale', title: 'Prix Goncourt', desc: 'Annuncio del vincitore al ristorante Drouant, Parigi. Il rituale letterario francese più celebre, dal 1903.' },
+		{ date: '2026-11-18', type: 'internazionale', title: 'Booker Prize — Vincitore', desc: 'Cerimonia finale del Booker Prize a Londra. £50.000 al vincitore.' },
+		{ date: '2026-11-25', type: 'internazionale', title: 'National Book Award', desc: 'Cerimonia di premiazione dei National Book Award a New York. Fiction, nonfiction, poetry, young people\'s literature.' },
+		{ date: '2026-12-10', type: 'internazionale', title: 'Nobel — Cerimonia', desc: 'Cerimonia di consegna del Premio Nobel per la Letteratura a Stoccolma. Discorso del vincitore.' }
+	];
+
+	var currentYear = 2026;
+	var currentMonth = 2;
+	var activeFilters = { italia: true, internazionale: true };
+
+	var MONTHS_IT = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+	var DAYS_IT = ['Lun','Mar','Mer','Gio','Ven','Sab','Dom'];
+	var TYPE_LABELS = { italia: 'Premio italiano', internazionale: 'Premio internazionale' };
+	var TYPE_ICONS = { italia: 'emoji_events', internazionale: 'public' };
+
+	var grid = document.getElementById('calGrid');
+	var monthLabel = document.getElementById('calMonth');
+	var detailPanel = document.getElementById('calDetail');
+	var detailType = document.getElementById('detailType');
+	var detailTitle = document.getElementById('detailTitle');
+	var detailDate = document.getElementById('detailDate');
+	var detailDesc = document.getElementById('detailDesc');
+
+	function render() {
+		monthLabel.textContent = MONTHS_IT[currentMonth] + ' ' + currentYear;
+		var firstDay = new Date(currentYear, currentMonth, 1).getDay();
+		firstDay = firstDay === 0 ? 6 : firstDay - 1;
+		var daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+		var daysInPrev = new Date(currentYear, currentMonth, 0).getDate();
+		var today = new Date();
+		var todayStr = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+		var html = '';
+		for (var d = 0; d < 7; d++) { html += '<div class="cal-grid__head">' + DAYS_IT[d] + '</div>'; }
+		for (var p = firstDay - 1; p >= 0; p--) {
+			html += '<div class="cal-day cal-day--outside"><span class="cal-day__number">' + (daysInPrev - p) + '</span><div class="cal-day__events"></div></div>';
+		}
+		for (var i = 1; i <= daysInMonth; i++) {
+			var dateStr = currentYear + '-' + String(currentMonth + 1).padStart(2, '0') + '-' + String(i).padStart(2, '0');
+			var isToday = dateStr === todayStr;
+			var cls = 'cal-day' + (isToday ? ' cal-day--today' : '');
+			var dayEvents = EVENTS.filter(function(ev) { return ev.date === dateStr; });
+			var evHtml = '';
+			for (var e = 0; e < dayEvents.length; e++) {
+				var ev = dayEvents[e];
+				if (!activeFilters[ev.type]) continue;
+				evHtml += '<div class="cal-event cal-event--' + ev.type + '" data-idx="' + EVENTS.indexOf(ev) + '">'
+					+ '<span class="material-symbols-outlined cal-event__icon">' + TYPE_ICONS[ev.type] + '</span>'
+					+ ev.title.substring(0, 25) + '</div>';
+			}
+			html += '<div class="' + cls + '"><span class="cal-day__number">' + i + '</span><div class="cal-day__events">' + evHtml + '</div></div>';
+		}
+		var totalCells = firstDay + daysInMonth;
+		var remaining = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+		for (var n = 1; n <= remaining; n++) {
+			html += '<div class="cal-day cal-day--outside"><span class="cal-day__number">' + n + '</span><div class="cal-day__events"></div></div>';
+		}
+		grid.innerHTML = html;
+		var pills = grid.querySelectorAll('.cal-event');
+		for (var pi = 0; pi < pills.length; pi++) {
+			pills[pi].addEventListener('click', function() {
+				var idx = parseInt(this.getAttribute('data-idx'));
+				showDetail(EVENTS[idx]);
+			});
+		}
+		detailPanel.classList.remove('active');
+	}
+
+	function showDetail(ev) {
+		var parts = ev.date.split('-');
+		var day = parseInt(parts[2]);
+		var monthName = MONTHS_IT[parseInt(parts[1]) - 1];
+		detailType.textContent = TYPE_LABELS[ev.type];
+		detailType.className = 'cal-detail__type cal-detail__type--' + ev.type;
+		detailTitle.textContent = ev.title;
+		detailDate.innerHTML = '<span class="material-symbols-outlined" style="font-size:1rem;vertical-align:middle;margin-right:0.25rem;">calendar_today</span>' + day + ' ' + monthName + ' ' + parts[0];
+		detailDesc.textContent = ev.desc;
+		detailPanel.classList.add('active');
+		detailPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+	}
+
+	document.getElementById('calPrev').addEventListener('click', function() {
+		currentMonth--;
+		if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+		render();
+	});
+	document.getElementById('calNext').addEventListener('click', function() {
+		currentMonth++;
+		if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+		render();
+	});
+	document.getElementById('calToday').addEventListener('click', function() {
+		var today = new Date();
+		currentYear = today.getFullYear();
+		currentMonth = today.getMonth();
+		render();
+	});
+	document.getElementById('detailClose').addEventListener('click', function() {
+		detailPanel.classList.remove('active');
+	});
+	var chips = document.querySelectorAll('.cal-chip');
+	for (var ci = 0; ci < chips.length; ci++) {
+		chips[ci].addEventListener('click', function() {
+			var type = this.getAttribute('data-type');
+			activeFilters[type] = !activeFilters[type];
+			this.classList.toggle('inactive');
+			render();
+		});
+	}
+	render();
+})();
+</script>
+
+</body>
+</html>

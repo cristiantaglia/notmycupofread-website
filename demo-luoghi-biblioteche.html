@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biblioteche — Luoghi — Not My Cup of Read</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Newsreader:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<style>
+/* ═══════════════════════════════════════════
+   BIBLIOTECHE — Listing nazionale
+   ═══════════════════════════════════════════ */
+
+.bi-page { max-width: 80rem; margin: 0 auto; padding: 0 2rem; }
+
+/* ── Hero ── */
+.bi-hero {
+	position: relative;
+	min-height: 380px;
+	display: flex;
+	align-items: flex-end;
+	overflow: hidden;
+	border-radius: var(--radius-lg);
+	margin-bottom: 3rem;
+}
+
+.bi-hero__bg {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(135deg, #0d1321 0%, #1d2d44 30%, #5a8aab 70%, #3e5c76 100%);
+}
+
+.bi-hero__bg::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(to top, rgba(13,19,33,0.9) 0%, rgba(13,19,33,0.35) 50%, transparent 100%);
+}
+
+.bi-hero__content {
+	position: relative;
+	z-index: 1;
+	padding: 3rem;
+	width: 100%;
+}
+
+.bi-hero__breadcrumb {
+	font-size: 0.75rem;
+	color: rgba(240,235,216,0.6);
+	margin-bottom: 0.75rem;
+}
+
+.bi-hero__breadcrumb a { color: var(--c-accent); text-decoration: none; }
+.bi-hero__breadcrumb a:hover { text-decoration: underline; }
+
+.bi-hero__title {
+	font-family: var(--font-headline);
+	font-size: clamp(2.5rem, 5vw, 4rem);
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-surface);
+	margin: 0 0 0.5rem;
+	line-height: 1.1;
+}
+
+.bi-hero__subtitle {
+	font-size: 1.0625rem;
+	color: rgba(240,235,216,0.7);
+	margin: 0 0 1.5rem;
+	max-width: 40rem;
+	line-height: 1.6;
+}
+
+.bi-hero__stats {
+	display: flex;
+	gap: 2rem;
+	flex-wrap: wrap;
+}
+
+.bi-hero__stat-value {
+	font-family: var(--font-headline);
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: var(--c-accent);
+	display: block;
+	line-height: 1.2;
+}
+
+.bi-hero__stat-label {
+	font-size: 0.6875rem;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: rgba(240,235,216,0.5);
+}
+
+/* ── Filters ── */
+.bi-filters {
+	display: flex;
+	justify-content: center;
+	gap: 0.5rem;
+	flex-wrap: wrap;
+	padding: 0 0 2.5rem;
+}
+
+.bi-filter {
+	padding: 0.5rem 1.25rem;
+	font-size: 0.8125rem;
+	font-weight: 600;
+	border-radius: var(--radius-full);
+	border: 1px solid var(--c-surface-container-high);
+	background: transparent;
+	color: var(--c-on-surface-variant);
+	cursor: pointer;
+	transition: all 0.2s;
+}
+
+.bi-filter:hover { border-color: var(--c-accent); color: var(--c-accent); }
+.bi-filter.active { background: var(--c-accent); border-color: var(--c-accent); color: #fff; }
+
+/* ── Section header ── */
+.bi-section-header { margin-bottom: 2rem; }
+
+.bi-section-overline {
+	font-size: 0.6875rem;
+	font-weight: 700;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: var(--c-accent);
+	margin-bottom: 0.35rem;
+}
+
+.bi-section-title {
+	font-family: var(--font-headline);
+	font-size: 1.75rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	margin: 0;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.bi-section-title .material-symbols-outlined { color: var(--c-accent); }
+
+.bi-section-subtitle {
+	font-size: 0.9375rem;
+	color: var(--c-on-surface-variant);
+	margin: 0.35rem 0 0;
+	line-height: 1.5;
+}
+
+/* ── Featured ── */
+.bi-featured {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	text-decoration: none;
+	transition: border-color 0.2s, box-shadow 0.2s;
+	margin-bottom: 2.5rem;
+}
+
+.bi-featured:hover {
+	border-color: var(--c-accent);
+	box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+}
+
+.bi-featured__visual {
+	min-height: 320px;
+	position: relative;
+	overflow: hidden;
+}
+
+.bi-featured__visual-placeholder {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.6875rem;
+	color: rgba(255,255,255,0.12);
+}
+
+.bi-featured__badge {
+	position: absolute;
+	top: 1rem;
+	left: 1rem;
+	display: flex;
+	align-items: center;
+	gap: 0.3rem;
+	padding: 0.3rem 0.75rem;
+	border-radius: var(--radius-full);
+	background: #5a8aab;
+	color: #fff;
+	font-size: 0.625rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.bi-featured__badge .material-symbols-outlined { font-size: 0.85rem; }
+
+.bi-featured__body {
+	padding: 2.5rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.bi-featured__overline {
+	font-size: 0.625rem;
+	font-weight: 700;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: var(--c-accent);
+	margin-bottom: 0.5rem;
+}
+
+.bi-featured__title {
+	font-family: var(--font-headline);
+	font-size: 1.75rem;
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-on-surface);
+	margin: 0 0 0.35rem;
+	line-height: 1.2;
+}
+
+.bi-featured__city {
+	font-size: 0.8125rem;
+	color: var(--c-accent);
+	font-weight: 600;
+	margin: 0 0 0.75rem;
+}
+
+.bi-featured__desc {
+	font-size: 0.9375rem;
+	color: var(--c-on-surface-variant);
+	margin: 0 0 1.25rem;
+	line-height: 1.65;
+}
+
+.bi-featured__info {
+	display: flex;
+	gap: 1.25rem;
+	flex-wrap: wrap;
+	margin-bottom: 1rem;
+	font-size: 0.75rem;
+	color: var(--c-on-surface-variant);
+}
+
+.bi-featured__info span {
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+}
+
+.bi-featured__info .material-symbols-outlined { font-size: 0.9rem; color: var(--c-accent); }
+
+.bi-featured__cta {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.35rem;
+	font-size: 0.875rem;
+	font-weight: 600;
+	color: var(--c-accent);
+}
+
+.bi-featured__cta .material-symbols-outlined { font-size: 1rem; transition: transform 0.2s; }
+.bi-featured:hover .bi-featured__cta .material-symbols-outlined { transform: translateX(3px); }
+
+/* ── Card grid ── */
+.bi-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+	gap: 1.5rem;
+}
+
+.bi-card {
+	display: flex;
+	flex-direction: column;
+	text-decoration: none;
+	background: var(--c-surface-container-lowest);
+	border: 1px solid var(--c-surface-container-high);
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.bi-card:hover {
+	border-color: var(--c-accent);
+	box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+	transform: translateY(-3px);
+}
+
+.bi-card__img {
+	aspect-ratio: 3/2;
+	overflow: hidden;
+	position: relative;
+}
+
+.bi-card__img-placeholder {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.6875rem;
+	color: rgba(255,255,255,0.15);
+}
+
+.bi-card__type-badge {
+	position: absolute;
+	top: 0.75rem;
+	left: 0.75rem;
+	font-size: 0.5625rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	padding: 0.2rem 0.6rem;
+	border-radius: var(--radius-full);
+	color: #fff;
+}
+
+.bi-badge--storica { background: #9467bd; }
+.bi-badge--pubblica { background: #5a8aab; }
+.bi-badge--universitaria { background: #5a9a7a; }
+.bi-badge--specializzata { background: var(--c-accent); }
+.bi-badge--digitale { background: #c4a35a; }
+
+.bi-card__body {
+	padding: 1.25rem;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+.bi-card__city {
+	font-size: 0.625rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--c-accent);
+	margin-bottom: 0.25rem;
+}
+
+.bi-card__name {
+	font-family: var(--font-headline);
+	font-size: 1.0625rem;
+	font-weight: 700;
+	color: var(--c-on-surface);
+	margin: 0 0 0.35rem;
+	line-height: 1.3;
+}
+
+.bi-card__desc {
+	font-size: 0.8125rem;
+	color: var(--c-on-surface-variant);
+	margin: 0 0 auto;
+	line-height: 1.55;
+	padding-bottom: 0.75rem;
+}
+
+.bi-card__tags {
+	display: flex;
+	gap: 0.3rem;
+	flex-wrap: wrap;
+	margin-bottom: 0.75rem;
+}
+
+.bi-card__tag {
+	font-size: 0.5625rem;
+	font-weight: 600;
+	padding: 0.15rem 0.45rem;
+	border-radius: var(--radius-full);
+	background: rgba(90,138,171,0.15);
+	color: #5a8aab;
+}
+
+.bi-card__footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+	padding-top: 0.75rem;
+	border-top: 1px solid var(--c-surface-container-high);
+	font-size: 0.6875rem;
+	color: var(--c-on-surface-variant);
+}
+
+.bi-card__address {
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+}
+
+.bi-card__address .material-symbols-outlined { font-size: 0.875rem; color: var(--c-accent); }
+
+.bi-card__access {
+	display: flex;
+	align-items: center;
+	gap: 0.2rem;
+	font-weight: 600;
+	color: #5a9a7a;
+}
+
+.bi-card__access .material-symbols-outlined { font-size: 0.875rem; }
+
+/* ── City header ── */
+.bi-city-header {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	margin-bottom: 1.5rem;
+	padding-bottom: 0.75rem;
+	border-bottom: 1px solid var(--c-surface-container-high);
+}
+
+.bi-city-header__name {
+	font-family: var(--font-headline);
+	font-size: 1.25rem;
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-on-surface);
+	margin: 0;
+}
+
+.bi-city-header__count {
+	font-size: 0.6875rem;
+	font-weight: 600;
+	padding: 0.2rem 0.6rem;
+	border-radius: var(--radius-full);
+	background: var(--c-primary-container);
+	color: var(--c-surface);
+}
+
+/* ── CTA banner ── */
+.bi-cta-banner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 2rem;
+	padding: 2.5rem 3rem;
+	background: linear-gradient(135deg, #1d2d44 0%, #5a8aab 100%);
+	border-radius: var(--radius-lg);
+}
+
+.bi-cta-banner__text h3 {
+	font-family: var(--font-headline);
+	font-size: 1.375rem;
+	font-weight: 700;
+	font-style: italic;
+	color: var(--c-surface);
+	margin: 0 0 0.35rem;
+}
+
+.bi-cta-banner__text p {
+	font-size: 0.875rem;
+	color: rgba(240,235,216,0.7);
+	margin: 0;
+}
+
+.bi-cta-banner .btn { white-space: nowrap; }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+	.bi-featured { grid-template-columns: 1fr; }
+	.bi-featured__visual { min-height: 220px; }
+}
+
+@media (max-width: 600px) {
+	.bi-grid { grid-template-columns: 1fr; }
+	.bi-hero__stats { gap: 1.5rem; }
+	.bi-cta-banner { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header" id="siteHeader">
+	<div class="header-outer">
+		<div class="header-inner">
+			<div class="site-branding">
+				<div class="site-branding__icon">
+					<img src="assets/img/logo-nmcor.png" alt="NMCOR">
+				</div>
+				<h1 class="site-title"><a href="demo.html">Not My Cup of Read</a></h1>
+			</div>
+			<nav class="primary-nav" id="primaryNav">
+				<ul>
+					<li><a href="#">Articoli</a><ul class="sub-menu"><li><a href="demo-recensioni.html">Recensioni</a></li><li><a href="demo-approfondimenti.html">Approfondimenti</a></li><li><a href="demo-classifiche.html">Classifiche</a></li></ul></li>
+					<li><a href="#">Podcast</a><ul class="sub-menu"><li><a href="demo-podcast.html">Episodi</a></li><li><a href="demo-format.html">Format</a></li><li><a href="demo-dietro-le-quinte.html">Dietro le quinte</a></li></ul></li>
+					<li><a href="#">Biblioteca</a><ul class="sub-menu"><li><a href="demo-libri.html">Libri</a></li><li><a href="demo-autori.html">Autori</a></li></ul></li>
+					<li><a href="#">Luoghi</a><ul class="sub-menu"><li><a href="demo-librerie.html">La mappa del Lettore</a></li><li><a href="demo-luoghi-milano.html">Milano</a></li><li><a href="demo-itinerari.html">Itinerari letterari</a></li><li><a href="demo-luoghi-librerie.html">Librerie</a></li><li><a href="demo-luoghi-biblioteche.html">Biblioteche</a></li><li><a href="demo-luoghi-caffe.html">Caffè letterari</a></li><li><a href="demo-luoghi-spazi.html">Spazi culturali</a></li></ul></li>
+					<li><a href="#">Eventi</a><ul class="sub-menu"><li><a href="demo-eventi.html">Timeline</a></li><li><a href="demo-calendario.html">Calendario</a></li><li><a href="demo-fiere-festival.html">Fiere e Festival</a></li><li><a href="demo-premi-letterari.html">Premi letterari</a></li></ul></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Chi siamo</a><ul class="sub-menu"><li><a href="demo-chi-siamo.html">Lo studio &amp; gli host</a></li><li><a href="demo-ospiti-redazione.html">Gli ospiti &amp; la redazione</a></li><li><a href="demo-contatti.html">Contatti &amp; Collaborazioni</a></li></ul></li>
+				</ul>
+			</nav>
+			<div class="header-search">
+				<input type="text" placeholder="Cerca...">
+			</div>
+		</div>
+		<div class="header-extras">
+			<div class="header-social">
+				<a href="#" class="header-social__link" aria-label="YouTube">
+					<svg viewBox="0 0 24 24"><path d="M23.5 6.19a3 3 0 0 0-2.11-2.13C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.39.56A3 3 0 0 0 .5 6.19 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.81 3 3 0 0 0 2.11 2.13c1.89.56 9.39.56 9.39.56s7.5 0 9.39-.56a3 3 0 0 0 2.11-2.13A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.81ZM9.75 15.02V8.98L15.5 12l-5.75 3.02Z"/></svg>
+				</a>
+				<a href="#" class="header-social__link" aria-label="Spotify">
+					<svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.31a.75.75 0 0 1-1.03.25c-2.82-1.72-6.37-2.11-10.55-1.16a.75.75 0 1 1-.34-1.46c4.57-1.05 8.49-.6 11.67 1.34a.75.75 0 0 1 .25 1.03Zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.23-1.98-8.15-2.56-11.97-1.4a.94.94 0 1 1-.54-1.8c4.36-1.32 9.78-.68 13.49 1.6a.94.94 0 0 1 .31 1.29Zm.13-3.4C15.5 8.4 9 8.2 5.24 9.33a1.13 1.13 0 1 1-.65-2.16c4.33-1.3 11.52-1.05 16.07 1.68a1.13 1.13 0 0 1-1.56 1.79Z"/></svg>
+				</a>
+			</div>
+			<div class="header-auth">
+				<a href="demo-profilo.html" class="header-auth__btn"><span class="material-symbols-outlined">person</span> Cristian T.</a>
+			</div>
+			<button class="menu-toggle" id="menuToggle" aria-label="Menu">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</button>
+		</div>
+	</div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════ -->
+
+<div class="bi-page">
+
+	<div class="bi-hero">
+		<div class="bi-hero__bg"></div>
+		<div class="bi-hero__content">
+			<p class="bi-hero__breadcrumb"><a href="demo-librerie.html">Luoghi</a> / Biblioteche</p>
+			<h1 class="bi-hero__title">Biblioteche d'Italia</h1>
+			<p class="bi-hero__subtitle">Dalle grandi biblioteche storiche alle sale di quartiere: luoghi dove il sapere è pubblico, la lettura è gratuita e il silenzio è un lusso condiviso.</p>
+			<div class="bi-hero__stats">
+				<div><span class="bi-hero__stat-value">28</span><span class="bi-hero__stat-label">Biblioteche</span></div>
+				<div><span class="bi-hero__stat-value">10</span><span class="bi-hero__stat-label">Città</span></div>
+				<div><span class="bi-hero__stat-value">5</span><span class="bi-hero__stat-label">Tipologie</span></div>
+				<div><span class="bi-hero__stat-value">3M+</span><span class="bi-hero__stat-label">Volumi censiti</span></div>
+			</div>
+		</div>
+	</div>
+
+	<!-- ── Filters ── -->
+	<div class="bi-filters">
+		<button class="bi-filter active" data-filter="tutti">Tutte</button>
+		<button class="bi-filter" data-filter="storica">Storiche</button>
+		<button class="bi-filter" data-filter="pubblica">Pubbliche</button>
+		<button class="bi-filter" data-filter="universitaria">Universitarie</button>
+		<button class="bi-filter" data-filter="specializzata">Specializzate</button>
+	</div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════
+     FEATURED
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="bi-page">
+
+		<a href="#" class="bi-featured">
+			<div class="bi-featured__visual">
+				<div class="bi-featured__visual-placeholder" style="background:linear-gradient(135deg,#1d2d44 0%,#5a8aab 50%,#9467bd 100%);">Biblioteca Ambrosiana — Sala Federiciana</div>
+				<span class="bi-featured__badge"><span class="material-symbols-outlined">auto_awesome</span> Da non perdere</span>
+			</div>
+			<div class="bi-featured__body">
+				<span class="bi-featured__overline">Biblioteca del mese</span>
+				<h2 class="bi-featured__title">Biblioteca Ambrosiana</h2>
+				<p class="bi-featured__city">Milano — Centro</p>
+				<p class="bi-featured__desc">Fondata nel 1607 dal Cardinale Federico Borromeo, è una delle più antiche biblioteche pubbliche d'Europa. Custodisce il Codice Atlantico di Leonardo e migliaia di manoscritti rari nella monumentale Sala Federiciana.</p>
+				<div class="bi-featured__info">
+					<span><span class="material-symbols-outlined">menu_book</span> 1M+ volumi</span>
+					<span><span class="material-symbols-outlined">history</span> Dal 1607</span>
+					<span><span class="material-symbols-outlined">lock_open</span> Accesso libero</span>
+					<span><span class="material-symbols-outlined">wifi</span> Wi-Fi</span>
+				</div>
+				<span class="bi-featured__cta">Scopri di più <span class="material-symbols-outlined">arrow_forward</span></span>
+			</div>
+		</a>
+
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     MILANO
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface">
+	<div class="bi-page">
+
+		<div class="bi-city-header">
+			<h3 class="bi-city-header__name">Milano</h3>
+			<span class="bi-city-header__count">5 biblioteche</span>
+		</div>
+
+		<div class="bi-grid">
+
+			<a href="#" class="bi-card" data-type="storica">
+				<div class="bi-card__img">
+					<div class="bi-card__img-placeholder" style="background:linear-gradient(135deg,#9467bd,#1d2d44);">Biblioteca Ambrosiana</div>
+					<span class="bi-card__type-badge bi-badge--storica">Storica</span>
+				</div>
+				<div class="bi-card__body">
+					<span class="bi-card__city">Milano — Centro</span>
+					<h4 class="bi-card__name">Biblioteca Ambrosiana</h4>
+					<p class="bi-card__desc">Tra le più antiche biblioteche pubbliche d'Europa. Codice Atlantico di Leonardo, manoscritti medievali e la Pinacoteca annessa.</p>
+					<div class="bi-card__tags">
+						<span class="bi-card__tag">Manoscritti</span>
+						<span class="bi-card__tag">Pinacoteca</span>
+						<span class="bi-card__tag">Leonardo</span>
+					</div>
+					<div class="bi-card__footer">
+						<span class="bi-card__address"><span class="material-symbols-outlined">location_on</span> Piazza Pio XI, 2</span>
+						<span class="bi-card__access"><span class="material-symbols-outlined">lock_open</span> Libero</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="bi-card" data-type="pubblica">
+				<div class="bi-card__img">
+					<div class="bi-card__img-placeholder" style="background:linear-gradient(135deg,#5a8aab,#3e5c76);">Biblioteca Sormani</div>
+					<span class="bi-card__type-badge bi-badge--pubblica">Pubblica</span>
+				</div>
+				<div class="bi-card__body">
+					<span class="bi-card__city">Milano — Centro</span>
+					<h4 class="bi-card__name">Biblioteca Sormani</h4>
+					<p class="bi-card__desc">La principale biblioteca pubblica di Milano. 600.000 volumi, emeroteca, mediateca e un giardino interno dove leggere nelle belle giornate.</p>
+					<div class="bi-card__tags">
+						<span class="bi-card__tag">Emeroteca</span>
+						<span class="bi-card__tag">Mediateca</span>
+						<span class="bi-card__tag">Giardino</span>
+					</div>
+					<div class="bi-card__footer">
+						<span class="bi-card__address"><span class="material-symbols-outlined">location_on</span> Corso di Porta Vittoria 6</span>
+						<span class="bi-card__access"><span class="material-symbols-outlined">lock_open</span> Libero</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="bi-card" data-type="pubblica">
+				<div class="bi-card__img">
+					<div class="bi-card__img-placeholder" style="background:linear-gradient(135deg,#5a9a7a,#5a8aab);">Biblioteca degli Alberi</div>
+					<span class="bi-card__type-badge bi-badge--pubblica">Pubblica</span>
+				</div>
+				<div class="bi-card__body">
+					<span class="bi-card__city">Milano — Porta Nuova</span>
+					<h4 class="bi-card__name">Biblioteca degli Alberi</h4>
+					<p class="bi-card__desc">Parco-biblioteca a cielo aperto nel quartiere di Porta Nuova. Spazi di lettura immersi nel verde, eventi culturali e bibliocabine all'aperto.</p>
+					<div class="bi-card__tags">
+						<span class="bi-card__tag">All'aperto</span>
+						<span class="bi-card__tag">Parco</span>
+						<span class="bi-card__tag">Eventi</span>
+					</div>
+					<div class="bi-card__footer">
+						<span class="bi-card__address"><span class="material-symbols-outlined">location_on</span> Via G. de Castillia</span>
+						<span class="bi-card__access"><span class="material-symbols-outlined">lock_open</span> Libero</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="bi-card" data-type="storica">
+				<div class="bi-card__img">
+					<div class="bi-card__img-placeholder" style="background:linear-gradient(135deg,#9467bd,#748cab);">Biblioteca Braidense</div>
+					<span class="bi-card__type-badge bi-badge--storica">Storica</span>
+				</div>
+				<div class="bi-card__body">
+					<span class="bi-card__city">Milano — Brera</span>
+					<h4 class="bi-card__name">Biblioteca Nazionale Braidense</h4>
+					<p class="bi-card__desc">Nel Palazzo di Brera, con la celebre Sala Maria Teresa. Oltre un milione di volumi, incunaboli e la raccolta manzoniana più completa al mondo.</p>
+					<div class="bi-card__tags">
+						<span class="bi-card__tag">Incunaboli</span>
+						<span class="bi-card__tag">Manzoni</span>
+					</div>
+					<div class="bi-card__footer">
+						<span class="bi-card__address"><span class="material-symbols-outlined">location_on</span> Via Brera 28</span>
+						<span class="bi-card__access"><span class="material-symbols-outlined">lock_open</span> Libero</span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     ROMA
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--dark">
+	<div class="bi-page">
+
+		<div class="bi-city-header">
+			<h3 class="bi-city-header__name">Roma</h3>
+			<span class="bi-city-header__count">5 biblioteche</span>
+		</div>
+
+		<div class="bi-grid">
+
+			<a href="#" class="bi-card" data-type="storica">
+				<div class="bi-card__img">
+					<div class="bi-card__img-placeholder" style="background:linear-gradient(135deg,#9467bd,#e07a5f);">Biblioteca Angelica</div>
+					<span class="bi-card__type-badge bi-badge--storica">Storica</span>
+				</div>
+				<div class="bi-card__body">
+					<span class="bi-card__city">Roma — Centro</span>
+					<h4 class="bi-card__name">Biblioteca Angelica</h4>
+					<p class="bi-card__desc">La prima biblioteca pubblica d'Europa (1604). La Sala Vanvitelliana è uno degli ambienti più belli di Roma: 200.000 volumi in scaffali lignei originali.</p>
+					<div class="bi-card__tags">
+						<span class="bi-card__tag">Vanvitelli</span>
+						<span class="bi-card__tag">1604</span>
+					</div>
+					<div class="bi-card__footer">
+						<span class="bi-card__address"><span class="material-symbols-outlined">location_on</span> Piazza Sant'Agostino 8</span>
+						<span class="bi-card__access"><span class="material-symbols-outlined">lock_open</span> Libero</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="bi-card" data-type="storica">
+				<div class="bi-card__img">
+					<div class="bi-card__img-placeholder" style="background:linear-gradient(135deg,#1d2d44,#9467bd);">Biblioteca Casanatense</div>
+					<span class="bi-card__type-badge bi-badge--storica">Storica</span>
+				</div>
+				<div class="bi-card__body">
+					<span class="bi-card__city">Roma — Centro</span>
+					<h4 class="bi-card__name">Biblioteca Casanatense</h4>
+					<p class="bi-card__desc">Fondata nel 1701 nel convento domenicano di Santa Maria sopra Minerva. Salone monumentale con balaustre in legno e 400.000 volumi.</p>
+					<div class="bi-card__tags">
+						<span class="bi-card__tag">Monumentale</span>
+						<span class="bi-card__tag">Domenicana</span>
+					</div>
+					<div class="bi-card__footer">
+						<span class="bi-card__address"><span class="material-symbols-outlined">location_on</span> Via di Sant'Ignazio 52</span>
+						<span class="bi-card__access"><span class="material-symbols-outlined">lock_open</span> Libero</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="bi-card" data-type="pubblica">
+				<div class="bi-card__img">
+					<div class="bi-card__img-placeholder" style="background:linear-gradient(135deg,#5a8aab,#0d1321);">Biblioteche di Roma — Flaminia</div>
+					<span class="bi-card__type-badge bi-badge--pubblica">Pubblica</span>
+				</div>
+				<div class="bi-card__body">
+					<span class="bi-card__city">Roma — Flaminio</span>
+					<h4 class="bi-card__name">Biblioteca Flaminia</h4>
+					<p class="bi-card__desc">Moderna biblioteca di quartiere nel cuore del Flaminio. Spazi di coworking, sala ragazzi, prestito digitale e un ricco calendario di eventi.</p>
+					<div class="bi-card__tags">
+						<span class="bi-card__tag">Coworking</span>
+						<span class="bi-card__tag">Digitale</span>
+						<span class="bi-card__tag">Ragazzi</span>
+					</div>
+					<div class="bi-card__footer">
+						<span class="bi-card__address"><span class="material-symbols-outlined">location_on</span> Via Fracassini 9</span>
+						<span class="bi-card__access"><span class="material-symbols-outlined">lock_open</span> Libero</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="bi-card" data-type="universitaria">
+				<div class="bi-card__img">
+					<div class="bi-card__img-placeholder" style="background:linear-gradient(135deg,#5a9a7a,#3e5c76);">Biblioteca Alessandrina</div>
+					<span class="bi-card__type-badge bi-badge--universitaria">Universitaria</span>
+				</div>
+				<div class="bi-card__body">
+					<span class="bi-card__city">Roma — San Lorenzo</span>
+					<h4 class="bi-card__name">Biblioteca Alessandrina</h4>
+					<p class="bi-card__desc">Biblioteca universitaria della Sapienza, fondata nel 1667. Sale di studio monumentali, archivi storici e una collezione di tesi dal XVII secolo.</p>
+					<div class="bi-card__tags">
+						<span class="bi-card__tag">Sapienza</span>
+						<span class="bi-card__tag">Archivi</span>
+					</div>
+					<div class="bi-card__footer">
+						<span class="bi-card__address"><span class="material-symbols-outlined">location_on</span> Piazzale Aldo Moro 5</span>
+						<span class="bi-card__access"><span class="material-symbols-outlined">badge</span> Tesserino</span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     TORINO + FIRENZE
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface">
+	<div class="bi-page">
+
+		<div class="bi-city-header">
+			<h3 class="bi-city-header__name">Torino</h3>
+			<span class="bi-city-header__count">3 biblioteche</span>
+		</div>
+
+		<div class="bi-grid">
+
+			<a href="#" class="bi-card" data-type="storica">
+				<div class="bi-card__img">
+					<div class="bi-card__img-placeholder" style="background:linear-gradient(135deg,#9467bd,#3e5c76);">Biblioteca Reale</div>
+					<span class="bi-card__type-badge bi-badge--storica">Storica</span>
+				</div>
+				<div class="bi-card__body">
+					<span class="bi-card__city">Torino — Centro</span>
+					<h4 class="bi-card__name">Biblioteca Reale</h4>
+					<p class="bi-card__desc">Nel cuore dei Musei Reali: l'Autoritratto di Leonardo, codici miniati e 200.000 volumi in sale di gusto neoclassico e barocco.</p>
+					<div class="bi-card__tags">
+						<span class="bi-card__tag">Leonardo</span>
+						<span class="bi-card__tag">Codici miniati</span>
+					</div>
+					<div class="bi-card__footer">
+						<span class="bi-card__address"><span class="material-symbols-outlined">location_on</span> Piazza Castello 191</span>
+						<span class="bi-card__access"><span class="material-symbols-outlined">lock_open</span> Libero</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="bi-card" data-type="pubblica">
+				<div class="bi-card__img">
+					<div class="bi-card__img-placeholder" style="background:linear-gradient(135deg,#5a8aab,#748cab);">Biblioteca Civica Centrale</div>
+					<span class="bi-card__type-badge bi-badge--pubblica">Pubblica</span>
+				</div>
+				<div class="bi-card__body">
+					<span class="bi-card__city">Torino — Centro</span>
+					<h4 class="bi-card__name">Biblioteca Civica Centrale</h4>
+					<p class="bi-card__desc">Nel cuore di Torino, la più grande biblioteca civica del Piemonte. Sale studio aperte fino a tardi, emeroteca e sezione multilingue.</p>
+					<div class="bi-card__tags">
+						<span class="bi-card__tag">Sale studio</span>
+						<span class="bi-card__tag">Multilingue</span>
+					</div>
+					<div class="bi-card__footer">
+						<span class="bi-card__address"><span class="material-symbols-outlined">location_on</span> Via della Cittadella 5</span>
+						<span class="bi-card__access"><span class="material-symbols-outlined">lock_open</span> Libero</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="bi-card" data-type="specializzata">
+				<div class="bi-card__img">
+					<div class="bi-card__img-placeholder" style="background:linear-gradient(135deg,#e07a5f,#1d2d44);">Fondazione Einaudi</div>
+					<span class="bi-card__type-badge bi-badge--specializzata">Specializzata</span>
+				</div>
+				<div class="bi-card__body">
+					<span class="bi-card__city">Torino — Centro</span>
+					<h4 class="bi-card__name">Biblioteca della Fondazione Einaudi</h4>
+					<p class="bi-card__desc">Scienze sociali, economia e storia: 250.000 volumi e un archivio storico unico sulla cultura italiana del Novecento.</p>
+					<div class="bi-card__tags">
+						<span class="bi-card__tag">Scienze sociali</span>
+						<span class="bi-card__tag">Archivio</span>
+					</div>
+					<div class="bi-card__footer">
+						<span class="bi-card__address"><span class="material-symbols-outlined">location_on</span> Via Principe Amedeo 34</span>
+						<span class="bi-card__access"><span class="material-symbols-outlined">lock_open</span> Libero</span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+
+	</div>
+</section>
+
+<section class="section section--dark">
+	<div class="bi-page">
+
+		<div class="bi-city-header">
+			<h3 class="bi-city-header__name">Firenze</h3>
+			<span class="bi-city-header__count">3 biblioteche</span>
+		</div>
+
+		<div class="bi-grid">
+
+			<a href="#" class="bi-card" data-type="storica">
+				<div class="bi-card__img">
+					<div class="bi-card__img-placeholder" style="background:linear-gradient(135deg,#9467bd,#5a9a7a);">Biblioteca Medicea Laurenziana</div>
+					<span class="bi-card__type-badge bi-badge--storica">Storica</span>
+				</div>
+				<div class="bi-card__body">
+					<span class="bi-card__city">Firenze — San Lorenzo</span>
+					<h4 class="bi-card__name">Biblioteca Medicea Laurenziana</h4>
+					<p class="bi-card__desc">Progettata da Michelangelo per i Medici. La scalinata vestibolare e la Sala di Lettura sono capolavori dell'architettura rinascimentale.</p>
+					<div class="bi-card__tags">
+						<span class="bi-card__tag">Michelangelo</span>
+						<span class="bi-card__tag">Medici</span>
+					</div>
+					<div class="bi-card__footer">
+						<span class="bi-card__address"><span class="material-symbols-outlined">location_on</span> Piazza San Lorenzo 9</span>
+						<span class="bi-card__access"><span class="material-symbols-outlined">confirmation_number</span> Biglietto</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="bi-card" data-type="pubblica">
+				<div class="bi-card__img">
+					<div class="bi-card__img-placeholder" style="background:linear-gradient(135deg,#5a8aab,#e07a5f);">Biblioteca delle Oblate</div>
+					<span class="bi-card__type-badge bi-badge--pubblica">Pubblica</span>
+				</div>
+				<div class="bi-card__body">
+					<span class="bi-card__city">Firenze — Centro</span>
+					<h4 class="bi-card__name">Biblioteca delle Oblate</h4>
+					<p class="bi-card__desc">Ex convento trasformato in biblioteca pubblica con terrazza panoramica sul Duomo. Caffetteria, Wi-Fi gratuito e spazi per bambini.</p>
+					<div class="bi-card__tags">
+						<span class="bi-card__tag">Terrazza</span>
+						<span class="bi-card__tag">Caffetteria</span>
+						<span class="bi-card__tag">Wi-Fi</span>
+					</div>
+					<div class="bi-card__footer">
+						<span class="bi-card__address"><span class="material-symbols-outlined">location_on</span> Via dell'Oriuolo 24</span>
+						<span class="bi-card__access"><span class="material-symbols-outlined">lock_open</span> Libero</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="bi-card" data-type="universitaria">
+				<div class="bi-card__img">
+					<div class="bi-card__img-placeholder" style="background:linear-gradient(135deg,#5a9a7a,#1d2d44);">Biblioteca Umanistica</div>
+					<span class="bi-card__type-badge bi-badge--universitaria">Universitaria</span>
+				</div>
+				<div class="bi-card__body">
+					<span class="bi-card__city">Firenze — Centro</span>
+					<h4 class="bi-card__name">Biblioteca Umanistica</h4>
+					<p class="bi-card__desc">La più grande biblioteca dell'Università di Firenze. Sale studio silenziose, accesso a riviste digitali e un patrimonio di studi umanistici unico.</p>
+					<div class="bi-card__tags">
+						<span class="bi-card__tag">Università</span>
+						<span class="bi-card__tag">Umanistica</span>
+					</div>
+					<div class="bi-card__footer">
+						<span class="bi-card__address"><span class="material-symbols-outlined">location_on</span> Piazza Brunelleschi 4</span>
+						<span class="bi-card__access"><span class="material-symbols-outlined">badge</span> Tesserino</span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     NAPOLI + BOLOGNA
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface">
+	<div class="bi-page">
+
+		<div class="bi-city-header">
+			<h3 class="bi-city-header__name">Napoli</h3>
+			<span class="bi-city-header__count">3 biblioteche</span>
+		</div>
+
+		<div class="bi-grid">
+
+			<a href="#" class="bi-card" data-type="storica">
+				<div class="bi-card__img">
+					<div class="bi-card__img-placeholder" style="background:linear-gradient(135deg,#9467bd,#0d1321);">Biblioteca dei Girolamini</div>
+					<span class="bi-card__type-badge bi-badge--storica">Storica</span>
+				</div>
+				<div class="bi-card__body">
+					<span class="bi-card__city">Napoli — Centro storico</span>
+					<h4 class="bi-card__name">Biblioteca dei Girolamini</h4>
+					<p class="bi-card__desc">La più antica biblioteca pubblica di Napoli (1586). Salone affrescato, volumi rari e la collezione di Giambattista Vico. Recentemente restaurata.</p>
+					<div class="bi-card__tags">
+						<span class="bi-card__tag">Vico</span>
+						<span class="bi-card__tag">Affreschi</span>
+						<span class="bi-card__tag">Restaurata</span>
+					</div>
+					<div class="bi-card__footer">
+						<span class="bi-card__address"><span class="material-symbols-outlined">location_on</span> Via Duomo 142</span>
+						<span class="bi-card__access"><span class="material-symbols-outlined">lock_open</span> Libero</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="bi-card" data-type="pubblica">
+				<div class="bi-card__img">
+					<div class="bi-card__img-placeholder" style="background:linear-gradient(135deg,#5a8aab,#e07a5f);">Biblioteca Nazionale Vittorio Emanuele III</div>
+					<span class="bi-card__type-badge bi-badge--pubblica">Pubblica</span>
+				</div>
+				<div class="bi-card__body">
+					<span class="bi-card__city">Napoli — Palazzo Reale</span>
+					<h4 class="bi-card__name">Biblioteca Nazionale</h4>
+					<p class="bi-card__desc">Nel Palazzo Reale, con i papiri ercolanesi più antichi al mondo. Oltre 2 milioni di volumi e una vista sul Golfo dalla sala di lettura.</p>
+					<div class="bi-card__tags">
+						<span class="bi-card__tag">Papiri</span>
+						<span class="bi-card__tag">Palazzo Reale</span>
+					</div>
+					<div class="bi-card__footer">
+						<span class="bi-card__address"><span class="material-symbols-outlined">location_on</span> Piazza del Plebiscito 1</span>
+						<span class="bi-card__access"><span class="material-symbols-outlined">lock_open</span> Libero</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="bi-card" data-type="specializzata">
+				<div class="bi-card__img">
+					<div class="bi-card__img-placeholder" style="background:linear-gradient(135deg,#e07a5f,#748cab);">Biblioteca del Conservatorio</div>
+					<span class="bi-card__type-badge bi-badge--specializzata">Specializzata</span>
+				</div>
+				<div class="bi-card__body">
+					<span class="bi-card__city">Napoli — Centro</span>
+					<h4 class="bi-card__name">Biblioteca del Conservatorio San Pietro a Majella</h4>
+					<p class="bi-card__desc">La più ricca biblioteca musicale d'Italia. Spartiti autografi di Scarlatti, Bellini, Donizetti e l'intero patrimonio della scuola napoletana.</p>
+					<div class="bi-card__tags">
+						<span class="bi-card__tag">Musica</span>
+						<span class="bi-card__tag">Autografi</span>
+					</div>
+					<div class="bi-card__footer">
+						<span class="bi-card__address"><span class="material-symbols-outlined">location_on</span> Via San Pietro a Majella 35</span>
+						<span class="bi-card__access"><span class="material-symbols-outlined">lock_open</span> Libero</span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+
+	</div>
+</section>
+
+<section class="section section--dark">
+	<div class="bi-page">
+
+		<div class="bi-city-header">
+			<h3 class="bi-city-header__name">Bologna</h3>
+			<span class="bi-city-header__count">3 biblioteche</span>
+		</div>
+
+		<div class="bi-grid">
+
+			<a href="#" class="bi-card" data-type="universitaria">
+				<div class="bi-card__img">
+					<div class="bi-card__img-placeholder" style="background:linear-gradient(135deg,#5a9a7a,#748cab);">Biblioteca Universitaria di Bologna</div>
+					<span class="bi-card__type-badge bi-badge--universitaria">Universitaria</span>
+				</div>
+				<div class="bi-card__body">
+					<span class="bi-card__city">Bologna — Zona universitaria</span>
+					<h4 class="bi-card__name">Biblioteca Universitaria</h4>
+					<p class="bi-card__desc">Nell'Alma Mater, la più antica università del mondo occidentale. Sale affrescate, 1.2 milioni di volumi e l'Aula Magna con il mappamondo.</p>
+					<div class="bi-card__tags">
+						<span class="bi-card__tag">Alma Mater</span>
+						<span class="bi-card__tag">Sale affrescate</span>
+					</div>
+					<div class="bi-card__footer">
+						<span class="bi-card__address"><span class="material-symbols-outlined">location_on</span> Via Zamboni 35</span>
+						<span class="bi-card__access"><span class="material-symbols-outlined">lock_open</span> Libero</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="bi-card" data-type="pubblica">
+				<div class="bi-card__img">
+					<div class="bi-card__img-placeholder" style="background:linear-gradient(135deg,#5a8aab,#1d2d44);">Salaborsa</div>
+					<span class="bi-card__type-badge bi-badge--pubblica">Pubblica</span>
+				</div>
+				<div class="bi-card__body">
+					<span class="bi-card__city">Bologna — Centro</span>
+					<h4 class="bi-card__name">Biblioteca Salaborsa</h4>
+					<p class="bi-card__desc">Nel Palazzo d'Accursio in Piazza Maggiore. Pavimento in vetro sui resti romani, spazi multimediali e la piazza coperta più bella d'Italia.</p>
+					<div class="bi-card__tags">
+						<span class="bi-card__tag">Multimediale</span>
+						<span class="bi-card__tag">Resti romani</span>
+					</div>
+					<div class="bi-card__footer">
+						<span class="bi-card__address"><span class="material-symbols-outlined">location_on</span> Piazza del Nettuno 3</span>
+						<span class="bi-card__access"><span class="material-symbols-outlined">lock_open</span> Libero</span>
+					</div>
+				</div>
+			</a>
+
+			<a href="#" class="bi-card" data-type="specializzata">
+				<div class="bi-card__img">
+					<div class="bi-card__img-placeholder" style="background:linear-gradient(135deg,#e07a5f,#9467bd);">Biblioteca dell'Archiginnasio</div>
+					<span class="bi-card__type-badge bi-badge--specializzata">Specializzata</span>
+				</div>
+				<div class="bi-card__body">
+					<span class="bi-card__city">Bologna — Centro</span>
+					<h4 class="bi-card__name">Biblioteca dell'Archiginnasio</h4>
+					<p class="bi-card__desc">La più grande biblioteca comunale d'Italia. Il Teatro Anatomico in legno e le pareti coperte di stemmi araldici sono un'opera d'arte a sé.</p>
+					<div class="bi-card__tags">
+						<span class="bi-card__tag">Teatro Anatomico</span>
+						<span class="bi-card__tag">Araldica</span>
+					</div>
+					<div class="bi-card__footer">
+						<span class="bi-card__address"><span class="material-symbols-outlined">location_on</span> Piazza Galvani 1</span>
+						<span class="bi-card__access"><span class="material-symbols-outlined">lock_open</span> Libero</span>
+					</div>
+				</div>
+			</a>
+
+		</div>
+
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CTA BANNER
+     ═══════════════════════════════════════════ -->
+
+<section class="section section--surface">
+	<div class="bi-page">
+		<div class="bi-cta-banner">
+			<div class="bi-cta-banner__text">
+				<h3>Hai una biblioteca del cuore?</h3>
+				<p>Raccontaci la tua biblioteca preferita e perché ogni lettore dovrebbe visitarla almeno una volta.</p>
+			</div>
+			<a href="demo-community.html" class="btn btn--accent">Condividi nella community</a>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ -->
+
+<footer class="site-footer">
+	<div style="max-width:80rem;margin:0 auto;padding:0 2rem;">
+		<div class="footer-main">
+			<div class="footer-brand">
+				<p class="site-title">Not My Cup of Read</p>
+				<p>Esploriamo la letteratura contemporanea attraverso podcast, recensioni e approfondimenti.</p>
+				<div class="footer-social">
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">podcasts</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">play_circle</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">photo_camera</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">send</span></a>
+				</div>
+			</div>
+			<div class="footer-col">
+				<h4>ESPLORA</h4>
+				<ul>
+					<li><a href="demo-recensioni.html">Recensioni</a></li>
+					<li><a href="demo-approfondimenti.html">Approfondimenti</a></li>
+					<li><a href="demo-podcast.html">Podcast</a></li>
+					<li><a href="demo-libri.html">Libri</a></li>
+					<li><a href="demo-autori.html">Autori</a></li>
+					<li><a href="demo-librerie.html">Luoghi</a></li>
+					<li><a href="demo-eventi.html">Timeline</a></li>
+					<li><a href="demo-calendario.html">Calendario</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>PROGETTO</h4>
+				<ul>
+					<li><a href="demo-chi-siamo.html">Chi siamo</a></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Contatti</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>NEWSLETTER</h4>
+				<p style="font-size:0.875rem;margin-bottom:1rem;opacity:0.75;">Ricevi le nostre selezioni editoriali.</p>
+				<div class="newsletter-form">
+					<input type="email" placeholder="La tua email" style="background:rgba(255,255,255,0.05);color:#fff;">
+					<button class="btn btn--teal btn--small">Iscriviti</button>
+				</div>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<span>&copy; 2026 Not My Cup of Read.</span>
+			<div class="footer-bottom-links">
+				<a href="#">Privacy Policy</a>
+				<a href="#">Cookie Policy</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════════ -->
+<script>
+(function() {
+	'use strict';
+
+	var filters = document.querySelectorAll('.bi-filter');
+	var cards = document.querySelectorAll('.bi-card');
+
+	filters.forEach(function(btn) {
+		btn.addEventListener('click', function() {
+			var filter = this.getAttribute('data-filter');
+
+			filters.forEach(function(f) { f.classList.remove('active'); });
+			this.classList.add('active');
+
+			cards.forEach(function(card) {
+				if (filter === 'tutti' || card.getAttribute('data-type') === filter) {
+					card.style.display = '';
+				} else {
+					card.style.display = 'none';
+				}
+			});
+		});
+	});
+})();
+</script>
+
+</body>
+</html>

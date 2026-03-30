@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Librerie — Not My Cup of Read</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/main.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+	.demo-placeholder-img {
+		background: linear-gradient(135deg, #1d2d44 0%, #3e5c76 50%, #748cab 100%);
+		display: flex; align-items: center; justify-content: center;
+		color: rgba(255,255,255,0.3); font-size: 0.75rem; font-family: var(--font-body);
+	}
+	.demo-placeholder-img.warm {
+		background: linear-gradient(135deg, #3e5c76 0%, #748cab 50%, #b8c5d6 100%);
+	}
+	.demo-placeholder-img.neutral {
+		background: linear-gradient(135deg, #0d1321 0%, #1d2d44 50%, #3e5c76 100%);
+	}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     HEADER / NAVIGATION
+     ═══════════════════════════════════════════ -->
+
+<header class="site-header" id="siteHeader">
+	<div class="header-outer">
+		<div class="header-inner">
+			<div class="site-branding">
+				<div class="site-branding__icon">
+					<img src="assets/img/logo-nmcor.png" alt="NMCOR">
+				</div>
+				<h1 class="site-title"><a href="demo.html">Not My Cup of Read</a></h1>
+			</div>
+
+			<nav class="primary-nav" id="primaryNav">
+				<ul>
+					<li><a href="#">Articoli</a><ul class="sub-menu"><li><a href="demo-recensioni.html">Recensioni</a></li><li><a href="demo-approfondimenti.html">Approfondimenti</a></li><li><a href="demo-classifiche.html">Classifiche</a></li></ul></li>
+					<li><a href="#">Podcast</a><ul class="sub-menu"><li><a href="demo-podcast.html">Episodi</a></li><li><a href="demo-format.html">Format</a></li><li><a href="demo-dietro-le-quinte.html">Dietro le quinte</a></li></ul></li>
+					<li><a href="#">Biblioteca</a><ul class="sub-menu"><li><a href="demo-libri.html">Libri</a></li><li><a href="demo-autori.html">Autori</a></li></ul></li>
+					<li><a href="#">Luoghi</a><ul class="sub-menu"><li><a href="demo-librerie.html">La mappa del Lettore</a></li><li><a href="demo-luoghi-milano.html">Milano</a></li><li><a href="demo-itinerari.html">Itinerari letterari</a></li><li><a href="demo-luoghi-librerie.html">Librerie</a></li><li><a href="demo-luoghi-biblioteche.html">Biblioteche</a></li><li><a href="demo-luoghi-caffe.html">Caffè letterari</a></li><li><a href="demo-luoghi-spazi.html">Spazi culturali</a></li></ul></li>
+					<li><a href="#">Eventi</a><ul class="sub-menu"><li><a href="demo-eventi.html">Timeline</a></li><li><a href="demo-calendario.html">Calendario</a></li><li><a href="demo-fiere-festival.html">Fiere e Festival</a></li><li><a href="demo-premi-letterari.html">Premi letterari</a></li></ul></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Chi siamo</a><ul class="sub-menu"><li><a href="demo-chi-siamo.html">Lo studio &amp; gli host</a></li><li><a href="demo-ospiti-redazione.html">Gli ospiti &amp; la redazione</a></li><li><a href="demo-contatti.html">Contatti &amp; Collaborazioni</a></li></ul></li>
+				</ul>
+			</nav>
+
+			<div class="header-search">
+				<input type="text" placeholder="Cerca...">
+			</div>
+		</div>
+
+		<div class="header-extras">
+			<div class="header-social">
+				<a href="#" class="header-social__link" aria-label="YouTube">
+					<svg viewBox="0 0 24 24"><path d="M23.5 6.19a3 3 0 0 0-2.11-2.13C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.39.56A3 3 0 0 0 .5 6.19 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.81 3 3 0 0 0 2.11 2.13c1.89.56 9.39.56 9.39.56s7.5 0 9.39-.56a3 3 0 0 0 2.11-2.13A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.81ZM9.75 15.02V8.98L15.5 12l-5.75 3.02Z"/></svg>
+				</a>
+				<a href="#" class="header-social__link" aria-label="Instagram">
+					<svg viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.97.24 2.44.41.61.24 1.05.52 1.51.98.46.46.74.9.98 1.51.17.47.36 1.27.41 2.44.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.24 1.97-.41 2.44a4.07 4.07 0 0 1-.98 1.51c-.46.46-.9.74-1.51.98-.47.17-1.27.36-2.44.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.97-.24-2.44-.41a4.07 4.07 0 0 1-1.51-.98 4.07 4.07 0 0 1-.98-1.51c-.17-.47-.36-1.27-.41-2.44C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.05-1.17.24-1.97.41-2.44.24-.61.52-1.05.98-1.51a4.07 4.07 0 0 1 1.51-.98c.47-.17 1.27-.36 2.44-.41C8.42 2.17 8.8 2.16 12 2.16ZM12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63a5.85 5.85 0 0 0-2.13 1.38A5.85 5.85 0 0 0 .63 4.14C.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13a5.85 5.85 0 0 0 2.13 1.38c.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56a5.85 5.85 0 0 0 2.13-1.38 5.85 5.85 0 0 0 1.38-2.13c.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.85 5.85 0 0 0-1.38-2.13A5.85 5.85 0 0 0 19.86.63C19.1.33 18.22.13 16.95.07 15.67.01 15.26 0 12 0Zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32ZM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm6.41-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88Z"/></svg>
+				</a>
+				<a href="#" class="header-social__link" aria-label="Spotify">
+					<svg viewBox="0 0 24 24"><path d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24Zm5.5 17.31a.75.75 0 0 1-1.03.25c-2.82-1.72-6.37-2.11-10.55-1.16a.75.75 0 1 1-.34-1.46c4.57-1.05 8.49-.6 11.67 1.34a.75.75 0 0 1 .25 1.03Zm1.47-3.27a.94.94 0 0 1-1.29.31c-3.23-1.98-8.15-2.56-11.97-1.4a.94.94 0 1 1-.54-1.8c4.36-1.32 9.78-.68 13.49 1.6a.94.94 0 0 1 .31 1.29Zm.13-3.4C15.5 8.4 9 8.2 5.24 9.33a1.13 1.13 0 1 1-.65-2.16c4.33-1.3 11.52-1.05 16.07 1.68a1.13 1.13 0 0 1-1.56 1.79Z"/></svg>
+				</a>
+				<a href="#" class="header-social__link" aria-label="X">
+					<svg viewBox="0 0 24 24"><path d="M18.9 1.15h3.68l-8.04 9.19L24 22.85h-7.4l-5.8-7.58-6.63 7.58H.49l8.6-9.83L0 1.15h7.59l5.24 6.93 6.07-6.93Zm-1.29 19.5h2.04L6.48 3.24H4.3L17.61 20.65Z"/></svg>
+				</a>
+			</div>
+			<div class="header-auth">
+				<a href="demo-profilo.html" class="header-auth__btn"><span class="material-symbols-outlined">person</span> Cristian T.</a>
+				<div class="header-auth__dropdown">
+					<a href="#"><span class="material-symbols-outlined">login</span> Area Personale</a>
+					<a href="#"><span class="material-symbols-outlined">person_add</span> Registrati</a>
+				</div>
+			</div>
+			<button class="menu-toggle" id="menuToggle" aria-label="Menu">
+				<span class="bar"></span>
+				<span class="bar"></span>
+				<span class="bar"></span>
+			</button>
+		</div>
+	</div>
+</header>
+
+<!-- ═══════════════════════════════════════════
+     HERO — Librerie
+     ═══════════════════════════════════════════ -->
+
+<section class="hero hero--editorial">
+	<div style="max-width:80rem;margin:0 auto;padding:0 2rem;text-align:center;">
+		<span class="overline overline--teal">I Luoghi della Lettura</span>
+		<h1 style="font-size:clamp(2.5rem,5vw,4rem);font-style:italic;margin-bottom:1rem;">La Mappa del Lettore</h1>
+		<p class="hero__description" style="max-width:620px;margin:0 auto;">
+			Librerie indipendenti, caff&egrave; letterari, biblioteche e spazi culturali. Esplora i luoghi dove la lettura prende vita, a Milano, in Italia e nel mondo.
+		</p>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     MAPPA INTERATTIVA
+     ═══════════════════════════════════════════ -->
+
+<section class="librerie-map-section">
+	<div class="librerie-map-container">
+		<!-- Filter pills -->
+		<div class="librerie-map-filters">
+			<button class="librerie-filter-pill active" data-filter="all">
+				<span class="material-symbols-outlined" style="font-size:16px;">pin_drop</span> Tutti
+			</button>
+			<button class="librerie-filter-pill" data-filter="libreria">
+				<span class="librerie-filter-dot" style="background:#c0392b;"></span> Librerie indipendenti
+			</button>
+			<button class="librerie-filter-pill" data-filter="caffe">
+				<span class="librerie-filter-dot" style="background:#3e5c76;"></span> Caff&egrave; letterari
+			</button>
+			<button class="librerie-filter-pill" data-filter="biblioteca">
+				<span class="librerie-filter-dot" style="background:#27ae60;"></span> Biblioteche
+			</button>
+			<button class="librerie-filter-pill" data-filter="spazio">
+				<span class="librerie-filter-dot" style="background:#d4a03c;"></span> Spazi culturali
+			</button>
+		</div>
+		<div id="mapItalia" class="librerie-map"></div>
+		<p class="librerie-map-hint">
+			<span class="material-symbols-outlined" style="font-size:14px;vertical-align:-2px;">touch_app</span>
+			Clicca su un marker per scoprire il luogo. Usa i filtri per tipologia.
+		</p>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOCUS MILANO
+     ═══════════════════════════════════════════ -->
+
+<section class="librerie-section">
+	<div class="librerie-section__inner">
+		<span class="overline overline--teal">Il Nostro Territorio</span>
+		<h2 class="librerie-section__title"><em>Milano, Citt&agrave; di Pagine</em></h2>
+		<p class="librerie-section__desc">Il cuore pulsante del nostro progetto. Ecco i luoghi milanesi dove la letteratura vive e respira.</p>
+
+		<!-- Tabs -->
+		<div class="librerie-tabs" id="milanoTabs">
+			<button class="librerie-tab active" data-tab="mi-librerie">Librerie</button>
+			<button class="librerie-tab" data-tab="mi-caffe">Caff&egrave; letterari</button>
+			<button class="librerie-tab" data-tab="mi-biblioteche">Biblioteche</button>
+			<button class="librerie-tab" data-tab="mi-spazi">Spazi culturali</button>
+		</div>
+
+		<!-- Tab: Librerie -->
+		<div class="librerie-tab-content active" id="mi-librerie">
+			<div class="librerie-card-grid">
+				<div class="librerie-card">
+					<div class="librerie-card__img"><div class="demo-placeholder-img warm" style="aspect-ratio:3/2;">Foto</div></div>
+					<div class="librerie-card__body">
+						<span class="librerie-card__zone">Navigli</span>
+						<h3 class="librerie-card__name">Libreria Gogol &amp; Company</h3>
+						<p class="librerie-card__desc">Libreria indipendente con spazio eventi, concerti acustici e un'atmosfera che ricorda i salotti letterari del Novecento.</p>
+						<a href="#" class="librerie-card__link"><span class="material-symbols-outlined" style="font-size:14px;">location_on</span> Via Savona 101</a>
+					</div>
+				</div>
+				<div class="librerie-card">
+					<div class="librerie-card__img"><div class="demo-placeholder-img neutral" style="aspect-ratio:3/2;">Foto</div></div>
+					<div class="librerie-card__body">
+						<span class="librerie-card__zone">Porta Venezia</span>
+						<h3 class="librerie-card__name">Libreria Utopia</h3>
+						<p class="librerie-card__desc">Specializzata in letteratura latinoamericana e small press. Un angolo di resistenza culturale nel cuore della citt&agrave;.</p>
+						<a href="#" class="librerie-card__link"><span class="material-symbols-outlined" style="font-size:14px;">location_on</span> Via Lecco 18</a>
+					</div>
+				</div>
+				<div class="librerie-card">
+					<div class="librerie-card__img"><div class="demo-placeholder-img" style="aspect-ratio:3/2;">Foto</div></div>
+					<div class="librerie-card__body">
+						<span class="librerie-card__zone">Brera</span>
+						<h3 class="librerie-card__name">Libreria del Mondo Offeso</h3>
+						<p class="librerie-card__desc">Cooperativa libraria nel cuore artistico di Milano. Incontri con autori ogni settimana e una selezione curatissima di saggistica.</p>
+						<a href="#" class="librerie-card__link"><span class="material-symbols-outlined" style="font-size:14px;">location_on</span> Via Fiori Chiari 26</a>
+					</div>
+				</div>
+				<div class="librerie-card">
+					<div class="librerie-card__img"><div class="demo-placeholder-img warm" style="aspect-ratio:3/2;">Foto</div></div>
+					<div class="librerie-card__body">
+						<span class="librerie-card__zone">Isola</span>
+						<h3 class="librerie-card__name">Open Milano</h3>
+						<p class="librerie-card__desc">Concept store che unisce libri, design e spazio coworking. La libreria del futuro, gi&agrave; presente nel quartiere Isola.</p>
+						<a href="#" class="librerie-card__link"><span class="material-symbols-outlined" style="font-size:14px;">location_on</span> Viale Monte Grappa 12</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Tab: Caffè letterari -->
+		<div class="librerie-tab-content" id="mi-caffe">
+			<div class="librerie-card-grid">
+				<div class="librerie-card">
+					<div class="librerie-card__img"><div class="demo-placeholder-img" style="aspect-ratio:3/2;">Foto</div></div>
+					<div class="librerie-card__body">
+						<span class="librerie-card__zone">Porta Romana</span>
+						<h3 class="librerie-card__name">Caff&egrave; Letterario Manoscritto</h3>
+						<p class="librerie-card__desc">Espresso e pagine. Ogni gioved&igrave; sera reading di poesia contemporanea accompagnato da vini naturali.</p>
+						<a href="#" class="librerie-card__link"><span class="material-symbols-outlined" style="font-size:14px;">location_on</span> Via Crema 5</a>
+					</div>
+				</div>
+				<div class="librerie-card">
+					<div class="librerie-card__img"><div class="demo-placeholder-img warm" style="aspect-ratio:3/2;">Foto</div></div>
+					<div class="librerie-card__body">
+						<span class="librerie-card__zone">Garibaldi</span>
+						<h3 class="librerie-card__name">LeSirene Bookbar</h3>
+						<p class="librerie-card__desc">Cocktail d'autore ispirati ai classici della letteratura. Scaffali aperti e un club del libro mensile sempre sold out.</p>
+						<a href="#" class="librerie-card__link"><span class="material-symbols-outlined" style="font-size:14px;">location_on</span> Corso Como 7</a>
+					</div>
+				</div>
+				<div class="librerie-card">
+					<div class="librerie-card__img"><div class="demo-placeholder-img neutral" style="aspect-ratio:3/2;">Foto</div></div>
+					<div class="librerie-card__body">
+						<span class="librerie-card__zone">Ticinese</span>
+						<h3 class="librerie-card__name">Il Covo dei Narratori</h3>
+						<p class="librerie-card__desc">Piccolo ma magnetico. Ambiente bohemien con scritture in progress appese alle pareti e caff&egrave; filtro eccezionale.</p>
+						<a href="#" class="librerie-card__link"><span class="material-symbols-outlined" style="font-size:14px;">location_on</span> Ripa di Porta Ticinese 55</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Tab: Biblioteche -->
+		<div class="librerie-tab-content" id="mi-biblioteche">
+			<div class="librerie-card-grid">
+				<div class="librerie-card">
+					<div class="librerie-card__img"><div class="demo-placeholder-img neutral" style="aspect-ratio:3/2;">Foto</div></div>
+					<div class="librerie-card__body">
+						<span class="librerie-card__zone">Centro</span>
+						<h3 class="librerie-card__name">Biblioteca Ambrosiana</h3>
+						<p class="librerie-card__desc">Fondata nel 1607, custodisce il Codice Atlantico di Leonardo. Un tempio del sapere nel cuore storico di Milano.</p>
+						<a href="#" class="librerie-card__link"><span class="material-symbols-outlined" style="font-size:14px;">location_on</span> Piazza Pio XI, 2</a>
+					</div>
+				</div>
+				<div class="librerie-card">
+					<div class="librerie-card__img"><div class="demo-placeholder-img" style="aspect-ratio:3/2;">Foto</div></div>
+					<div class="librerie-card__body">
+						<span class="librerie-card__zone">Porta Volta</span>
+						<h3 class="librerie-card__name">Biblioteca degli Alberi</h3>
+						<p class="librerie-card__desc">All'interno del parco BAM, un progetto di biblioteca diffusa con book sharing e letture all'aperto tra i ciliegi.</p>
+						<a href="#" class="librerie-card__link"><span class="material-symbols-outlined" style="font-size:14px;">location_on</span> Via G. de Castillia</a>
+					</div>
+				</div>
+				<div class="librerie-card">
+					<div class="librerie-card__img"><div class="demo-placeholder-img warm" style="aspect-ratio:3/2;">Foto</div></div>
+					<div class="librerie-card__body">
+						<span class="librerie-card__zone">Sormani</span>
+						<h3 class="librerie-card__name">Biblioteca Centrale Sormani</h3>
+						<p class="librerie-card__desc">La pi&ugrave; grande biblioteca pubblica di Milano. Oltre 600.000 volumi e una sala periodici che &egrave; un viaggio nel tempo.</p>
+						<a href="#" class="librerie-card__link"><span class="material-symbols-outlined" style="font-size:14px;">location_on</span> Corso di Porta Vittoria 6</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Tab: Spazi culturali -->
+		<div class="librerie-tab-content" id="mi-spazi">
+			<div class="librerie-card-grid">
+				<div class="librerie-card">
+					<div class="librerie-card__img"><div class="demo-placeholder-img" style="aspect-ratio:3/2;">Foto</div></div>
+					<div class="librerie-card__body">
+						<span class="librerie-card__zone">Bovisa</span>
+						<h3 class="librerie-card__name">BASE Milano</h3>
+						<p class="librerie-card__desc">Ex stabilimento Ansaldo trasformato in hub culturale. Mostre, talk letterari e residenze artistiche in un edificio industriale affascinante.</p>
+						<a href="#" class="librerie-card__link"><span class="material-symbols-outlined" style="font-size:14px;">location_on</span> Via Bergognone 34</a>
+					</div>
+				</div>
+				<div class="librerie-card">
+					<div class="librerie-card__img"><div class="demo-placeholder-img warm" style="aspect-ratio:3/2;">Foto</div></div>
+					<div class="librerie-card__body">
+						<span class="librerie-card__zone">Porta Genova</span>
+						<h3 class="librerie-card__name">Mudec - Spazio Parole</h3>
+						<p class="librerie-card__desc">Il museo delle culture ospita un programma di incontri letterari legati alle mostre, con focus su narrazioni dal mondo.</p>
+						<a href="#" class="librerie-card__link"><span class="material-symbols-outlined" style="font-size:14px;">location_on</span> Via Tortona 56</a>
+					</div>
+				</div>
+				<div class="librerie-card">
+					<div class="librerie-card__img"><div class="demo-placeholder-img neutral" style="aspect-ratio:3/2;">Foto</div></div>
+					<div class="librerie-card__body">
+						<span class="librerie-card__zone">Lambrate</span>
+						<h3 class="librerie-card__name">Spazio Letterario Lambrooklyn</h3>
+						<p class="librerie-card__desc">Spazio ibrido che unisce stamperia artigianale, workshop di scrittura creativa e micro-editoria indipendente.</p>
+						<a href="#" class="librerie-card__link"><span class="material-symbols-outlined" style="font-size:14px;">location_on</span> Via Conte Rosso 28</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     ESPLORARE L'ITALIA
+     ═══════════════════════════════════════════ -->
+
+<section class="librerie-section librerie-section--alt">
+	<div class="librerie-section__inner">
+		<span class="overline overline--teal">Oltre Milano</span>
+		<h2 class="librerie-section__title"><em>Itinerari Letterari d'Italia</em></h2>
+		<p class="librerie-section__desc">Da Torino a Palermo, ogni citt&agrave; custodisce i suoi templi della lettura. Scopri i nostri percorsi consigliati.</p>
+
+		<div class="librerie-city-grid">
+			<a href="#" class="librerie-city-card">
+				<div class="librerie-city-card__img"><div class="demo-placeholder-img neutral" style="aspect-ratio:4/3;">Torino</div></div>
+				<div class="librerie-city-card__body">
+					<h3>Torino</h3>
+					<span>8 luoghi</span>
+				</div>
+			</a>
+			<a href="#" class="librerie-city-card">
+				<div class="librerie-city-card__img"><div class="demo-placeholder-img warm" style="aspect-ratio:4/3;">Bologna</div></div>
+				<div class="librerie-city-card__body">
+					<h3>Bologna</h3>
+					<span>6 luoghi</span>
+				</div>
+			</a>
+			<a href="#" class="librerie-city-card">
+				<div class="librerie-city-card__img"><div class="demo-placeholder-img" style="aspect-ratio:4/3;">Firenze</div></div>
+				<div class="librerie-city-card__body">
+					<h3>Firenze</h3>
+					<span>7 luoghi</span>
+				</div>
+			</a>
+			<a href="#" class="librerie-city-card">
+				<div class="librerie-city-card__img"><div class="demo-placeholder-img neutral" style="aspect-ratio:4/3;">Roma</div></div>
+				<div class="librerie-city-card__body">
+					<h3>Roma</h3>
+					<span>12 luoghi</span>
+				</div>
+			</a>
+			<a href="#" class="librerie-city-card">
+				<div class="librerie-city-card__img"><div class="demo-placeholder-img warm" style="aspect-ratio:4/3;">Napoli</div></div>
+				<div class="librerie-city-card__body">
+					<h3>Napoli</h3>
+					<span>5 luoghi</span>
+				</div>
+			</a>
+			<a href="#" class="librerie-city-card">
+				<div class="librerie-city-card__img"><div class="demo-placeholder-img" style="aspect-ratio:4/3;">Palermo</div></div>
+				<div class="librerie-city-card__body">
+					<h3>Palermo</h3>
+					<span>4 luoghi</span>
+				</div>
+			</a>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     LE PIÙ BELLE DEL MONDO
+     ═══════════════════════════════════════════ -->
+
+<section class="librerie-section">
+	<div class="librerie-section__inner">
+		<span class="overline overline--teal">Oltre i Confini</span>
+		<h2 class="librerie-section__title"><em>Le Librerie pi&ugrave; Belle del Mondo</em></h2>
+		<p class="librerie-section__desc">Templi della lettura che meritano un viaggio. Architettura, storia e milioni di pagine in attesa.</p>
+
+		<div class="librerie-world-grid">
+			<div class="librerie-world-card">
+				<div class="librerie-world-card__img"><div class="demo-placeholder-img neutral" style="aspect-ratio:16/10;">Foto</div></div>
+				<div class="librerie-world-card__body">
+					<span class="librerie-world-card__city">Porto, Portogallo</span>
+					<h3 class="librerie-world-card__name">Livraria Lello</h3>
+					<p>Fondata nel 1906, le sue scale neogotiche hanno ispirato J.K. Rowling. Un capolavoro art nouveau che sembra uscito da un romanzo.</p>
+				</div>
+			</div>
+			<div class="librerie-world-card">
+				<div class="librerie-world-card__img"><div class="demo-placeholder-img warm" style="aspect-ratio:16/10;">Foto</div></div>
+				<div class="librerie-world-card__body">
+					<span class="librerie-world-card__city">Buenos Aires, Argentina</span>
+					<h3 class="librerie-world-card__name">El Ateneo Grand Splendid</h3>
+					<p>Un ex teatro degli anni '20 trasformato in libreria. I palchetti sono sale lettura, il palco un caff&egrave;. Borges avrebbe approvato.</p>
+				</div>
+			</div>
+			<div class="librerie-world-card">
+				<div class="librerie-world-card__img"><div class="demo-placeholder-img" style="aspect-ratio:16/10;">Foto</div></div>
+				<div class="librerie-world-card__body">
+					<span class="librerie-world-card__city">Parigi, Francia</span>
+					<h3 class="librerie-world-card__name">Shakespeare and Company</h3>
+					<p>Rifugio di Hemingway e della generazione perduta. Ancora oggi ospita scrittori emergenti che dormono tra gli scaffali in cambio di lavoro.</p>
+				</div>
+			</div>
+			<div class="librerie-world-card">
+				<div class="librerie-world-card__img"><div class="demo-placeholder-img neutral" style="aspect-ratio:16/10;">Foto</div></div>
+				<div class="librerie-world-card__body">
+					<span class="librerie-world-card__city">Tokyo, Giappone</span>
+					<h3 class="librerie-world-card__name">Tsutaya Books Daikanyama</h3>
+					<p>Design minimalista di Klein Dytham. Tre padiglioni collegati da un magazine street. La libreria come esperienza architettonica totale.</p>
+				</div>
+			</div>
+			<div class="librerie-world-card">
+				<div class="librerie-world-card__img"><div class="demo-placeholder-img warm" style="aspect-ratio:16/10;">Foto</div></div>
+				<div class="librerie-world-card__body">
+					<span class="librerie-world-card__city">Maastricht, Paesi Bassi</span>
+					<h3 class="librerie-world-card__name">Boekhandel Dominicanen</h3>
+					<p>Una chiesa gotica del XIII secolo convertita in libreria. Le navate ospitano scaffali altissimi, l'altare &egrave; diventato un caff&egrave;.</p>
+				</div>
+			</div>
+			<div class="librerie-world-card">
+				<div class="librerie-world-card__img"><div class="demo-placeholder-img" style="aspect-ratio:16/10;">Foto</div></div>
+				<div class="librerie-world-card__body">
+					<span class="librerie-world-card__city">Pechino, Cina</span>
+					<h3 class="librerie-world-card__name">Zhongshuge Bookstore</h3>
+					<p>Architettura futuristica con specchi e archi che creano un effetto infinito. Ogni sede &egrave; diversa, tutte sono ipnotiche.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SUGGERISCI UN LUOGO
+     ═══════════════════════════════════════════ -->
+
+<section class="librerie-suggest">
+	<div class="librerie-suggest__inner">
+		<span class="material-symbols-outlined librerie-suggest__icon">add_location_alt</span>
+		<h2 class="librerie-suggest__title">Conosci un luogo che dovremmo aggiungere?</h2>
+		<p class="librerie-suggest__desc">La nostra mappa cresce grazie alla community. Segnalaci la tua libreria, biblioteca o spazio culturale del cuore.</p>
+		<a href="#" class="btn btn--teal">
+			<span class="material-symbols-outlined" style="font-size:18px;">send</span>
+			Suggerisci un luogo
+		</a>
+	</div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════ -->
+
+<footer class="site-footer">
+	<div style="max-width:80rem;margin:0 auto;padding:0 2rem;">
+		<div class="footer-main">
+			<div class="footer-brand">
+				<p class="site-title">Not My Cup of Read</p>
+				<p>Esploriamo la letteratura contemporanea attraverso podcast, recensioni e approfondimenti. Non &egrave; solo lettura, &egrave; un rito.</p>
+				<div class="footer-social">
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">podcasts</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">play_circle</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">photo_camera</span></a>
+					<a href="#"><span class="material-symbols-outlined" style="font-size:18px;">send</span></a>
+				</div>
+			</div>
+			<div class="footer-col">
+				<h4>Esplora</h4>
+				<ul>
+					<li><a href="demo-recensioni.html">Recensioni</a></li>
+					<li><a href="demo-approfondimenti.html">Approfondimenti</a></li>
+					<li><a href="demo-podcast.html">Podcast</a></li>
+					<li><a href="demo-librerie.html">Librerie</a></li>
+					<li><a href="demo-eventi.html">Timeline</a></li>
+					<li><a href="demo-calendario.html">Calendario</a></li>
+					<li><a href="demo-libri.html">Libri</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>Progetto</h4>
+				<ul>
+					<li><a href="demo-chi-siamo.html">Chi siamo</a></li>
+					<li><a href="demo-community.html">Community</a></li>
+					<li><a href="#">Contatti</a></li>
+					<li><a href="#">Collaborazioni</a></li>
+					<li><a href="#">Supporta il progetto</a></li>
+				</ul>
+			</div>
+			<div class="footer-col">
+				<h4>Newsletter</h4>
+				<p style="font-size:0.875rem;margin-bottom:1rem;opacity:0.75;">Ricevi le nostre selezioni editoriali.</p>
+				<div class="newsletter-form">
+					<input type="email" placeholder="La tua email" style="background:rgba(255,255,255,0.05);color:#fff;">
+					<button class="btn btn--teal btn--small">Iscriviti</button>
+				</div>
+			</div>
+		</div>
+		<div class="footer-bottom">
+			<span>&copy; 2026 Not My Cup of Read. Editorial framework per chi ama leggere.</span>
+			<div class="footer-bottom-links">
+				<a href="#">Privacy Policy</a>
+				<a href="#">Cookie Policy</a>
+				<a href="#">Contatti</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     SCRIPTS
+     ═══════════════════════════════════════════ -->
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function() {
+	'use strict';
+
+	/* ── Marker data ─────────────────────────── */
+	const places = [
+		// Milano — Librerie
+		{ lat: 45.4505, lng: 9.1615, name: 'Gogol & Company', type: 'libreria', zone: 'Navigli', city: 'Milano', desc: 'Libreria indipendente con spazio eventi e concerti acustici.' },
+		{ lat: 45.4755, lng: 9.2050, name: 'Libreria Utopia', type: 'libreria', zone: 'Porta Venezia', city: 'Milano', desc: 'Specializzata in letteratura latinoamericana e small press.' },
+		{ lat: 45.4720, lng: 9.1870, name: 'Libreria del Mondo Offeso', type: 'libreria', zone: 'Brera', city: 'Milano', desc: 'Cooperativa libraria con incontri settimanali con autori.' },
+		{ lat: 45.4860, lng: 9.1880, name: 'Open Milano', type: 'libreria', zone: 'Isola', city: 'Milano', desc: 'Concept store: libri, design e coworking.' },
+		// Milano — Caffè
+		{ lat: 45.4540, lng: 9.2030, name: 'Caffè Letterario Manoscritto', type: 'caffe', zone: 'Porta Romana', city: 'Milano', desc: 'Espresso e poetry reading ogni giovedì sera.' },
+		{ lat: 45.4830, lng: 9.1850, name: 'LeSirene Bookbar', type: 'caffe', zone: 'Garibaldi', city: 'Milano', desc: 'Cocktail d\'autore ispirati ai classici.' },
+		{ lat: 45.4475, lng: 9.1780, name: 'Il Covo dei Narratori', type: 'caffe', zone: 'Ticinese', city: 'Milano', desc: 'Ambiente bohemien e caffè filtro eccezionale.' },
+		// Milano — Biblioteche
+		{ lat: 45.4635, lng: 9.1810, name: 'Biblioteca Ambrosiana', type: 'biblioteca', zone: 'Centro', city: 'Milano', desc: 'Fondata nel 1607, custodisce il Codice Atlantico.' },
+		{ lat: 45.4870, lng: 9.1890, name: 'Biblioteca degli Alberi', type: 'biblioteca', zone: 'Porta Volta', city: 'Milano', desc: 'Biblioteca diffusa nel parco BAM.' },
+		{ lat: 45.4610, lng: 9.2010, name: 'Biblioteca Sormani', type: 'biblioteca', zone: 'Sormani', city: 'Milano', desc: 'La più grande biblioteca pubblica di Milano.' },
+		// Milano — Spazi culturali
+		{ lat: 45.4580, lng: 9.1630, name: 'BASE Milano', type: 'spazio', zone: 'Tortona', city: 'Milano', desc: 'Ex stabilimento industriale, ora hub culturale.' },
+		{ lat: 45.4565, lng: 9.1680, name: 'Mudec - Spazio Parole', type: 'spazio', zone: 'Porta Genova', city: 'Milano', desc: 'Incontri letterari legati alle mostre del museo.' },
+		{ lat: 45.4780, lng: 9.2200, name: 'Lambrooklyn', type: 'spazio', zone: 'Lambrate', city: 'Milano', desc: 'Stamperia artigianale e micro-editoria indipendente.' },
+		// Italia
+		{ lat: 45.0703, lng: 7.6869, name: 'Libreria Luxembourg', type: 'libreria', zone: 'Centro', city: 'Torino', desc: 'Storica libreria torinese dal 1872.' },
+		{ lat: 45.0760, lng: 7.6830, name: 'Caffè San Carlo', type: 'caffe', zone: 'Piazza San Carlo', city: 'Torino', desc: 'Caffè storico frequentato da Cavour e Gozzano.' },
+		{ lat: 44.4940, lng: 11.3470, name: 'Libreria Coop Ambasciatori', type: 'libreria', zone: 'Centro', city: 'Bologna', desc: 'La libreria più grande d\'Italia, nel palazzo storico.' },
+		{ lat: 44.4960, lng: 11.3430, name: 'Modo Infoshop', type: 'spazio', zone: 'Via Mascarella', city: 'Bologna', desc: 'Libreria, galleria e spazio culturale indipendente.' },
+		{ lat: 43.7700, lng: 11.2530, name: 'Libreria Brac', type: 'caffe', zone: 'Santa Croce', city: 'Firenze', desc: 'Libreria-ristorante vegetariano con selezione d\'arte.' },
+		{ lat: 43.7690, lng: 11.2560, name: 'Paperback Bookshop', type: 'libreria', zone: 'Centro', city: 'Firenze', desc: 'Libri in inglese nel cuore di Firenze dal 1979.' },
+		{ lat: 41.8990, lng: 12.4730, name: 'Libreria Feltrinelli', type: 'libreria', zone: 'Largo Argentina', city: 'Roma', desc: 'Libreria flagship nel cuore della Roma antica.' },
+		{ lat: 41.8950, lng: 12.4840, name: 'Open Door Bookshop', type: 'libreria', zone: 'Trastevere', city: 'Roma', desc: 'Libreria anglofona storica a Trastevere.' },
+		{ lat: 41.9010, lng: 12.4720, name: 'Caffè Sant\'Eustachio', type: 'caffe', zone: 'Pantheon', city: 'Roma', desc: 'Leggendario caffè romano, punto di ritrovo letterario.' },
+		{ lat: 40.8518, lng: 14.2681, name: 'Libreria Dante & Descartes', type: 'libreria', zone: 'Piazza Dante', city: 'Napoli', desc: 'Libreria indipendente con forte vocazione filosofica.' },
+		{ lat: 38.1157, lng: 13.3615, name: 'Libreria del Corso', type: 'libreria', zone: 'Corso Vittorio', city: 'Palermo', desc: 'Punto di riferimento culturale palermitano.' },
+	];
+
+	/* ── Color config per type ────────────────── */
+	const typeColors = {
+		libreria:   '#c0392b',
+		caffe:      '#3e5c76',
+		biblioteca: '#27ae60',
+		spazio:     '#d4a03c'
+	};
+
+	const typeLabels = {
+		libreria: 'Libreria indipendente',
+		caffe: 'Caffè letterario',
+		biblioteca: 'Biblioteca',
+		spazio: 'Spazio culturale'
+	};
+
+	/* ── Init map ─────────────────────────────── */
+	const map = L.map('mapItalia', {
+		scrollWheelZoom: false
+	}).setView([42.5, 12.5], 6);
+
+	L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+		attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+		subdomains: 'abcd',
+		maxZoom: 19
+	}).addTo(map);
+
+	/* ── Create markers ───────────────────────── */
+	const markers = [];
+
+	function createIcon(color) {
+		return L.divIcon({
+			className: 'librerie-marker',
+			html: '<div style="background:' + color + ';width:14px;height:14px;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.3);"></div>',
+			iconSize: [20, 20],
+			iconAnchor: [10, 10],
+			popupAnchor: [0, -12]
+		});
+	}
+
+	places.forEach(function(p) {
+		var marker = L.marker([p.lat, p.lng], {
+			icon: createIcon(typeColors[p.type])
+		}).addTo(map);
+
+		marker.bindPopup(
+			'<div style="font-family:Inter,sans-serif;min-width:180px;">' +
+			'<strong style="font-size:0.9375rem;">' + p.name + '</strong><br>' +
+			'<span style="font-size:0.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:' + typeColors[p.type] + ';">' + typeLabels[p.type] + '</span><br>' +
+			'<span style="font-size:0.8125rem;color:#666;">' + p.zone + ', ' + p.city + '</span>' +
+			'<p style="font-size:0.8125rem;margin:0.5rem 0 0;line-height:1.5;color:#444;">' + p.desc + '</p>' +
+			'</div>'
+		);
+
+		marker._placeType = p.type;
+		markers.push(marker);
+	});
+
+	/* ── Filter pills ─────────────────────────── */
+	document.querySelectorAll('.librerie-filter-pill').forEach(function(btn) {
+		btn.addEventListener('click', function() {
+			document.querySelectorAll('.librerie-filter-pill').forEach(function(b) { b.classList.remove('active'); });
+			this.classList.add('active');
+			var filter = this.dataset.filter;
+
+			markers.forEach(function(m) {
+				if (filter === 'all' || m._placeType === filter) {
+					m.addTo(map);
+				} else {
+					map.removeLayer(m);
+				}
+			});
+		});
+	});
+
+	/* ── Milano tabs ──────────────────────────── */
+	document.querySelectorAll('.librerie-tab').forEach(function(tab) {
+		tab.addEventListener('click', function() {
+			document.querySelectorAll('.librerie-tab').forEach(function(t) { t.classList.remove('active'); });
+			document.querySelectorAll('.librerie-tab-content').forEach(function(c) { c.classList.remove('active'); });
+			this.classList.add('active');
+			document.getElementById(this.dataset.tab).classList.add('active');
+		});
+	});
+
+})();
+</script>
+
+</body>
+</html>
